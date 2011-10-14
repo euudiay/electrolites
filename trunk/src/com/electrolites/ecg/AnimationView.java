@@ -1,4 +1,4 @@
-package droid.hellow;
+package com.electrolites.ecg;
 
 import android.content.Context;
 import android.graphics.Canvas;
