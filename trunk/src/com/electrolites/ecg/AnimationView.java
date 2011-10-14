@@ -1,16 +1,19 @@
 package com.electrolites.ecg;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathDashPathEffect;
-import android.graphics.Point;
 import android.graphics.RectF;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.util.AttributeSet;
+
+import com.electrolites.util.*;
 
 public class AnimationView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -94,94 +97,62 @@ public class AnimationView extends SurfaceView implements SurfaceHolder.Callback
 			
 			float w = getWidth();
 			float h = getHeight();
-			
-			float[] points = {
-				0, h / 2,
-				w / 16, h / 2,
-				
-				w / 16, h / 2,
-				w / 8, 2*h / 5,
-				
-				w / 8, 2*h / 5,
-				3*w / 16, h / 2,
-				
-				3*w / 16, h / 2,
-				w / 4, h / 2,
-				
-				w / 4, h / 2,
-				5*w / 16, 3*h / 5,
-				
-				5*w / 16, 3*h / 5,
-				3*w / 8, h / 2,
-				
-				3*w / 8, h / 2,
-				7*w / 16, h / 10,
-				
-				7*w / 16, h / 10,
-				w / 2, 4*h / 5,
-				
-				w / 2, 4*h / 5,
-				9*w / 16, h / 2,
-				
-				9*w / 16, h / 2,
-				11*w / 16, h / 2,
-				
-				11*w / 16, h / 2,
-				3*w / 4, 3*h / 10,
-				
-				3*w / 4, 3*h / 10,
-				13*w / 16, h / 2,
-				
-				13*w / 16, h / 2,
-				w, h /2
-			};
-			
-			float[] points2 = {
-					0, h / 2 - 1,
-					w / 16, h / 2 - 1,
-					
-					w / 16, h / 2 - 1,
-					w / 8, 2*h / 5 - 1,
-					
-					w / 8, 2*h / 5 - 1,
-					3*w / 16, h / 2 - 1,
-					
-					3*w / 16, h / 2 - 1,
-					w / 4, h / 2 - 1,
-					
-					w / 4, h / 2 - 1,
-					5*w / 16, 3*h / 5 - 1,
-					
-					5*w / 16, 3*h / 5 - 1,
-					3*w / 8, h / 2 - 1,
-					
-					3*w / 8, h / 2 - 1,
-					7*w / 16, h / 10 - 1,
-					
-					7*w / 16, h / 10 - 1,
-					w / 2, 4*h / 5 - 1,
-					
-					w / 2, 4*h / 5 - 1,
-					9*w / 16, h / 2 - 1,
-					
-					9*w / 16, h / 2 - 1,
-					11*w / 16, h / 2 - 1,
-					
-					11*w / 16, h / 2 - 1,
-					3*w / 4, 3*h / 10 - 1,
-					
-					3*w / 4, 3*h / 10 - 1,
-					13*w / 16, h / 2 - 1,
-					
-					13*w / 16, h / 2 - 1,
-					w, h /2 - 1
-				};
-			
+
+			float points[] = buildEcg(-h/10, h/10, -h/10*4, h/10*2, -h/10*1.5f);
 			canvas.drawLines(points, linePaint);
-			canvas.drawLines(points2, linePaint2);
 			canvas.drawTextOnPath("Pferv es un chico apuesto", cosa, 2.f, 2.f, linePaint);
 			
 			canvas.restore();
+		}
+		
+		private float[] buildEcg(float p, float q, float r, float s, float t) {
+			
+			float baseHeight = getHeight()/2;
+			float xI = 0 , xF = getWidth();
+			float pX, rX, qX, sX, tX;
+			float pI, pF, qI, sF, tI, tF;
+			
+			pX = getWidth()/4*0.95f;
+			qX = getWidth()/2*0.90f;
+			rX = getWidth()/2;
+			sX = getWidth()/2*1.1f;
+			tX = 3*getWidth()/4*1.05f;
+			
+			pI = pX*0.95f;
+			pF = pX*1.05f;
+			qI = qX*0.95f;
+			sF = sX*1.05f;
+			tI = tX*0.95f;
+			tF = tX*1.05f;
+			
+			ArrayList<Point> ecg = new ArrayList<Point>();
+			ecg.add(new Point(xI, baseHeight));
+			ecg.add(new Point(pI, baseHeight));
+			ecg.add(new Point(pX, baseHeight+p));
+			ecg.add(new Point(pF, baseHeight));
+			ecg.add(new Point(qI, baseHeight));
+			ecg.add(new Point(qX, baseHeight+q));
+			ecg.add(new Point(rX, baseHeight+r));
+			ecg.add(new Point(sX, baseHeight+s));
+			ecg.add(new Point(sF, baseHeight));
+			ecg.add(new Point(tI, baseHeight));
+			ecg.add(new Point(tX, baseHeight+t));
+			ecg.add(new Point(tF, baseHeight));
+			ecg.add(new Point(xF, baseHeight));
+			
+			float list[] = new float[48];
+			list[0] = ecg.get(0).getX();
+			list[1] = ecg.get(0).getY();
+			for (int i = 1; i < ecg.size()-1; i++) {
+				list[i*4-2] = ecg.get(i).getX();
+				list[i*4-1] = ecg.get(i).getY();
+				list[i*4] = ecg.get(i).getX();
+				list[i*4+1] = ecg.get(i).getY();
+			}
+			list[46] = ecg.get(ecg.size()-1).getX();
+			list[47] = ecg.get(ecg.size()-1).getY();
+			
+			return list;
 		}
 		
 		private void setRunning(boolean b) {
