@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import android.util.AttributeSet;
 
 import com.electrolites.util.*;
+import com.electrolites.data.*;
 
 public class AnimationView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -85,15 +86,12 @@ public class AnimationView extends SurfaceView implements SurfaceHolder.Callback
 		private void onRender(Canvas canvas) {
 			canvas.drawColor(Color.BLACK);
 			canvas.drawText("fps: " + fps, 100, 100, textPaint);
-			
-			//canvas.drawLine(0, getHeight()/2, getWidth()/4, getHeight()/2, linePaint);
-			//canvas.drawLine(getWidth()/4, getHeight()/2, getWidth()/2, getHeight()/4, linePaint);
-			//canvas.drawLine(getWidth()/2, getHeight()/4, 3*getWidth()/4, getHeight()/2, linePaint);
-			//canvas.drawLine(3*getWidth()/4, getHeight()/2, getWidth(), getHeight()/2, linePaint);
-			
+
 			Path cosa = new Path();
 			cosa.addArc(new RectF(0, 0, getWidth(), getHeight()), 90, 90);
 			//canvas.drawPath(cosa, linePaint);
+			
+			data.drawBaseHeight += -3*(int) Math.random() + (int) Math.random()*3;
 			
 			float w = getWidth();
 			float h = getHeight();
@@ -107,7 +105,7 @@ public class AnimationView extends SurfaceView implements SurfaceHolder.Callback
 		
 		private float[] buildEcg(float p, float q, float r, float s, float t) {
 			
-			float baseHeight = getHeight()/2;
+			float baseHeight = getHeight()/2 + data.drawBaseHeight;
 			float xI = 0 , xF = getWidth();
 			float pX, rX, qX, sX, tX;
 			float pI, pF, qI, sF, tI, tF;
@@ -160,10 +158,14 @@ public class AnimationView extends SurfaceView implements SurfaceHolder.Callback
 		}
 	}
 
+	private Data data;
+	
 	private AnimationThread thread;
 	
 	public AnimationView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		
+		data = Data.getInstance();
 		
 		SurfaceHolder holder = getHolder();
 		holder.addCallback(this);
