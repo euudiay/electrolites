@@ -3,10 +3,10 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-
-	<com.electrolites.ecg.AnimationView
-		android:id="@+id/aview"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:weightSum="1">
+        <Button android:text="Rafroid" android:id="@+id/button1" android:layout_height="wrap_content" android:layout_width="137dp"></Button>
+        <com.electrolites.ecg.AnimationView android:id="@+id/animationView1" android:layout_width="match_parent" android:layout_height="200px" android:layout_weight="1.16"></com.electrolites.ecg.AnimationView>
+        <Button android:text="Pfervso" android:layout_width="match_parent" android:id="@+id/button2" android:layout_height="wrap_content"></Button>
+    </LinearLayout>
 	
 </FrameLayout>
