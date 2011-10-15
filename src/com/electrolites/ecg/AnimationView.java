@@ -25,6 +25,7 @@ public class AnimationView extends SurfaceView implements SurfaceHolder.Callback
 		private int frameSamplesCollected = 0;
 		private int frameSampleTime = 0;
 		private int fps = 0;
+		private int count = 0;
 		
 		private SurfaceHolder _surfaceHolder;
 		
@@ -97,7 +98,11 @@ public class AnimationView extends SurfaceView implements SurfaceHolder.Callback
 			float h = getHeight();
 
 			float points[] = buildEcg(-h/10, h/10, -h/10*4, h/10*2, -h/10*1.5f);
-			canvas.drawLines(points, linePaint);
+			canvas.drawLines(points, 0, count,  linePaint);
+			if (count < 48)
+				count += 4;
+			else 
+				count = 0;
 			canvas.drawTextOnPath("Pferv es un chico apuesto", cosa, 2.f, 2.f, linePaint);
 			
 			canvas.restore();
