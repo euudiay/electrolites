@@ -40,10 +40,6 @@ public class ECGView extends AnimationView {
 		public void onRender(Canvas canvas) {
 			canvas.drawColor(Color.BLACK);
             canvas.drawText("fps: " + fps, 100, 100, textPaint);
-
-            Path cosa = new Path();
-            cosa.addArc(new RectF(0, 0, getWidth(), getHeight()), 90, 90);
-            //canvas.drawPath(cosa, linePaint);
             
             data.drawBaseHeight += -3*(int) Math.random() + (int) Math.random()*3;
             
@@ -56,7 +52,6 @@ public class ECGView extends AnimationView {
                     count += 4;
             else 
                     count = 0;
-            canvas.drawTextOnPath("Pferv es un chico apuesto", cosa, 2.f, 2.f, linePaint);
             
             canvas.restore();
 			
