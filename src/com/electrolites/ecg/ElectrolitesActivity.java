@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ToggleButton;
 
 public class ElectrolitesActivity extends Activity {
 	private Button rafButton;
-	private Button pfervButton;
+	private ToggleButton toggleButton;
 	private YetAnotherListener listener;
     
 	/** Called when the activity is first created. */
@@ -18,22 +19,22 @@ public class ElectrolitesActivity extends Activity {
         setContentView(R.layout.main);
         
         rafButton = (Button) findViewById(R.id.button1);
-        pfervButton = (Button) findViewById(R.id.button2);
+        rafButton.setEnabled(true);
+        rafButton.setText("Enabled");
+        
+        toggleButton = (ToggleButton) findViewById(R.id.toggleButton1);
+        toggleButton.setText("RUN");
         
         listener = new YetAnotherListener();
         
         rafButton.setOnClickListener(listener);
-        pfervButton.setOnClickListener(listener);
     }
     
     class YetAnotherListener implements OnClickListener {
 
 		public void onClick(View v) {
-			String text1 = (String) rafButton.getText();
-			String text2 = (String) pfervButton.getText();
-			
-			rafButton.setText(text2);
-			pfervButton.setText(text1);
+			rafButton.setEnabled(false);
+			rafButton.setText("Disabled");
 		}
     	
     }
