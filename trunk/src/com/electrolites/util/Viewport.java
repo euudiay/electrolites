@@ -14,8 +14,13 @@ public class Viewport {
 	// Muestras por segundo
 	public float samplesPerSecond;
 	
+	// Base de dibujo horizontal
+	public float baselinePxY;
+	
 	// Datos (temporal)
 	public float[] data;
+	public int dataStart;
+	public int dataEnd;
 	
 	public Viewport(int width, int height) {
 		vpPxWidth = width;
@@ -24,6 +29,7 @@ public class Viewport {
 		samplesPerSecond = 250f;
 		vaSeconds = 2f;
 		vaSecX = 0f;
+		baselinePxY = vpPxY + vpPxHeight/2;
 	}
 	
 	public Viewport(int width, int height, float seconds) {
@@ -33,6 +39,7 @@ public class Viewport {
 		
 		samplesPerSecond = 250f;
 		vaSecX = 0f;
+		baselinePxY = vpPxY + vpPxHeight/2;
 	}
 	
 	public float[] getViewContents() {
@@ -50,10 +57,44 @@ public class Viewport {
 		// Buscar último punto
 		int end = start + Math.round(npoints);
 		// Construir la lista de puntos a devolver
-		float contents[] = new float[end-start];
-		for (int i = 0; i < start-end; i++) {
-			contents[i] = data[start+i];
+		float points[] = new float[(end-start-2)*4+4];
+		for (int i = 0; i < start-end; i+=1) {
+			// Devolver array de puntos a pintar
+			// X, Y
+			if (i == 0) {
+				points[i] = vpPxX;
+				points[i+1] = baselinePxY + data[start+1];
+			}
+			else {
+				// Si no es el primer punto, duplicar el anterior
+				points[4*i] = points[4*i-2];
+				points[4*i+1] = points[4*i-1];
+				points[4*i+2] = vpPxX + i*dpoints;
+				points[4*i+3] = baselinePxY + data[start+i];
+			}
 		}
-		return contents;
+		return points;
+	}
+	
+	public boolean move(float secDeltaX) {
+		// Comprobación de límites
+		if (secDeltaX > 0) {
+			if (vaSecX + secDeltaX >= samplesPerSecond*(dataEnd - dataStart) - vaSeconds) {
+				vaSecX = samplesPerSecond*(dataEnd - dataStart) - vaSeconds;
+				return false;
+			} else {
+				vaSecX += secDeltaX;
+			}
+		}
+		else if (secDeltaX < 0) {
+			if (vaSecX + secDeltaX < 0) {
+				vaSecX = 0;
+				return false;
+			} else {
+				vaSecX += secDeltaX;
+			}
+		}
+		
+		return true;
 	}
 }
