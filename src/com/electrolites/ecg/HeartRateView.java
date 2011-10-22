@@ -37,12 +37,12 @@ public class HeartRateView extends AnimationView {
 			if (bpm > 120) {
 				canvas.drawColor(Color.RED);
 				ratePaint.setARGB(255, 0, 0, 0);
-				canvas.drawText("ALERT!", 10, 45, ratePaint);
+				canvas.drawText("ALERT!", 10, 35, ratePaint);
 			} else {
 				canvas.drawColor(Color.BLACK);
 				ratePaint.setARGB(255, 255, 0, 0);
-				canvas.drawText(Integer.toString(bpm), 10, 45, ratePaint);
-				canvas.drawText("bpm", 60, 45, unitsPaint);
+				canvas.drawText(Integer.toString(bpm), 10, 35, ratePaint);
+				canvas.drawText("bpm", 60, 35, unitsPaint);
 			}
 			
 			canvas.restore();
