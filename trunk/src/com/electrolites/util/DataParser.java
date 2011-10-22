@@ -3,11 +3,14 @@ package com.electrolites.util;
 import java.util.ArrayList;
 
 public class DataParser {
-	private FileConverter fc;
+	enum Code {none, offset, hbr, sample, point };
+	
+	private FileConverter fc;		
 	private ArrayList<Byte> data;
-	private int pointer;
-	private int lastSample;
-	private int lastHBR;
+	private int pointer;			// Apunta al siguiente byte al último leído (en data)
+	private int lastSample;			// Última muestra leída (número de orden)
+	private int lastHBR;			// Último resultado de ritmo cardíaco leído
+	private Code lastCode;			// Tipo del último byte leído
 	
 	public DataParser() {
 		fc = new FileConverter();
@@ -15,6 +18,7 @@ public class DataParser {
 		pointer = 0;
 		lastSample = 0;
 		lastHBR = 0;
+		lastCode = Code.none;
 	}
 	
 	public void loadBinaryFile(String fname) {
@@ -23,6 +27,7 @@ public class DataParser {
 		pointer = 0;
 		lastSample = 0;
 		lastHBR = 0;
+		lastCode = Code.none;
 	}
 	
 	// Devuelve el número de muestras que se ha saltado, -1 si error
@@ -76,6 +81,30 @@ public class DataParser {
 			
 		else
 			return null;
+	}
+	
+	// Avanza una posición en data y devuelve el tipo del byte
+	public Code getNextByte() {
+		int new_byte = ((int) data.get(pointer)) & 0xff;
+		
+		switch (new_byte) {
+		case 0xcc:
+			lastCode = Code.offset;
+			break;
+		case 0xfb:
+			lastCode = Code.hbr;
+			break;
+		case 0xda:
+			lastCode = Code.sample;
+			break;
+		case 0xed:
+			lastCode = Code.point;
+			break;
+		}
+		
+		pointer++;
+		
+		return lastCode;
 	}
 	
 	public int getLastHBR() { return lastHBR; }
