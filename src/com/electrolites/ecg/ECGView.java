@@ -119,23 +119,4 @@ public class ECGView extends AnimationView {
 		thread = new ECGThread(holder);
 	}
 	
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-	}
-
-	public void surfaceCreated(SurfaceHolder holder) {
-		thread.setRunning(true);
-		thread.start();
-	}
-
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		boolean retry = true;
-		thread.setRunning(false);
-		while (retry) {
-			try {
-				thread.join();
-				retry = false;
-			} catch (InterruptedException e) {}
-		}
-	}
 }
