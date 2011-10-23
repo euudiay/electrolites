@@ -19,9 +19,8 @@ public final class R {
         public static final int button2=0x7f050003;
         public static final int button3=0x7f050006;
         public static final int button4=0x7f050007;
-        public static final int button5=0x7f05000c;
-        public static final int button6=0x7f05000d;
-        public static final int displayView1=0x7f05000b;
+        public static final int button5=0x7f05000b;
+        public static final int button6=0x7f05000c;
         public static final int eCGView1=0x7f050008;
         public static final int editText1=0x7f050005;
         public static final int heartRateView1=0x7f05000a;
