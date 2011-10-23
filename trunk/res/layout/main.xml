@@ -16,7 +16,7 @@
         <com.electrolites.ecg.ECGView android:id="@+id/eCGView1" android:layout_width="match_parent" android:layout_height="640dp"></com.electrolites.ecg.ECGView>
         <LinearLayout android:id="@+id/linearLayout3" android:layout_height="50dp" android:layout_width="match_parent">
             <com.electrolites.ecg.HeartRateView android:id="@+id/heartRateView1" android:layout_height="match_parent" android:layout_width="118dp"></com.electrolites.ecg.HeartRateView>
-            <com.electrolites.ecg.DisplayView android:id="@+id/displayView1" android:layout_height="match_parent" android:layout_width="948dp"></com.electrolites.ecg.DisplayView>
+            <!-- <com.electrolites.ecg.DisplayView android:id="@+id/displayView1" android:layout_height="match_parent" android:layout_width="948dp"></com.electrolites.ecg.DisplayView>-->
             <Button android:text="Up" android:id="@+id/button5" android:layout_height="match_parent" android:layout_width="80dp"></Button>
             <Button android:text="Down" android:id="@+id/button6" android:layout_height="match_parent" android:layout_width="80dp"></Button>
         </LinearLayout>

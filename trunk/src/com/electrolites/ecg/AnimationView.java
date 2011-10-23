@@ -37,5 +37,4 @@ public class AnimationView extends SurfaceView implements SurfaceHolder.Callback
 			} catch (InterruptedException e) {}
 		}
 	}
-
 }
