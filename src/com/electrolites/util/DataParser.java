@@ -7,10 +7,10 @@ public class DataParser {
 	
 	private FileConverter fc;		
 	private ArrayList<Byte> data;
-	private int pointer;			// Apunta al siguiente byte al último leído (en data)
-	private int lastSample;			// Última muestra leída (número de orden)
-	private int lastHBR;			// Último resultado de ritmo cardíaco leído
-	private Code lastCode;			// Tipo del último byte leído
+	private int pointer;			// Apunta al siguiente byte al ï¿½ltimo leï¿½do (en data)
+	private int lastSample;			// ï¿½ltima muestra leï¿½da (nï¿½mero de orden)
+	private int lastHBR;			// ï¿½ltimo resultado de ritmo cardï¿½aco leï¿½do
+	private Code lastCode;			// Tipo del ï¿½ltimo byte leï¿½do
 	
 	public DataParser() {
 		fc = new FileConverter();
@@ -30,8 +30,8 @@ public class DataParser {
 		lastCode = Code.none;
 	}
 	
-	// Devuelve el número de muestras que se ha saltado, -1 si error
-	// Coloca el índice en el siguiente byte a los 5 del offset
+	// Devuelve el nï¿½mero de muestras que se ha saltado, -1 si error
+	// Coloca el ï¿½ndice en el siguiente byte a los 5 del offset
 	// Actualiza el HBR con el nuevo valor
 	public int goToNextOffset() {
 		int i = pointer;
@@ -50,7 +50,7 @@ public class DataParser {
 			int byte3 = ((int) data.get(i+3)) & 0xff;
 			
 			if (data.get(i) == 0xfb) {
-				// Actualiza el HBR (primero el byte más significativo)
+				// Actualiza el HBR (primero el byte mï¿½s significativo)
 				byte0 = ((int) data.get(i+4)) & 0xff;
 				byte1 = ((int) data.get(i+5)) & 0xff;
 				lastHBR = 15000 / (byte0*255 + byte1);
@@ -83,7 +83,7 @@ public class DataParser {
 			return null;
 	}
 	
-	// Avanza una posición en data y devuelve el tipo del byte
+	// Avanza una posiciï¿½n en data y devuelve el tipo del byte
 	public Code getNextByte() {
 		int new_byte = ((int) data.get(pointer)) & 0xff;
 		
