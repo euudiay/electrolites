@@ -4,14 +4,26 @@
 	android:layout_height="match_parent" android:layout_width="match_parent">
     <LinearLayout android:layout_gravity="fill" android:layout_width="match_parent" android:orientation="vertical" android:weightSum="1" android:layout_height="match_parent" android:id="@+id/linearLayout1">
         <LinearLayout android:id="@+id/linearLayout2" android:baselineAligned="true" android:gravity="top" android:orientation="horizontal" android:weightSum="1" android:layout_height="50dp" android:layout_width="match_parent">
-            <Button android:text="Start" android:id="@+id/button1" android:layout_height="match_parent" android:layout_width="wrap_content"></Button>
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start" >
+</Button>
             <Button android:text="Reset" android:id="@+id/button2" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
             <EditText android:id="@+id/EditText01" android:layout_height="wrap_content" android:layout_width="450dp"></EditText>
             <EditText android:id="@+id/editText1" android:layout_width="450dp" android:layout_height="wrap_content">
                 <requestFocus></requestFocus>
             </EditText>
             <Button android:text="+" android:id="@+id/button3" android:layout_height="wrap_content" android:layout_width="80dp"></Button>
-            <Button android:text="-" android:id="@+id/button4" android:layout_height="match_parent" android:layout_width="80dp"></Button>
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="-" >
+</Button>
         </LinearLayout>
         <com.electrolites.ecg.ECGView android:id="@+id/eCGView1" android:layout_width="match_parent" android:layout_height="640dp"></com.electrolites.ecg.ECGView>
         <LinearLayout android:id="@+id/linearLayout3" android:layout_height="50dp" android:layout_width="match_parent">
