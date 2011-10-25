@@ -7,15 +7,21 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import android.R;
+import android.content.res.Resources;
+
 public class FileConverter {
 	private ArrayList<Byte> stream;
+	private Resources resources;
 	
-	public FileConverter() {
+	public FileConverter(Resources resources) {
 		stream = new ArrayList<Byte>();
+		this.resources = resources;
 	}
 	
 	public void readTxt(String fname) {
@@ -56,6 +62,21 @@ public class FileConverter {
 			e.printStackTrace();
 		}
 		catch (IOException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	public void readResources() {
+		InputStream input = resources.openRawResource(0x7f040000);
+		
+		int r = 0;
+		try {
+			while ((r = input.read()) >= 0) {
+				stream.add((byte) r);
+			}
+			input.close();
+		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}

@@ -20,7 +20,8 @@ public class Viewport {
 	public float baselinePxY;
 	
 	// Datos (temporal)
-	public float[] data;
+	//public float[] data;
+	public short[] data;
 	public int dataStart;
 	public int dataEnd;
 	
@@ -33,13 +34,13 @@ public class Viewport {
 		vaSecX = 0f;
 		baselinePxY = vpPxY + vpPxHeight/2;
 		
-		data = new float[5000];
+		/*data = new float[5000];
 		for (int i = 0; i < 5000; i++) {
 			if (Math.random()*2 > 0.9)
 				data[i] = -1*(float) Math.random()*100;
 			else
 				data[i] = (float) Math.random()*100;
-		}
+		}*/
 		dataEnd = 5000;
 		dataStart = 0;
 	}
@@ -53,13 +54,13 @@ public class Viewport {
 		vaSecX = 0f;
 		baselinePxY = vpPxY + vpPxHeight/2;
 		
-		data = new float[5000];
+		/*data = new float[5000];
 		for (int i = 0; i < 5000; i++) {
 			if (Math.random()*2 > 0.9)
 				data[i] = -1*(float) Math.random()*100;
 			else
 				data[i] = (float) Math.random()*100;
-		}
+		}*/
 		dataEnd = 5000;
 		dataStart = 0;
 	}
