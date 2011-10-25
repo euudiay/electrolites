@@ -9,9 +9,12 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.electrolites.data.Data;
+import com.electrolites.util.DataParser;
 import com.electrolites.util.Viewport;
 
 public class ECGView extends AnimationView {
+	// Guarreando
+	private DataParser dp;
 
 	private class ECGThread extends AnimationThread {
 		
@@ -65,6 +68,11 @@ public class ECGView extends AnimationView {
 		data = Data.getInstance();
 		
 		thread = new ECGThread(holder);
+		
+		// Guarreando
+		dp = new DataParser(context.getResources());
+		dp.loadResource();
+		dp.extractSamples();
 	}
 	
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -76,6 +84,10 @@ public class ECGView extends AnimationView {
 		int h = (int) (getHeight()*0.9);
 		vport = new Viewport(w, h, 0.5f);
 		vport.setOnScreenPosition(getWidth()-10-w, getHeight()-10-h);
+		
+		// Guarreando
+		vport.data = dp.getSamples();
+		
 		thread.setRunning(true);
 		thread.start();
 	}
