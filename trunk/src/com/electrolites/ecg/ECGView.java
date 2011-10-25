@@ -115,8 +115,7 @@ public class ECGView extends AnimationView {
 		else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (!holding) return true;
 			
-			vport.move((event.getX() - holdStartX)/480*5.f);
-			//holdStartX = event.getX();
+			vport.move(-1*(event.getX() - holdStartX)/480);
 		}
 		else if (event.getAction() == MotionEvent.ACTION_UP) {
 			if (!holding) return true;
@@ -124,7 +123,6 @@ public class ECGView extends AnimationView {
 			holding = false;
 			holdEndX = event.getX();
 			holdEndY = event.getY();
-			//vport.move((holdEndX - holdStartX)/480*2.f);
 		}
 		//vport.move(0.5f);
 		return true;

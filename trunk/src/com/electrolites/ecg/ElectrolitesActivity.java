@@ -14,6 +14,7 @@ public class ElectrolitesActivity extends Activity {
 	private LinearLayout linearLayout;
 	private LinearLayout linearLayout2;
 	private YetAnotherListener listener;
+	private ECGView ecgView;
     
 	/** Called when the activity is first created. */
     @Override
@@ -23,10 +24,9 @@ public class ElectrolitesActivity extends Activity {
         
         rafButton = (Button) findViewById(R.id.button1);
         rafButton.setEnabled(true);
-        //rafButton.setText("Enabled");
         
-        //toggleButton = (ToggleButton) findViewById(R.id.toggleButton1);
-        //toggleButton.setText("RUN");
+        ecgView = (ECGView) findViewById(R.id.eCGView1);
+        ecgView.setVisibility(View.INVISIBLE);
         
         listener = new YetAnotherListener();
         
@@ -37,14 +37,14 @@ public class ElectrolitesActivity extends Activity {
         
         linearLayout2 = (LinearLayout) findViewById(R.id.linearLayout3);
         linearLayout2.setBackgroundColor(0xff444444);
-        
     }
     
     class YetAnotherListener implements OnClickListener {
 
 		public void onClick(View v) {
+			
 			rafButton.setEnabled(false);
-			//rafButton.setText("Disabled");
+			ecgView.setVisibility(View.VISIBLE);
 		}
     	
     }
