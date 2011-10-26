@@ -70,8 +70,8 @@ public class ECGView extends AnimationView {
 		thread = new ECGThread(holder);
 		
 		// Guarreando
-		dp = new DataParser(context.getResources());
-		dp.loadResource();
+		dp = new DataParser();
+		dp.loadResource(context.getResources());
 		dp.extractSamples();
 	}
 	

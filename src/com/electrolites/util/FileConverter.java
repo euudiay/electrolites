@@ -17,11 +17,9 @@ import android.content.res.Resources;
 
 public class FileConverter {
 	private ArrayList<Byte> stream;
-	private Resources resources;
 	
-	public FileConverter(Resources resources) {
+	public FileConverter() {
 		stream = new ArrayList<Byte>();
-		this.resources = resources;
 	}
 	
 	public void readTxt(String fname) {
@@ -67,7 +65,7 @@ public class FileConverter {
 		}
 	}
 	
-	public void readResources() {
+	public void readResources(Resources resources) {
 		InputStream input = resources.openRawResource(0x7f040000);
 		
 		int r = 0;
