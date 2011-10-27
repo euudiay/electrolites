@@ -12,14 +12,23 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ToggleButton;
+
+import com.electrolites.data.*;
 
 public class ElectrolitesActivity extends Activity {
-	private Button rafButton;
-	private ToggleButton toggleButton;
-	private LinearLayout linearLayout;
-	private LinearLayout linearLayout2;
-	private YetAnotherListener listener;
+	private Data data;
+	
+	private Button start;
+	private StartListener startListener;
+	private Button up;
+	private UpListener upListener;
+	private Button down;
+	private DownListener downListener;
+	
+	private LinearLayout lSuperior;
+	private LinearLayout lInferior;
+	
+	
 	private ECGView ecgView;
     
 	/** Called when the activity is first created. */
@@ -28,31 +37,82 @@ public class ElectrolitesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        rafButton = (Button) findViewById(R.id.button1);
-        rafButton.setEnabled(true);
+        data = Data.getInstance();
         
-        ecgView = (ECGView) findViewById(R.id.eCGView1);
+        start = (Button) findViewById(R.id.b_start);
+        start.setEnabled(true);
+        startListener = new StartListener();
+        start.setOnClickListener(startListener);
+        
+        up = (Button) findViewById(R.id.b_up);
+        up.setEnabled(true);
+        upListener = new UpListener();
+        up.setOnClickListener(upListener);
+        
+        down = (Button) findViewById(R.id.b_down);
+        down.setEnabled(true);
+        downListener = new DownListener();
+        down.setOnClickListener(downListener);
+        
+        ecgView = (ECGView) findViewById(R.id.v_eCGView);
         ecgView.setVisibility(View.INVISIBLE);
         
-        listener = new YetAnotherListener();
+
+        lSuperior = (LinearLayout) findViewById(R.id.l_superior);
+        lSuperior.setBackgroundColor(0xff444444);
         
-        rafButton.setOnClickListener(listener);
-        
-        linearLayout = (LinearLayout) findViewById(R.id.linearLayout2);
-        linearLayout.setBackgroundColor(0xff444444);
-        
-        linearLayout2 = (LinearLayout) findViewById(R.id.linearLayout3);
-        linearLayout2.setBackgroundColor(0xff444444);
+        lInferior = (LinearLayout) findViewById(R.id.l_inferior);
+        lInferior.setBackgroundColor(0xff444444);
     }
     
-    class YetAnotherListener implements OnClickListener {
+    class StartListener implements OnClickListener {
 
 		public void onClick(View v) {
 			
-			rafButton.setEnabled(false);
+			start.setEnabled(false);
 			ecgView.setVisibility(View.VISIBLE);
 		}
     	
     }
+    
+    class UpListener implements OnClickListener {
+
+		public void onClick(View v) {
+			
+			if (data.getDrawBaseHeight() < 0.1)
+				up.setEnabled(false);
+			else 
+			{
+				data.setDrawBaseHeight(data.getDrawBaseHeight()-0.1f);
+				down.setEnabled(true);
+			}
+			
+		}
+    	
+    }
+    
+    
+    class DownListener implements OnClickListener {
+
+		public void onClick(View v) {
+			
+			if (data.getDrawBaseHeight() >= 1)
+				down.setEnabled(false);
+			else
+			{
+				data.setDrawBaseHeight(data.getDrawBaseHeight()+0.1f);
+				up.setEnabled(true);
+			}
+			
+		}
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
     
 }

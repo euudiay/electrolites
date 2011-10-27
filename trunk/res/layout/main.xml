@@ -3,34 +3,34 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent" android:layout_width="match_parent">
     <LinearLayout android:layout_gravity="fill" android:layout_width="match_parent" android:orientation="vertical" android:weightSum="1" android:layout_height="match_parent" android:id="@+id/linearLayout1">
-        <LinearLayout android:id="@+id/linearLayout2" android:baselineAligned="true" android:gravity="top" android:orientation="horizontal" android:weightSum="1" android:layout_height="50dp" android:layout_width="match_parent">
+        <LinearLayout android:id="@+id/l_superior" android:baselineAligned="true" android:gravity="top" android:orientation="horizontal" android:weightSum="1" android:layout_height="50dp" android:layout_width="match_parent">
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/b_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start" >
 </Button>
-            <Button android:text="Reset" android:id="@+id/button2" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-            <EditText android:id="@+id/EditText01" android:layout_height="wrap_content" android:layout_width="450dp"></EditText>
-            <EditText android:id="@+id/editText1" android:layout_width="450dp" android:layout_height="wrap_content">
+            <Button android:text="Reset" android:id="@+id/b_reset" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+            <EditText android:id="@+id/e_id" android:layout_height="wrap_content" android:layout_width="480dp"></EditText>
+            <EditText android:id="@+id/e_name" android:layout_width="480dp" android:layout_height="wrap_content">
                 <requestFocus></requestFocus>
             </EditText>
-            <Button android:text="+" android:id="@+id/button3" android:layout_height="wrap_content" android:layout_width="80dp"></Button>
+            <Button android:text="+" android:id="@+id/b_plus" android:layout_height="wrap_content" android:layout_width="80dp"></Button>
 
-            <Button
-                android:id="@+id/button4"
+            <Button 
+                android:id="@+id/b_less"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="-" >
 </Button>
         </LinearLayout>
-        <com.electrolites.ecg.ECGView android:id="@+id/eCGView1" android:layout_width="match_parent" android:layout_height="640dp"></com.electrolites.ecg.ECGView>
-        <LinearLayout android:id="@+id/linearLayout3" android:layout_height="50dp" android:layout_width="match_parent">
-            <com.electrolites.ecg.HeartRateView android:id="@+id/heartRateView1" android:layout_height="match_parent" android:layout_width="118dp"></com.electrolites.ecg.HeartRateView>
-            <!-- <com.electrolites.ecg.DisplayView android:id="@+id/displayView1" android:layout_height="match_parent" android:layout_width="948dp"></com.electrolites.ecg.DisplayView>-->
-            <Button android:text="Up" android:id="@+id/button5" android:layout_height="match_parent" android:layout_width="80dp"></Button>
-            <Button android:text="Down" android:id="@+id/button6" android:layout_height="match_parent" android:layout_width="80dp"></Button>
+        <com.electrolites.ecg.ECGView android:id="@+id/v_eCGView" android:layout_width="match_parent" android:layout_height="640dp"></com.electrolites.ecg.ECGView>
+        <LinearLayout android:id="@+id/l_inferior" android:layout_height="50dp" android:layout_width="match_parent">
+            <com.electrolites.ecg.HeartRateView android:id="@+id/v_heartRateView" android:layout_height="match_parent" android:layout_width="130dp"></com.electrolites.ecg.HeartRateView>
+            <com.electrolites.ecg.DisplayView android:id="@+id/v_displayView" android:layout_height="match_parent" android:layout_width="990dp"></com.electrolites.ecg.DisplayView>
+            <Button android:text="Up" android:id="@+id/b_up" android:layout_height="match_parent" android:layout_width="80dp"></Button>
+            <Button android:text="Down" android:id="@+id/b_down" android:layout_height="match_parent" android:layout_width="80dp"></Button>
         </LinearLayout>
     </LinearLayout>
 	

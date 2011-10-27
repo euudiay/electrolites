@@ -13,7 +13,8 @@ public class Data {
 		return instance;
 	}
 	
-	public int drawBaseHeight = 0;
+	private float drawBaseHeight = 0.5f;
+	private int WidhtScale = 1;
 	// Muestras indexadas por no. de muestra
 	public Map<Integer, Short> samples = null;
 	// Puntos resultantes de la delineación, indexados por no. de muestra
@@ -23,9 +24,34 @@ public class Data {
 	
 	
 	public Data() {
-		drawBaseHeight = 0;
+		drawBaseHeight = 0.5f;
+		WidhtScale = 1;
 		samples = new HashMap<Integer, Short>();
 		dpoints = new HashMap<Integer, DPoint>();
 		hbr = new HashMap<Integer, Short>();
+	}
+
+
+
+	public float getDrawBaseHeight() {
+		return drawBaseHeight;
+	}
+
+
+
+	public void setDrawBaseHeight(float drawBaseHeight) {
+		this.drawBaseHeight = drawBaseHeight;
+	}
+
+
+
+	public int getWidhtScale() {
+		return WidhtScale;
+	}
+
+
+
+	public void setWidhtScale(int widhtScale) {
+		WidhtScale = widhtScale;
 	}
 }
