@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,13 +78,15 @@ public class ElectrolitesActivity extends Activity {
         
 
         lSuperior = (LinearLayout) findViewById(R.id.l_superior);
-        lSuperior.setBackgroundColor(0xff444444);
+        lSuperior.setBackgroundColor(Color.DKGRAY);
         
         lInferior = (LinearLayout) findViewById(R.id.l_inferior);
-        lInferior.setBackgroundColor(0xff444444);
+        lInferior.setBackgroundColor(Color.DKGRAY);
         
-        //e_id.setFocusable(false);
-        //e_name.setFocusable(false);
+        e_id = (EditText) findViewById(R.id.e_id);
+        e_id.setTextColor(Color.GRAY);
+        e_name = (EditText) findViewById(R.id.e_name);
+        e_name.setTextColor(Color.GRAY);
         
     }
     
