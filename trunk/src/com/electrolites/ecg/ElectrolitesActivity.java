@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.EditText;
 
 import com.electrolites.data.*;
 
@@ -24,6 +25,13 @@ public class ElectrolitesActivity extends Activity {
 	private UpListener upListener;
 	private Button down;
 	private DownListener downListener;
+	private Button plus;
+	private PlusListener plusListener;
+	private Button less;
+	private LessListener lessListener;
+	
+	private EditText e_id;
+	private EditText e_name;
 	
 	private LinearLayout lSuperior;
 	private LinearLayout lInferior;
@@ -54,6 +62,16 @@ public class ElectrolitesActivity extends Activity {
         downListener = new DownListener();
         down.setOnClickListener(downListener);
         
+        plus = (Button) findViewById(R.id.b_plus);
+        plus.setEnabled(true);
+        plusListener = new PlusListener();
+        plus.setOnClickListener(plusListener);
+        
+        less = (Button) findViewById(R.id.b_less);
+        less.setEnabled(true);
+        lessListener = new LessListener();
+        less.setOnClickListener(lessListener);
+        
         ecgView = (ECGView) findViewById(R.id.v_eCGView);
         ecgView.setVisibility(View.INVISIBLE);
         
@@ -63,52 +81,65 @@ public class ElectrolitesActivity extends Activity {
         
         lInferior = (LinearLayout) findViewById(R.id.l_inferior);
         lInferior.setBackgroundColor(0xff444444);
+        
+        //e_id.setFocusable(false);
+        //e_name.setFocusable(false);
+        
     }
     
     class StartListener implements OnClickListener {
 
 		public void onClick(View v) {
-			
 			start.setEnabled(false);
 			ecgView.setVisibility(View.VISIBLE);
 		}
-    	
     }
     
     class UpListener implements OnClickListener {
 
 		public void onClick(View v) {
-			
 			if (data.getDrawBaseHeight() < 0.1)
 				up.setEnabled(false);
 			else 
 			{
 				data.setDrawBaseHeight(data.getDrawBaseHeight()-0.1f);
 				down.setEnabled(true);
-			}
-			
+			}	
 		}
-    	
     }
     
     
     class DownListener implements OnClickListener {
-
-		public void onClick(View v) {
-			
+		public void onClick(View v) {			
 			if (data.getDrawBaseHeight() >= 1)
 				down.setEnabled(false);
 			else
 			{
 				data.setDrawBaseHeight(data.getDrawBaseHeight()+0.1f);
 				up.setEnabled(true);
-			}
-			
+			}			
+		}    	
+    }
+    
+    class PlusListener implements OnClickListener {
+
+		public void onClick(View v) {
+			data.setWidhtScale(data.getWidhtScale()+ 0.5f);
+			less.setEnabled(true);	
 		}
-    	
     }
     
     
+    class LessListener implements OnClickListener {
+		public void onClick(View v) {			
+			if (data.getWidhtScale() < 0.5f)
+				less.setEnabled(false);
+			else
+			{
+				data.setWidhtScale(data.getWidhtScale() - 0.5f);
+			}			
+		}    	
+    }  
     
     
     
