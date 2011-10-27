@@ -43,8 +43,9 @@ public class ECGView extends AnimationView {
 
 			linePaint.setColor(Color.WHITE);
 			linePaint.setStrokeWidth(1.f);
+			float actualBaseline = vport.vpPxY + vport.vpPxHeight*data.getDrawBaseHeight();//baselinePxY
 			canvas.drawLine(vport.vpPxX-5, vport.vpPxY, vport.vpPxX-5, vport.vpPxY+vport.vpPxHeight, linePaint);
-			canvas.drawLine(vport.vpPxX-5, vport.baselinePxY, vport.vpPxX-5+vport.vpPxWidth, vport.baselinePxY, linePaint);
+			canvas.drawLine(vport.vpPxX-5, actualBaseline, vport.vpPxX-5+vport.vpPxWidth, actualBaseline, linePaint);
 			
 			linePaint.setColor(Color.GREEN);
 			linePaint.setAlpha((int) (255*0.9));
