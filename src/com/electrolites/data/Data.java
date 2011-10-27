@@ -14,7 +14,7 @@ public class Data {
 	}
 	
 	private float drawBaseHeight = 0.5f;
-	private int WidhtScale = 1;
+	private float WidhtScale = 1;
 	// Muestras indexadas por no. de muestra
 	public Map<Integer, Short> samples = null;
 	// Puntos resultantes de la delineación, indexados por no. de muestra
@@ -45,13 +45,13 @@ public class Data {
 
 
 
-	public int getWidhtScale() {
+	public float getWidhtScale() {
 		return WidhtScale;
 	}
 
 
 
-	public void setWidhtScale(int widhtScale) {
+	public void setWidhtScale(float widhtScale) {
 		WidhtScale = widhtScale;
 	}
 }
