@@ -26,7 +26,7 @@ public class DisplayView extends AnimationView {
 			
 			canvas.drawColor(Color.BLACK);
 			displayPaint.setARGB(255, 0, 255, 0);
-			canvas.drawText("AQUI VAN COSAS", 300, 30, displayPaint);		
+			canvas.drawText("NOT ARRITMIA DETECTED", 250, 30, displayPaint);		
 			canvas.restore();
 		}
 		
