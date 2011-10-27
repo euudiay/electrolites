@@ -1,5 +1,6 @@
 package com.electrolites.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class Data {
 	private float drawBaseHeight = 0.5f;
 	private float WidhtScale = 1;
 	// Muestras indexadas por no. de muestra
-	public Map<Integer, Short> samples = null;
+	public ArrayList<Short> samples = null;
 	// Puntos resultantes de la delineación, indexados por no. de muestra
 	public Map<Integer, DPoint> dpoints = null;
 	// Valores del ritmo cardíaco, indexados según el número de muestra anterior a su recepción
@@ -26,7 +27,7 @@ public class Data {
 	public Data() {
 		drawBaseHeight = 0.5f;
 		WidhtScale = 1;
-		samples = new HashMap<Integer, Short>();
+		samples = new ArrayList<Short>();
 		dpoints = new HashMap<Integer, DPoint>();
 		hbr = new HashMap<Integer, Short>();
 	}

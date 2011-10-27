@@ -22,8 +22,10 @@ public class FileConverter {
 		stream = new ArrayList<Byte>();
 	}
 	
-	public void readTxt(String fname) {
+	// Lee un archivo de texto y devuelve un vector de datos sin procesar (bytes)
+	public ArrayList<Byte> readTxt(String fname) {
 		stream.clear();
+		
 		try {
 			Scanner sc = new Scanner(new File(fname));
 			
@@ -41,9 +43,12 @@ public class FileConverter {
 			System.err.println("Archivo no encontrado: " + fname);
 			e.printStackTrace();
 		}
+		
+		return stream;
 	}
 	
-	public void readBinary(String fname) {
+	// Lee un archivo binario y devuelve sus datos en un ArrayList de bytes
+	public ArrayList<Byte> readBinary(String fname) {
 		stream.clear();
 		
 		try {
@@ -63,10 +68,14 @@ public class FileConverter {
 			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
+		
+		return stream;
 	}
 	
-	public void readResources(Resources resources) {
-		InputStream input = resources.openRawResource(0x7f040000);
+	// Lee el recurso de identificador id y devuelve sus datos en forma de array de bytes
+	public ArrayList<Byte> readResources(Resources resources, int id) {
+		InputStream input = resources.openRawResource(id);
+		stream.clear();
 		
 		int r = 0;
 		try {
@@ -78,8 +87,11 @@ public class FileConverter {
 			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
+		
+		return stream;
 	}
 	
+	// Escribe el vector de datos en un archivo de texto
 	public void writeTxt(String fname) {
 		if (!stream.isEmpty()) {
 			try {
@@ -106,6 +118,7 @@ public class FileConverter {
 		else System.err.println("No hay nada que guardar!");
 	}
 	
+	// Vuelca el contenido del vector de datos en un archivo binario
 	public void writeBinary(String fname) {
 		if (!stream.isEmpty()) {
 			try {

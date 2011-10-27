@@ -72,7 +72,7 @@ public class ECGView extends AnimationView {
 		
 		// Guarreando
 		dp = new DataParser();
-		dp.loadResource(context.getResources());
+		dp.loadResource(context.getResources(), R.raw.traza);
 		dp.extractSamples();
 	}
 	
