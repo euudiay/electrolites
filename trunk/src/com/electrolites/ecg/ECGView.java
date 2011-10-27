@@ -83,7 +83,7 @@ public class ECGView extends AnimationView {
 	public void surfaceCreated(SurfaceHolder holder) {
 		int w = (int) (getWidth()*0.9);
 		int h = (int) (getHeight()*0.9);
-		vport = new Viewport(w, h, 0.5f);
+		vport = new Viewport(w, h, 3.0f);
 		vport.setOnScreenPosition(getWidth()-10-w, getHeight()-10-h);
 		
 		// Guarreando

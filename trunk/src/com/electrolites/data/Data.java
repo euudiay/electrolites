@@ -14,13 +14,15 @@ public class Data {
 		return instance;
 	}
 	
+	// Altura base de renderizado (0~1)
 	private float drawBaseHeight = 0.5f;
+	// Escala de ancho: 0 (evitar) ~ whatever
 	private float WidhtScale = 1;
 	// Muestras indexadas por no. de muestra
 	public ArrayList<Short> samples = null;
-	// Puntos resultantes de la delineación, indexados por no. de muestra
+	// Puntos resultantes de la delineaciï¿½n, indexados por no. de muestra
 	public Map<Integer, DPoint> dpoints = null;
-	// Valores del ritmo cardíaco, indexados según el número de muestra anterior a su recepción
+	// Valores del ritmo cardï¿½aco, indexados segï¿½n el nï¿½mero de muestra anterior a su recepciï¿½n
 	public Map<Integer, Short> hbr = null;
 	
 	

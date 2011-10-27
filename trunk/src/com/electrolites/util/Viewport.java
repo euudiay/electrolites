@@ -78,7 +78,15 @@ public class Viewport {
 		baselinePxY = pxY + vpPxHeight/2;
 	}
 	
+	public void updateParameters() {
+		vaSeconds = Math.max(0.1f, actualData.getWidhtScale());
+	}
+	
 	public float[] getViewContents() {
+		
+		// Obtener nuevos parametros
+		updateParameters();
+		
 		// Calcular cantidad de puntos que caben
 		float npoints = vaSeconds*samplesPerSecond;
 		// Calcular densidad de puntos
@@ -97,22 +105,28 @@ public class Viewport {
 		
 		float actualBaseline = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();//baselinePxY
 		
-		for (int i = 0; i < end-start-1; i+=1) {
+		int index = 0;
+		float top = vpPxHeight*0.85f;
+		float max = 8000f;
+		float vFactor = top/max;
+		
+		while (index < end-start-1 && start+index+1 < data.length) {
 			// Devolver array de puntos a pintar
 			// X, Y
-			if (i == 0) {
-				points[i] = vpPxX;
-				points[i+1] = actualBaseline + data[start];
-				points[i+2] = vpPxX+dpoints;
-				points[i+3] = actualBaseline + data[start+1];
+			if (index == 0) {
+				points[index] = vpPxX;
+				points[index+1] = actualBaseline - data[start]*vFactor;
+				points[index+2] = vpPxX+dpoints;
+				points[index+3] = actualBaseline - data[start+1]*vFactor;
 			}
 			else {
 				// Si no es el primer punto, duplicar el anterior
-				points[4*i] = points[4*i-2];
-				points[4*i+1] = points[4*i-1];
-				points[4*i+2] = vpPxX + i*dpoints;
-				points[4*i+3] = actualBaseline + data[start+i+1];
+				points[4*index] = points[4*index-2];
+				points[4*index+1] = points[4*index-1];
+				points[4*index+2] = vpPxX + index*dpoints;
+				points[4*index+3] = actualBaseline - data[start+index+1]*vFactor;
 			}
+			index++;
 		}
 
 		return points;
