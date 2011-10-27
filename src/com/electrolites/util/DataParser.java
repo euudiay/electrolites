@@ -35,7 +35,7 @@ public class DataParser {
 		
 		// Inicializa los punteros de lectura y escritura
 		p1 = 0;							
-		p2 = stream.size();
+		p2 = stream.size() - 1;
 		
 		// Inicialmente no tenemos datos
 		lastSample = 0;
@@ -52,7 +52,7 @@ public class DataParser {
 		
 		// Inicializa los punteros de lectura y de escritura
 		p1 = 0;
-		p2 = stream.size();
+		p2 = stream.size() - 1;
 		
 		// Inicialmente no tenemos datos
 		lastSample = 0;
@@ -87,7 +87,7 @@ public class DataParser {
 				break;
 			case 0xed:					// Point
 				if (data_amount >= 5)
-					; 	// Tratar puntos de delineación
+					readDPoint(); 	// Tratar puntos de delineación
 				break;
 			default:
 				System.err.println("Delimitador no reconocido: " + new_byte);
@@ -112,16 +112,18 @@ public class DataParser {
 		int byte3 = ((int) stream.get(p1+4)) & 0xff;
 		
 		// Calculamos el número de muestras que nos dice el offset
-		int nSamples = byte0 + 256*(byte1 + 256*(byte2 + 256*byte3));
+		int nSamples = byte3 + 256*(byte2 + 256*(byte1 + 256*byte0));
 		
 		// Si no coincide con la última muestra leída, hemos perdido muestras
-		if (lastSample < nSamples) {
+		if (lastSample < nSamples && lastSample > 0) {
 			// Rellenamos los huecos vacíos de las muestras en data
 			for (int i = 0; i < nSamples - lastSample; i++)
 				data.samples.add(null);
 			// Actualizamos cuál fue la última muestra (perdida)
 			lastSample = nSamples;
 		}
+		else if (lastSample == 0)
+			lastSample = nSamples;
 		
 		System.err.println("Se han perdido " + (nSamples - lastSample) + " muestras");
 		
@@ -167,7 +169,7 @@ public class DataParser {
 		int byte2 = ((int) stream.get(p1+3)) & 0xff;
 		int byte3 = ((int) stream.get(p1+4)) & 0xff;
 		int byte4 = ((int) stream.get(p1+5)) & 0xff;
-		int sample = byte1 + 256*(byte2 + 256*(byte3 + 256*byte4));
+		int sample = byte4 + 256*(byte3 + 256*(byte2 + 256*byte1));
 		
 		// Añadimos el punto a la tabla de puntos de data
 		data.dpoints.put(sample, dp);
@@ -178,19 +180,14 @@ public class DataParser {
 	
 	// Old!
 	public void extractSamples() {
-		Iterator<Short> it = data.samples.iterator();
-	
-		samples = new short[5000];
+		samples = new short[4000];
 		
-		short sample = 0;
-		int i = 0;
-		while (it.hasNext() && i < 5000) {
-			if ((it.next() & 0xff) == 0xda) {
-				sample = it.next();
-				samples[i] = sample;
-				i++;
-			}
-		}
+		
+		for (int i = 0; i < 4000; i++)
+			if (data.samples.get(i) == null)
+				samples[i] = 0;
+			else
+				samples[i] = data.samples.get(i);
 	}
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
