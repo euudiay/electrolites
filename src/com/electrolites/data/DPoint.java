@@ -1,6 +1,6 @@
 package com.electrolites.data;
 
-// Objeto que representa un punto resultante de la delineación
+// Objeto que representa un punto resultante de la delineaciï¿½n
 public class DPoint {
 	// Tipo de punto: ninguno, comienzo, pico, final o pico secundario
 	public enum PointType { none, start, peak, end, s_peak };
@@ -23,10 +23,10 @@ public class DPoint {
 		PointType type;
 		
 		switch (i & 0xf0) {
-			case 1: type = PointType.start; break;
-			case 2: type = PointType.peak; break;
-			case 3: type = PointType.end; break;
-			case 4: type = PointType.s_peak; break;
+			case 1 << 4: type = PointType.start; break;
+			case 2 << 4: type = PointType.peak; break;
+			case 3 << 4: type = PointType.end; break;
+			case 4 << 4: type = PointType.s_peak; break;
 			default: type = PointType.none;
 		}
 		

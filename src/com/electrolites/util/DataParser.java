@@ -11,14 +11,14 @@ import com.electrolites.data.Data;
 public class DataParser {
 	private FileConverter fc;		
 	private Data data;				// Instancia de Data
-	private ArrayList<Byte> stream;	// Bytes leídos
+	private ArrayList<Byte> stream;	// Bytes leï¿½dos
 	private short[] samples;		// Valores de las muestras, indexadas por orden de llegada
-	private int p1, p2;				// Punteros al último byte consumido y al último producido
+	private int p1, p2;				// Punteros al ï¿½ltimo byte consumido y al ï¿½ltimo producido
 	private int lastSample;			// ï¿½ltima muestra leï¿½da (nï¿½mero de orden)
 	private float lastHBR;			// ï¿½ltimo resultado de ritmo cardï¿½aco leï¿½do
 	
 	public DataParser() {
-		data = Data.getInstance();			// Accedemos a los datos de la aplicación
+		data = Data.getInstance();			// Accedemos a los datos de la aplicaciï¿½n
 		stream = new ArrayList<Byte>();		// Instanciamos el vector de datos raw
 		
 		// Inicialmente no tenemos datos
@@ -28,7 +28,7 @@ public class DataParser {
 		lastHBR = 0;
 	}
 	
-	// Obtiene datos para la aplicación de un archivo binario
+	// Obtiene datos para la aplicaciï¿½n de un archivo binario
 	public void loadBinaryFile(String fname) {
 		fc = new FileConverter();		// Instancia el conversor de archivos		
 		stream = fc.readBinary(fname);	// Lee y almacena los datos del archivo
@@ -45,7 +45,7 @@ public class DataParser {
 		readStream();
 	}
 	
-	// Obtiene datos para la aplicación de un recurso interno
+	// Obtiene datos para la aplicaciï¿½n de un recurso interno
 	public void loadResource(Resources resources, int id) {
 		fc = new FileConverter();					// Instancia el conversor de archivos
 		stream = fc.readResources(resources, id);	// Carga el recurso con identificador id
@@ -75,11 +75,11 @@ public class DataParser {
 		switch (new_byte) {
 			case 0xcc:					// Offset
 				if (data_amount >= 4) 	// Tenemos que leer 4 bytes
-					readOffset();		// Comprueba, además, si se han perdido muestras
+					readOffset();		// Comprueba, ademï¿½s, si se han perdido muestras
 				break;
 			case 0xfb:					// HBR
 				if (data_amount >= 2)
-					readHBR(); 			// Lee el ritmo cardíaco actual y lo guarda en data
+					readHBR(); 			// Lee el ritmo cardï¿½aco actual y lo guarda en data
 				break;
 			case 0xda:					// Sample
 				if (data_amount >= 2)
@@ -87,7 +87,7 @@ public class DataParser {
 				break;
 			case 0xed:					// Point
 				if (data_amount >= 5)
-					readDPoint(); 	// Tratar puntos de delineación
+					readDPoint(); 	// Tratar puntos de delineaciï¿½n
 				break;
 			default:
 				System.err.println("Delimitador no reconocido: " + new_byte);
@@ -111,19 +111,22 @@ public class DataParser {
 		int byte2 = ((int) stream.get(p1+3)) & 0xff;
 		int byte3 = ((int) stream.get(p1+4)) & 0xff;
 		
-		// Calculamos el número de muestras que nos dice el offset
+		// Calculamos el nï¿½mero de muestras que nos dice el offset
 		int nSamples = byte3 + 256*(byte2 + 256*(byte1 + 256*byte0));
 		
-		// Si no coincide con la última muestra leída, hemos perdido muestras
+		// Si no coincide con la ï¿½ltima muestra leï¿½da, hemos perdido muestras
 		if (lastSample < nSamples && lastSample > 0) {
-			// Rellenamos los huecos vacíos de las muestras en data
+			// Rellenamos los huecos vacï¿½os de las muestras en data
 			for (int i = 0; i < nSamples - lastSample; i++)
 				data.samples.add(null);
-			// Actualizamos cuál fue la última muestra (perdida)
+			// Actualizamos cuï¿½l fue la ï¿½ltima muestra (perdida)
 			lastSample = nSamples;
 		}
-		else if (lastSample == 0)
+		else if (lastSample == 0) {
 			lastSample = nSamples;
+			data.dataOffset = nSamples;
+		}
+			
 		
 		System.err.println("Se han perdido " + (nSamples - lastSample) + " muestras");
 		
@@ -134,9 +137,9 @@ public class DataParser {
 	public void readHBR() {
 		int byte0 = ((int) stream.get(p1+1)) & 0xff;
 		int byte1 = ((int) stream.get(p1+2)) & 0xff;
-		// Calcula el ritmo cardíaco (60*250/X)
+		// Calcula el ritmo cardï¿½aco (60*250/X)
 		lastHBR = 15000f / ((float) (byte0*255 + byte1));
-		// Guarda en data el valor del ritmo cardíaco en este momento (indexándolo según la última muestra recibida)
+		// Guarda en data el valor del ritmo cardï¿½aco en este momento (indexï¿½ndolo segï¿½n la ï¿½ltima muestra recibida)
 		data.hbr.put(lastSample, (short) lastHBR);
 		
 		// Adelantamos el puntero de lectura 3 posiciones (delimitador + 3 bytes)
@@ -144,11 +147,11 @@ public class DataParser {
 	}
 	
 	public void readSample() {
-		// Incrementamos la cantidad de muestras leídas
+		// Incrementamos la cantidad de muestras leï¿½das
 		lastSample++;	
 		// Calculamos el valor de la muestra
 		short sample = byteToShort(stream.get(p1+1), stream.get(p1+2));
-		// Añadimos la muestra con su número de orden a la tabla de muestras
+		// Aï¿½adimos la muestra con su nï¿½mero de orden a la tabla de muestras
 		data.samples.add(sample);
 		// Adelantamos el puntero de lectura 3 posiciones
 		p1 += 3;
@@ -164,14 +167,14 @@ public class DataParser {
 		// Comprobamos la onda a la que se refiere
 		dp.setWave(dp.checkWave(byte0));
 		
-		// Vemos a qué muestra se refiere
+		// Vemos a quï¿½ muestra se refiere
 		int byte1 = ((int) stream.get(p1+2)) & 0xff;
 		int byte2 = ((int) stream.get(p1+3)) & 0xff;
 		int byte3 = ((int) stream.get(p1+4)) & 0xff;
 		int byte4 = ((int) stream.get(p1+5)) & 0xff;
 		int sample = byte4 + 256*(byte3 + 256*(byte2 + 256*byte1));
 		
-		// Añadimos el punto a la tabla de puntos de data
+		// Aï¿½adimos el punto a la tabla de puntos de data
 		data.dpoints.put(sample, dp);
 		
 		// Adelantamos el puntero de lectura 6 posiciones (delimitador + 5 bytes)
@@ -192,7 +195,7 @@ public class DataParser {
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
-		// b1 más significativo que b2
+		// b1 mï¿½s significativo que b2
 		int i1 = (int) b1;
 		int i2 = (int) b2;
 		i1 &= 0xff;
