@@ -24,7 +24,8 @@ public class Data {
 	public Map<Integer, DPoint> dpoints = null;
 	// Valores del ritmo card�aco, indexados seg�n el n�mero de muestra anterior a su recepci�n
 	public Map<Integer, Short> hbr = null;
-	
+	// Primera muestra dibujable
+	public int dataOffset;
 	
 	public Data() {
 		drawBaseHeight = 0.5f;

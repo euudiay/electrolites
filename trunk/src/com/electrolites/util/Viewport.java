@@ -1,6 +1,8 @@
 package com.electrolites.util;
 
-import android.util.Log;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.electrolites.data.*;
 
@@ -130,6 +132,47 @@ public class Viewport {
 		}
 
 		return points;
+	}
+	
+	public Map<Float, DPoint> getViewDPoints() {
+		
+		// Obtener nuevos parametros
+		updateParameters();
+		
+		// Calcular cantidad de puntos que caben
+		float npoints = vaSeconds*samplesPerSecond;
+		// Calcular densidad de puntos
+		float dpoints = vpPxWidth / npoints;
+		// Si la densidad es < 0 es que se quieren mostrar 
+		// m�s puntos de los que caben (aglutinar o...)
+		if (dpoints < 0)
+			return null;
+		// Buscar primer punto
+		// Por ahora, redonder y coger el que sea (mejorar esto)
+		int start = Math.round(vaSecX);
+		// Buscar �ltimo punto
+		int end = start + Math.round(npoints);
+				
+		HashMap<Float, DPoint> map = new HashMap<Float, DPoint>();
+		
+		Iterator<Map.Entry<Integer, DPoint>> it = actualData.dpoints.entrySet().iterator();
+		Map.Entry<Integer, DPoint> entry;
+		boolean done = false;
+		
+		while (it.hasNext() && !done) {
+			entry = (Map.Entry<Integer, DPoint>) it.next();
+			/* 0% Effectiveness!
+			 * if (entry.getKey() >= end) {
+				done = true;
+				break;
+			}*/
+			if (entry.getKey().intValue()-actualData.dataOffset < start || entry.getKey().intValue()-actualData.dataOffset >= end)
+				continue;
+			
+			map.put(vpPxX + (entry.getKey()-start-actualData.dataOffset)*dpoints, entry.getValue());
+		}
+		
+		return map;
 	}
 	
 	public boolean move(float secDeltaX) {
