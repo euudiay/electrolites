@@ -58,4 +58,15 @@ public class Data {
 	public void setWidhtScale(float widhtScale) {
 		WidhtScale = widhtScale;
 	}
+	
+	
+	public short[] getSamplesArray() {
+		
+		Object samp[] = samples.toArray();
+		short result[] = new short[samp.length];
+		for (int i = 0; i < samp.length; i++)
+			result[i] = ((Short) samp[i]).shortValue();
+		
+		return result;
+	}
 }

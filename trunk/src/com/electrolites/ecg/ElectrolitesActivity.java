@@ -101,6 +101,9 @@ public class ElectrolitesActivity extends Activity {
     class UpListener implements OnClickListener {
 
 		public void onClick(View v) {
+			if (ecgView.getVisibility() != View.VISIBLE)
+				return;
+			
 			if (data.getDrawBaseHeight() < 0.1)
 				up.setEnabled(false);
 			else 
@@ -113,7 +116,10 @@ public class ElectrolitesActivity extends Activity {
     
     
     class DownListener implements OnClickListener {
-		public void onClick(View v) {			
+		public void onClick(View v) {	
+			if (ecgView.getVisibility() != View.VISIBLE)
+				return;
+			
 			if (data.getDrawBaseHeight() >= 1)
 				down.setEnabled(false);
 			else
@@ -127,6 +133,9 @@ public class ElectrolitesActivity extends Activity {
     class PlusListener implements OnClickListener {
 
 		public void onClick(View v) {
+			if (ecgView.getVisibility() != View.VISIBLE)
+				return;
+			
 			data.setWidhtScale(data.getWidhtScale()+ 0.5f);
 			less.setEnabled(true);	
 		}
@@ -134,7 +143,10 @@ public class ElectrolitesActivity extends Activity {
     
     
     class LessListener implements OnClickListener {
-		public void onClick(View v) {			
+		public void onClick(View v) {
+			if (ecgView.getVisibility() != View.VISIBLE)
+				return;
+			
 			if (data.getWidhtScale() < 0.5f)
 				less.setEnabled(false);
 			else
