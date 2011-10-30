@@ -53,4 +53,8 @@ public class DPoint {
 	public Wave getWave() { return wave; }
 	
 	public void setWave(Wave wave) { this.wave = wave; }
+	
+	public String toString() {
+		return "["+type.name()+" | "+wave.name()+"]";
+	}
 }

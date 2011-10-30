@@ -6,16 +6,18 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Paint.Align;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.widget.AutoCompleteTextView.Validator;
 
 import com.electrolites.data.DPoint;
-import com.electrolites.data.Data;
 import com.electrolites.data.DPoint.PointType;
 import com.electrolites.data.DPoint.Wave;
+import com.electrolites.data.Data;
 import com.electrolites.util.DataParser;
+import com.electrolites.util.ExtendedDPoint;
 import com.electrolites.util.Viewport;
 
 public class ECGView extends AnimationView {
@@ -24,68 +26,111 @@ public class ECGView extends AnimationView {
 
 	private class ECGThread extends AnimationThread {
 		
-		private Paint textPaint, linePaint, linePaint2;
+		private Paint linePaint, rectPaint, ecgPaint;
+		
+		private int bgColor;
 
 		public ECGThread(SurfaceHolder holder) {
 			super(holder);
 			
-			textPaint = new Paint();
-			textPaint.setARGB(255, 255, 255, 255);
-			textPaint.setTextSize(32.f);
+			//bgColor = Color.rgb(89, 89, 89);
+			bgColor = Color.rgb(69, 69, 69);
 			
 			linePaint = new Paint();
 			linePaint.setARGB(200, 100, 255, 100);
 			linePaint.setStrokeWidth(2.f);
+			linePaint.setTextAlign(Align.RIGHT);
 			
-			linePaint2 = new Paint();
-			linePaint2.setARGB(200, 255, 255, 255);
-			linePaint2.setStrokeWidth(1.f);
+			ecgPaint = new Paint();
+			
+			rectPaint = new Paint();
+			rectPaint.setColor(bgColor);
 		}
 
 		@Override
 		public void onRender(Canvas canvas) {
-			canvas.drawColor(Color.BLACK);
+			canvas.drawColor(bgColor);
             //canvas.drawText("fps: " + fps, 100, 100, textPaint);
+			
+			int left = vport.vpPxX-5, right = vport.vpPxX+vport.vpPxWidth+5, top = vport.vpPxY-1, bottom = vport.vpPxY+vport.vpPxHeight+1;
 
 			// Render Axis and Data
-			linePaint.setColor(Color.WHITE);
-			linePaint.setStrokeWidth(1.f);
-			float actualBaseline = vport.vpPxY + vport.vpPxHeight*data.getDrawBaseHeight();//baselinePxY
-			canvas.drawLine(vport.vpPxX-5, vport.vpPxY, vport.vpPxX-5, vport.vpPxY+vport.vpPxHeight, linePaint);
-			canvas.drawLine(vport.vpPxX-5, actualBaseline, vport.vpPxX-5+vport.vpPxWidth, actualBaseline, linePaint);
+			linePaint.setARGB(230, 150, 150, 150);
+			linePaint.setStrokeWidth(2.f);
+			canvas.drawLine(left, vport.vpPxY, left, vport.vpPxY+vport.vpPxHeight, linePaint);
 			
-			// Render delineation results
-			Map<Float, DPoint> specials = vport.getViewDPoints();
-			for (Map.Entry<Float, DPoint> ent : specials.entrySet()) {
-				renderDPoint(canvas, ent.getKey().floatValue(), ent.getValue());
+			// Render Axis Scales
+			// Upper part
+			int divisions = (int) Math.floor((vport.baselinePxY - vport.vpPxY) / (1000*vport.vFactor));
+			
+			canvas.drawText("0.0", left-2, vport.baselinePxY, linePaint);
+			canvas.drawLine(left, vport.baselinePxY, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY, linePaint);
+			linePaint.setStrokeWidth(1.f);
+			for (int i = 0; i <= divisions; i++) {
+				canvas.drawText("" + (float) i, left-2, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
+				canvas.drawLine(left, vport.baselinePxY-i*1000*vport.vFactor, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
 			}
 			
+			// Lower part
+			divisions = (int) Math.floor((vport.vpPxY+vport.vpPxHeight- vport.baselinePxY) / (1000*vport.vFactor));
+			
+			for (int i = 1; i <= divisions; i++) {
+				canvas.drawText("" + (float) -i, left-2, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
+				canvas.drawLine(left, vport.baselinePxY+i*1000*vport.vFactor, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
+			}
+			
+			
 			// Render samples
-			linePaint.setColor(Color.GREEN);
-			linePaint.setAlpha((int) (255*0.9));
-			linePaint.setStrokeWidth(2.f);
+			ecgPaint.setColor(Color.GREEN);
+			ecgPaint.setAlpha((int) (255*0.9));
+			ecgPaint.setStrokeWidth(2.f);
             float points[] = vport.getViewContents();
             int toDraw = points.length;
-            canvas.drawLines(points, 0, toDraw,  linePaint);
+            canvas.drawLines(points, 0, toDraw,  ecgPaint);
             
+			// Render delineation results
+			Map<Float, ExtendedDPoint> specials = vport.getViewDPoints();
+			for (Map.Entry<Float, ExtendedDPoint> ent : specials.entrySet()) {
+				renderDPoint(canvas, ent.getKey().floatValue(), ent.getValue(), points);
+			}
+            
+			// Ultimate Cutresy!
+			canvas.drawRect(new Rect(0, 0, getWidth(), vport.vpPxY-1), rectPaint);
+			canvas.drawRect(new Rect(0, vport.vpPxY+vport.vpPxHeight+1, getWidth(), getHeight()), rectPaint);
+			
+			linePaint.setStrokeWidth(2.f);
+			canvas.drawLine(left, top, right, top, linePaint);
+			canvas.drawLine(left, top, left, bottom, linePaint);
+			canvas.drawLine(left, bottom, right, bottom, linePaint);
+			canvas.drawLine(right, top, right, bottom, linePaint);
+			
             canvas.restore();
 			
 		}
 		
-		protected void renderDPoint(Canvas canvas, float x, DPoint p) {
+		protected void renderDPoint(Canvas canvas, float x, ExtendedDPoint edp, float[] points) {
+			DPoint p = edp.getDpoint();
+			
 			if (p.getType() == PointType.start || p.getType() == PointType.end) {
-				linePaint.setARGB(200, 180, 180, 240);				
+	            ecgPaint.setStrokeWidth(1.f);
+				ecgPaint.setARGB(200, 180, 180, 240);
 			}
 			else if (p.getType() == PointType.peak) {
-				if (p.getWave() == Wave.P)
-					linePaint.setARGB(230, 240, 110, 110);
-				else if (p.getWave() == Wave.QRS)
-					linePaint.setARGB(230, 240, 240, 240);
+	            ecgPaint.setStrokeWidth(2.f);
+	            if (p.getWave() == Wave.QRS)
+					ecgPaint.setARGB(230, 240, 240, 240);
+	            else if (p.getWave() == Wave.P)
+					ecgPaint.setARGB(230, 240, 110, 110);
 				else if (p.getWave() == Wave.T)
-					linePaint.setARGB(230, 110, 240, 110);
+					ecgPaint.setARGB(230, 110, 240, 110);
 			}
-			
-			canvas.drawLine(x, vport.vpPxY+1, x, vport.vpPxY+vport.vpPxHeight-1,linePaint);
+			else
+				return;
+
+			if (vport.baselinePxY > 0.3*getHeight())
+				canvas.drawLine(x, vport.vpPxY, x, vport.baselinePxY-data.samples.get(edp.getIndex())*vport.vFactor-1, ecgPaint);
+			else
+				canvas.drawLine(x, vport.vpPxY+vport.vpPxHeight, x, vport.baselinePxY-data.samples.get(edp.getIndex())*vport.vFactor-1, ecgPaint);
 		}
 	}
 
@@ -111,13 +156,11 @@ public class ECGView extends AnimationView {
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-		int w = (int) (getWidth()*0.9);
+		int w = (int) (getWidth()*0.95);
 		int h = (int) (getHeight()*0.9);
 		vport = new Viewport(w, h, 3.0f);
-		vport.setOnScreenPosition(getWidth()-10-w, getHeight()-10-h);
-		
-		// Guarreando
-		vport.data = dp.getSamples();
+		vport.setOnScreenPosition(30, 30);
+		vport.data = data.getSamplesArray();
 		vport.dataStart = 0;
 		vport.dataEnd = vport.data.length;
 		
@@ -155,8 +198,11 @@ public class ECGView extends AnimationView {
 		else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (!holding) return true;
 			
-			vport.move(-1*(event.getX() - holdStartX)/480*100*vport.vaSeconds);
+			vport.move(-1*(event.getX() - holdStartX)/getWidth()*100*vport.vaSeconds);
 			holdStartX = event.getX();
+			
+			data.setDrawBaseHeight(data.getDrawBaseHeight()+(event.getY() - holdStartY)/getHeight());
+			holdStartY = event.getY();
 		}
 		else if (event.getAction() == MotionEvent.ACTION_UP) {
 			if (!holding) return true;
