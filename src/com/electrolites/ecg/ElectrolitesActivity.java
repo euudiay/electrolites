@@ -56,6 +56,19 @@ public class ElectrolitesActivity extends Activity {
 	
 	private ECGView ecgView;
     
+	@Override
+	public void onSaveInstanceState(Bundle saveInstanceState) {
+		saveInstanceState.putBoolean("ecgVisible", ecgView.getVisibility() == View.VISIBLE);
+		super.onSaveInstanceState(saveInstanceState);
+	}
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if (savedInstanceState.getBoolean("ecgVisible"))
+        	ecgView.setVisibility(View.VISIBLE);
+	}
+	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
