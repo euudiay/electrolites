@@ -46,7 +46,7 @@ public class Viewport {
 		
 		samplesPerSecond = 250f;
 		vaSeconds = 2f;
-		vaSecX = 0f;
+		vaSecX = actualData.vaSecX;
 		
 		updateParameters();
 	}
@@ -62,7 +62,7 @@ public class Viewport {
 		actualData = Data.getInstance();
 		
 		samplesPerSecond = 250f;
-		vaSecX = 0f;
+		vaSecX = actualData.vaSecX;
 		
 		updateParameters();
 	}
@@ -188,6 +188,8 @@ public class Viewport {
 				vaSecX += secDeltaX;
 			}
 		}
+		
+		actualData.vaSecX = vaSecX;
 		
 		return true;
 	}

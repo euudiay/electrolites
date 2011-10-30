@@ -23,8 +23,8 @@
         </LinearLayout>
         <com.electrolites.ecg.ECGView android:id="@+id/v_eCGView" android:layout_width="match_parent" android:layout_height="600dp"></com.electrolites.ecg.ECGView>
         <LinearLayout android:id="@+id/l_inferior" android:layout_height="50dp" android:layout_width="match_parent">            
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/t_hRate" android:text="TextView" android:layout_height="match_parent" android:layout_width="140dp"></TextView>
-            <com.electrolites.ecg.DisplayView android:id="@+id/v_displayView" android:layout_height="match_parent" android:layout_width="970dp"></com.electrolites.ecg.DisplayView>
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/t_hRate" android:text="TextView" android:layout_height="match_parent" android:layout_width="140dp"></TextView>  -->
+            <!-- <com.electrolites.ecg.DisplayView android:id="@+id/v_displayView" android:layout_height="match_parent" android:layout_width="970dp"></com.electrolites.ecg.DisplayView>  -->
             <Button android:text="Up" android:id="@+id/b_up" android:layout_height="match_parent" android:layout_width="90dp"></Button>
             <Button android:text="Down" android:id="@+id/b_down" android:layout_height="match_parent" android:layout_width="90dp"></Button>
         </LinearLayout>

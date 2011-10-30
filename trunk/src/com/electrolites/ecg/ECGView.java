@@ -128,9 +128,9 @@ public class ECGView extends AnimationView {
 				return;
 
 			if (vport.baselinePxY > 0.3*getHeight())
-				canvas.drawLine(x, vport.vpPxY, x, vport.baselinePxY-data.samples.get(edp.getIndex())*vport.vFactor-1, ecgPaint);
+				canvas.drawLine(x, vport.vpPxY, x, vport.baselinePxY-data.samples.get(edp.getIndex())*vport.vFactor-10*vport.vFactor, ecgPaint);
 			else
-				canvas.drawLine(x, vport.vpPxY+vport.vpPxHeight, x, vport.baselinePxY-data.samples.get(edp.getIndex())*vport.vFactor-1, ecgPaint);
+				canvas.drawLine(x, vport.vpPxY+vport.vpPxHeight, x, vport.baselinePxY-data.samples.get(edp.getIndex())*vport.vFactor+10*vport.vFactor, ecgPaint);
 		}
 	}
 
@@ -143,7 +143,10 @@ public class ECGView extends AnimationView {
 		
 		data = Data.getInstance();
 		
-		thread = new ECGThread(holder);
+		if (thread == null) {
+			thread = new ECGThread(holder);
+			thread.setDaemon(true);
+		}
 		
 		// Guarreando
 		dp = new DataParser();
@@ -163,9 +166,17 @@ public class ECGView extends AnimationView {
 		vport.data = data.getSamplesArray();
 		vport.dataStart = 0;
 		vport.dataEnd = vport.data.length;
-		
-		thread.setRunning(true);
-		thread.start();
+	
+		try {
+			if (!thread.isAlive()) {
+				thread.setRunning(true);
+				thread.start();
+			}
+		} catch (Exception e) {
+			thread = new ECGThread(getHolder());
+			thread.setRunning(true);
+			thread.start();
+		}
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {

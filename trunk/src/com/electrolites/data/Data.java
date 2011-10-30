@@ -14,6 +14,8 @@ public class Data {
 		return instance;
 	}
 	
+	// Posición X de la vista en secs
+	public float vaSecX;
 	// Altura base de renderizado (0~1)
 	private float drawBaseHeight = 0.5f;
 	// Escala de ancho: 0 (evitar) ~ whatever
@@ -28,6 +30,7 @@ public class Data {
 	public int dataOffset;
 	
 	public Data() {
+		vaSecX = 0;
 		drawBaseHeight = 0.5f;
 		WidhtScale = 1;
 		samples = new ArrayList<Short>();
