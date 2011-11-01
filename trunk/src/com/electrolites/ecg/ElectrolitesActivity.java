@@ -46,6 +46,7 @@ public class ElectrolitesActivity extends Activity {
 	private LessListener lessListener;
 	
 	private TextView hRate;
+	private TextView display;
 	
 	private EditText id;
 	private EditText name;
@@ -120,11 +121,18 @@ public class ElectrolitesActivity extends Activity {
         name.setTextColor(Color.GRAY);
         
         hRate = (TextView) findViewById(R.id.t_hRate);
-        hRate.setBackgroundColor(Color.BLACK);    
+        hRate.setBackgroundColor(Color.DKGRAY);    
         hRate.setGravity(Gravity.CENTER);
         hRate.setTextSize(30f);
         hRate.setTextColor(Color.RED);
         hRate.setText("60 bpr");
+        
+        display = (TextView) findViewById(R.id.t_display);
+        display.setBackgroundColor(Color.DKGRAY);    
+        display.setGravity(Gravity.CENTER);
+        display.setTextSize(30f);
+        display.setTextColor(Color.GRAY);
+        display.setText("NOT ARRITMIA DETECTED");
     }
     
     //Menu Items 
