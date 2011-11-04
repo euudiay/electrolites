@@ -37,7 +37,7 @@ public abstract class AnimationThread extends Thread {
 		}
 	}
 	
-	private void onUpdate() {
+	protected void onUpdate() {
 		long now = System.currentTimeMillis();
 		
 		if (_lastTime != 0) {

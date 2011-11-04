@@ -21,6 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- <service
+            android:enabled="true"
+            android:name="com.electrolites.services.DataService">
+        </service>-->
+        <service
+            android:enabled="true"
+            android:name="com.electrolites.services.DummyService">
+        </service>
+        <service
+            android:enabled="true"
+            android:name="com.electrolites.services.FileParserService">
+        </service>
     </application>
 
 </manifest>

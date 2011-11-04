@@ -1,18 +1,12 @@
 package com.electrolites.ecg;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,12 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.electrolites.data.*;
+import com.electrolites.data.Data;
+import com.electrolites.services.DataService;
+import com.electrolites.services.FileParserService;
 
 public class ElectrolitesActivity extends Activity {
 	
@@ -54,6 +50,7 @@ public class ElectrolitesActivity extends Activity {
 	private LinearLayout lSuperior;
 	private LinearLayout lInferior;
 	
+	Intent intentDePferv;
 	
 	private ECGView ecgView;
     
@@ -77,7 +74,7 @@ public class ElectrolitesActivity extends Activity {
         setContentView(R.layout.main);
         
         data = Data.getInstance();
-        
+        data.app = getApplication();
         
         start = (Button) findViewById(R.id.b_start);
         start.setEnabled(true);
@@ -133,6 +130,10 @@ public class ElectrolitesActivity extends Activity {
         display.setTextSize(30f);
         display.setTextColor(Color.GRAY);
         display.setText("NOT ARRITMIA DETECTED");
+        
+        intentDePferv = new Intent(getApplication(), FileParserService.class);
+		intentDePferv.setAction(DataService.START_RUNNING);
+		getApplication().startService(intentDePferv);
     }
     
     //Menu Items 
@@ -218,6 +219,11 @@ public class ElectrolitesActivity extends Activity {
     class StartListener implements OnClickListener {
 
 		public void onClick(View v) {
+			
+			intentDePferv = new Intent(getApplication(), FileParserService.class);
+			intentDePferv.setAction(DataService.RETRIEVE_DATA);
+			getApplication().startService(intentDePferv);
+			
 			start.setEnabled(false);
 			ecgView.setVisibility(View.VISIBLE);
 		}
