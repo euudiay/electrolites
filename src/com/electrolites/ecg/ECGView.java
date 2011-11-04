@@ -3,6 +3,7 @@ package com.electrolites.ecg;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,9 +14,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.electrolites.data.DPoint;
+import com.electrolites.data.Data;
 import com.electrolites.data.DPoint.PointType;
 import com.electrolites.data.DPoint.Wave;
-import com.electrolites.data.Data;
+import com.electrolites.services.DataService;
+import com.electrolites.services.FileParserService;
 import com.electrolites.util.DataParser;
 import com.electrolites.util.ExtendedDPoint;
 import com.electrolites.util.Viewport;
@@ -26,6 +29,8 @@ public class ECGView extends AnimationView {
 
 	private class ECGThread extends AnimationThread {
 		
+		private Intent intent;
+		
 		private Paint linePaint, rectPaint, ecgPaint;
 		
 		private int bgColor;
@@ -34,7 +39,7 @@ public class ECGView extends AnimationView {
 			super(holder);
 			
 			//bgColor = Color.rgb(89, 89, 89);
-			bgColor = Color.rgb(69, 69, 69);
+			bgColor = Color.rgb(0, 0, 0);
 			
 			linePaint = new Paint();
 			linePaint.setARGB(200, 100, 255, 100);
@@ -44,11 +49,25 @@ public class ECGView extends AnimationView {
 			ecgPaint = new Paint();
 			
 			rectPaint = new Paint();
-			rectPaint.setColor(bgColor);
+			rectPaint.setColor(Color.rgb(69, 69, 69));
 		}
 
 		@Override
+		public void onUpdate() {
+			super.onUpdate();
+			if (intent == null)
+				intent = new Intent(data.app, FileParserService.class);
+			intent.setAction(DataService.GET_DATA);
+			data.app.startService(intent);
+		}
+		
+		@Override
 		public void onRender(Canvas canvas) {
+			
+			vport.data = data.getSamplesArray();
+			vport.dataStart = 0;
+			vport.dataEnd = vport.data.length;
+			
 			canvas.drawColor(bgColor);
             //canvas.drawText("fps: " + fps, 100, 100, textPaint);
 			
@@ -63,11 +82,11 @@ public class ECGView extends AnimationView {
 			// Upper part
 			int divisions = (int) Math.floor((vport.baselinePxY - vport.vpPxY) / (1000*vport.vFactor));
 			
-			canvas.drawText("0.0", left-2, vport.baselinePxY, linePaint);
+			//canvas.drawText("0.0", left-2, vport.baselinePxY, linePaint);
 			canvas.drawLine(left, vport.baselinePxY, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY, linePaint);
 			linePaint.setStrokeWidth(1.f);
 			for (int i = 0; i <= divisions; i++) {
-				canvas.drawText("" + (float) i, left-2, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
+			//	canvas.drawText("" + (float) i, left-2, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
 				canvas.drawLine(left, vport.baselinePxY-i*1000*vport.vFactor, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
 			}
 			
@@ -75,7 +94,7 @@ public class ECGView extends AnimationView {
 			divisions = (int) Math.floor((vport.vpPxY+vport.vpPxHeight- vport.baselinePxY) / (1000*vport.vFactor));
 			
 			for (int i = 1; i <= divisions; i++) {
-				canvas.drawText("" + (float) -i, left-2, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
+			//	canvas.drawText("" + (float) -i, left-2, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
 				canvas.drawLine(left, vport.baselinePxY+i*1000*vport.vFactor, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
 			}
 			
@@ -97,12 +116,28 @@ public class ECGView extends AnimationView {
 			// Ultimate Cutresy!
 			canvas.drawRect(new Rect(0, 0, getWidth(), vport.vpPxY-1), rectPaint);
 			canvas.drawRect(new Rect(0, vport.vpPxY+vport.vpPxHeight+1, getWidth(), getHeight()), rectPaint);
+			canvas.drawRect(new Rect(0, 0, left, getHeight()), rectPaint);
+			canvas.drawRect(new Rect(right, 0, getWidth(), getHeight()), rectPaint);
 			
 			linePaint.setStrokeWidth(2.f);
 			canvas.drawLine(left, top, right, top, linePaint);
 			canvas.drawLine(left, top, left, bottom, linePaint);
 			canvas.drawLine(left, bottom, right, bottom, linePaint);
 			canvas.drawLine(right, top, right, bottom, linePaint);
+			
+			divisions = (int) Math.floor((vport.baselinePxY - vport.vpPxY) / (1000*vport.vFactor));
+			
+			canvas.drawText("0.0", left-2, vport.baselinePxY, linePaint);
+			for (int i = 0; i <= divisions; i++) {
+				canvas.drawText("" + (float) i, left-2, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
+			}
+			
+			// Lower part
+			divisions = (int) Math.floor((vport.vpPxY+vport.vpPxHeight- vport.baselinePxY) / (1000*vport.vFactor));
+			
+			for (int i = 1; i <= divisions; i++) {
+				canvas.drawText("" + (float) -i, left-2, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
+			}
 			
             canvas.restore();
 			
@@ -150,7 +185,8 @@ public class ECGView extends AnimationView {
 		
 		// Guarreando
 		dp = new DataParser();
-		dp.loadResource(context.getResources(), R.raw.traza);
+		//dp.loadResource(context.getResources(), R.raw.traza);
+		dp.loadBinaryFile("traza.txt");
 		dp.extractSamples();
 	}
 	

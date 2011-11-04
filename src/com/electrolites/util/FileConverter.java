@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import android.R;
 import android.content.res.Resources;
+import android.os.Environment;
 
 public class FileConverter {
 	private ArrayList<Byte> stream;
@@ -51,8 +52,12 @@ public class FileConverter {
 	public ArrayList<Byte> readBinary(String fname) {
 		stream.clear();
 		
+		File root = Environment.getExternalStorageDirectory();
+		File path = new File(root, "/Download/");
+		path.mkdirs();
+		
 		try {
-			FileInputStream s = new FileInputStream(new File(fname));
+			FileInputStream s = new FileInputStream(new File(path, fname));
 			
 			int aux = 0;
 			while ((aux = s.read()) >= 0)
@@ -107,7 +112,7 @@ public class FileConverter {
 				writer.close();
 			}
 			catch (FileNotFoundException e) {
-				System.err.println("Ruta no válida: " + fname);
+				System.err.println("Ruta no vï¿½lida: " + fname);
 				e.printStackTrace();
 			}
 			catch (IOException e) {
@@ -131,7 +136,7 @@ public class FileConverter {
 				
 				s.close();
 			} catch (FileNotFoundException e) {
-				System.err.println("Ruta no válida: " + fname);
+				System.err.println("Ruta no vï¿½lida: " + fname);
 				e.printStackTrace();
 			} catch (IOException e) {
 				System.err.println(e.getMessage());
