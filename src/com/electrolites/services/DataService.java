@@ -6,7 +6,6 @@ import java.util.Map;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
 
 import com.electrolites.data.DPoint;
 import com.electrolites.data.Data;

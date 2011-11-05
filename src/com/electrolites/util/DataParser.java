@@ -1,24 +1,28 @@
 package com.electrolites.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 
 import android.content.res.Resources;
 
 import com.electrolites.data.DPoint;
-import com.electrolites.data.Data;
 
 public class DataParser {
 	private FileConverter fc;		
-	private Data data;				// Instancia de Data
+	//private Data data;				// Instancia de Data
 	private ArrayList<Byte> stream;	// Bytes le�dos
 	private short[] samples;		// Valores de las muestras, indexadas por orden de llegada
 	private int p1, p2;				// Punteros al �ltimo byte consumido y al �ltimo producido
 	private int lastSample;			// �ltima muestra le�da (n�mero de orden)
 	private float lastHBR;			// �ltimo resultado de ritmo card�aco le�do
 	
+	protected ArrayList<Short> dataSamples;
+	protected HashMap<Integer, DPoint> dataDPoints;
+	protected HashMap<Integer, Short> dataHBRs;
+	protected int dataOffset;
+	
 	public DataParser() {
-		data = Data.getInstance();			// Accedemos a los datos de la aplicaci�n
+		//data = Data.getInstance();			// Accedemos a los datos de la aplicaci�n
 		stream = new ArrayList<Byte>();		// Instanciamos el vector de datos raw
 		
 		// Inicialmente no tenemos datos
@@ -26,6 +30,10 @@ public class DataParser {
 		p2 = 0;
 		lastSample = 0;
 		lastHBR = 0;
+		
+		dataSamples = new ArrayList<Short>();
+		dataDPoints = new HashMap<Integer, DPoint>();
+		dataHBRs = new HashMap<Integer, Short>();
 	}
 	
 	// Obtiene datos para la aplicaci�n de un archivo binario
@@ -118,13 +126,15 @@ public class DataParser {
 		if (lastSample < nSamples && lastSample > 0) {
 			// Rellenamos los huecos vac�os de las muestras en data
 			for (int i = 0; i < nSamples - lastSample; i++)
-				data.samples.add(null);
+				//data.samples.add(null);
+				dataSamples.add(null);
 			// Actualizamos cu�l fue la �ltima muestra (perdida)
 			lastSample = nSamples;
 		}
 		else if (lastSample == 0) {
 			lastSample = nSamples;
-			data.dataOffset = nSamples;
+			//data.dataOffset = nSamples;
+			dataOffset = nSamples;
 		}
 			
 		
@@ -140,7 +150,8 @@ public class DataParser {
 		// Calcula el ritmo card�aco (60*250/X)
 		lastHBR = 15000f / ((float) (byte0*255 + byte1));
 		// Guarda en data el valor del ritmo card�aco en este momento (index�ndolo seg�n la �ltima muestra recibida)
-		data.hbr.put(lastSample, (short) lastHBR);
+		//data.hbr.put(lastSample, (short) lastHBR);
+		dataHBRs.put(lastSample, (short) lastHBR);
 		
 		// Adelantamos el puntero de lectura 3 posiciones (delimitador + 3 bytes)
 		p1 += 3;
@@ -152,7 +163,8 @@ public class DataParser {
 		// Calculamos el valor de la muestra
 		short sample = byteToShort(stream.get(p1+1), stream.get(p1+2));
 		// A�adimos la muestra con su n�mero de orden a la tabla de muestras
-		data.samples.add(sample);
+		//data.samples.add(sample);
+		dataSamples.add(sample);
 		// Adelantamos el puntero de lectura 3 posiciones
 		p1 += 3;
 	}
@@ -175,14 +187,15 @@ public class DataParser {
 		int sample = byte4 + 256*(byte3 + 256*(byte2 + 256*byte1));
 		
 		// A�adimos el punto a la tabla de puntos de data
-		data.dpoints.put(sample, dp);
+		//data.dpoints.put(sample, dp);
+		dataDPoints.put(sample, dp);
 		
 		// Adelantamos el puntero de lectura 6 posiciones (delimitador + 5 bytes)
 		p1 += 6;
 	}
 	
 	// Old!
-	public void extractSamples() {
+	/*public void extractSamples() {
 		samples = new short[4000];
 		
 		
@@ -191,7 +204,7 @@ public class DataParser {
 				samples[i] = 0;
 			else
 				samples[i] = data.samples.get(i);
-	}
+	}*/
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
@@ -208,4 +221,20 @@ public class DataParser {
 	
 	// Old!
 	public short[] getSamples() { return samples; }
+
+	public ArrayList<Short> getDataSamples() {
+		return dataSamples;
+	}
+
+	public HashMap<Integer, DPoint> getDataDPoints() {
+		return dataDPoints;
+	}
+
+	public HashMap<Integer, Short> getDataHBRs() {
+		return dataHBRs;
+	}
+
+	public int getDataOffset() {
+		return dataOffset;
+	}
 }

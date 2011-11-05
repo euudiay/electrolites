@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.Application;
 
 public class Data {
@@ -31,16 +32,22 @@ public class Data {
 	// Primera muestra dibujable
 	public int dataOffset;
 	
+	// Test area
 	public Application app;
+	public boolean autoScroll;
+	public boolean loading;
+	public Activity activity;
 	
 	public Data() {
 		vaSecX = 0;
 		drawBaseHeight = 0.5f;
-		WidhtScale = 1;
+		WidhtScale = 3;
 		samples = new ArrayList<Short>();
 		dpoints = new HashMap<Integer, DPoint>();
 		hbr = new HashMap<Integer, Short>();
 		app = null;
+		autoScroll = false;
+		loading = false;
 	}
 
 
