@@ -9,7 +9,7 @@
                 android:layout_height="wrap_content"
                 android:text="Start" android:layout_width="90sp">
 			</Button>
-            <Button android:text="Reset" android:id="@+id/b_reset" android:layout_height="match_parent" android:layout_width="90sp"></Button>
+            <Button android:text="More!" android:id="@+id/b_reset" android:layout_height="match_parent" android:layout_width="90sp"></Button>
             <EditText android:id="@+id/e_id" android:layout_height="wrap_content" android:layout_width="470sp" android:text="Id"></EditText>
             <EditText android:id="@+id/e_name" android:layout_height="wrap_content" android:layout_width="470sp" android:text="Name">
                 <requestFocus></requestFocus>
@@ -22,9 +22,10 @@
 			</Button>
         </LinearLayout>
         <com.electrolites.ecg.ECGView android:id="@+id/v_eCGView" android:layout_width="match_parent" android:layout_height="600dp"></com.electrolites.ecg.ECGView>
-        <LinearLayout android:id="@+id/l_inferior" android:layout_height="50dp" android:layout_width="match_parent">            
+        <LinearLayout android:id="@+id/l_inferior" android:layout_height="48dp" android:layout_width="match_parent">            
             <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/t_hRate" android:text="TextView" android:layout_height="match_parent" android:layout_width="140dp"></TextView>
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:text="TextView" android:id="@+id/t_display" android:layout_height="match_parent" android:layout_width="960dp"></TextView>
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:text="TextView" android:id="@+id/t_display" android:layout_height="match_parent" android:layout_width="870dp"></TextView>
+            <Button android:textSize="15px" android:text="Auto\n[OFF]" android:id="@+id/b_auto" android:layout_height="match_parent" android:layout_width="90dp"></Button>
             <Button android:text="Up" android:id="@+id/b_up" android:layout_height="match_parent" android:layout_width="90dp"></Button>
             <Button android:text="Down" android:id="@+id/b_down" android:layout_height="match_parent" android:layout_width="90dp"></Button>
         </LinearLayout>

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.electrolites.data.Data;
 import com.electrolites.services.DataService;
 import com.electrolites.services.FileParserService;
+import com.electrolites.services.RandomGeneratorService;
 
 public class ElectrolitesActivity extends Activity {
 	
@@ -32,6 +33,8 @@ public class ElectrolitesActivity extends Activity {
 	
 	private Button start;
 	private StartListener startListener;
+	private Button more;
+	private MoreListener moreListener;
 	private Button up;
 	private UpListener upListener;
 	private Button down;
@@ -75,11 +78,29 @@ public class ElectrolitesActivity extends Activity {
         
         data = Data.getInstance();
         data.app = getApplication();
+        data.activity = this;
+        
+        /* CUTRESY! */
+        Button auto=(Button) findViewById(R.id.b_auto);
+        auto.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				if (data.autoScroll)
+					((Button) findViewById(R.id.b_auto)).setText("Auto\n[ OFF ]");
+				else
+					((Button) findViewById(R.id.b_auto)).setText("Auto\n[ ON ]");
+				data.autoScroll = !data.autoScroll;
+			}
+		});
         
         start = (Button) findViewById(R.id.b_start);
         start.setEnabled(true);
         startListener = new StartListener();
         start.setOnClickListener(startListener);
+        
+        more = (Button) findViewById(R.id.b_reset);
+        moreListener = new MoreListener();
+        more.setOnClickListener(moreListener);
         
         up = (Button) findViewById(R.id.b_up);
         up.setEnabled(true);
@@ -131,7 +152,7 @@ public class ElectrolitesActivity extends Activity {
         display.setTextColor(Color.GRAY);
         display.setText("NOT ARRITMIA DETECTED");
         
-        intentDePferv = new Intent(getApplication(), FileParserService.class);
+        intentDePferv = new Intent(getApplication(), RandomGeneratorService.class);
 		intentDePferv.setAction(DataService.START_RUNNING);
 		getApplication().startService(intentDePferv);
     }
@@ -168,10 +189,10 @@ public class ElectrolitesActivity extends Activity {
         	
         	TextView text = (TextView) dialog.findViewById(R.id.text);
         	text.setGravity(Gravity.CENTER);
-        	text.setText("Electrolites V0.0");
+        	text.setText("Electrolites V0.1");
         	ImageView image = (ImageView) dialog.findViewById(R.id.im_android);
 
-        	image.setImageResource(R.drawable.android1);
+        	image.setImageResource(R.drawable.icon);
    	
         	break;
         default:
@@ -227,6 +248,16 @@ public class ElectrolitesActivity extends Activity {
 			start.setEnabled(false);
 			ecgView.setVisibility(View.VISIBLE);
 		}
+    }
+    
+    class MoreListener implements OnClickListener {
+    	public void onClick(View v) {
+
+			intentDePferv = new Intent(getApplication(), RandomGeneratorService.class);
+			intentDePferv.setAction(DataService.RETRIEVE_DATA);
+			getApplication().startService(intentDePferv);
+    		
+    	}
     }
     
     class UpListener implements OnClickListener {

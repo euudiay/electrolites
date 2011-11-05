@@ -27,7 +27,7 @@
         </service>-->
         <service
             android:enabled="true"
-            android:name="com.electrolites.services.DummyService">
+            android:name="com.electrolites.services.RandomGeneratorService">
         </service>
         <service
             android:enabled="true"

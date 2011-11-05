@@ -2,6 +2,8 @@ package com.electrolites.services;
 
 import java.util.Random;
 
+import com.electrolites.util.DataParser;
+
 import android.content.Intent;
 
 public class FileParserService extends DataService {
@@ -10,8 +12,6 @@ public class FileParserService extends DataService {
 	
 	public FileParserService() {
 		super("FileParserService");
-		System.out.println("Arrancho serivce!");
-		r = new Random();
 	}
 	
 	@Override
@@ -20,19 +20,22 @@ public class FileParserService extends DataService {
 	}
 	
 	public void retrieveData(Intent intent) {
-		for (int i = 0; i < 20; i++) {
-			synchronized (this) {
-				try {
-					for (int j = 0; j < 20; j++) {
-						//System.out.println("HAGO DATAR!!");
-						short value = (short) (r.nextInt(2000)-1000);
-						samples.add(new Short(value));
-					}
-					wait(1000);
-				} catch (InterruptedException e) {
-					System.err.println("He sido interrumpido!");
-				}
+		
+		DataParser dp = new DataParser();
+		synchronized(this) {
+			d.loading = true;
+		}
+		dp.loadBinaryFile("traza.txt");
+		try {
+			synchronized(this) {
+				wait(1000);
+				d.samples.addAll(dp.getDataSamples());
+				d.dpoints.putAll(dp.getDataDPoints());
+				d.dataOffset = dp.getDataOffset();
+				d.loading = false;
 			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }

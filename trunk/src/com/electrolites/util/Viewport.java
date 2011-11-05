@@ -173,8 +173,8 @@ public class Viewport {
 	public boolean move(float secDeltaX) {
 		// Comprobaci�n de l�mites
 		if (secDeltaX > 0) {
-			if (vaSecX + secDeltaX >= samplesPerSecond*(dataEnd - dataStart) - vaSeconds) {
-				vaSecX = samplesPerSecond*(dataEnd - dataStart) - vaSeconds;
+			if (vaSecX + secDeltaX >= (dataEnd - dataStart-1) - samplesPerSecond*vaSeconds) {
+				vaSecX = (dataEnd - dataStart-1) - samplesPerSecond*vaSeconds;
 				return false;
 			} else {
 				vaSecX += secDeltaX;
@@ -192,5 +192,10 @@ public class Viewport {
 		actualData.vaSecX = vaSecX;
 		
 		return true;
+	}
+	
+	public void moveToEnd() {
+		vaSecX = (dataEnd-dataStart-1) - vaSeconds*samplesPerSecond;
+		actualData.vaSecX = vaSecX;
 	}
 }
