@@ -32,6 +32,9 @@ public class Data {
 	// Primera muestra dibujable
 	public int dataOffset;
 	
+	//Nombre del archivo de log a cargar
+	public String toLoad;
+	
 	// Test area
 	public Application app;
 	public boolean autoScroll;
@@ -48,6 +51,7 @@ public class Data {
 		app = null;
 		autoScroll = false;
 		loading = false;
+		toLoad = "traza.txt";
 	}
 
 
