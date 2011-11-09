@@ -25,7 +25,7 @@ public class FileParserService extends DataService {
 		synchronized(this) {
 			d.loading = true;
 		}
-		dp.loadBinaryFile("traza.txt");
+		dp.loadBinaryFile(d.toLoad);
 		try {
 			synchronized(this) {
 				wait(1000);

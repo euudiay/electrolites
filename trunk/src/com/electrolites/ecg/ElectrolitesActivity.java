@@ -1,5 +1,8 @@
 package com.electrolites.ecg;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.electrolites.data.Data;
 import com.electrolites.services.DataService;
@@ -28,6 +33,7 @@ public class ElectrolitesActivity extends Activity {
 	
 	static final int DIALOG_EXIT_ID = 0;
 	static final int DIALOG_ABOUT_ID = 1;
+	static final int DIALOG_LOAD_ID = 2;
 	
 	private Data data;
 	
@@ -189,11 +195,30 @@ public class ElectrolitesActivity extends Activity {
         	
         	TextView text = (TextView) dialog.findViewById(R.id.text);
         	text.setGravity(Gravity.CENTER);
-        	text.setText("Electrolites V0.1");
+        	text.setText("Electrolites V0.2");
         	ImageView image = (ImageView) dialog.findViewById(R.id.im_android);
 
         	image.setImageResource(R.drawable.icon);
    	
+        	break;
+        case(DIALOG_LOAD_ID):
+	        final String[] items = logTitles();
+
+			builder = new AlertDialog.Builder(this);
+			builder.setTitle("Choose a log file");
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {
+			        Toast.makeText(getApplication(), items[item], Toast.LENGTH_SHORT).show();
+			        data.toLoad = ((String) items[item])+ ".txt";
+			        dialog.cancel();
+			        intentDePferv = new Intent(getApplication(), FileParserService.class);
+					intentDePferv.setAction(DataService.RETRIEVE_DATA);
+					getApplication().startService(intentDePferv);
+					
+					ecgView.setVisibility(View.VISIBLE);
+			    }
+			});
+			dialog = builder.create();
         	break;
         default:
             dialog = null;
@@ -213,6 +238,10 @@ public class ElectrolitesActivity extends Activity {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.start:
+			intentDePferv = new Intent(getApplication(), FileParserService.class);
+			intentDePferv.setAction(DataService.RETRIEVE_DATA);
+			getApplication().startService(intentDePferv);
+			
 			start.setEnabled(false);
 			ecgView.setVisibility(View.VISIBLE);
             return true;
@@ -222,11 +251,33 @@ public class ElectrolitesActivity extends Activity {
         case R.id.exit:
             showDialog(DIALOG_EXIT_ID);
             return true;
+        case R.id.load:
+            showDialog(DIALOG_LOAD_ID);
+            return true;
         default:
             return super.onOptionsItemSelected(item);
         }
     }
    
+    
+   //Este metodo no está muy bien aquí, ya lo pondré en su sitio cuando funcione
+    public String[] logTitles(){
+    	File root = Environment.getExternalStorageDirectory();
+		File path = new File(root, "/Download/");
+    	
+		String[] list = path.list();
+		ArrayList <String> result = new ArrayList<String>();
+    	for (int i = 0; i< list.length; i++) 
+    	{
+    		if (list[i].endsWith(".txt"))
+    			result.add(list[i].substring(0, list[i].length() - 4));
+    	}
+    	
+    	list = result.toArray(new String[result.size()]);
+    	
+    	return list;
+    }
+    
    //AboutDialog Listener
     
     class AboutListener implements OnClickListener {
