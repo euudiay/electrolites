@@ -33,6 +33,10 @@
             android:enabled="true"
             android:name="com.electrolites.services.FileParserService">
         </service>
+        <!-- <service
+            android:enabled="true"
+            android:name="com.electrolites.services.BluetoothService">
+        </service>-->
     </application>
 
 </manifest>

@@ -49,7 +49,7 @@ public class ConnectedThread extends Thread {
                 bytes = input.read(buffer);
          
                 // Hacemos cosas con los datos obtenidos, como guardarlos en data
-                bS.manageReceivedData(bytes, buffer);
+                bS.read(bytes, buffer);
             } catch (IOException e) {
                 Log.e(BluetoothService.TAG, "La conexión se ha perdido.", e);
                 bS.connectionLost();
