@@ -17,7 +17,7 @@ public class ConnectedThread extends Thread {
     
     private BluetoothService bS;
 
-    public ConnectedThread(BluetoothService bS, BluetoothSocket socket, String socketType) {
+    public ConnectedThread(BluetoothService bS, BluetoothSocket socket) {
         Log.d(BluetoothService.TAG, "ConnectedThread creado.");
         this.bS = bS;
         this.socket = socket;
