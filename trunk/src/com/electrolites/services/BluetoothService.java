@@ -3,10 +3,13 @@ package com.electrolites.services;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.apache.http.impl.conn.Wire;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.util.Log;
 
 import com.electrolites.bluetooth.AcceptThread;
 import com.electrolites.bluetooth.ConnectThread;
@@ -73,50 +76,157 @@ public class BluetoothService extends DataService {
 	}
 
 	protected void stopRunning(Intent intent) {
+		stop();
+		// Puede que haga falta hacer más cosas
 	}
 	
 	protected void retrieveData(Intent intent) {
+		if (state == STATE_CONNECTED) {
+			// Hay que mandar cosas al Shimmer para que este comience su transmisión
+			byte[] startToken = { (byte) 0xc0 };
+			write(startToken);
+			// Y ahora hay que recuperar y tratar todo lo que nos llegue
+		}
 	}
 	
 	protected void getData(Intent intent) {
 	}
 	
 	private synchronized void start() {
-		// TODO Auto-generated method stub
-		
+		if (BluetoothService.DEBUG) 
+			Log.d(TAG, "BluetoothService.start()");
+
+        // Cancelamos cualquier intento de conexión pendiente
+        if (connectT != null) {
+        	connectT.cancel(); 
+        	connectT = null;
+        }
+
+        // Cancelamos cualquier conexión en ejecución
+        if (connectedT != null) {
+        	connectedT.cancel(); 
+        	connectedT = null;
+        }
+
+        state = STATE_LISTEN;
+
+        // Ponemos el ServerSocket a la escucha
+        if (acceptT == null) {
+        	acceptT = new AcceptThread(bA, this, uuid);
+        	acceptT.start();
+        }
 	}
 	
 	private synchronized void connect(BluetoothDevice bD) {
-		// TODO Auto-generated method stub
-		
+		if (BluetoothService.DEBUG) 
+			Log.d(TAG, "Iniciando conexión a: " + bD);
+
+        // Cancelamos cualquier intento pendiente de conexión
+        if (state == STATE_CONNECTING) {
+            if (connectT != null) {
+            	connectT.cancel(); 
+            	connectT = null;
+            }
+        }
+
+        // Cancelamos cualquier conexión actual
+        if (connectedT != null) {
+        	connectedT.cancel(); 
+        	connectedT = null;
+        }
+
+        // Iniciamos el thread para conectar con el dispositivo
+        connectT = new ConnectThread(bA, this, bD, uuid);
+        connectT.start();
+        state = STATE_CONNECTING;
 	}
 	
 	public synchronized void connected(BluetoothSocket socket, BluetoothDevice remoteDevice) {
-		// TODO Auto-generated method stub
-		
+		if (BluetoothService.DEBUG) 
+			Log.d(TAG, "Socket conectado.");
+
+        // Cancelamos el thread que ha completado el proceso de conexión
+        if (connectT != null) { 
+        	connectT.cancel(); 
+        	connectT = null;
+        }
+
+        // Cancelamos cualquier thread que esté llevando a cabo una conexión
+        if (connectedT != null) {
+        	connectedT.cancel(); 
+        	connectedT = null;
+        }
+
+        // Cancelamos el thread de aceptación (de momento sólo queremos un dispositivo conectado)
+        if (acceptT != null) {
+            acceptT.cancel();
+            acceptT = null;
+        }
+
+        // Iniciamos el thread que maneja la conexión
+        connectedT = new ConnectedThread(this, socket);
+        connectedT.start();
+
+        state = STATE_CONNECTED;
 	}
 	
 	private void write(byte[] bytes) {
-		// TODO Auto-generated method stub
-		
+		// Creamos un objeto temporal para realizar la escritura
+        ConnectedThread r;
+        // Sincronizamos una copia del connectedT
+        synchronized (this) {
+            if (state != STATE_CONNECTED) 
+            	return;
+            r = connectedT;
+        }
+        // Realizamos la escritura de manera asíncrona
+        r.write(bytes);
 	}
 	
+	// Hacemos cosas con lo que nos ha llegado
 	public void read(int bytes, byte[] buffer) {
-		// TODO Auto-generated method stub
-		
+		if (bytes > 0) {
+			if (DEBUG)
+				Log.d(TAG, "Datos recibidos" + buffer);
+			// Y hacemos más cosas, como guardarlas en Data
+		}
 	}
 	
 	private synchronized void stop() {
-		// To be done
+		if (BluetoothService.DEBUG) 
+			Log.d(TAG, "BluetoothService.stop()");
+
+        if (connectT != null) {
+            connectT.cancel();
+            connectT = null;
+        }
+
+        if (connectedT != null) {
+            connectedT.cancel();
+            connectedT = null;
+        }
+
+        if (acceptT != null) {
+        	acceptT.cancel();
+        	acceptT = null;
+        }
+
+        state = STATE_NONE;
 	}
 	
+	// Indica que el intento de conexión ha fallado
 	public void connectionFailed() {
-		// To be done
+		Log.e(BluetoothService.TAG, "El intento de conexión ha fallado. Reintentando...");
+		// Deberíamos avisar a la activity, no?
+		// Nos volvemos a poner a la escucha
+		this.start();
 	}
 	
 	public void connectionLost() {
-		// TODO Auto-generated method stub
-		
+		Log.e(BluetoothService.TAG, "Se ha perdido la conexión. Reiniciando...");
+		// Deberíamos avisar a la activity, no?
+		// Nos volvemos a poner a la escucha
+		this.start();
 	}
 	
 	private int getBondedDevices() {
