@@ -53,18 +53,24 @@ public class ECGView extends AnimationView {
 		@Override
 		public void onRender(Canvas canvas) {
 			
-			vport.data = data.getSamplesArray();
+			//synchronized (this) {
+				vport.data = data.getSamplesArray();
+				if (data.autoScroll)
+					vport.moveToEnd();
+			//}
+			
 			vport.dataStart = 0;
 			vport.dataEnd = vport.data.length;
-			if (data.autoScroll)
-				vport.moveToEnd();
 			
-			canvas.drawColor(bgColor);
+			
+			boolean loading = data.loading;
+			
+			canvas.drawColor(data.bgColor);
             //canvas.drawText("fps: " + fps, 100, 100, textPaint);
 			
 			int left = vport.vpPxX-5, right = vport.vpPxX+vport.vpPxWidth+5, top = vport.vpPxY-1, bottom = vport.vpPxY+vport.vpPxHeight+1;
 
-			if (data.loading) {
+			if (loading) {
 				// Ultimate Cutresy!
 				canvas.drawRect(new Rect(0, 0, getWidth(), vport.vpPxY-1), rectPaint);
 				canvas.drawRect(new Rect(0, vport.vpPxY+vport.vpPxHeight+1, getWidth(), getHeight()), rectPaint);
@@ -164,6 +170,9 @@ public class ECGView extends AnimationView {
 		protected void renderDPoint(Canvas canvas, float x, ExtendedDPoint edp, float[] points) {
 			DPoint p = edp.getDpoint();
 			
+			if (edp.getIndex() < 0 || edp.getIndex() >= data.samples.size())
+				return;
+			
 			if (p.getType() == PointType.start || p.getType() == PointType.end) {
 	            ecgPaint.setStrokeWidth(1.f);
 				ecgPaint.setARGB(200, 180, 180, 240);
@@ -257,7 +266,7 @@ public class ECGView extends AnimationView {
 		else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (!holding) return true;
 			
-			vport.move(-1*(event.getX() - holdStartX)/getWidth()*100*vport.vaSeconds);
+			vport.move(-1*(event.getX() - holdStartX)/vport.vpPxWidth*vport.vaSeconds*0.5f);
 			holdStartX = event.getX();
 			
 			// Scrolling deactivates autoscroll
@@ -266,9 +275,9 @@ public class ECGView extends AnimationView {
 			if (b != null)
 				b.setText("Auto\n[ OFF ]");
 			else
-				System.out.println("ASDASRASDª!");
+				System.out.println("ASDASRASDï¿½!");
 			
-			data.setDrawBaseHeight(data.getDrawBaseHeight()+(event.getY() - holdStartY)/getHeight());
+			data.setDrawBaseHeight(data.getDrawBaseHeight()+(event.getY() - holdStartY)/vport.vpPxHeight);
 			holdStartY = event.getY();
 		}
 		else if (event.getAction() == MotionEvent.ACTION_UP) {
