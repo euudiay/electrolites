@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.electrolites.data.Data;
+import com.electrolites.services.BluetoothService;
 import com.electrolites.services.DataService;
 import com.electrolites.services.FileParserService;
 import com.electrolites.services.RandomGeneratorService;
@@ -156,11 +157,7 @@ public class ElectrolitesActivity extends Activity {
         display.setGravity(Gravity.CENTER);
         display.setTextSize(30f);
         display.setTextColor(Color.GRAY);
-        display.setText("NOT ARRITMIA DETECTED");
-        
-        intentDePferv = new Intent(getApplication(), RandomGeneratorService.class);
-		intentDePferv.setAction(DataService.START_RUNNING);
-		getApplication().startService(intentDePferv);
+        display.setText("NOT ARRITMIA DETECTED");	
     }
     
     //Menu Items 
@@ -260,7 +257,7 @@ public class ElectrolitesActivity extends Activity {
     }
    
     
-   //Este metodo no está muy bien aquí, ya lo pondré en su sitio cuando funcione
+   //Este metodo no estï¿½ muy bien aquï¿½, ya lo pondrï¿½ en su sitio cuando funcione
     public String[] logTitles(){
     	File root = Environment.getExternalStorageDirectory();
 		File path = new File(root, "/Download/");
@@ -292,7 +289,18 @@ public class ElectrolitesActivity extends Activity {
 
 		public void onClick(View v) {
 			
-			intentDePferv = new Intent(getApplication(), FileParserService.class);
+			/*intentDePferv = new Intent(getApplication(), FileParserService.class);
+			intentDePferv.setAction(DataService.RETRIEVE_DATA);
+			getApplication().startService(intentDePferv);
+			
+			start.setEnabled(false);
+			ecgView.setVisibility(View.VISIBLE);*/
+			
+	        intentDePferv = new Intent(getApplication(), BluetoothService.class);
+			intentDePferv.setAction(DataService.START_RUNNING);
+			intentDePferv.putExtra("deviceName", "FireFly-3781");
+			getApplication().startService(intentDePferv);
+			
 			intentDePferv.setAction(DataService.RETRIEVE_DATA);
 			getApplication().startService(intentDePferv);
 			

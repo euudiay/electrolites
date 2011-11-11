@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.app.Application;
+import android.graphics.Color;
 
 public class Data {
 	private static Data instance = null;
@@ -40,6 +41,7 @@ public class Data {
 	public boolean autoScroll;
 	public boolean loading;
 	public Activity activity;
+	public int bgColor;
 	
 	public Data() {
 		vaSecX = 0;
@@ -52,6 +54,7 @@ public class Data {
 		autoScroll = false;
 		loading = false;
 		toLoad = "traza.txt";
+		bgColor = Color.rgb(0, 0, 0);
 	}
 
 

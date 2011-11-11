@@ -5,6 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="12" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -33,10 +35,10 @@
             android:enabled="true"
             android:name="com.electrolites.services.FileParserService">
         </service>
-        <!-- <service
+        <service
             android:enabled="true"
             android:name="com.electrolites.services.BluetoothService">
-        </service>-->
+        </service>
     </application>
 
 </manifest>

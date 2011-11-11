@@ -80,7 +80,7 @@ public class Viewport {
 	}
 	
 	public void updateParameters() {
-		vaSeconds = Math.max(0.1f, actualData.getWidhtScale());
+		vaSeconds = Math.max(0.1f, actualData.getWidhtScale()); 
 		baselinePxY = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();
 		
 		float top = vpPxHeight*0.85f;
@@ -90,47 +90,69 @@ public class Viewport {
 	
 	public float[] getViewContents() {
 		
-		// Obtener nuevos parametros
-		updateParameters();
-		
-		// Calcular cantidad de puntos que caben
-		float npoints = vaSeconds*samplesPerSecond;
-		// Calcular densidad de puntos
-		float dpoints = vpPxWidth / npoints;
-		// Si la densidad es < 0 es que se quieren mostrar 
-		// m�s puntos de los que caben (aglutinar o...)
-		if (dpoints < 0)
-			return null;
-		// Buscar primer punto
-		// Por ahora, redonder y coger el que sea (mejorar esto)
-		int start = Math.round(vaSecX);
-		// Buscar �ltimo punto
-		int end = start + Math.round(npoints);
-		// Construir la lista de puntos a devolver
-		float points[] = new float[(end-start-2)*4+4];
-		
-		int index = 0;
-		
-		while (index < end-start-1 && start+index+1 < data.length) {
-			// Devolver array de puntos a pintar
-			// X, Y
-			if (index == 0) {
-				points[index] = vpPxX;
-				points[index+1] = baselinePxY - data[start]*vFactor;
-				points[index+2] = vpPxX+dpoints;
-				points[index+3] = baselinePxY - data[start+1]*vFactor;
+		try {
+			if (data.length == 0) {
+				float f[] = new float[1];
+				f[0] = 0.0f;
+				
+				return f;
 			}
-			else {
-				// Si no es el primer punto, duplicar el anterior
-				points[4*index] = points[4*index-2];
-				points[4*index+1] = points[4*index-1];
-				points[4*index+2] = vpPxX + index*dpoints;
-				points[4*index+3] = baselinePxY - data[start+index+1]*vFactor;
+			
+			// Obtener nuevos parametros
+			updateParameters();
+			
+			// Calcular cantidad de puntos que caben
+			float npoints = vaSeconds*samplesPerSecond;
+			// Calcular densidad de puntos
+			float dpoints = vpPxWidth / npoints;
+			// Si la densidad es < 0 es que se quieren mostrar 
+			// m�s puntos de los que caben (aglutinar o...)
+			if (dpoints < 0)
+				return null;
+			// Buscar primer punto
+			// Por ahora, redonder y coger el que sea (mejorar esto)
+			int start = Math.round(vaSecX*samplesPerSecond);
+			// Buscar �ltimo punto
+			int end = Math.min(start + Math.round(npoints), dataEnd);
+			// Construir la lista de puntos a devolver
+			float points[] = new float[(end-start-2)*4+4];
+			
+			int index = 0;
+			
+			if (start >= end) {
+				System.out.println("LOLWHUT!?");
+				float f[] = new float[1];
+				f[0] = 0.0f;
+				return f;
 			}
-			index++;
+			
+			while (index < end-start-1 && start+index+1 < data.length) {
+				// Devolver array de puntos a pintar
+				// X, Y
+				if (index == 0) {
+					points[index] = vpPxX;
+					points[index+1] = baselinePxY - data[start]*vFactor;
+					points[index+2] = vpPxX+dpoints;
+					points[index+3] = baselinePxY - data[start+1]*vFactor;
+				}
+				else {
+					// Si no es el primer punto, duplicar el anterior
+					points[4*index] = points[4*index-2];
+					points[4*index+1] = points[4*index-1];
+					points[4*index+2] = vpPxX + index*dpoints;
+					points[4*index+3] = baselinePxY - data[start+index+1]*vFactor;
+				}
+				index++;
+			}
+	
+			return points;
+		} catch (Exception e) {
+			e.printStackTrace();
+			float f[] = new float[1];
+			f[0] = 0.0f;
+			
+			return f;
 		}
-
-		return points;
 	}
 	
 	public Map<Float, ExtendedDPoint> getViewDPoints() {
@@ -148,9 +170,9 @@ public class Viewport {
 			return null;
 		// Buscar primer punto
 		// Por ahora, redonder y coger el que sea (mejorar esto)
-		int start = Math.round(vaSecX);
+		int start = Math.round(vaSecX*samplesPerSecond);
 		// Buscar �ltimo punto
-		int end = start + Math.round(npoints);
+		int end = Math.min(start + Math.round(npoints), dataEnd);
 				
 		HashMap<Float, ExtendedDPoint> map = new HashMap<Float, ExtendedDPoint>();
 		
@@ -172,9 +194,9 @@ public class Viewport {
 	
 	public boolean move(float secDeltaX) {
 		// Comprobaci�n de l�mites
-		if (secDeltaX > 0) {
-			if (vaSecX + secDeltaX >= (dataEnd - dataStart-1) - samplesPerSecond*vaSeconds) {
-				vaSecX = (dataEnd - dataStart-1) - samplesPerSecond*vaSeconds;
+		/*if (secDeltaX > 0) {
+			if (vaSecX + secDeltaX >= (dataEnd - dataStart-1)/samplesPerSecond - vaSeconds) {
+				vaSecX = (dataEnd - dataStart-1)/samplesPerSecond - vaSeconds;
 				return false;
 			} else {
 				vaSecX += secDeltaX;
@@ -187,7 +209,15 @@ public class Viewport {
 			} else {
 				vaSecX += secDeltaX;
 			}
+		}*/
+		
+		vaSecX += secDeltaX;
+		
+		if (vaSecX + vaSeconds >= (dataEnd - dataStart-1)/samplesPerSecond) {
+			vaSecX = (dataEnd - dataStart-1)/samplesPerSecond - vaSeconds;
 		}
+		
+		vaSecX = Math.max(0, vaSecX);
 		
 		actualData.vaSecX = vaSecX;
 		
@@ -195,7 +225,7 @@ public class Viewport {
 	}
 	
 	public void moveToEnd() {
-		vaSecX = (dataEnd-dataStart-1) - vaSeconds*samplesPerSecond;
+		vaSecX = Math.max(0, (dataEnd-dataStart-1)/samplesPerSecond - vaSeconds);
 		actualData.vaSecX = vaSecX;
 	}
 }
