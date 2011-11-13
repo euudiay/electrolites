@@ -17,6 +17,7 @@ public class RandomGeneratorService extends DataService {
 	public void startRunning(Intent intent) {
 	}
 	
+	@Override
 	public void retrieveData(Intent intent) {
 		short base = 0;
 		short value;

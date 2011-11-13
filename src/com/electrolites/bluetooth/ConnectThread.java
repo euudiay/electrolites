@@ -33,7 +33,8 @@ public class ConnectThread extends Thread {
         socket = tmp;
     }
 
-    public void run() {
+    @Override
+	public void run() {
         Log.i(BluetoothService.TAG, "ConnectThread comienza su actividad");
 
         // Cancelamos el descubrimiento de nuevos dispositivos

@@ -18,8 +18,6 @@ import com.electrolites.data.DPoint;
 import com.electrolites.data.DPoint.PointType;
 import com.electrolites.data.DPoint.Wave;
 import com.electrolites.data.Data;
-import com.electrolites.services.DataService;
-import com.electrolites.services.FileParserService;
 import com.electrolites.util.ExtendedDPoint;
 import com.electrolites.util.Viewport;
 
@@ -211,10 +209,12 @@ public class ECGView extends AnimationView {
 		}
 	}
 	
+	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 	}
 
+	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		int w = (int) (getWidth()*0.95);
 		int h = (int) (getHeight()*0.9);
@@ -236,6 +236,7 @@ public class ECGView extends AnimationView {
 		}
 	}
 
+	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
 		thread.setRunning(false);
@@ -253,6 +254,7 @@ public class ECGView extends AnimationView {
 	float holdEndX;
 	float holdEndY;
 	
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			if (holding) {

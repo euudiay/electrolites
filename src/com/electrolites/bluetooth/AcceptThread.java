@@ -32,6 +32,7 @@ public class AcceptThread extends Thread {
         serverSocket = tmp;
 	}
 	
+	@Override
 	public void run() {
         if (BluetoothService.DEBUG) 
         	Log.d(BluetoothService.TAG, "AcceptThread " + this + " comienza su actividad.");

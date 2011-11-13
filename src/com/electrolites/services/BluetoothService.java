@@ -6,14 +6,19 @@ import java.util.UUID;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.electrolites.bluetooth.AcceptThread;
 import com.electrolites.bluetooth.ConnectThread;
 import com.electrolites.bluetooth.ConnectedThread;
+import com.electrolites.ecg.ElectrolitesActivity;
 
 public class BluetoothService extends DataService {
 	public static final String TAG = "BluetoothService";
@@ -24,7 +29,7 @@ public class BluetoothService extends DataService {
 	public final static int BT_DISABLED = 0;
 	public final static int BT_ENABLED = 1;
 	public final static int BT_UNAVAILABLE = -1;
-
+	  
 	public static final int STATE_NONE = 0;       // Estado inicial
     public static final int STATE_LISTEN = 1;     // A la espera de nuevas conexiones
     public static final int STATE_CONNECTING = 2; // Iniciando una conexiï¿½n al exterior
@@ -33,6 +38,7 @@ public class BluetoothService extends DataService {
     private final BluetoothAdapter bA;
     
     private ArrayList<BluetoothDevice> bondedDevices;
+    private ArrayList<BluetoothDevice> newDevicesArrayAdapter;
 	
 	private AcceptThread acceptT;
 	private ConnectThread connectT;
@@ -41,10 +47,12 @@ public class BluetoothService extends DataService {
 	private int state;			// Estado del servicio
 	private int adapterState;	// Estado del adaptador bluetooth
 	
+	private Handler mHandler;
+	
 	public BluetoothService() {
 		super("BluetoothService");
 		
-		state = STATE_NONE;
+		mHandler = d.mHandler;
 		
 		bA = BluetoothAdapter.getDefaultAdapter();
 		if (bA == null) {
@@ -57,30 +65,50 @@ public class BluetoothService extends DataService {
 			}
 			else {
 				adapterState = BT_ENABLED;
+		        // Register for broadcasts when a device is discovered
 			}
 	}
 	
+	@Override
 	protected void startRunning(Intent intent) {
 		// Al activar el servicio, el intent que lo hace deberï¿½ llevar el nombre 
 		// del dispositivo al que queremos conectarnos (que previamente deberï¿½ 
 		// estar sincronizado). Al menos de momento, mï¿½s tarde implementaremos el
 		// descubrimiento de dispositivos.
+		
+		//Creamos el thread de aceptación, por si alguien intenta conectarse con nosotros
+		start();		
+		
+		newDevicesArrayAdapter = new ArrayList<BluetoothDevice>();
+		
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        this.registerReceiver(mReceiver, filter);
+        // If we're already discovering, stop it
+        if (bA.isDiscovering()) {
+        	bA.cancelDiscovery();
+        }
+
+        // Request discover from BluetoothAdapter
+        bA.startDiscovery();
+        
 		String deviceName = intent.getStringExtra("deviceName");
 		BluetoothDevice bD = getBluetoothDevice(deviceName);
+
+		bA.cancelDiscovery();
 		
 		if (bD != null) {
-			start();		// Inicializamos el thread de aceptaciï¿½n
 			connect(bD);	// Conectamos con el dispositivo
-			acceptT.run();	// Nos ponemos a la escucha
 		} else
 			System.err.println("No se ha encontrado o no se ha podido establecer conexiï¿½n con el dispositivo:" + deviceName);
 	}
 
+	@Override
 	protected void stopRunning(Intent intent) {
 		stop();
 		// Puede que haga falta hacer mï¿½s cosas
 	}
 	
+	@Override
 	protected void retrieveData(Intent intent) {
 		if (state == STATE_CONNECTED) {
 			// Hay que mandar cosas al Shimmer para que este comience su transmisiï¿½n
@@ -90,8 +118,17 @@ public class BluetoothService extends DataService {
 		}
 	}
 	
+	@Override
 	protected void getData(Intent intent) {
 	}
+	
+    private synchronized void setState(int state) {
+        if (DEBUG) Log.d(TAG, "setState() " + this.state + " -> " + state);
+        this.state = state;
+
+        // Give the new state to the Handler so the UI Activity can update
+        mHandler.obtainMessage(ElectrolitesActivity.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
+    }
 	
 	private synchronized void start() {
 		if (BluetoothService.DEBUG) 
@@ -109,7 +146,7 @@ public class BluetoothService extends DataService {
         	connectedT = null;
         }
 
-        state = STATE_LISTEN;
+        setState(STATE_LISTEN);
 
         // Ponemos el ServerSocket a la escucha
         if (acceptT == null) {
@@ -139,7 +176,7 @@ public class BluetoothService extends DataService {
         // Iniciamos el thread para conectar con el dispositivo
         connectT = new ConnectThread(bA, this, bD, uuid);
         connectT.start();
-        state = STATE_CONNECTING;
+        setState(STATE_CONNECTING);
 	}
 	
 	public synchronized void connected(BluetoothSocket socket, BluetoothDevice remoteDevice) {
@@ -168,7 +205,14 @@ public class BluetoothService extends DataService {
         connectedT = new ConnectedThread(this, socket);
         connectedT.start();
 
-        state = STATE_CONNECTED;
+     // Send the name of the connected device back to the UI Activity
+        Message msg = mHandler.obtainMessage(ElectrolitesActivity.MESSAGE_DEVICE_NAME);
+        Bundle bundle = new Bundle();
+        bundle.putString(ElectrolitesActivity.DEVICE_NAME, remoteDevice.getName());
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+        
+        setState(STATE_CONNECTED);
 	}
 	
 	private void write(byte[] bytes) {
@@ -190,11 +234,11 @@ public class BluetoothService extends DataService {
 			if (DEBUG)
 				Log.d(TAG, "Datos recibidos" + buffer);
 			short b = buffer[0];
-			Toast.makeText(getApplication(), "Llegaron datos: " + buffer, Toast.LENGTH_SHORT).show();
-			/*synchronized (this) {
+			//Toast.makeText(getApplication(), "Llegaron datos: " + b, Toast.LENGTH_SHORT).show();
+			synchronized (this) {
 				// Y hacemos mï¿½s cosas, como guardarlas en Data
 				d.samples.add(b);
-			}*/
+			}
 		}
 	}
 	
@@ -217,22 +261,39 @@ public class BluetoothService extends DataService {
         	acceptT = null;
         }
 
-        state = STATE_NONE;
+        setState(STATE_NONE);
 	}
 	
-	// Indica que el intento de conexiï¿½n ha fallado
+	// Indica que el intento de conexión ha fallado
 	public void connectionFailed() {
-		Log.e(BluetoothService.TAG, "El intento de conexiï¿½n ha fallado. Reintentando...");
+		Log.e(BluetoothService.TAG, "El intento de conexión ha fallado. Reintentando...");
 		// Deberï¿½amos avisar a la activity, no?
+        // Send a failure message back to the Activity
+        Message msg = mHandler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
+        Bundle bundle = new Bundle();
+        bundle.putString(ElectrolitesActivity.TOAST, "El intento de conexión ha fallado");
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
 		// Nos volvemos a poner a la escucha
-		this.start();
+		//this.start();
+        //Cerramos el servicio para poder ejecutarlo de nuevo
+        setState(STATE_NONE);
+        stopSelf();
 	}
 	
 	public void connectionLost() {
 		Log.e(BluetoothService.TAG, "Se ha perdido la conexiï¿½n. Reiniciando...");
 		// Deberï¿½amos avisar a la activity, no?
+        Message msg = mHandler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
+        Bundle bundle = new Bundle();
+        bundle.putString(ElectrolitesActivity.TOAST, "Se ha perdido la conexión");
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
 		// Nos volvemos a poner a la escucha
-		this.start();
+		//this.start();
+        //Cerramos el servicio para poder ejecutarlo de nuevo
+        setState(STATE_NONE);
+        stopSelf();
 	}
 	
 	private int getBondedDevices() {
@@ -257,12 +318,43 @@ public class BluetoothService extends DataService {
 			}
 			
 			if (found)
+			{
 				return bD;
-			else
-				return null;
-		} else
+			}
+			else{
+				boolean found1 = false;
+				int j = 0;
+				bD = null;
+				while (!found1 && j < newDevicesArrayAdapter.size()) {
+					bD = newDevicesArrayAdapter.get(j);
+					found1 = bD.getName().equals(deviceName);
+					j++;
+				}
+				if (found1)
+					return bD;
+				else
+					return null;
+			}
+		}
+		else
 			return null;
 	}
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            // When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Get the BluetoothDevice object from the Intent
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                // If it's already paired, skip it, because it's been listed already
+                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+                    newDevicesArrayAdapter.add(device);
+                }
+            }
+        }
+    };
 	
 	public int getState() { return state; }
 	

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-import android.R;
 import android.content.res.Resources;
 import android.os.Environment;
 
@@ -105,7 +104,7 @@ public class FileConverter {
 				Iterator<Byte> it = stream.iterator();
 				while (it.hasNext()) {
 					Byte b = it.next();
-					int i = (int) (b & 0xff);
+					int i = (b & 0xff);
 					writer.write(i + "\n");
 				}
 				
