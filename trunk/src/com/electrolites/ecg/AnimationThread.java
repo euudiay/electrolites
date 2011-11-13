@@ -20,6 +20,7 @@ public abstract class AnimationThread extends Thread {
 	
 	public int getFPS() { return fps; }
 	
+	@Override
 	public void run() {
 		while (_run) {
 			Canvas c = null;
@@ -46,7 +47,7 @@ public abstract class AnimationThread extends Thread {
 			frameSamplesCollected++;
 			
 			if (frameSamplesCollected == 10) {
-				fps = (int) (10000 / frameSampleTime);
+				fps = (10000 / frameSampleTime);
 				
 				frameSampleTime = 0;
 				frameSamplesCollected = 0;

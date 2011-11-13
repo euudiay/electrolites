@@ -148,7 +148,7 @@ public class DataParser {
 		int byte0 = ((int) stream.get(p1+1)) & 0xff;
 		int byte1 = ((int) stream.get(p1+2)) & 0xff;
 		// Calcula el ritmo card�aco (60*250/X)
-		lastHBR = 15000f / ((float) (byte0*255 + byte1));
+		lastHBR = 15000f / (byte0*255 + byte1);
 		// Guarda en data el valor del ritmo card�aco en este momento (index�ndolo seg�n la �ltima muestra recibida)
 		//data.hbr.put(lastSample, (short) lastHBR);
 		dataHBRs.put(lastSample, (short) lastHBR);
@@ -209,8 +209,8 @@ public class DataParser {
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
 		// b1 m�s significativo que b2
-		int i1 = (int) b1;
-		int i2 = (int) b2;
+		int i1 = b1;
+		int i2 = b2;
 		i1 &= 0xff;
 		i2 &= 0xff;
 		

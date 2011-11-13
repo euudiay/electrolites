@@ -7,6 +7,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.Application;
 import android.graphics.Color;
+import android.os.Handler;
 
 public class Data {
 	private static Data instance = null;
@@ -36,12 +37,17 @@ public class Data {
 	//Nombre del archivo de log a cargar
 	public String toLoad;
 	
+	//Nombre del dispositivo conectado
+	public String conected;
+	
 	// Test area
 	public Application app;
 	public boolean autoScroll;
 	public boolean loading;
 	public Activity activity;
 	public int bgColor;
+	
+	public Handler mHandler;
 	
 	public Data() {
 		vaSecX = 0;
@@ -55,6 +61,7 @@ public class Data {
 		loading = false;
 		toLoad = "traza.txt";
 		bgColor = Color.rgb(0, 0, 0);
+		conected = "FireFly-3781";
 	}
 
 

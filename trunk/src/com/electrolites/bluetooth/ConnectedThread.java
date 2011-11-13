@@ -37,7 +37,8 @@ public class ConnectedThread extends Thread {
     }
     
     // Recepción de datos
-    public void run() {
+    @Override
+	public void run() {
         Log.i(BluetoothService.TAG, "ConnectedThread comienza su actividad.");
         byte[] buffer = new byte[1024];
         int bytes;

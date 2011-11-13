@@ -54,6 +54,7 @@ public class DPoint {
 	
 	public void setWave(Wave wave) { this.wave = wave; }
 	
+	@Override
 	public String toString() {
 		return "["+type.name()+" | "+wave.name()+"]";
 	}

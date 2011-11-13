@@ -181,7 +181,7 @@ public class Viewport {
 		boolean done = false;
 		
 		while (it.hasNext() && !done) {
-			entry = (Map.Entry<Integer, DPoint>) it.next();
+			entry = it.next();
 			
 			if (entry.getKey().intValue()-actualData.dataOffset < start || entry.getKey().intValue()-actualData.dataOffset >= end)
 				continue;
