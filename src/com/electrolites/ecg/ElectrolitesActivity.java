@@ -232,6 +232,11 @@ public class ElectrolitesActivity extends Activity {
 							Toast.LENGTH_SHORT).show();
 					data.toLoad = items[item] + ".txt";
 					dialog.cancel();
+					
+					intentDePferv = new Intent(getApplication(),
+							BluetoothService.class);
+					stopService(intentDePferv);
+					
 					intentDePferv = new Intent(getApplication(),
 							FileParserService.class);
 					intentDePferv.setAction(DataService.RETRIEVE_DATA);

@@ -24,7 +24,7 @@ public class BluetoothService extends DataService {
 	public static final String TAG = "BluetoothService";
 	public static final boolean DEBUG = true;
 	
-	private static final UUID uuid = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+	private static final UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	
 	public final static int BT_DISABLED = 0;
 	public final static int BT_ENABLED = 1;
