@@ -170,7 +170,7 @@ public class ElectrolitesActivity extends Activity {
 		display.setGravity(Gravity.CENTER);
 		display.setTextSize(30f);
 		display.setTextColor(Color.GRAY);
-		display.setText("Disconected");
+		display.setText("Disconnected");
 		
 		//Hiper Cutresy
 		data.mHandler = mHandler;
@@ -308,26 +308,26 @@ public class ElectrolitesActivity extends Activity {
 					Log.i(BluetoothService.TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
 				switch (msg.arg1) {
 				case BluetoothService.STATE_CONNECTED:
-					display.setText("Conected to: ");
-					display.append(data.conected);
+					display.setText("Connected to: ");
+					display.append(data.connected);
 					break;
 				case BluetoothService.STATE_CONNECTING:
-					display.setText("Conecting...");
+					display.setText("Connecting...");
 					break;
 				case BluetoothService.STATE_LISTEN:
-					display.setText("Disconected");
+					display.setText("Disconnected");
 					break;
 				case BluetoothService.STATE_NONE:
-					display.setText("Disconected");
+					display.setText("Disconnected");
 					start.setEnabled(true);
 					break;
 				}
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
-				data.conected = msg.getData().getString(DEVICE_NAME);
+				data.connected = msg.getData().getString(DEVICE_NAME);
 				Toast.makeText(getApplicationContext(),
-						"Connected to " + data.conected,
+						"Connected to " + data.connected,
 						Toast.LENGTH_SHORT).show();
 				break;
 			case MESSAGE_TOAST:
@@ -364,7 +364,7 @@ public class ElectrolitesActivity extends Activity {
 
 			intentDePferv = new Intent(getApplication(), BluetoothService.class);
 			intentDePferv.setAction(DataService.START_RUNNING);
-			intentDePferv.putExtra("deviceName", data.conected);
+			intentDePferv.putExtra("deviceName", data.connected);
 			getApplication().startService(intentDePferv);
 
 			intentDePferv.setAction(DataService.RETRIEVE_DATA);

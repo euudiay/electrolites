@@ -25,6 +25,8 @@ public class Data {
 	private float drawBaseHeight = 0.5f;
 	// Escala de ancho: 0 (evitar) ~ whatever
 	private float WidhtScale = 1;
+	// Vector de datos raw (para que DataParser haga su curro)
+	public ArrayList<Byte> stream;
 	// Muestras indexadas por no. de muestra
 	public ArrayList<Short> samples = null;
 	// Puntos resultantes de la delineaci�n, indexados por no. de muestra
@@ -38,7 +40,7 @@ public class Data {
 	public String toLoad;
 	
 	//Nombre del dispositivo conectado
-	public String conected;
+	public String connected;
 	
 	// Test area
 	public Application app;
@@ -53,6 +55,7 @@ public class Data {
 		vaSecX = 0;
 		drawBaseHeight = 0.5f;
 		WidhtScale = 3;
+		stream = new ArrayList<Byte>();
 		samples = new ArrayList<Short>();
 		dpoints = new HashMap<Integer, DPoint>();
 		hbr = new HashMap<Integer, Short>();
@@ -61,7 +64,7 @@ public class Data {
 		loading = false;
 		toLoad = "traza.txt";
 		bgColor = Color.rgb(0, 0, 0);
-		conected = "FireFly-3781";
+		connected = "FireFly-3781";
 	}
 
 
@@ -90,11 +93,19 @@ public class Data {
 	
 	
 	public short[] getSamplesArray() {
-		
 		Object samp[] = samples.toArray();
 		short result[] = new short[samp.length];
-		for (int i = 0; i < samp.length; i++)
-			result[i] = ((Short) samp[i]).shortValue();
+		try {
+			for (int i = 0; i < samp.length; i++) {
+				if (samp[i] != null)
+					result[i] = ((Short) samp[i]).shortValue();
+				else
+					result[i] = 0;
+			}
+		}
+		catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		
 		return result;
 	}
