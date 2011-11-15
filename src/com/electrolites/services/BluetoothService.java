@@ -19,6 +19,7 @@ import com.electrolites.bluetooth.AcceptThread;
 import com.electrolites.bluetooth.ConnectThread;
 import com.electrolites.bluetooth.ConnectedThread;
 import com.electrolites.ecg.ElectrolitesActivity;
+import com.electrolites.util.DataParser;
 
 public class BluetoothService extends DataService {
 	public static final String TAG = "BluetoothService";
@@ -120,6 +121,19 @@ public class BluetoothService extends DataService {
 	
 	@Override
 	protected void getData(Intent intent) {
+		dp.readStream();
+		
+		d.samples.addAll(dp.getDataSamples());
+		dp.clearDataSamples();
+		d.dpoints.putAll(dp.getDataDPoints());
+		dp.clearDataDPoints();
+		d.hbr.putAll(dp.getDataHBRs());
+		dp.clearDataHBRs();
+		
+		if (dp.getDataOffset() != -1) {
+			d.dataOffset = dp.getDataOffset();
+			dp.setDataOffset(-1);
+		}
 	}
 	
     private synchronized void setState(int state) {
@@ -213,6 +227,10 @@ public class BluetoothService extends DataService {
         mHandler.sendMessage(msg);
         
         setState(STATE_CONNECTED);
+      
+		// Hay que mandar un token al Shimmer para que este comience su transmisión
+		byte[] startToken = { (byte) 0xc0 };
+		write(startToken);
 	}
 	
 	private void write(byte[] bytes) {
@@ -233,13 +251,19 @@ public class BluetoothService extends DataService {
 		if (bytes > 0) {
 			if (DEBUG)
 				Log.d(TAG, "Datos recibidos" + buffer);
-			short b = buffer[0];
+			
 			//Toast.makeText(getApplication(), "Llegaron datos: " + b, Toast.LENGTH_SHORT).show();
-			synchronized (this) {
-				// Y hacemos mï¿½s cosas, como guardarlas en Data
-				d.samples.add(b);
+			for (int i = 0; i < bytes; i++) {
+				synchronized (this) {
+					// Añadimos el byte al vector de datos leídos
+					dp.addToStream(buffer[i]);
+					dp.setP2(dp.getP2()+1);
+				}
 			}
 		}
+		
+		// BEWARE! Cutrez máxima!
+		getData(null);
 	}
 	
 	private synchronized void stop() {
@@ -339,6 +363,7 @@ public class BluetoothService extends DataService {
 		else
 			return null;
 	}
+	
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -355,6 +380,11 @@ public class BluetoothService extends DataService {
             }
         }
     };
+    
+    @Override
+    public void onDestroy() {
+    	unregisterReceiver(mReceiver);
+    }
 	
 	public int getState() { return state; }
 	

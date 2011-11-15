@@ -11,8 +11,8 @@ public class DataParser {
 	private FileConverter fc;		
 	//private Data data;				// Instancia de Data
 	private ArrayList<Byte> stream;	// Bytes leï¿½dos
-	private short[] samples;		// Valores de las muestras, indexadas por orden de llegada
 	private int p1, p2;				// Punteros al ï¿½ltimo byte consumido y al ï¿½ltimo producido
+	private int expected_bytes;		// Bytes que se espera que vengan
 	private int lastSample;			// ï¿½ltima muestra leï¿½da (nï¿½mero de orden)
 	private float lastHBR;			// ï¿½ltimo resultado de ritmo cardï¿½aco leï¿½do
 	
@@ -28,6 +28,7 @@ public class DataParser {
 		// Inicialmente no tenemos datos
 		p1 = 0;
 		p2 = 0;
+		expected_bytes = 0;
 		lastSample = 0;
 		lastHBR = 0;
 		
@@ -44,6 +45,7 @@ public class DataParser {
 		// Inicializa los punteros de lectura y escritura
 		p1 = 0;							
 		p2 = stream.size() - 1;
+		expected_bytes = 0;
 		
 		// Inicialmente no tenemos datos
 		lastSample = 0;
@@ -61,6 +63,7 @@ public class DataParser {
 		// Inicializa los punteros de lectura y de escritura
 		p1 = 0;
 		p2 = stream.size() - 1;
+		expected_bytes = 0;
 		
 		// Inicialmente no tenemos datos
 		lastSample = 0;
@@ -71,10 +74,11 @@ public class DataParser {
 	}
 	
 	public boolean hasNext() {
-		return (p1 <= p2);
+		return (p1 <= p2 && p2-p1 >= expected_bytes);
 	} 
 	
-	public void nextField() {
+	// Devuelve el número de bytes que nos han sobrado (forman parte del siguiente flujo de bytes)
+	public int nextField() {
 		// Obtenemos el siguiente byte
 		int new_byte = ((int) stream.get(p1)) & 0xff;
 		// No adelantamos el puntero hasta ver si tenemos suficientes datos para leer
@@ -82,30 +86,42 @@ public class DataParser {
 		
 		switch (new_byte) {
 			case 0xcc:					// Offset
+				expected_bytes = 4;
 				if (data_amount >= 4) 	// Tenemos que leer 4 bytes
 					readOffset();		// Comprueba, ademï¿½s, si se han perdido muestras
 				break;
 			case 0xfb:					// HBR
+				expected_bytes = 2;
 				if (data_amount >= 2)
 					readHBR(); 			// Lee el ritmo cardï¿½aco actual y lo guarda en data
 				break;
 			case 0xda:					// Sample
+				expected_bytes = 2;
 				if (data_amount >= 2)
 					readSample();		// Lee y almacena el valor de la muestra en data
 				break;
 			case 0xed:					// Point
+				expected_bytes = 5;
 				if (data_amount >= 5)
 					readDPoint(); 	// Tratar puntos de delineaciï¿½n
 				break;
 			default:
 				System.err.println("Delimitador no reconocido: " + new_byte);
+				p1++;
 		}
+		
+		return 0; // Si todo ha ido bien, no devuelve nada
 	}
 	
 	// Procesa y guarda todos los datos que tiene disponibles
-	public void readStream() {
+	public int readStream() {
+		p1 = 0;
+		p2 = stream.size() -1;// Esto de momento
+		int bytes = 0;
 		while (hasNext())
-			nextField();
+			if ((bytes = nextField()) != 0)
+				System.out.println("Faltan " + bytes + " por parsear."); // Quedan cosas por leer
+		return bytes;
 	}
 	
 	
@@ -119,7 +135,7 @@ public class DataParser {
 		int byte2 = ((int) stream.get(p1+3)) & 0xff;
 		int byte3 = ((int) stream.get(p1+4)) & 0xff;
 		
-		// Calculamos el nï¿½mero de muestras que nos dice el offset
+		// Calculamos el número de muestras que nos dice el offset
 		int nSamples = byte3 + 256*(byte2 + 256*(byte1 + 256*byte0));
 		
 		// Si no coincide con la ï¿½ltima muestra leï¿½da, hemos perdido muestras
@@ -142,6 +158,7 @@ public class DataParser {
 		
 		// Adelantamos el puntero de lectura 5 posiciones (delimitador + 4 bytes)
 		p1 += 5;
+		expected_bytes = 0;
 	}
 	
 	public void readHBR() {
@@ -155,6 +172,7 @@ public class DataParser {
 		
 		// Adelantamos el puntero de lectura 3 posiciones (delimitador + 3 bytes)
 		p1 += 3;
+		expected_bytes = 0;
 	}
 	
 	public void readSample() {
@@ -167,6 +185,7 @@ public class DataParser {
 		dataSamples.add(sample);
 		// Adelantamos el puntero de lectura 3 posiciones
 		p1 += 3;
+		expected_bytes = 0;
 	}
 	
 	public void readDPoint() {
@@ -192,19 +211,8 @@ public class DataParser {
 		
 		// Adelantamos el puntero de lectura 6 posiciones (delimitador + 5 bytes)
 		p1 += 6;
+		expected_bytes = 0;
 	}
-	
-	// Old!
-	/*public void extractSamples() {
-		samples = new short[4000];
-		
-		
-		for (int i = 0; i < 4000; i++)
-			if (data.samples.get(i) == null)
-				samples[i] = 0;
-			else
-				samples[i] = data.samples.get(i);
-	}*/
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
@@ -218,9 +226,6 @@ public class DataParser {
 	}
 	
 	public short getLastHBR() { return (short) lastHBR; }
-	
-	// Old!
-	public short[] getSamples() { return samples; }
 
 	public ArrayList<Short> getDataSamples() {
 		return dataSamples;
@@ -236,5 +241,43 @@ public class DataParser {
 
 	public int getDataOffset() {
 		return dataOffset;
+	}
+	
+	public void setStream(ArrayList<Byte> stream) { 
+		this.stream = stream;
+	}
+	
+	public void setP2(int p2) { this.p2 = p2; }
+
+	public void clearDataSamples() {
+		dataSamples.clear();
+	}
+
+	public void clearDataDPoints() {
+		dataDPoints.clear();
+	}
+
+	public void clearDataHBRs() {
+		dataHBRs.clear();
+	}
+
+	public void setDataOffset(int i) {
+		dataOffset = i;
+	}
+
+	public void clearStream() {
+		stream.clear();
+	}
+
+	public void addToStream(byte b) {
+		stream.add(b);
+	}
+
+	public ArrayList<Byte> getStream() {
+		return stream;
+	}
+
+	public int getP2() {
+		return p2;
 	}
 }

@@ -9,6 +9,7 @@ import android.content.Intent;
 
 import com.electrolites.data.DPoint;
 import com.electrolites.data.Data;
+import com.electrolites.util.DataParser;
 
 public class DataService extends IntentService {
 	public static String START_RUNNING = "start!";
@@ -17,6 +18,8 @@ public class DataService extends IntentService {
 	public static String GET_DATA = "gimmeGimme!";
 	
 	Data d;
+	
+	protected DataParser dp;
 	
 	// Muestras indexadas por no. de muestra
 	public ArrayList<Short> samples = null;
@@ -35,6 +38,7 @@ public class DataService extends IntentService {
 		dpoints = new HashMap<Integer, DPoint>();
 		hbr = new HashMap<Integer, Short>();
 		dataOffset = -1;
+		dp = new DataParser();
 	}
 	
 	@Override
@@ -73,9 +77,10 @@ public class DataService extends IntentService {
 		dpoints = new HashMap<Integer, DPoint>();
 		d.hbr.putAll(hbr);
 		hbr = new HashMap<Integer, Short>();
-		if (dataOffset != -1) {
-			d.dataOffset = dataOffset;
-			dataOffset = -1;
+		
+		if (dp.getDataOffset() != -1) {
+			d.dataOffset = dp.getDataOffset();
+			dp.setDataOffset(-1);
 		}
 		
 	}

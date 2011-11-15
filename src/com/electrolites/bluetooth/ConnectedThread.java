@@ -47,8 +47,9 @@ public class ConnectedThread extends Thread {
         while (true) {
             try {
                 // Leemos del InputStream
+            	//buffer = new byte[1024];
                 bytes = input.read(buffer);
-         
+                
                 // Hacemos cosas con los datos obtenidos, como guardarlos en data
                 bS.read(bytes, buffer);
             } catch (IOException e) {

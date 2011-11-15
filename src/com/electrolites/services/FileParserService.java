@@ -22,7 +22,6 @@ public class FileParserService extends DataService {
 	@Override
 	public void retrieveData(Intent intent) {
 		
-		DataParser dp = new DataParser();
 		synchronized(this) {
 			d.loading = true;
 		}
