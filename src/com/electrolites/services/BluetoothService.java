@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.electrolites.bluetooth.AcceptThread;
 import com.electrolites.bluetooth.ConnectThread;
 import com.electrolites.bluetooth.ConnectedThread;
 import com.electrolites.ecg.ElectrolitesActivity;
@@ -101,13 +100,13 @@ public class BluetoothService extends DataService {
 	@Override
 	protected void stopRunning(Intent intent) {
 		stop();
-		// Puede que haga falta hacer más cosas
+		// Puede que haga falta hacer mï¿½s cosas
 	}
 	
 	@Override
 	protected void retrieveData(Intent intent) {
 		if (state == STATE_CONNECTED) {
-			// Hay que mandar cosas al Shimmer para que este comience su transmisión
+			// Hay que mandar cosas al Shimmer para que este comience su transmisiï¿½n
 			byte[] startToken = { (byte) 0xc0 };
 			write(startToken);
 			// Y ahora hay que recuperar y tratar todo lo que nos llegue
@@ -126,7 +125,7 @@ public class BluetoothService extends DataService {
 		if (BluetoothService.DEBUG) 
 			Log.d(TAG, "BluetoothService.start()");
 
-        // Cancelamos cualquier intento de conexión pendiente
+        // Cancelamos cualquier intento de conexiï¿½n pendiente
         if (connectT != null) {
         	connectT.cancel(); 
         	connectT = null;
@@ -194,7 +193,7 @@ public class BluetoothService extends DataService {
         
         setState(STATE_CONNECTED);
       
-		// Hay que mandar un token al Shimmer para que este comience su transmisión
+		// Hay que mandar un token al Shimmer para que este comience su transmisiï¿½n
 		byte[] startToken = { (byte) 0xc0 };
 		write(startToken);
 	}
@@ -220,11 +219,11 @@ public class BluetoothService extends DataService {
 			
 			//Toast.makeText(getApplication(), "Llegaron datos: " + b, Toast.LENGTH_SHORT).show();
 			for (int i = 0; i < bytes; i++) {
-				synchronized (this) {
-					// Añadimos el byte al vector de datos leídos
+				//synchronized (this) {
+					// Aï¿½adimos el byte al vector de datos leï¿½dos
 					dp.addToStream(buffer[i]);
 					dp.setP2(dp.getP2()+1);
-				}
+			//	}
 			}
 		}
 		
@@ -236,7 +235,7 @@ public class BluetoothService extends DataService {
 		// Lee el flujo de bytes y parsea
 		dp.readStream(samples, dpoints, hbrs, offset);
 		
-		// Manda los resultados a data y vacía las estructuras de DataService
+		// Manda los resultados a data y vacï¿½a las estructuras de DataService
 		d.samples.addAll(samples);
 		samples.clear();
 		samples.trimToSize();
@@ -268,14 +267,14 @@ public class BluetoothService extends DataService {
         setState(STATE_NONE);
 	}
 	
-	// Indica que el intento de conexión ha fallado
+	// Indica que el intento de conexiï¿½n ha fallado
 	public void connectionFailed() {
-		Log.e(BluetoothService.TAG, "El intento de conexión ha fallado. Reintentando...");
+		Log.e(BluetoothService.TAG, "El intento de conexiï¿½n ha fallado. Reintentando...");
 		// Deberï¿½amos avisar a la activity, no?
         // Send a failure message back to the Activity
         Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(ElectrolitesActivity.TOAST, "El intento de conexión ha fallado.");
+        bundle.putString(ElectrolitesActivity.TOAST, "El intento de conexiï¿½n ha fallado.");
         msg.setData(bundle);
         handler.sendMessage(msg);
 		// Nos volvemos a poner a la escucha
@@ -286,11 +285,11 @@ public class BluetoothService extends DataService {
 	}
 	
 	public void connectionLost() {
-		Log.e(BluetoothService.TAG, "Se ha perdido la conexión. Reiniciando...");
+		Log.e(BluetoothService.TAG, "Se ha perdido la conexiï¿½n. Reiniciando...");
 		// Deberï¿½amos avisar a la activity, no?
         Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(ElectrolitesActivity.TOAST, "Se ha perdido la conexión");
+        bundle.putString(ElectrolitesActivity.TOAST, "Se ha perdido la conexiï¿½n");
         msg.setData(bundle);
         handler.sendMessage(msg);
 		// Nos volvemos a poner a la escucha
@@ -332,7 +331,7 @@ public class BluetoothService extends DataService {
 	}
 	
 	private BluetoothDevice getBluetoothDevice(String deviceName) {
-		// De momento sólo buscamos entre los dispositivos sincronizados
+		// De momento sï¿½lo buscamos entre los dispositivos sincronizados
 		int n;
 		if ((n = getBondedDevices()) > 0) {
 			boolean found = false;

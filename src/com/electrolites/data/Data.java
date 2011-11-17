@@ -10,6 +10,11 @@ import android.graphics.Color;
 import android.os.Handler;
 
 public class Data {
+	
+	public static final short MODE_STOP = 0;
+	public static final short MODE_STATIC = 1;
+	public static final short MODE_DYNAMIC = 2;
+	
 	private static Data instance = null;
 	public static Data getInstance() {
 		if (instance == null) {
@@ -46,6 +51,8 @@ public class Data {
 	public boolean loading;
 	public Activity activity;
 	public int bgColor;
+	
+	public short mode;
 	
 	public Handler handler;
 	

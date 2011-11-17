@@ -192,25 +192,7 @@ public class Viewport {
 		return map;
 	}
 	
-	public boolean move(float secDeltaX) {
-		// Comprobaci�n de l�mites
-		/*if (secDeltaX > 0) {
-			if (vaSecX + secDeltaX >= (dataEnd - dataStart-1)/samplesPerSecond - vaSeconds) {
-				vaSecX = (dataEnd - dataStart-1)/samplesPerSecond - vaSeconds;
-				return false;
-			} else {
-				vaSecX += secDeltaX;
-			}
-		}
-		else if (secDeltaX < 0) {
-			if (vaSecX + secDeltaX < 0) {
-				vaSecX = 0;
-				return false;
-			} else {
-				vaSecX += secDeltaX;
-			}
-		}*/
-		
+	public boolean move(float secDeltaX) {		
 		vaSecX += secDeltaX;
 		
 		if (vaSecX + vaSeconds >= (dataEnd - dataStart-1)/samplesPerSecond) {
