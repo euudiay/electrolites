@@ -80,7 +80,7 @@ public class Viewport {
 	}
 	
 	public void updateParameters() {
-		vaSeconds = Math.max(0.1f, actualData.getWidhtScale()); 
+		vaSeconds = Math.max(0.1f, actualData.getWidthScale()); 
 		baselinePxY = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();
 		
 		float top = vpPxHeight*0.85f;
@@ -183,10 +183,10 @@ public class Viewport {
 		while (it.hasNext() && !done) {
 			entry = it.next();
 			
-			if (entry.getKey().intValue()-actualData.dataOffset < start || entry.getKey().intValue()-actualData.dataOffset >= end)
+			if (entry.getKey().intValue()-actualData.offset < start || entry.getKey().intValue()-actualData.offset >= end)
 				continue;
 			
-			map.put(vpPxX + (entry.getKey()-start-actualData.dataOffset)*dpoints, new ExtendedDPoint(entry.getKey().intValue()-actualData.dataOffset, entry.getValue()));
+			map.put(vpPxX + (entry.getKey()-start-actualData.offset)*dpoints, new ExtendedDPoint(entry.getKey().intValue()-actualData.offset, entry.getValue()));
 		}
 		
 		return map;

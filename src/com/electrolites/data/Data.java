@@ -24,17 +24,15 @@ public class Data {
 	// Altura base de renderizado (0~1)
 	private float drawBaseHeight = 0.5f;
 	// Escala de ancho: 0 (evitar) ~ whatever
-	private float WidhtScale = 1;
-	// Vector de datos raw (para que DataParser haga su curro)
-	public ArrayList<Byte> stream;
+	private float widthScale = 1;
 	// Muestras indexadas por no. de muestra
 	public ArrayList<Short> samples = null;
 	// Puntos resultantes de la delineaci�n, indexados por no. de muestra
 	public Map<Integer, DPoint> dpoints = null;
 	// Valores del ritmo card�aco, indexados seg�n el n�mero de muestra anterior a su recepci�n
-	public Map<Integer, Short> hbr = null;
+	public Map<Integer, Short> hbrs = null;
 	// Primera muestra dibujable
-	public int dataOffset;
+	public int offset;
 	
 	//Nombre del archivo de log a cargar
 	public String toLoad;
@@ -49,16 +47,15 @@ public class Data {
 	public Activity activity;
 	public int bgColor;
 	
-	public Handler mHandler;
+	public Handler handler;
 	
 	public Data() {
 		vaSecX = 0;
 		drawBaseHeight = 0.5f;
-		WidhtScale = 3;
-		stream = new ArrayList<Byte>();
+		widthScale = 3;
 		samples = new ArrayList<Short>();
 		dpoints = new HashMap<Integer, DPoint>();
-		hbr = new HashMap<Integer, Short>();
+		hbrs = new HashMap<Integer, Short>();
 		app = null;
 		autoScroll = false;
 		loading = false;
@@ -67,30 +64,21 @@ public class Data {
 		connected = "FireFly-3781";
 	}
 
-
-
 	public float getDrawBaseHeight() {
 		return drawBaseHeight;
 	}
-
-
 
 	public void setDrawBaseHeight(float drawBaseHeight) {
 		this.drawBaseHeight = drawBaseHeight;
 	}
 
-
-
-	public float getWidhtScale() {
-		return WidhtScale;
+	public float getWidthScale() {
+		return widthScale;
 	}
 
-
-
-	public void setWidhtScale(float widhtScale) {
-		WidhtScale = widhtScale;
+	public void setWidthScale(float widthScale) {
+		this.widthScale = widthScale;
 	}
-	
 	
 	public short[] getSamplesArray() {
 		Object samp[] = samples.toArray();

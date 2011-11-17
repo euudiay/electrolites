@@ -9,20 +9,20 @@ import com.electrolites.data.DPoint;
 
 public class DataParser {
 	private FileConverter fc;		
-	//private Data data;				// Instancia de Data
-	private ArrayList<Byte> stream;	// Bytes leï¿½dos
-	private int p1, p2;				// Punteros al ï¿½ltimo byte consumido y al ï¿½ltimo producido
+	
+	private ArrayList<Byte> stream;	// Bytes leídos
+	private int p1, p2;				// Punteros al último byte consumido y al último producido
 	private int expected_bytes;		// Bytes que se espera que vengan
 	private int lastSample;			// ï¿½ltima muestra leï¿½da (nï¿½mero de orden)
 	private float lastHBR;			// ï¿½ltimo resultado de ritmo cardï¿½aco leï¿½do
 	
-	protected ArrayList<Short> dataSamples;
-	protected HashMap<Integer, DPoint> dataDPoints;
-	protected HashMap<Integer, Short> dataHBRs;
-	protected int dataOffset;
+	// Referencias a las estructuras de DataService
+	private ArrayList<Short> dataSamples;
+	private HashMap<Integer, DPoint> dataDPoints;
+	private HashMap<Integer, Short> dataHBRs;
+	private int dataOffset;
 	
 	public DataParser() {
-		//data = Data.getInstance();			// Accedemos a los datos de la aplicaciï¿½n
 		stream = new ArrayList<Byte>();		// Instanciamos el vector de datos raw
 		
 		// Inicialmente no tenemos datos
@@ -31,14 +31,11 @@ public class DataParser {
 		expected_bytes = 0;
 		lastSample = 0;
 		lastHBR = 0;
-		
-		dataSamples = new ArrayList<Short>();
-		dataDPoints = new HashMap<Integer, DPoint>();
-		dataHBRs = new HashMap<Integer, Short>();
 	}
 	
 	// Obtiene datos para la aplicaciï¿½n de un archivo binario
-	public void loadBinaryFile(String fname) {
+	public void loadBinaryFile(String fname, ArrayList<Short> samples, 
+			HashMap<Integer, DPoint> dpoints, HashMap <Integer, Short> hbrs, int offset) {
 		fc = new FileConverter();		// Instancia el conversor de archivos		
 		stream = fc.readBinary(fname);	// Lee y almacena los datos del archivo
 		
@@ -52,11 +49,12 @@ public class DataParser {
 		lastHBR = 0;
 		
 		// Procesa y guarda los datos en Data
-		readStream();
+		readStream(samples, dpoints, hbrs, offset);
 	}
 	
 	// Obtiene datos para la aplicaciï¿½n de un recurso interno
-	public void loadResource(Resources resources, int id) {
+	public void loadResource(Resources resources, int id, ArrayList<Short> samples, 
+			HashMap<Integer, DPoint> dpoints, HashMap <Integer, Short> hbrs, int offset) {
 		fc = new FileConverter();					// Instancia el conversor de archivos
 		stream = fc.readResources(resources, id);	// Carga el recurso con identificador id
 		
@@ -70,7 +68,7 @@ public class DataParser {
 		lastHBR = 0;
 
 		// Procesa y guarda los datos en Data
-		readStream();
+		readStream(samples, dpoints, hbrs, offset);
 	}
 	
 	public boolean hasNext() {
@@ -114,7 +112,14 @@ public class DataParser {
 	}
 	
 	// Procesa y guarda todos los datos que tiene disponibles
-	public int readStream() {
+	public int readStream(ArrayList<Short> samples, HashMap<Integer, DPoint> dpoints, 
+			HashMap <Integer, Short> hbrs, int offset) {
+		// Guardamos las referencias
+		dataSamples = samples;
+		dataDPoints = dpoints;
+		dataHBRs = hbrs;
+		dataOffset = offset;
+		
 		p1 = 0;
 		p2 = stream.size() -1;// Esto de momento
 		int bytes = 0;
@@ -144,7 +149,8 @@ public class DataParser {
 			for (int i = 0; i < nSamples - lastSample; i++)
 				//data.samples.add(null);
 				dataSamples.add(null);
-			// Actualizamos cuï¿½l fue la ï¿½ltima muestra (perdida)
+			System.err.println("Se han perdido " + (nSamples - lastSample) + " muestras");
+			// Actualizamos cuál fue la última muestra (perdida)
 			lastSample = nSamples;
 		}
 		else if (lastSample == 0) {
@@ -152,9 +158,6 @@ public class DataParser {
 			//data.dataOffset = nSamples;
 			dataOffset = nSamples;
 		}
-			
-		
-		System.err.println("Se han perdido " + (nSamples - lastSample) + " muestras");
 		
 		// Adelantamos el puntero de lectura 5 posiciones (delimitador + 4 bytes)
 		p1 += 5;
@@ -216,7 +219,7 @@ public class DataParser {
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
-		// b1 mï¿½s significativo que b2
+		// b1 más significativo que b2
 		int i1 = b1;
 		int i2 = b2;
 		i1 &= 0xff;

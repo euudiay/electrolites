@@ -41,19 +41,21 @@ public class BluetoothService extends DataService {
     private ArrayList<BluetoothDevice> bondedDevices;
     private ArrayList<BluetoothDevice> newDevicesArrayAdapter;
 	
-	private AcceptThread acceptT;
 	private ConnectThread connectT;
 	private ConnectedThread connectedT;
 	
 	private int state;			// Estado del servicio
 	private int adapterState;	// Estado del adaptador bluetooth
 	
-	private Handler mHandler;
+	private Handler handler;
+	
+	private DataParser dp;
 	
 	public BluetoothService() {
 		super("BluetoothService");
 		
-		mHandler = d.mHandler;
+		handler = d.handler;
+		dp = new DataParser();
 		
 		bA = BluetoothAdapter.getDefaultAdapter();
 		if (bA == null) {
@@ -72,26 +74,19 @@ public class BluetoothService extends DataService {
 	
 	@Override
 	protected void startRunning(Intent intent) {
-		// Al activar el servicio, el intent que lo hace deberï¿½ llevar el nombre 
-		// del dispositivo al que queremos conectarnos (que previamente deberï¿½ 
-		// estar sincronizado). Al menos de momento, mï¿½s tarde implementaremos el
-		// descubrimiento de dispositivos.
-		
-		//Creamos el thread de aceptación, por si alguien intenta conectarse con nosotros
 		start();		
 		
-		newDevicesArrayAdapter = new ArrayList<BluetoothDevice>();
-		
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        this.registerReceiver(mReceiver, filter);
-        // If we're already discovering, stop it
+		// Si estamos realizando descubrimiento, paramos
         if (bA.isDiscovering()) {
         	bA.cancelDiscovery();
         }
-
-        // Request discover from BluetoothAdapter
-        bA.startDiscovery();
+		
+        // Preparamos para el descubrimiento de dispositivos, por si fuese necesario
+		newDevicesArrayAdapter = new ArrayList<BluetoothDevice>();
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        this.registerReceiver(receiver, filter);
         
+		// Recuperamos el dispositivo al que queremos conectarnos
 		String deviceName = intent.getStringExtra("deviceName");
 		BluetoothDevice bD = getBluetoothDevice(deviceName);
 
@@ -106,33 +101,16 @@ public class BluetoothService extends DataService {
 	@Override
 	protected void stopRunning(Intent intent) {
 		stop();
-		// Puede que haga falta hacer mï¿½s cosas
+		// Puede que haga falta hacer más cosas
 	}
 	
 	@Override
 	protected void retrieveData(Intent intent) {
 		if (state == STATE_CONNECTED) {
-			// Hay que mandar cosas al Shimmer para que este comience su transmisiï¿½n
+			// Hay que mandar cosas al Shimmer para que este comience su transmisión
 			byte[] startToken = { (byte) 0xc0 };
 			write(startToken);
 			// Y ahora hay que recuperar y tratar todo lo que nos llegue
-		}
-	}
-	
-	@Override
-	protected void getData(Intent intent) {
-		dp.readStream();
-		
-		d.samples.addAll(dp.getDataSamples());
-		dp.clearDataSamples();
-		d.dpoints.putAll(dp.getDataDPoints());
-		dp.clearDataDPoints();
-		d.hbr.putAll(dp.getDataHBRs());
-		dp.clearDataHBRs();
-		
-		if (dp.getDataOffset() != -1) {
-			d.dataOffset = dp.getDataOffset();
-			dp.setDataOffset(-1);
 		}
 	}
 	
@@ -141,14 +119,14 @@ public class BluetoothService extends DataService {
         this.state = state;
 
         // Give the new state to the Handler so the UI Activity can update
-        mHandler.obtainMessage(ElectrolitesActivity.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
+        handler.obtainMessage(ElectrolitesActivity.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
     }
 	
 	private synchronized void start() {
 		if (BluetoothService.DEBUG) 
 			Log.d(TAG, "BluetoothService.start()");
 
-        // Cancelamos cualquier intento de conexiï¿½n pendiente
+        // Cancelamos cualquier intento de conexión pendiente
         if (connectT != null) {
         	connectT.cancel(); 
         	connectT = null;
@@ -161,12 +139,6 @@ public class BluetoothService extends DataService {
         }
 
         setState(STATE_LISTEN);
-
-        // Ponemos el ServerSocket a la escucha
-        if (acceptT == null) {
-        	acceptT = new AcceptThread(bA, this, uuid);
-        	acceptT.start();
-        }
 	}
 	
 	private synchronized void connect(BluetoothDevice bD) {
@@ -208,23 +180,17 @@ public class BluetoothService extends DataService {
         	connectedT.cancel(); 
         	connectedT = null;
         }
-
-        // Cancelamos el thread de aceptaciï¿½n (de momento sï¿½lo queremos un dispositivo conectado)
-        if (acceptT != null) {
-            acceptT.cancel();
-            acceptT = null;
-        }
-
+        
         // Iniciamos el thread que maneja la conexiï¿½n
         connectedT = new ConnectedThread(this, socket);
         connectedT.start();
 
-     // Send the name of the connected device back to the UI Activity
-        Message msg = mHandler.obtainMessage(ElectrolitesActivity.MESSAGE_DEVICE_NAME);
+        // Send the name of the connected device back to the UI Activity
+        Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_DEVICE_NAME);
         Bundle bundle = new Bundle();
         bundle.putString(ElectrolitesActivity.DEVICE_NAME, remoteDevice.getName());
         msg.setData(bundle);
-        mHandler.sendMessage(msg);
+        handler.sendMessage(msg);
         
         setState(STATE_CONNECTED);
       
@@ -262,8 +228,27 @@ public class BluetoothService extends DataService {
 			}
 		}
 		
-		// BEWARE! Cutrez máxima!
-		getData(null);
+		// Deja que DataParser haga su tarea y mande sus resultados a data
+		parseData();
+	}
+	
+	private void parseData() {
+		// Lee el flujo de bytes y parsea
+		dp.readStream(samples, dpoints, hbrs, offset);
+		
+		// Manda los resultados a data y vacía las estructuras de DataService
+		d.samples.addAll(samples);
+		samples.clear();
+		samples.trimToSize();
+		d.dpoints.putAll(dpoints);
+		dpoints.clear();
+		d.hbrs.putAll(hbrs);
+		hbrs.clear();
+		
+		if (offset != -1) {
+			d.offset = offset;
+			offset = -1;
+		}
 	}
 	
 	private synchronized void stop() {
@@ -280,11 +265,6 @@ public class BluetoothService extends DataService {
             connectedT = null;
         }
 
-        if (acceptT != null) {
-        	acceptT.cancel();
-        	acceptT = null;
-        }
-
         setState(STATE_NONE);
 	}
 	
@@ -293,11 +273,11 @@ public class BluetoothService extends DataService {
 		Log.e(BluetoothService.TAG, "El intento de conexión ha fallado. Reintentando...");
 		// Deberï¿½amos avisar a la activity, no?
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
+        Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(ElectrolitesActivity.TOAST, "El intento de conexión ha fallado");
+        bundle.putString(ElectrolitesActivity.TOAST, "El intento de conexión ha fallado.");
         msg.setData(bundle);
-        mHandler.sendMessage(msg);
+        handler.sendMessage(msg);
 		// Nos volvemos a poner a la escucha
 		//this.start();
         //Cerramos el servicio para poder ejecutarlo de nuevo
@@ -306,13 +286,13 @@ public class BluetoothService extends DataService {
 	}
 	
 	public void connectionLost() {
-		Log.e(BluetoothService.TAG, "Se ha perdido la conexiï¿½n. Reiniciando...");
+		Log.e(BluetoothService.TAG, "Se ha perdido la conexión. Reiniciando...");
 		// Deberï¿½amos avisar a la activity, no?
-        Message msg = mHandler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
+        Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
         bundle.putString(ElectrolitesActivity.TOAST, "Se ha perdido la conexión");
         msg.setData(bundle);
-        mHandler.sendMessage(msg);
+        handler.sendMessage(msg);
 		// Nos volvemos a poner a la escucha
 		//this.start();
         //Cerramos el servicio para poder ejecutarlo de nuevo
@@ -328,8 +308,31 @@ public class BluetoothService extends DataService {
 			return 0;
 	}
 	
+	public BluetoothDevice getDeviceFromDiscovery(String deviceName) {
+		boolean found = false;
+		int j = 0;
+		BluetoothDevice bD = null;
+
+        // Pedimos al BluetoothAdapter que busque nuevos dispositivos.
+        bA.startDiscovery();
+
+        // Posiblemente haya que esperar un tiempo para que el discovery mande sus intents
+        
+		while (!found && j < newDevicesArrayAdapter.size()) {
+			bD = newDevicesArrayAdapter.get(j);
+			found = bD.getName().equals(deviceName);
+			j++;
+		}
+		
+		if (found)
+			return bD;
+		else
+			return null;
+
+	}
+	
 	private BluetoothDevice getBluetoothDevice(String deviceName) {
-		// De momento sï¿½lo buscamos entre los dispositivos sincronizados
+		// De momento sólo buscamos entre los dispositivos sincronizados
 		int n;
 		if ((n = getBondedDevices()) > 0) {
 			boolean found = false;
@@ -341,30 +344,20 @@ public class BluetoothService extends DataService {
 				i++;
 			}
 			
-			if (found)
-			{
+			// Si lo hemos encontrado entre los sincronizados, hemos terminado
+			if (found) {
 				return bD;
 			}
-			else{
-				boolean found1 = false;
-				int j = 0;
-				bD = null;
-				while (!found1 && j < newDevicesArrayAdapter.size()) {
-					bD = newDevicesArrayAdapter.get(j);
-					found1 = bD.getName().equals(deviceName);
-					j++;
-				}
-				if (found1)
-					return bD;
-				else
-					return null;
-			}
+			// Si no, intentamos descubrirlo
+			else
+				return getDeviceFromDiscovery(deviceName);
 		}
+		// Si no hay dispositivos sincronizados, intentamos buscarlo
 		else
-			return null;
+			return getDeviceFromDiscovery(deviceName);
 	}
 	
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -383,7 +376,7 @@ public class BluetoothService extends DataService {
     
     @Override
     public void onDestroy() {
-    	unregisterReceiver(mReceiver);
+    	unregisterReceiver(receiver);
     }
 	
 	public int getState() { return state; }
