@@ -99,21 +99,7 @@ public class ElectrolitesActivity extends Activity {
 		data = Data.getInstance();
 		data.app = getApplication();
 		data.activity = this;
-
-		/* CUTRESY! */
-		Button auto = (Button) findViewById(R.id.b_auto);
-		auto.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				if (data.autoScroll)
-					((Button) findViewById(R.id.b_auto))
-							.setText("Auto\n[ OFF ]");
-				else
-					((Button) findViewById(R.id.b_auto))
-							.setText("Auto\n[ ON ]");
-				data.autoScroll = !data.autoScroll;
-			}
-		});
+		data.mode = Data.MODE_STOP;
 
 		start = (Button) findViewById(R.id.b_start);
 		start.setEnabled(true);
@@ -230,7 +216,7 @@ public class ElectrolitesActivity extends Activity {
 				public void onClick(DialogInterface dialog, int item) {
 					Toast.makeText(getApplication(), items[item],
 							Toast.LENGTH_SHORT).show();
-					data.toLoad = items[item] + ".txt";
+					data.toLoad = items[item]/* + ".txt"*/;
 					dialog.cancel();
 					
 					intentDePferv = new Intent(getApplication(),
@@ -242,6 +228,8 @@ public class ElectrolitesActivity extends Activity {
 					intentDePferv.setAction(DataService.RETRIEVE_DATA);
 					getApplication().startService(intentDePferv);
 
+					data.mode = Data.MODE_STATIC;
+					ecgView.reset();
 					ecgView.setVisibility(View.VISIBLE);
 					start.setEnabled(true);
 					display.setText("NOT ARRITMIA DETECTED");
@@ -290,7 +278,7 @@ public class ElectrolitesActivity extends Activity {
 		ArrayList<String> result = new ArrayList<String>();
 		for (int i = 0; i < list.length; i++) {
 			if (list[i].endsWith(".txt"))
-				result.add(list[i].substring(0, list[i].length() - 4));
+				result.add(list[i]/*.substring(0, list[i].length() - 4)*/);
 		}
 
 		list = result.toArray(new String[result.size()]);
@@ -371,6 +359,8 @@ public class ElectrolitesActivity extends Activity {
 			getApplication().startService(intentDePferv);
 
 			start.setEnabled(false);
+			data.mode = Data.MODE_DYNAMIC;
+			ecgView.reset();
 			ecgView.setVisibility(View.VISIBLE);
 			
 		}

@@ -23,7 +23,7 @@ import com.electrolites.util.Viewport;
 
 public class ECGView extends AnimationView {
 
-	private class ECGThread extends AnimationThread {
+	private class ECGThreadStatic extends AnimationThread {
 		
 		private Intent intent;
 		
@@ -31,7 +31,7 @@ public class ECGView extends AnimationView {
 		
 		private int bgColor;
 
-		public ECGThread(SurfaceHolder holder) {
+		public ECGThreadStatic(SurfaceHolder holder) {
 			super(holder);
 			
 			//bgColor = Color.rgb(89, 89, 89);
@@ -52,6 +52,9 @@ public class ECGView extends AnimationView {
 		public void onRender(Canvas canvas) {
 			
 			//synchronized (this) {
+			if (data == null || vport == null)
+				return;
+			
 				vport.data = data.getSamplesArray();
 				if (data.autoScroll)
 					vport.moveToEnd();
@@ -194,6 +197,48 @@ public class ECGView extends AnimationView {
 		}
 	}
 
+	private class ECGThreadDynamic extends AnimationThread {
+		
+		private Paint linePaint, rectPaint, ecgPaint;
+		
+		private int bgColor;
+
+		public ECGThreadDynamic(SurfaceHolder holder) {
+			super(holder);
+			
+			//bgColor = Color.rgb(89, 89, 89);
+			bgColor = Color.rgb(0, 0, 0);
+			
+			linePaint = new Paint();
+			linePaint.setARGB(200, 100, 255, 100);
+			linePaint.setStrokeWidth(2.f);
+			linePaint.setTextAlign(Align.RIGHT);
+			
+			ecgPaint = new Paint();
+			
+			rectPaint = new Paint();
+			rectPaint.setColor(Color.rgb(69, 69, 69));
+		}
+		
+		@Override
+		public void onRender(Canvas canvas) {
+			
+			if (canvas == null)
+				return;
+			Align a = linePaint.getTextAlign();
+			float s = linePaint.getTextSize();
+			linePaint.setTextAlign(Align.CENTER);
+			linePaint.setTextSize(48);
+			canvas.drawText("Loading...", vport.vpPxX+vport.vpPxWidth/2, vport.vpPxY+vport.vpPxHeight/2, linePaint);
+			linePaint.setTextAlign(a);
+			linePaint.setTextSize(s);
+			
+            canvas.restore();
+			
+		}
+	}
+
+	
 	protected Viewport vport;
 	
 	private Data data;
@@ -203,10 +248,10 @@ public class ECGView extends AnimationView {
 		
 		data = Data.getInstance();
 		
-		if (thread == null) {
+		/*if (thread == null) {
 			thread = new ECGThread(holder);
 			thread.setDaemon(true);
-		}
+		}*/
 	}
 	
 	@Override
@@ -230,9 +275,9 @@ public class ECGView extends AnimationView {
 				thread.start();
 			}
 		} catch (Exception e) {
-			thread = new ECGThread(getHolder());
+			/*thread = new ECGThread(getHolder());
 			thread.setRunning(true);
-			thread.start();
+			thread.start();*/
 		}
 	}
 
@@ -268,17 +313,11 @@ public class ECGView extends AnimationView {
 		else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (!holding) return true;
 			
-			vport.move(-1*(event.getX() - holdStartX)/vport.vpPxWidth*vport.vaSeconds*0.5f);
-			holdStartX = event.getX();
-			
-			// Scrolling deactivates autoscroll
-			data.autoScroll = false;
-			Button b = (Button) data.activity.findViewById(R.id.b_auto);
-			if (b != null)
-				b.setText("Auto\n[ OFF ]");
-			else
-				System.out.println("ASDASRASD�!");
-			
+			if (data.mode == Data.MODE_STATIC) {
+				vport.move(-1*(event.getX() - holdStartX)/vport.vpPxWidth*vport.vaSeconds*0.5f);
+				holdStartX = event.getX();
+			}
+
 			data.setDrawBaseHeight(data.getDrawBaseHeight()+(event.getY() - holdStartY)/vport.vpPxHeight);
 			holdStartY = event.getY();
 		}
@@ -291,4 +330,26 @@ public class ECGView extends AnimationView {
 		}
 		return true;
 	}
-}
+	
+	public void reset() {
+		if (thread != null) {
+			thread.setRunning(false);
+			boolean retry = true;
+			while (retry) {
+				try {
+					thread.join();
+					retry = false;
+					System.err.println("SE MORTO");
+				} catch (InterruptedException e) {
+				}
+			}
+		}
+
+		if (data.mode == Data.MODE_STATIC)
+			thread = new ECGThreadStatic(getHolder());
+		else if (data.mode == Data.MODE_DYNAMIC)
+			thread = new ECGThreadDynamic(getHolder());
+		thread.setRunning(true);
+		thread.start();
+	}
+};
