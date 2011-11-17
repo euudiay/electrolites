@@ -173,7 +173,7 @@ public class ElectrolitesActivity extends Activity {
 		display.setText("Disconnected");
 		
 		//Hiper Cutresy
-		data.mHandler = mHandler;
+		data.handler = mHandler;
 		
 	}
 
@@ -422,7 +422,7 @@ public class ElectrolitesActivity extends Activity {
 			if (ecgView.getVisibility() != View.VISIBLE)
 				return;
 
-			data.setWidhtScale(data.getWidhtScale() + 0.5f);
+			data.setWidthScale(data.getWidthScale() + 0.5f);
 			less.setEnabled(true);
 		}
 	}
@@ -432,10 +432,10 @@ public class ElectrolitesActivity extends Activity {
 			if (ecgView.getVisibility() != View.VISIBLE)
 				return;
 
-			if (data.getWidhtScale() < 0.5f)
+			if (data.getWidthScale() < 0.5f)
 				less.setEnabled(false);
 			else {
-				data.setWidhtScale(data.getWidhtScale() - 0.5f);
+				data.setWidthScale(data.getWidthScale() - 0.5f);
 			}
 		}
 	}

@@ -18,7 +18,7 @@ public class DummyService extends DataService {
 			synchronized (this) {
 				try {
 					System.out.println("NO VA!");
-					d.setWidhtScale(d.getWidhtScale()*2);
+					d.setWidthScale(d.getWidthScale()*2);
 					wait(2000);
 				} catch (Exception pferv) {
 					pferv.printStackTrace();

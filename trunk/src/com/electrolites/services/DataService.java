@@ -19,16 +19,14 @@ public class DataService extends IntentService {
 	
 	Data d;
 	
-	protected DataParser dp;
-	
 	// Muestras indexadas por no. de muestra
-	public ArrayList<Short> samples = null;
-	// Puntos resultantes de la delineaciï¿½n, indexados por no. de muestra
-	public Map<Integer, DPoint> dpoints = null;
-	// Valores del ritmo cardï¿½aco, indexados segï¿½n el nï¿½mero de muestra anterior a su recepciï¿½n
-	public Map<Integer, Short> hbr = null;
+	protected ArrayList<Short> samples;
+	// Puntos resultantes de la delineación, indexados por número de muestra
+	protected HashMap<Integer, DPoint> dpoints;
+	// Valores del ritmo cardíaco, indexados según el número de muestra anterior a su recepción
+	protected HashMap<Integer, Short> hbrs;
 	// Primera muestra dibujable
-	public int dataOffset;
+	protected int offset;
 	
 	public DataService(String name) {
 		super(name);
@@ -36,9 +34,8 @@ public class DataService extends IntentService {
 		d = Data.getInstance();
 		samples = new ArrayList<Short>();
 		dpoints = new HashMap<Integer, DPoint>();
-		hbr = new HashMap<Integer, Short>();
-		dataOffset = -1;
-		dp = new DataParser();
+		hbrs = new HashMap<Integer, Short>();
+		offset = -1;
 	}
 	
 	@Override
@@ -75,12 +72,12 @@ public class DataService extends IntentService {
 		samples = new ArrayList<Short>();
 		d.dpoints.putAll(dpoints);
 		dpoints = new HashMap<Integer, DPoint>();
-		d.hbr.putAll(hbr);
-		hbr = new HashMap<Integer, Short>();
+		d.hbrs.putAll(hbrs);
+		hbrs = new HashMap<Integer, Short>();
 		
-		if (dp.getDataOffset() != -1) {
-			d.dataOffset = dp.getDataOffset();
-			dp.setDataOffset(-1);
+		if (offset != -1) {
+			d.offset = offset;
+			offset = -1;
 		}
 		
 	}

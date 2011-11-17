@@ -9,9 +9,12 @@ import android.content.Intent;
 public class FileParserService extends DataService {
 
 	Random r;
+	DataParser dp;
 	
 	public FileParserService() {
 		super("FileParserService");
+		
+		dp = new DataParser();
 	}
 	
 	@Override
@@ -25,13 +28,15 @@ public class FileParserService extends DataService {
 		synchronized(this) {
 			d.loading = true;
 		}
-		dp.loadBinaryFile(d.toLoad);
+		
+		dp.loadBinaryFile(d.toLoad, samples, dpoints, hbrs, offset);
+		
 		try {
 			synchronized(this) {
 				wait(1000);
-				d.samples.addAll(dp.getDataSamples());
-				d.dpoints.putAll(dp.getDataDPoints());
-				d.dataOffset = dp.getDataOffset();
+				d.samples.addAll(samples);
+				d.dpoints.putAll(dpoints);
+				d.offset = offset;
 				d.loading = false;
 			}
 		} catch (InterruptedException e) {

@@ -1,4 +1,4 @@
-package com.electrolites.bluetooth;
+ï»¿package com.electrolites.bluetooth;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +9,7 @@ import com.electrolites.services.BluetoothService;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-// Actúa como cliente, una vez conectado el socket envía datos (o los recibe)
+// ActÃºa como cliente, una vez conectado el socket envÃ­a datos (o los recibe)
 public class ConnectedThread extends Thread {
 	private final BluetoothSocket socket;
     private final InputStream input;
@@ -36,14 +36,14 @@ public class ConnectedThread extends Thread {
         output = tmpOut;
     }
     
-    // Recepción de datos
+    // RecepciÃ³n de datos
     @Override
 	public void run() {
         Log.i(BluetoothService.TAG, "ConnectedThread comienza su actividad.");
         byte[] buffer = new byte[1024];
         int bytes;
 
-        // Se mantiene a la escucha mientras esté conectado
+        // Se mantiene a la escucha mientras estÃ© conectado
         while (true) {
             try {
                 // Leemos del InputStream
@@ -53,19 +53,19 @@ public class ConnectedThread extends Thread {
                 // Hacemos cosas con los datos obtenidos, como guardarlos en data
                 bS.read(bytes, buffer);
             } catch (IOException e) {
-                Log.e(BluetoothService.TAG, "La conexión se ha perdido.", e);
+                Log.e(BluetoothService.TAG, "La conexiÃ³n se ha perdido.", e);
                 bS.connectionLost();
                 break;
             }
         }
     }
     
-    // Envío de datos al dispositivo
+    // EnvÃ­o de datos al dispositivo
     public void write(byte[] buffer) {
         try {
             output.write(buffer);
         } catch (IOException e) {
-            Log.e(BluetoothService.TAG, "No se ha podido realizar el envío.", e);
+            Log.e(BluetoothService.TAG, "No se ha podido realizar el envÃ­o.", e);
         }
     }
 
