@@ -1,10 +1,13 @@
 package com.electrolites.services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
-import com.electrolites.util.DataParser;
-
 import android.content.Intent;
+
+import com.electrolites.data.DPoint;
+import com.electrolites.util.DataParser;
 
 public class FileParserService extends DataService {
 
@@ -27,20 +30,18 @@ public class FileParserService extends DataService {
 		
 		synchronized(this) {
 			d.loading = true;
+			d.samples = new ArrayList<Short>();
+			d.dpoints = new HashMap<Integer, DPoint>();
+			d.offset = 0;
 		}
 		
 		dp.loadBinaryFile(d.toLoad, samples, dpoints, hbrs, offset);
 		
-		try {
-			synchronized(this) {
-				wait(1000);
-				d.samples.addAll(samples);
-				d.dpoints.putAll(dpoints);
-				d.offset = offset;
-				d.loading = false;
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		synchronized(this) {
+			d.samples.addAll(samples);
+			d.dpoints.putAll(dpoints);
+			d.offset = offset;
+			d.loading = false;
 		}
 	}
 }
