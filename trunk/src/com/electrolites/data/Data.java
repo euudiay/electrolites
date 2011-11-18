@@ -1,7 +1,9 @@
 package com.electrolites.data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import android.app.Activity;
@@ -9,8 +11,10 @@ import android.app.Application;
 import android.graphics.Color;
 import android.os.Handler;
 
+import com.electrolites.util.SamplePoint;
+
 public class Data {
-	
+
 	public static final short MODE_STOP = 0;
 	public static final short MODE_STATIC = 1;
 	public static final short MODE_DYNAMIC = 2;
@@ -56,6 +60,38 @@ public class Data {
 	
 	public Handler handler;
 	
+	// Data container for dynamic visualization mode
+	public class DynamicData {
+		public LinkedList<SamplePoint>samplesQueue;
+		public int samplesQueueWidth;
+		
+		public DynamicData() {
+			samplesQueue = new LinkedList<SamplePoint>();
+			samplesQueueWidth = -1;
+		};
+		
+		public void addSamples(Collection<SamplePoint> list) {
+			// If no width's specified, just add them all
+			if (samplesQueueWidth < 0)
+				samplesQueue.addAll(list);
+			else {
+				// Remove from head those that doesn't fit in
+				if (samplesQueue.size() + list.size() >= samplesQueueWidth)
+					for (int i = 0; i < ((samplesQueue.size() + list.size()) - samplesQueueWidth); i++)
+						samplesQueue.removeFirst();
+				// Add new ones at end
+				samplesQueue.addAll(list);
+			}
+		}
+			
+		public SamplePoint getSample() {
+			return samplesQueue.remove();
+		}
+	};
+	
+	// Data container for dynamic visualization mode instance
+	public DynamicData dynamicData;
+	
 	public Data() {
 		vaSecX = 0;
 		drawBaseHeight = 0.5f;
@@ -69,6 +105,10 @@ public class Data {
 		toLoad = "traza.txt";
 		bgColor = Color.rgb(0, 0, 0);
 		connected = "FireFly-3781";
+		
+		//Data container for dynamic visualization mode
+		dynamicData = new DynamicData();
+		dynamicData.samplesQueueWidth = -1;
 	}
 
 	public float getDrawBaseHeight() {
