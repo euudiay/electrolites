@@ -1,6 +1,7 @@
 package com.electrolites.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -17,6 +18,7 @@ import android.util.Log;
 
 import com.electrolites.bluetooth.ConnectThread;
 import com.electrolites.bluetooth.ConnectedThread;
+import com.electrolites.data.DPoint;
 import com.electrolites.ecg.ElectrolitesActivity;
 import com.electrolites.util.DataParser;
 
@@ -237,12 +239,11 @@ public class BluetoothService extends DataService {
 		
 		// Manda los resultados a data y vac�a las estructuras de DataService
 		d.samples.addAll(samples);
-		samples.clear();
-		samples.trimToSize();
+		samples = new ArrayList<Short>();
 		d.dpoints.putAll(dpoints);
-		dpoints.clear();
+		dpoints = new HashMap<Integer, DPoint>();
 		d.hbrs.putAll(hbrs);
-		hbrs.clear();
+		hbrs = new HashMap<Integer, Short>();
 		
 		if (offset != -1) {
 			d.offset = offset;

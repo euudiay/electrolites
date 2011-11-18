@@ -225,6 +225,7 @@ public class ECGView extends AnimationView {
 			
 			if (canvas == null)
 				return;
+			canvas.drawColor(Color.rgb(255, 10, 10));
 			Align a = linePaint.getTextAlign();
 			float s = linePaint.getTextSize();
 			linePaint.setTextAlign(Align.CENTER);

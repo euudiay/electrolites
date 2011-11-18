@@ -157,7 +157,7 @@ public class Viewport {
 	
 	public Map<Float, ExtendedDPoint> getViewDPoints() {
 		
-		// Obtener nuevos parametros
+		/*// Obtener nuevos parametros
 		updateParameters();
 		
 		// Calcular cantidad de puntos que caben
@@ -172,11 +172,11 @@ public class Viewport {
 		// Por ahora, redonder y coger el que sea (mejorar esto)
 		int start = Math.round(vaSecX*samplesPerSecond);
 		// Buscar �ltimo punto
-		int end = Math.min(start + Math.round(npoints), dataEnd);
+		int end = Math.min(start + Math.round(npoints), dataEnd);*/
 				
 		HashMap<Float, ExtendedDPoint> map = new HashMap<Float, ExtendedDPoint>();
 		
-		Iterator<Map.Entry<Integer, DPoint>> it = actualData.dpoints.entrySet().iterator();
+		/*Iterator<Map.Entry<Integer, DPoint>> it = actualData.dpoints.entrySet().iterator();
 		Map.Entry<Integer, DPoint> entry;
 		boolean done = false;
 		
@@ -187,7 +187,7 @@ public class Viewport {
 				continue;
 			
 			map.put(vpPxX + (entry.getKey()-start-actualData.offset)*dpoints, new ExtendedDPoint(entry.getKey().intValue()-actualData.offset, entry.getValue()));
-		}
+		}*/
 		
 		return map;
 	}
