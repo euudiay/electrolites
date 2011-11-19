@@ -1,6 +1,7 @@
 package com.electrolites.util;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -30,22 +31,13 @@ public class DynamicViewport {
 	// Testing area
 	public float vFactor;
 	
-	public DynamicViewport(int width, int height) {
-		vpPxWidth = width;
-		vpPxHeight = height;
-
-		actualData = Data.getInstance();
-		
-		samplesPerSecond = 250f;
-		
-		updateParameters();
-	}
-	
 	public DynamicViewport(int width, int height, float seconds) {
 		vpPxWidth = width;
 		vpPxHeight = height;
 
 		actualData = Data.getInstance();
+		
+		samplesData = new LinkedList<SamplePoint>();
 		
 		samplesPerSecond = 250f;
 		
@@ -64,21 +56,63 @@ public class DynamicViewport {
 			vaSamples = actualData.dynamicData.samplesQueueWidth;
 			baselinePxY = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();
 			
-			// Ask for one more sample, removing the older one if full queue
-			if (samplesData.size() >= vaSamples)
-				for (int i = 0; i < vaSamples - samplesData.size(); i++)
-					samplesData.remove();
-			
-			samplesData.add(actualData.dynamicData.samplesQueue.remove());
+			if (actualData.dynamicData.samplesQueue.size() > 0) {				
+				// Ask for one more sample, removing the older one if full queue
+				if (samplesData.size() >= vaSamples) {
+					int toRemove = samplesData.size() - vaSamples;
+					for (int i = 0; i < toRemove; i++)
+						samplesData.removeFirst();
+				}
+				
+				samplesData.add(actualData.dynamicData.samplesQueue.removeFirst());
+				//System.out.println("Queue size = " + samplesData.size() + ", expected: " + vaSamples);
+			}
 		}
 		
 		float top = vpPxHeight*0.85f;
-		float max = 8000f;
+		float max = 12000f;
 		vFactor = top/max;
 	}
 	
 	public float[] getViewContents() {
-		return null;
+		// Get a new sample and update drawing parameters
+		updateParameters();
+		
+		float dpoints = vpPxWidth / ((float) vaSamples);
+		
+		if (dpoints <= 0) {
+			System.err.println("No usable quantity of samples found. Please note, this error should not have popped.");
+			return null;
+		}
+
+		float[] results = new float[4+4*(samplesData.size()-1)];
+		
+		Iterator<SamplePoint> it = samplesData.iterator();
+		
+		for (int i = 0; i < samplesData.size()-1; i++) {
+			if (!it.hasNext()) {
+				System.err.println("No sample found at position " + i);
+				return null;
+			}
+				
+			if (i == 0) {
+				results[i] = vpPxX;
+				results[i+1] = baselinePxY - it.next().sample*vFactor;
+				if (it.hasNext()) {
+					results[i+2] = vpPxX + dpoints;
+					results[i+3] = baselinePxY - it.next().sample*vFactor;
+				}
+			}
+			else {
+				// Duplicate last point
+				results[4*i] = results[4*i-2];
+				results[4*i+1] = results[4*i-1];
+				results[4*i+2] = vpPxX + i*dpoints;
+				results[4*i+3] = baselinePxY - it.next().sample*vFactor;
+			}
+		}
+		
+		return results;
 	}
 	
 	public Map<Float, ExtendedDPoint> getViewDPoints() {

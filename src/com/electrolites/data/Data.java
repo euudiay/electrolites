@@ -76,9 +76,15 @@ public class Data {
 				samplesQueue.addAll(list);
 			else {
 				// Remove from head those that doesn't fit in
-				if (samplesQueue.size() + list.size() >= samplesQueueWidth)
-					for (int i = 0; i < ((samplesQueue.size() + list.size()) - samplesQueueWidth); i++)
-						samplesQueue.removeFirst();
+				if (samplesQueue.size() + list.size() >= samplesQueueWidth) {
+					int toRemove = ((samplesQueue.size() + list.size()) - samplesQueueWidth);
+					for (int i = 0; i < toRemove; i++) {
+						if (samplesQueue.isEmpty())
+							break;
+						SamplePoint p = samplesQueue.removeFirst();
+						p = null;
+					}
+				}
 				// Add new ones at end
 				samplesQueue.addAll(list);
 			}

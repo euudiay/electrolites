@@ -4,6 +4,8 @@ import java.util.Random;
 
 import android.content.Intent;
 
+import com.electrolites.util.SamplePoint;
+
 public class RandomGeneratorService extends DataService {
 
 	Random r;
@@ -26,7 +28,7 @@ public class RandomGeneratorService extends DataService {
 				try {
 					value = (short) (r.nextInt(100)-50);
 					base += value;
-					d.samples.add(new Short(base));
+					data.dynamicData.samplesQueue.add(new SamplePoint(0, base));
 					wait(4);
 				} catch (InterruptedException e) {
 					System.err.println("He sido interrumpido!");

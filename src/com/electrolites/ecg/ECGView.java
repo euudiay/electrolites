@@ -2,6 +2,7 @@ package com.electrolites.ecg;
 
 import java.util.Map;
 
+import android.R.color;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -12,12 +13,12 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.widget.Button;
 
 import com.electrolites.data.DPoint;
 import com.electrolites.data.DPoint.PointType;
 import com.electrolites.data.DPoint.Wave;
 import com.electrolites.data.Data;
+import com.electrolites.util.DynamicViewport;
 import com.electrolites.util.ExtendedDPoint;
 import com.electrolites.util.Viewport;
 
@@ -199,23 +200,26 @@ public class ECGView extends AnimationView {
 
 	private class ECGThreadDynamic extends AnimationThread {
 		
-		private Paint linePaint, rectPaint, ecgPaint;
+		private Paint textPaint, rectPaint, ecgPaint;
 		
 		private int bgColor;
 
 		public ECGThreadDynamic(SurfaceHolder holder) {
 			super(holder);
 			
-			//bgColor = Color.rgb(89, 89, 89);
+			// Background color
 			bgColor = Color.rgb(0, 0, 0);
 			
-			linePaint = new Paint();
-			linePaint.setARGB(200, 100, 255, 100);
-			linePaint.setStrokeWidth(2.f);
-			linePaint.setTextAlign(Align.RIGHT);
+			// Text painter
+			textPaint = new Paint();
+			textPaint.setARGB(200, 100, 255, 100);
+			textPaint.setStrokeWidth(2.f);
+			textPaint.setTextAlign(Align.RIGHT);
 			
+			// Ecg painter
 			ecgPaint = new Paint();
 			
+			// Frame painter
 			rectPaint = new Paint();
 			rectPaint.setColor(Color.rgb(69, 69, 69));
 		}
@@ -223,16 +227,68 @@ public class ECGView extends AnimationView {
 		@Override
 		public void onRender(Canvas canvas) {
 			
-			if (canvas == null)
+			if (canvas == null || dvport == null)
 				return;
-			canvas.drawColor(Color.rgb(255, 10, 10));
-			Align a = linePaint.getTextAlign();
-			float s = linePaint.getTextSize();
-			linePaint.setTextAlign(Align.CENTER);
-			linePaint.setTextSize(48);
-			canvas.drawText("Loading...", vport.vpPxX+vport.vpPxWidth/2, vport.vpPxY+vport.vpPxHeight/2, linePaint);
-			linePaint.setTextAlign(a);
-			linePaint.setTextSize(s);
+
+			/*** Calculate border positions ***/
+				int left = dvport.vpPxX;
+				int right = dvport.vpPxX + dvport.vpPxWidth;
+				int top = dvport.vpPxY;
+				int bottom = dvport.vpPxY + dvport.vpPxHeight;
+			
+			/*** Clear canvas ***/
+				canvas.drawColor(bgColor);
+			
+			/*** Render axis and scales ***/
+				// y axis
+				textPaint.setARGB(230, 150, 150, 150);
+				textPaint.setStrokeWidth(2.f);
+				canvas.drawLine(left, top, left, bottom, textPaint);
+				
+				// Upper scale part
+				int divisions = (int) Math.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
+				
+				canvas.drawLine(left, dvport.baselinePxY, right+5, dvport.baselinePxY, textPaint);
+				textPaint.setStrokeWidth(1.f);
+				for (int i = 0; i <= divisions; i++) {
+					canvas.drawLine(left, dvport.baselinePxY-i*1000*dvport.vFactor, right+5, dvport.baselinePxY-i*1000*dvport.vFactor, textPaint);
+				}
+				
+				// Lower part
+				divisions = (int) Math.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
+				
+				for (int i = 1; i <= divisions; i++) {
+					canvas.drawLine(left, dvport.baselinePxY+i*1000*dvport.vFactor, right+5, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
+				}
+			
+			// Render samples
+				ecgPaint.setColor(Color.rgb(30, 255, 30));
+				ecgPaint.setAlpha((int) (255*0.9));
+				ecgPaint.setStrokeWidth(2.f);
+	            float points[] = dvport.getViewContents();
+	            
+	            if (points != null) {
+	            	int toDraw = points.length;
+	            	canvas.drawLines(points, 0, toDraw,  ecgPaint);
+	            }
+			
+			// Render dpoints
+	            // not yet
+			
+			// Render frame
+				canvas.drawRect(new Rect(0, 0, getWidth(), dvport.vpPxY-1), rectPaint);
+				canvas.drawRect(new Rect(0, dvport.vpPxY+dvport.vpPxHeight+1, getWidth(), getHeight()), rectPaint);
+				canvas.drawRect(new Rect(0, 0, left, getHeight()), rectPaint);
+				canvas.drawRect(new Rect(right, 0, getWidth(), getHeight()), rectPaint);
+				
+				textPaint.setStrokeWidth(2.f);
+				canvas.drawLine(left, top, right, top, textPaint);
+				canvas.drawLine(left, top, left, bottom, textPaint);
+				canvas.drawLine(left, bottom, right, bottom, textPaint);
+				canvas.drawLine(right, top, right, bottom, textPaint);
+			
+			// Render text labels
+				// not yet
 			
             canvas.restore();
 			
@@ -241,6 +297,7 @@ public class ECGView extends AnimationView {
 
 	
 	protected Viewport vport;
+	protected DynamicViewport dvport;
 	
 	private Data data;
 	
@@ -269,6 +326,9 @@ public class ECGView extends AnimationView {
 		vport.data = data.getSamplesArray();
 		vport.dataStart = 0;
 		vport.dataEnd = vport.data.length;
+		
+		dvport = new DynamicViewport(w, h, 3.0f);
+		dvport.setOnScreenPosition(30, 30);
 	
 		try {
 			if (!thread.isAlive()) {
