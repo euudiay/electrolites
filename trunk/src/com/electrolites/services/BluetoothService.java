@@ -21,6 +21,7 @@ import com.electrolites.bluetooth.ConnectedThread;
 import com.electrolites.data.DPoint;
 import com.electrolites.ecg.ElectrolitesActivity;
 import com.electrolites.util.DataParser;
+import com.electrolites.util.SamplePoint;
 
 public class BluetoothService extends DataService {
 	public static final String TAG = "BluetoothService";
@@ -52,10 +53,24 @@ public class BluetoothService extends DataService {
 	
 	private DataParser dp;
 	
+	// Muestras indexadas por no. de muestra
+	protected ArrayList<SamplePoint> samples;
+	// Puntos resultantes de la delineación, indexados por número de muestra
+	protected HashMap<Integer, DPoint> dpoints;
+	// Valores del ritmo cardíaco, indexados según el número de muestra anterior a su recepción
+	protected HashMap<Integer, Short> hbrs;
+	// Primera muestra dibujable
+	protected int offset;
+	
+	
 	public BluetoothService() {
 		super("BluetoothService");
 		
-		handler = d.handler;
+		samples = new ArrayList<SamplePoint>();
+		dpoints = new HashMap<Integer, DPoint>();
+		hbrs = new HashMap<Integer, Short>();
+		
+		handler = data.handler;
 		dp = new DataParser();
 		
 		bA = BluetoothAdapter.getDefaultAdapter();
@@ -216,8 +231,8 @@ public class BluetoothService extends DataService {
 	// Hacemos cosas con lo que nos ha llegado
 	public void read(int bytes, byte[] buffer) {
 		if (bytes > 0) {
-			if (DEBUG)
-				Log.d(TAG, "Datos recibidos" + buffer);
+			//if (DEBUG)
+			//	Log.d(TAG, "Datos recibidos" + buffer);
 			
 			//Toast.makeText(getApplication(), "Llegaron datos: " + b, Toast.LENGTH_SHORT).show();
 			for (int i = 0; i < bytes; i++) {
@@ -235,18 +250,18 @@ public class BluetoothService extends DataService {
 	
 	private void parseData() {
 		// Lee el flujo de bytes y parsea
-		dp.readStream(samples, dpoints, hbrs, offset);
+		dp.readStreamDynamic(samples, dpoints, hbrs, offset);
 		
 		// Manda los resultados a data y vacï¿½a las estructuras de DataService
-		d.samples.addAll(samples);
-		samples = new ArrayList<Short>();
-		d.dpoints.putAll(dpoints);
+		data.dynamicData.addSamples(samples);
+		samples = new ArrayList<SamplePoint>();
+		//data.dpoints.putAll(dpoints);
 		dpoints = new HashMap<Integer, DPoint>();
-		d.hbrs.putAll(hbrs);
+		//data.hbrs.putAll(hbrs);
 		hbrs = new HashMap<Integer, Short>();
 		
 		if (offset != -1) {
-			d.offset = offset;
+			data.offset = offset;
 			offset = -1;
 		}
 	}

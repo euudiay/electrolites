@@ -14,10 +14,22 @@ public class FileParserService extends DataService {
 	Random r;
 	DataParser dp;
 	
+	// Muestras indexadas por no. de muestra
+	protected ArrayList<Short> samples;
+	// Puntos resultantes de la delineación, indexados por número de muestra
+	protected HashMap<Integer, DPoint> dpoints;
+	// Valores del ritmo cardíaco, indexados según el número de muestra anterior a su recepción
+	protected HashMap<Integer, Short> hbrs;
+	// Primera muestra dibujable
+	protected int offset;
+	
 	public FileParserService() {
 		super("FileParserService");
 		
 		dp = new DataParser();
+		samples = new ArrayList<Short>();
+		dpoints = new HashMap<Integer, DPoint>();
+		hbrs = new HashMap<Integer, Short>();
 	}
 	
 	@Override
@@ -29,19 +41,19 @@ public class FileParserService extends DataService {
 	public void retrieveData(Intent intent) {
 		
 		synchronized(this) {
-			d.loading = true;
-			d.samples = new ArrayList<Short>();
-			d.dpoints = new HashMap<Integer, DPoint>();
-			d.offset = 0;
+			data.loading = true;
+			data.samples = new ArrayList<Short>();
+			data.dpoints = new HashMap<Integer, DPoint>();
+			data.offset = 0;
 		}
 		
-		dp.loadBinaryFile(d.toLoad, samples, dpoints, hbrs, offset);
+		dp.loadBinaryFile(data.toLoad, samples, dpoints, hbrs, offset);
 		
 		synchronized(this) {
-			d.samples.addAll(samples);
-			d.dpoints.putAll(dpoints);
-			d.offset = offset;
-			d.loading = false;
+			data.samples.addAll(samples);
+			data.dpoints.putAll(dpoints);
+			data.offset = offset;
+			data.loading = false;
 		}
 	}
 }

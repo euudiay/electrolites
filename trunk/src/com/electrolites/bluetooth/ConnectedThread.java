@@ -40,7 +40,7 @@ public class ConnectedThread extends Thread {
     @Override
 	public void run() {
         Log.i(BluetoothService.TAG, "ConnectedThread comienza su actividad.");
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[256];
         int bytes;
 
         // Se mantiene a la escucha mientras esté conectado

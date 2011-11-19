@@ -17,7 +17,8 @@ public class DataParser {
 	private float lastHBR;			// ï¿½ltimo resultado de ritmo cardï¿½aco leï¿½do
 	
 	// Referencias a las estructuras de DataService
-	private ArrayList<Short> dataSamples;
+	private ArrayList<Short> dataSamplesStatic;
+	private ArrayList<SamplePoint> dataSamplesDynamic;
 	private HashMap<Integer, DPoint> dataDPoints;
 	private HashMap<Integer, Short> dataHBRs;
 	private int dataOffset;
@@ -49,7 +50,7 @@ public class DataParser {
 		lastHBR = 0;
 		
 		// Procesa y guarda los datos en Data
-		readStream(samples, dpoints, hbrs, offset);
+		readStreamStatic(samples, dpoints, hbrs, offset);
 	}
 	
 	// Obtiene datos para la aplicaciï¿½n de un recurso interno
@@ -68,7 +69,7 @@ public class DataParser {
 		lastHBR = 0;
 
 		// Procesa y guarda los datos en Data
-		readStream(samples, dpoints, hbrs, offset);
+		readStreamStatic(samples, dpoints, hbrs, offset);
 	}
 	
 	public boolean hasNext() {
@@ -76,7 +77,7 @@ public class DataParser {
 	} 
 	
 	// Devuelve el número de bytes que nos han sobrado (forman parte del siguiente flujo de bytes)
-	public int nextField() {
+	public int nextField(boolean staticMode) {
 		// Obtenemos el siguiente byte
 		int new_byte = ((int) stream.get(p1)) & 0xff;
 		// No adelantamos el puntero hasta ver si tenemos suficientes datos para leer
@@ -86,7 +87,7 @@ public class DataParser {
 			case 0xcc:					// Offset
 				expected_bytes = 4;
 				if (data_amount >= 4) 	// Tenemos que leer 4 bytes
-					readOffset();		// Comprueba, ademï¿½s, si se han perdido muestras
+					readOffset(staticMode);		// Comprueba, ademï¿½s, si se han perdido muestras
 				break;
 			case 0xfb:					// HBR
 				expected_bytes = 2;
@@ -96,7 +97,7 @@ public class DataParser {
 			case 0xda:					// Sample
 				expected_bytes = 2;
 				if (data_amount >= 2)
-					readSample();		// Lee y almacena el valor de la muestra en data
+					readSample(staticMode);		// Lee y almacena el valor de la muestra en data
 				break;
 			case 0xed:					// Point
 				expected_bytes = 5;
@@ -112,10 +113,10 @@ public class DataParser {
 	}
 	
 	// Procesa y guarda todos los datos que tiene disponibles
-	public int readStream(ArrayList<Short> samples, HashMap<Integer, DPoint> dpoints, 
+	public int readStreamDynamic(ArrayList<SamplePoint> samples, HashMap<Integer, DPoint> dpoints, 
 			HashMap <Integer, Short> hbrs, int offset) {
 		// Guardamos las referencias
-		dataSamples = samples;
+		dataSamplesDynamic = samples;
 		dataDPoints = dpoints;
 		dataHBRs = hbrs;
 		dataOffset = offset;
@@ -124,7 +125,25 @@ public class DataParser {
 		p2 = stream.size() -1;// Esto de momento
 		int bytes = 0;
 		while (hasNext())
-			if ((bytes = nextField()) != 0)
+			if ((bytes = nextField(false)) != 0)
+				System.out.println("Faltan " + bytes + " por parsear."); // Quedan cosas por leer
+		return bytes;
+	}
+	
+	// Procesa y guarda todos los datos que tiene disponibles
+	public int readStreamStatic(ArrayList<Short> samples, HashMap<Integer, DPoint> dpoints, 
+			HashMap <Integer, Short> hbrs, int offset) {
+		// Guardamos las referencias
+		dataSamplesStatic = samples;
+		dataDPoints = dpoints;
+		dataHBRs = hbrs;
+		dataOffset = offset;
+		
+		p1 = 0;
+		p2 = stream.size() -1;// Esto de momento
+		int bytes = 0;
+		while (hasNext())
+			if ((bytes = nextField(true)) != 0)
 				System.out.println("Faltan " + bytes + " por parsear."); // Quedan cosas por leer
 		return bytes;
 	}
@@ -133,7 +152,7 @@ public class DataParser {
 	// Devuelve el nï¿½mero de muestras que se ha saltado, -1 si error
 	// Coloca el ï¿½ndice en el siguiente byte a los 5 del offset
 	// Actualiza el HBR con el nuevo valor
-	public void readOffset() {
+	public void readOffset(boolean staticData) {
 		// Antes el valor menos significativo
 		int byte0 = ((int) stream.get(p1+1)) & 0xff;
 		int byte1 = ((int) stream.get(p1+2)) & 0xff;
@@ -144,11 +163,10 @@ public class DataParser {
 		int nSamples = byte3 + 256*(byte2 + 256*(byte1 + 256*byte0));
 		
 		// Si no coincide con la ï¿½ltima muestra leï¿½da, hemos perdido muestras
-		if (lastSample < nSamples && lastSample > 0) {
+		if (staticData && lastSample < nSamples && lastSample > 0) {
 			// Rellenamos los huecos vacï¿½os de las muestras en data
 			for (int i = 0; i < nSamples - lastSample; i++)
-				//data.samples.add(null);
-				dataSamples.add(null);
+					dataSamplesStatic.add(null);
 			System.err.println("Se han perdido " + (nSamples - lastSample) + " muestras");
 			// Actualizamos cuál fue la última muestra (perdida)
 			lastSample = nSamples;
@@ -178,14 +196,16 @@ public class DataParser {
 		expected_bytes = 0;
 	}
 	
-	public void readSample() {
+	public void readSample(boolean staticMode) {
 		// Incrementamos la cantidad de muestras leï¿½das
 		lastSample++;	
 		// Calculamos el valor de la muestra
 		short sample = byteToShort(stream.get(p1+1), stream.get(p1+2));
 		// Aï¿½adimos la muestra con su nï¿½mero de orden a la tabla de muestras
-		//data.samples.add(sample);
-		dataSamples.add(sample);
+		if (staticMode)
+			dataSamplesStatic.add(sample);
+		else
+			dataSamplesDynamic.add(new SamplePoint(lastSample, sample));
 		// Adelantamos el puntero de lectura 3 posiciones
 		p1 += 3;
 		expected_bytes = 0;
@@ -230,8 +250,8 @@ public class DataParser {
 	
 	public short getLastHBR() { return (short) lastHBR; }
 
-	public ArrayList<Short> getDataSamples() {
-		return dataSamples;
+	public ArrayList<SamplePoint> getDataSamples() {
+		return dataSamplesDynamic;
 	}
 
 	public HashMap<Integer, DPoint> getDataDPoints() {
@@ -253,7 +273,8 @@ public class DataParser {
 	public void setP2(int p2) { this.p2 = p2; }
 
 	public void clearDataSamples() {
-		dataSamples.clear();
+		dataSamplesStatic.clear();
+		dataSamplesDynamic.clear();
 	}
 
 	public void clearDataDPoints() {
