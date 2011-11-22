@@ -21,7 +21,7 @@ public class DataParser {
 	private ArrayList<SamplePoint> dataSamplesDynamic;
 	private HashMap<Integer, DPoint> dataDPoints;
 	private HashMap<Integer, Short> dataHBRs;
-	private int dataOffset;
+	private Integer dataOffset;
 	
 	public DataParser() {
 		stream = new ArrayList<Byte>();		// Instanciamos el vector de datos raw
@@ -36,7 +36,7 @@ public class DataParser {
 	
 	// Obtiene datos para la aplicaci�n de un archivo binario
 	public void loadBinaryFile(String fname, ArrayList<Short> samples, 
-			HashMap<Integer, DPoint> dpoints, HashMap <Integer, Short> hbrs, int offset) {
+			HashMap<Integer, DPoint> dpoints, HashMap <Integer, Short> hbrs, Integer offset) {
 		fc = new FileConverter();		// Instancia el conversor de archivos		
 		stream = fc.readBinary(fname);	// Lee y almacena los datos del archivo
 		
@@ -55,7 +55,7 @@ public class DataParser {
 	
 	// Obtiene datos para la aplicaci�n de un recurso interno
 	public void loadResource(Resources resources, int id, ArrayList<Short> samples, 
-			HashMap<Integer, DPoint> dpoints, HashMap <Integer, Short> hbrs, int offset) {
+			HashMap<Integer, DPoint> dpoints, HashMap <Integer, Short> hbrs, Integer offset) {
 		fc = new FileConverter();					// Instancia el conversor de archivos
 		stream = fc.readResources(resources, id);	// Carga el recurso con identificador id
 		
@@ -114,7 +114,7 @@ public class DataParser {
 	
 	// Procesa y guarda todos los datos que tiene disponibles
 	public int readStreamDynamic(ArrayList<SamplePoint> samples, HashMap<Integer, DPoint> dpoints, 
-			HashMap <Integer, Short> hbrs, int offset) {
+			HashMap <Integer, Short> hbrs, Integer offset) {
 		// Guardamos las referencias
 		dataSamplesDynamic = samples;
 		dataDPoints = dpoints;
@@ -132,7 +132,7 @@ public class DataParser {
 	
 	// Procesa y guarda todos los datos que tiene disponibles
 	public int readStreamStatic(ArrayList<Short> samples, HashMap<Integer, DPoint> dpoints, 
-			HashMap <Integer, Short> hbrs, int offset) {
+			HashMap <Integer, Short> hbrs, Integer offset) {
 		// Guardamos las referencias
 		dataSamplesStatic = samples;
 		dataDPoints = dpoints;

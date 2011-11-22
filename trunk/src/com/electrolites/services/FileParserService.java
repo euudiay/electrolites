@@ -21,7 +21,7 @@ public class FileParserService extends DataService {
 	// Valores del ritmo cardíaco, indexados según el número de muestra anterior a su recepción
 	protected HashMap<Integer, Short> hbrs;
 	// Primera muestra dibujable
-	protected int offset;
+	protected Integer offset;
 	
 	public FileParserService() {
 		super("FileParserService");
@@ -30,6 +30,7 @@ public class FileParserService extends DataService {
 		samples = new ArrayList<Short>();
 		dpoints = new HashMap<Integer, DPoint>();
 		hbrs = new HashMap<Integer, Short>();
+		offset = new Integer(15000);
 	}
 	
 	@Override
