@@ -157,37 +157,40 @@ public class Viewport {
 	
 	public Map<Float, ExtendedDPoint> getViewDPoints() {
 		
-		/*// Obtener nuevos parametros
+		// Obtener nuevos parametros
 		updateParameters();
 		
-		// Calcular cantidad de puntos que caben
-		float npoints = vaSeconds*samplesPerSecond;
-		// Calcular densidad de puntos
-		float dpoints = vpPxWidth / npoints;
-		// Si la densidad es < 0 es que se quieren mostrar 
-		// m�s puntos de los que caben (aglutinar o...)
-		if (dpoints < 0)
-			return null;
-		// Buscar primer punto
-		// Por ahora, redonder y coger el que sea (mejorar esto)
-		int start = Math.round(vaSecX*samplesPerSecond);
-		// Buscar �ltimo punto
-		int end = Math.min(start + Math.round(npoints), dataEnd);*/
-				
 		HashMap<Float, ExtendedDPoint> map = new HashMap<Float, ExtendedDPoint>();
 		
-		/*Iterator<Map.Entry<Integer, DPoint>> it = actualData.dpoints.entrySet().iterator();
-		Map.Entry<Integer, DPoint> entry;
-		boolean done = false;
+		synchronized (this) {
 		
-		while (it.hasNext() && !done) {
-			entry = it.next();
+			// Calcular cantidad de puntos que caben
+			float npoints = vaSeconds*samplesPerSecond;
+			// Calcular densidad de puntos
+			float dpoints = vpPxWidth / npoints;
+			// Si la densidad es < 0 es que se quieren mostrar 
+			// m�s puntos de los que caben (aglutinar o...)
+			if (dpoints < 0)
+				return null;
+			// Buscar primer punto
+			// Por ahora, redonder y coger el que sea (mejorar esto)
+			int start = Math.round(vaSecX*samplesPerSecond);
+			// Buscar �ltimo punto
+			int end = Math.min(start + Math.round(npoints), dataEnd);
 			
-			if (entry.getKey().intValue()-actualData.offset < start || entry.getKey().intValue()-actualData.offset >= end)
-				continue;
+			Iterator<Map.Entry<Integer, DPoint>> it = actualData.dpoints.entrySet().iterator();
+			Map.Entry<Integer, DPoint> entry;
+			boolean done = false;
 			
-			map.put(vpPxX + (entry.getKey()-start-actualData.offset)*dpoints, new ExtendedDPoint(entry.getKey().intValue()-actualData.offset, entry.getValue()));
-		}*/
+			while (it.hasNext() && !done) {
+				entry = it.next();
+				
+				if (entry.getKey().intValue()-actualData.offset < start || entry.getKey().intValue()-actualData.offset >= end)
+					continue;
+				
+				map.put(vpPxX + (entry.getKey()-start-actualData.offset)*dpoints, new ExtendedDPoint(entry.getKey().intValue()-actualData.offset, entry.getValue()));
+			}
+		}
 		
 		return map;
 	}

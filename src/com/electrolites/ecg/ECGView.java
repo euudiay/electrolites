@@ -203,6 +203,8 @@ public class ECGView extends AnimationView {
 		private Paint textPaint, rectPaint, ecgPaint;
 		
 		private int bgColor;
+		
+		private long lastTime;
 
 		public ECGThreadDynamic(SurfaceHolder holder) {
 			super(holder);
@@ -222,6 +224,25 @@ public class ECGView extends AnimationView {
 			// Frame painter
 			rectPaint = new Paint();
 			rectPaint.setColor(Color.rgb(69, 69, 69));
+			
+			lastTime = 0;
+		}
+		
+		@Override
+		public void onUpdate() {
+			long now = System.currentTimeMillis();
+			
+			long samplesEllapsed = ((now - lastTime)/1000)*250;
+			System.out.println("Ellapsed " + samplesEllapsed + " samples.");
+			if (dvport != null) {
+				for (int i = 0; i < samplesEllapsed; i++) {
+					if (dvport.samplesData.isEmpty())
+						break;
+					dvport.samplesData.remove();
+				}
+			}
+			
+			lastTime = now;
 		}
 		
 		@Override

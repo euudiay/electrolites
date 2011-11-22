@@ -8,4 +8,8 @@ public class SamplePoint {
 		this.id = id;
 		this.sample = value;
 	}
+	
+	public SamplePoint clone() {
+		return new SamplePoint(id, sample);
+	}
 }

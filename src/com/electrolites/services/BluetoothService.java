@@ -253,7 +253,9 @@ public class BluetoothService extends DataService {
 		dp.readStreamDynamic(samples, dpoints, hbrs, offset);
 		
 		// Manda los resultados a data y vac�a las estructuras de DataService
-		data.dynamicData.addSamples(samples);
+		synchronized (this) {
+			data.dynamicData.addSamples(samples);
+		}
 		samples = new ArrayList<SamplePoint>();
 		//data.dpoints.putAll(dpoints);
 		dpoints = new HashMap<Integer, DPoint>();
@@ -261,7 +263,9 @@ public class BluetoothService extends DataService {
 		hbrs = new HashMap<Integer, Short>();
 		
 		if (offset != -1) {
-			data.offset = offset;
+			synchronized (this) {
+				data.offset = offset;
+			}
 			offset = -1;
 		}
 	}

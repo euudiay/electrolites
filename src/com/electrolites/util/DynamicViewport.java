@@ -64,7 +64,8 @@ public class DynamicViewport {
 						samplesData.removeFirst();
 				}
 				
-				samplesData.add(actualData.dynamicData.samplesQueue.removeFirst());
+				if (!actualData.dynamicData.samplesQueue.isEmpty())
+					samplesData.add(actualData.dynamicData.samplesQueue.remove());
 				//System.out.println("Queue size = " + samplesData.size() + ", expected: " + vaSamples);
 			}
 		}

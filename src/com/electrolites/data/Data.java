@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import android.app.Activity;
 import android.app.Application;
@@ -81,8 +82,12 @@ public class Data {
 					for (int i = 0; i < toRemove; i++) {
 						if (samplesQueue.isEmpty())
 							break;
-						SamplePoint p = samplesQueue.removeFirst();
-						p = null;
+						try {
+							SamplePoint p = samplesQueue.removeFirst();
+							p = null;
+						} catch (NoSuchElementException e) {
+							
+						}
 					}
 				}
 				// Add new ones at end
