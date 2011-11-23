@@ -230,7 +230,8 @@ public class ECGView extends AnimationView {
 		
 		@Override
 		public void onUpdate() {
-			long now = System.currentTimeMillis();
+			super.onUpdate();
+			/*long now = System.currentTimeMillis();
 			
 			long samplesEllapsed = ((now - lastTime)/1000)*250;
 			System.out.println("Ellapsed " + samplesEllapsed + " samples.");
@@ -242,7 +243,7 @@ public class ECGView extends AnimationView {
 				}
 			}
 			
-			lastTime = now;
+			lastTime = now;*/
 		}
 		
 		@Override
@@ -261,6 +262,7 @@ public class ECGView extends AnimationView {
 				canvas.drawColor(bgColor);
 			
 			/*** Render axis and scales ***/
+				
 				// y axis
 				textPaint.setARGB(230, 150, 150, 150);
 				textPaint.setStrokeWidth(2.f);
@@ -286,12 +288,15 @@ public class ECGView extends AnimationView {
 				ecgPaint.setColor(Color.rgb(30, 255, 30));
 				ecgPaint.setAlpha((int) (255*0.9));
 				ecgPaint.setStrokeWidth(2.f);
+
 	            float points[] = dvport.getViewContents();
 	            
 	            if (points != null) {
 	            	int toDraw = points.length;
 	            	canvas.drawLines(points, 0, toDraw,  ecgPaint);
 	            }
+				
+				canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
 			
 			// Render dpoints
 	            // not yet

@@ -2,6 +2,7 @@ package com.electrolites.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import android.content.res.Resources;
 
@@ -10,8 +11,8 @@ import com.electrolites.data.DPoint;
 public class DataParser {
 	private FileConverter fc;		
 	
-	private ArrayList<Byte> stream;	// Bytes leídos
-	private int p1, p2;				// Punteros al último byte consumido y al último producido
+	private ArrayList<Byte> stream;	// Bytes leï¿½dos
+	private int p1, p2;				// Punteros al ï¿½ltimo byte consumido y al ï¿½ltimo producido
 	private int expected_bytes;		// Bytes que se espera que vengan
 	private int lastSample;			// ï¿½ltima muestra leï¿½da (nï¿½mero de orden)
 	private float lastHBR;			// ï¿½ltimo resultado de ritmo cardï¿½aco leï¿½do
@@ -76,7 +77,7 @@ public class DataParser {
 		return (p1 <= p2 && p2-p1 >= expected_bytes);
 	} 
 	
-	// Devuelve el número de bytes que nos han sobrado (forman parte del siguiente flujo de bytes)
+	// Devuelve el nï¿½mero de bytes que nos han sobrado (forman parte del siguiente flujo de bytes)
 	public int nextField(boolean staticMode) {
 		// Obtenemos el siguiente byte
 		int new_byte = ((int) stream.get(p1)) & 0xff;
@@ -116,17 +117,23 @@ public class DataParser {
 	public int readStreamDynamic(ArrayList<SamplePoint> samples, HashMap<Integer, DPoint> dpoints, 
 			HashMap <Integer, Short> hbrs, Integer offset) {
 		// Guardamos las referencias
+		//samples = new ArrayList<SamplePoint>();
 		dataSamplesDynamic = samples;
 		dataDPoints = dpoints;
 		dataHBRs = hbrs;
 		dataOffset = offset;
 		
-		p1 = 0;
+		/*for (int i = 0; i < 24; i++)
+			dataSamplesDynamic.add(new SamplePoint((short) i, (short)(new Random().nextInt())));
+		return 0;*/
+		
+		//p1 = 0;
 		p2 = stream.size() -1;// Esto de momento
 		int bytes = 0;
 		while (hasNext())
 			if ((bytes = nextField(false)) != 0)
 				System.out.println("Faltan " + bytes + " por parsear."); // Quedan cosas por leer
+		//stream = new ArrayList<Byte>();
 		return bytes;
 	}
 	
@@ -159,7 +166,7 @@ public class DataParser {
 		int byte2 = ((int) stream.get(p1+3)) & 0xff;
 		int byte3 = ((int) stream.get(p1+4)) & 0xff;
 		
-		// Calculamos el número de muestras que nos dice el offset
+		// Calculamos el nï¿½mero de muestras que nos dice el offset
 		int nSamples = byte3 + 256*(byte2 + 256*(byte1 + 256*byte0));
 		
 		// Si no coincide con la ï¿½ltima muestra leï¿½da, hemos perdido muestras
@@ -168,7 +175,7 @@ public class DataParser {
 			for (int i = 0; i < nSamples - lastSample; i++)
 					dataSamplesStatic.add(null);
 			System.err.println("Se han perdido " + (nSamples - lastSample) + " muestras");
-			// Actualizamos cuál fue la última muestra (perdida)
+			// Actualizamos cuï¿½l fue la ï¿½ltima muestra (perdida)
 			lastSample = nSamples;
 		}
 		else if (lastSample == 0) {
@@ -239,7 +246,7 @@ public class DataParser {
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
-		// b1 más significativo que b2
+		// b1 mï¿½s significativo que b2
 		int i1 = b1;
 		int i2 = b2;
 		i1 &= 0xff;

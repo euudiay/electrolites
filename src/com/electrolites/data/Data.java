@@ -65,20 +65,24 @@ public class Data {
 	public class DynamicData {
 		public LinkedList<SamplePoint>samplesQueue;
 		public int samplesQueueWidth;
+		public int addedSamples;
 		
 		public DynamicData() {
 			samplesQueue = new LinkedList<SamplePoint>();
 			samplesQueueWidth = -1;
+			addedSamples = 0;
 		};
 		
 		public void addSamples(Collection<SamplePoint> list) {
 			// If no width's specified, just add them all
+			int newSamples = list.size();
+			
 			if (samplesQueueWidth < 0)
 				samplesQueue.addAll(list);
 			else {
 				// Remove from head those that doesn't fit in
-				if (samplesQueue.size() + list.size() >= samplesQueueWidth) {
-					int toRemove = ((samplesQueue.size() + list.size()) - samplesQueueWidth);
+				if (samplesQueue.size() + newSamples >= samplesQueueWidth) {
+					int toRemove = ((samplesQueue.size() + newSamples) - samplesQueueWidth);
 					for (int i = 0; i < toRemove; i++) {
 						if (samplesQueue.isEmpty())
 							break;
@@ -92,11 +96,33 @@ public class Data {
 				}
 				// Add new ones at end
 				samplesQueue.addAll(list);
+				System.out.println("Data has:" + addedSamples + " + " + newSamples);
+				
 			}
+			
+			addedSamples += newSamples;
 		}
 			
 		public SamplePoint getSample() {
 			return samplesQueue.remove();
+		}
+		
+		public Collection<SamplePoint> getSamples() {
+			LinkedList<SamplePoint> result = new LinkedList<SamplePoint>();
+			for (int i = 0; i < addedSamples; i++) {
+				if (samplesQueue.isEmpty())
+					break;
+				try {
+					result.add(samplesQueue.remove());
+				} catch (NoSuchElementException e) {
+					System.err.println("No such element en Data::getSamples()");
+				} finally {
+					addedSamples = 0;
+				}
+			}
+			addedSamples = 0;
+			
+			return result;
 		}
 	};
 	
