@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 
 import com.electrolites.data.Data;
 
@@ -55,6 +56,34 @@ public class DynamicViewport {
 			actualData.dynamicData.samplesQueueWidth = (int) (samplesPerSecond * Math.max(0.1f, actualData.getWidthScale()));
 			vaSamples = actualData.dynamicData.samplesQueueWidth;
 			baselinePxY = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();
+
+			if (actualData.dynamicData.addedSamples > 0) { /*&& 
+				actualData.dynamicData.samplesQueue.size() > actualData.dynamicData.addedSamples) {*/
+
+				// Ask for one more sample, removing the older one if full queue
+				if (samplesData.size() >= vaSamples) {
+					int toRemove = samplesData.size() - vaSamples;
+					for (int i = 0; i < toRemove; i++)
+						samplesData.removeFirst();
+				}
+				
+				System.out.println("View got:" + actualData.dynamicData.addedSamples);
+				
+				samplesData.addAll(actualData.dynamicData.getSamples());
+				// System.out.println("Queue size = " + samplesData.size() + ", expected: " + vaSamples);
+			}
+		}
+		
+		float top = vpPxHeight*0.85f;
+		float max = 12000f;
+		vFactor = top/max;
+	}
+	
+	public void updateParametersOld() {
+		synchronized (this) {
+			actualData.dynamicData.samplesQueueWidth = (int) (samplesPerSecond * Math.max(0.1f, actualData.getWidthScale()));
+			vaSamples = actualData.dynamicData.samplesQueueWidth;
+			baselinePxY = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();
 			
 			if (actualData.dynamicData.samplesQueue.size() > 0) {				
 				// Ask for one more sample, removing the older one if full queue
@@ -85,6 +114,53 @@ public class DynamicViewport {
 			System.err.println("No usable quantity of samples found. Please note, this error should not have popped.");
 			return null;
 		}
+
+		float[] results = new float[4+4*(samplesData.size()-1)];
+		
+		Iterator<SamplePoint> it = samplesData.iterator();
+		
+		for (int i = 0; i < samplesData.size()-1; i++) {
+			if (!it.hasNext()) {
+				System.err.println("No sample found at position " + i);
+				return null;
+			}
+				
+			if (i == 0) {
+				results[i] = vpPxX;
+				results[i+1] = baselinePxY - it.next().sample*vFactor;
+				if (it.hasNext()) {
+					results[i+2] = vpPxX + dpoints;
+					results[i+3] = baselinePxY - it.next().sample*vFactor;
+				}
+			}
+			else {
+				// Duplicate last point
+				results[4*i] = results[4*i-2];
+				results[4*i+1] = results[4*i-1];
+				results[4*i+2] = vpPxX + i*dpoints;
+				results[4*i+3] = baselinePxY - it.next().sample*vFactor;
+			}
+		}
+		
+		return results;
+	}
+	
+	public float[] getRandomContents() {
+		
+		float dpoints = vpPxWidth / ((float) vaSamples);
+		
+		if (dpoints <= 0) {
+			System.err.println("No usable quantity of samples found. Please note, this error should not have popped.");
+			return null;
+		}
+		
+		if (samplesData.size() + samplesPerSecond/60 > vaSamples) {
+			for (int i = 0; i < vaSamples - samplesData.size() + samplesPerSecond/60; i++)
+				samplesData.remove();
+		}
+		
+		for (int i = 0; i < samplesPerSecond/60; i++)
+			samplesData.add(new SamplePoint(i, (short) (new Random().nextInt())));
 
 		float[] results = new float[4+4*(samplesData.size()-1)];
 		

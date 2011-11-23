@@ -55,9 +55,9 @@ public class BluetoothService extends DataService {
 	
 	// Muestras indexadas por no. de muestra
 	protected ArrayList<SamplePoint> samples;
-	// Puntos resultantes de la delineación, indexados por número de muestra
+	// Puntos resultantes de la delineaciï¿½n, indexados por nï¿½mero de muestra
 	protected HashMap<Integer, DPoint> dpoints;
-	// Valores del ritmo cardíaco, indexados según el número de muestra anterior a su recepción
+	// Valores del ritmo cardï¿½aco, indexados segï¿½n el nï¿½mero de muestra anterior a su recepciï¿½n
 	protected HashMap<Integer, Short> hbrs;
 	// Primera muestra dibujable
 	protected int offset;
@@ -249,6 +249,7 @@ public class BluetoothService extends DataService {
 	}
 	
 	private void parseData() {
+		samples = new ArrayList<SamplePoint>();
 		// Lee el flujo de bytes y parsea
 		dp.readStreamDynamic(samples, dpoints, hbrs, offset);
 		
@@ -256,7 +257,7 @@ public class BluetoothService extends DataService {
 		synchronized (this) {
 			data.dynamicData.addSamples(samples);
 		}
-		samples = new ArrayList<SamplePoint>();
+		//samples = new ArrayList<SamplePoint>();
 		//data.dpoints.putAll(dpoints);
 		dpoints = new HashMap<Integer, DPoint>();
 		//data.hbrs.putAll(hbrs);
