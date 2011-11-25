@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.electrolites.data.Data;
+import com.electrolites.services.BluetoothParserService;
 import com.electrolites.services.BluetoothService;
 import com.electrolites.services.DataService;
 import com.electrolites.services.FileParserService;
@@ -350,13 +351,13 @@ public class ElectrolitesActivity extends Activity {
 			 * start.setEnabled(false); ecgView.setVisibility(View.VISIBLE);
 			 */
 
-			intentDePferv = new Intent(getApplication(), BluetoothService.class);
+			intentDePferv = new Intent(getApplication(), BluetoothParserService.class);
 			intentDePferv.setAction(DataService.START_RUNNING);
 			intentDePferv.putExtra("deviceName", data.connected);
 			getApplication().startService(intentDePferv);
 
-			intentDePferv.setAction(DataService.RETRIEVE_DATA);
-			getApplication().startService(intentDePferv);
+			/*intentDePferv.setAction(DataService.RETRIEVE_DATA);
+			getApplication().startService(intentDePferv);*/
 
 			start.setEnabled(false);
 			data.mode = Data.MODE_DYNAMIC;

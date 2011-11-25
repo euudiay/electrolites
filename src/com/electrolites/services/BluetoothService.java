@@ -68,7 +68,7 @@ public class BluetoothService extends DataService {
 	
 	
 	public BluetoothService() {
-		super("BluetoothService");
+		super("BTS");
 		
 		samples = new ArrayList<SamplePoint>();
 		dpoints = new HashMap<Integer, DPoint>();
@@ -184,7 +184,7 @@ public class BluetoothService extends DataService {
         }
 
         // Iniciamos el thread para conectar con el dispositivo
-        connectT = new ConnectThread(bA, this, bD, uuid);
+        //connectT = new ConnectThread(bA, this, bD, uuid);
         connectT.start();
         setState(STATE_CONNECTING);
 	}
@@ -206,7 +206,7 @@ public class BluetoothService extends DataService {
         }
         
         // Iniciamos el thread que maneja la conexi�n
-        connectedT = new ConnectedThread(this, socket);
+        //connectedT = new ConnectedThread(this, socket);
         connectedT.start();
 
         // Send the name of the connected device back to the UI Activity
