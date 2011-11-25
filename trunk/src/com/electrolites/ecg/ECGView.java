@@ -246,10 +246,11 @@ public class ECGView extends AnimationView {
 			
 			lastTime = now;*/
 			
-				sleep((long) 0.004);
+			  sleep((long) 4);
 			} catch (InterruptedException e) {
 				System.err.println("QUIEN OSA DESPERTAR A MALTUS!?");
 			}
+			
 		}
 		
 		@Override

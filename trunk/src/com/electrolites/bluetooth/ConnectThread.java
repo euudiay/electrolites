@@ -8,16 +8,17 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import com.electrolites.services.BluetoothParserService;
 import com.electrolites.services.BluetoothService;
 
 // Obtiene el socket para enviar datos
 public class ConnectThread extends Thread {
 	private final BluetoothAdapter bA;
-	private final BluetoothService bS;
+	private final BluetoothParserService bS;
 	private final BluetoothSocket socket;
     private final BluetoothDevice device;
 
-    public ConnectThread(BluetoothAdapter bA, BluetoothService bS, BluetoothDevice device, UUID uuid) {
+    public ConnectThread(BluetoothAdapter bA, BluetoothParserService bS, BluetoothDevice device, UUID uuid) {
         this.bA = bA;
         this.bS = bS;
     	this.device = device;
