@@ -21,6 +21,8 @@ import com.electrolites.bluetooth.ConnectedThread;
 import com.electrolites.data.DPoint;
 import com.electrolites.ecg.ElectrolitesActivity;
 import com.electrolites.util.DataParser;
+import com.electrolites.util.FixedLinkedList;
+import com.electrolites.util.FriendlyDataParser;
 import com.electrolites.util.SamplePoint;
 
 public class BluetoothService extends DataService {
@@ -51,7 +53,9 @@ public class BluetoothService extends DataService {
 	
 	private Handler handler;
 	
-	private DataParser dp;
+	private FriendlyDataParser dp;
+	
+	private FixedLinkedList<Byte> stream;
 	
 	// Muestras indexadas por no. de muestra
 	protected ArrayList<SamplePoint> samples;
@@ -70,8 +74,12 @@ public class BluetoothService extends DataService {
 		dpoints = new HashMap<Integer, DPoint>();
 		hbrs = new HashMap<Integer, Short>();
 		
+		stream = new FixedLinkedList<Byte>(0);
+		
 		handler = data.handler;
-		dp = new DataParser();
+		dp = new FriendlyDataParser();
+		dp.setData(data);
+		dp.setStream(stream);
 		
 		bA = BluetoothAdapter.getDefaultAdapter();
 		if (bA == null) {
@@ -238,8 +246,9 @@ public class BluetoothService extends DataService {
 			for (int i = 0; i < bytes; i++) {
 				//synchronized (this) {
 					// A�adimos el byte al vector de datos le�dos
-					dp.addToStream(buffer[i]);
-					dp.setP2(dp.getP2()+1);
+					//dp.addToStream(buffer[i]);
+					//dp.setP2(dp.getP2()+1);
+					stream.add(buffer[i]);
 			//	}
 			}
 		}
@@ -254,9 +263,9 @@ public class BluetoothService extends DataService {
 		dp.readStreamDynamic(samples, dpoints, hbrs, offset);
 		
 		// Manda los resultados a data y vac�a las estructuras de DataService
-		synchronized (this) {
+		/*synchronized (data.dynamicData) {
 			data.dynamicData.addSamples(samples);
-		}
+		}*/
 		//samples = new ArrayList<SamplePoint>();
 		//data.dpoints.putAll(dpoints);
 		dpoints = new HashMap<Integer, DPoint>();
@@ -295,7 +304,7 @@ public class BluetoothService extends DataService {
         // Send a failure message back to the Activity
         Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(ElectrolitesActivity.TOAST, "El intento de conexi�n ha fallado.");
+        bundle.putString(ElectrolitesActivity.TOAST, "El intento de conexión ha fallado.");
         msg.setData(bundle);
         handler.sendMessage(msg);
 		// Nos volvemos a poner a la escucha
@@ -306,11 +315,11 @@ public class BluetoothService extends DataService {
 	}
 	
 	public void connectionLost() {
-		Log.e(BluetoothService.TAG, "Se ha perdido la conexi�n. Reiniciando...");
+		Log.e(BluetoothService.TAG, "Se ha perdido la conexión. Reiniciando...");
 		// Deber�amos avisar a la activity, no?
         Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(ElectrolitesActivity.TOAST, "Se ha perdido la conexi�n");
+        bundle.putString(ElectrolitesActivity.TOAST, "Se ha perdido la conexión");
         msg.setData(bundle);
         handler.sendMessage(msg);
 		// Nos volvemos a poner a la escucha

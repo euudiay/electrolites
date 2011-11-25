@@ -230,7 +230,8 @@ public class ECGView extends AnimationView {
 		
 		@Override
 		public void onUpdate() {
-			super.onUpdate();
+			try {
+				super.onUpdate();
 			/*long now = System.currentTimeMillis();
 			
 			long samplesEllapsed = ((now - lastTime)/1000)*250;
@@ -244,6 +245,11 @@ public class ECGView extends AnimationView {
 			}
 			
 			lastTime = now;*/
+			
+				sleep((long) 0.004);
+			} catch (InterruptedException e) {
+				System.err.println("QUIEN OSA DESPERTAR A MALTUS!?");
+			}
 		}
 		
 		@Override
@@ -289,7 +295,7 @@ public class ECGView extends AnimationView {
 				ecgPaint.setAlpha((int) (255*0.9));
 				ecgPaint.setStrokeWidth(2.f);
 
-	            float points[] = dvport.getViewContents();
+	            float points[] = dvport.getViewContents(fps);
 	            
 	            if (points != null) {
 	            	int toDraw = points.length;
@@ -314,8 +320,21 @@ public class ECGView extends AnimationView {
 				canvas.drawLine(right, top, right, bottom, textPaint);
 			
 			// Render text labels
-				// not yet
+				divisions = (int) Math.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
+				
+				canvas.drawText("0.0", left-2, dvport.baselinePxY, textPaint);
+				for (int i = 0; i <= divisions; i++) {
+					canvas.drawText("" + (float) i, left-2, dvport.baselinePxY-i*1000*dvport.vFactor, textPaint);
+				}
+				
+				// Lower part
+				divisions = (int) Math.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
+				
+				for (int i = 1; i <= divisions; i++) {
+					canvas.drawText("" + (float) -i, left-2, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
+				}
 			
+			// Aaaaand done!
             canvas.restore();
 			
 		}
@@ -341,6 +360,10 @@ public class ECGView extends AnimationView {
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
+		int w = (int) (getWidth()*0.95);
+		int h = (int) (getHeight()*0.9);
+		dvport = new DynamicViewport(w, h, 3.0f);
+		dvport.setOnScreenPosition(30, 30);
 	}
 
 	@Override

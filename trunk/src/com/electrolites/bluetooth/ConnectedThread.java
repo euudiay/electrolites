@@ -1,4 +1,4 @@
-﻿package com.electrolites.bluetooth;
+package com.electrolites.bluetooth;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +11,10 @@ import android.util.Log;
 
 // Actúa como cliente, una vez conectado el socket envía datos (o los recibe)
 public class ConnectedThread extends Thread {
-	private final BluetoothSocket socket;
+    private final BluetoothSocket socket;
     private final InputStream input;
     private final OutputStream output;
-    
+   
     private BluetoothService bS;
 
     public ConnectedThread(BluetoothService bS, BluetoothSocket socket) {
@@ -35,21 +35,21 @@ public class ConnectedThread extends Thread {
         input = tmpIn;
         output = tmpOut;
     }
-    
+   
     // Recepción de datos
     @Override
-	public void run() {
+    public void run() {
         Log.i(BluetoothService.TAG, "ConnectedThread comienza su actividad.");
-        byte[] buffer = new byte[16];
+        byte[] buffer = new byte[256];
         int bytes;
 
         // Se mantiene a la escucha mientras esté conectado
         while (true) {
             try {
                 // Leemos del InputStream
-            	//buffer = new byte[1024];
+                //buffer = new byte[1024];
                 bytes = input.read(buffer);
-                
+               
                 // Hacemos cosas con los datos obtenidos, como guardarlos en data
                 bS.read(bytes, buffer);
             } catch (IOException e) {
@@ -59,7 +59,7 @@ public class ConnectedThread extends Thread {
             }
         }
     }
-    
+   
     // Envío de datos al dispositivo
     public void write(byte[] buffer) {
         try {
