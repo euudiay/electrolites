@@ -52,26 +52,10 @@ public class DynamicViewport {
 	}
 	
 	public void updateParameters() {
-		synchronized (this) {
+		synchronized (actualData.dynamicData) {
 			actualData.dynamicData.samplesQueueWidth = (int) (samplesPerSecond * Math.max(0.1f, actualData.getWidthScale()));
 			vaSamples = actualData.dynamicData.samplesQueueWidth;
 			baselinePxY = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();
-
-			if (actualData.dynamicData.addedSamples > 0) { /*&& 
-				actualData.dynamicData.samplesQueue.size() > actualData.dynamicData.addedSamples) {*/
-
-				// Ask for one more sample, removing the older one if full queue
-				if (samplesData.size() >= vaSamples) {
-					int toRemove = samplesData.size() - vaSamples;
-					for (int i = 0; i < toRemove; i++)
-						samplesData.removeFirst();
-				}
-				
-				System.out.println("View got:" + actualData.dynamicData.addedSamples);
-				
-				samplesData.addAll(actualData.dynamicData.getSamples());
-				// System.out.println("Queue size = " + samplesData.size() + ", expected: " + vaSamples);
-			}
 		}
 		
 		float top = vpPxHeight*0.85f;
@@ -79,32 +63,7 @@ public class DynamicViewport {
 		vFactor = top/max;
 	}
 	
-	public void updateParametersOld() {
-		synchronized (this) {
-			actualData.dynamicData.samplesQueueWidth = (int) (samplesPerSecond * Math.max(0.1f, actualData.getWidthScale()));
-			vaSamples = actualData.dynamicData.samplesQueueWidth;
-			baselinePxY = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();
-			
-			if (actualData.dynamicData.samplesQueue.size() > 0) {				
-				// Ask for one more sample, removing the older one if full queue
-				if (samplesData.size() >= vaSamples) {
-					int toRemove = samplesData.size() - vaSamples;
-					for (int i = 0; i < toRemove; i++)
-						samplesData.removeFirst();
-				}
-				
-				if (!actualData.dynamicData.samplesQueue.isEmpty())
-					samplesData.add(actualData.dynamicData.samplesQueue.remove());
-				//System.out.println("Queue size = " + samplesData.size() + ", expected: " + vaSamples);
-			}
-		}
-		
-		float top = vpPxHeight*0.85f;
-		float max = 12000f;
-		vFactor = top/max;
-	}
-	
-	public float[] getViewContents() {
+	public float[] getViewContents(int fps) {
 		// Get a new sample and update drawing parameters
 		updateParameters();
 		
@@ -113,6 +72,16 @@ public class DynamicViewport {
 		if (dpoints <= 0) {
 			System.err.println("No usable quantity of samples found. Please note, this error should not have popped.");
 			return null;
+		}
+		
+		// Full data clone 
+		samplesData = new LinkedList<SamplePoint>();
+		synchronized(actualData.dynamicData) {
+			//SamplePoint p;
+			int len = actualData.dynamicData.samplesQueue.size();
+			for (int i = 0; i < len; i++) {
+				samplesData.add(actualData.dynamicData.samplesQueue.get(i).clone());
+			}
 		}
 
 		float[] results = new float[4+4*(samplesData.size()-1)];
