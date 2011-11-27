@@ -150,7 +150,7 @@ public class ElectrolitesActivity extends Activity {
 		hRate.setGravity(Gravity.CENTER);
 		hRate.setTextSize(30f);
 		hRate.setTextColor(Color.RED);
-		hRate.setText("60 bpr");
+		hRate.setText("60 bpm");
 
 		display = (TextView) findViewById(R.id.t_display);
 		display.setBackgroundColor(Color.DKGRAY);
@@ -429,6 +429,20 @@ public class ElectrolitesActivity extends Activity {
 				data.setWidthScale(data.getWidthScale() - 0.5f);
 			}
 		}
+	}
+
+	private Handler aHandler = new Handler();
+	
+	public void updateHBR() {
+		aHandler.post(new Runnable() {
+			public void run() {
+				hRate = (TextView) findViewById(R.id.t_hRate);
+				if (hRate != null)
+					synchronized (data.dynamicData.mutex) {
+						hRate.setText(data.dynamicData.getHBR() + " bpm");
+					}
+			}
+		});
 	}
 
 }

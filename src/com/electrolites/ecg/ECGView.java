@@ -1,8 +1,8 @@
 package com.electrolites.ecg;
 
+import java.util.LinkedList;
 import java.util.Map;
 
-import android.R.color;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -20,6 +20,8 @@ import com.electrolites.data.DPoint.Wave;
 import com.electrolites.data.Data;
 import com.electrolites.util.DynamicViewport;
 import com.electrolites.util.ExtendedDPoint;
+import com.electrolites.util.LineDrawCommand;
+import com.electrolites.util.PositionedDPoint;
 import com.electrolites.util.Viewport;
 
 public class ECGView extends AnimationView {
@@ -232,21 +234,7 @@ public class ECGView extends AnimationView {
 		public void onUpdate() {
 			try {
 				super.onUpdate();
-			/*long now = System.currentTimeMillis();
-			
-			long samplesEllapsed = ((now - lastTime)/1000)*250;
-			System.out.println("Ellapsed " + samplesEllapsed + " samples.");
-			if (dvport != null) {
-				for (int i = 0; i < samplesEllapsed; i++) {
-					if (dvport.samplesData.isEmpty())
-						break;
-					dvport.samplesData.remove();
-				}
-			}
-			
-			lastTime = now;*/
-			
-			  sleep((long) 4);
+				sleep((long) 4);
 			} catch (InterruptedException e) {
 				System.err.println("QUIEN OSA DESPERTAR A MALTUS!?");
 			}
@@ -255,6 +243,8 @@ public class ECGView extends AnimationView {
 		
 		@Override
 		public void onRender(Canvas canvas) {
+			
+			synchronized (data.dynamicData.mutex) {
 			
 			if (canvas == null || dvport == null)
 				return;
@@ -291,12 +281,14 @@ public class ECGView extends AnimationView {
 					canvas.drawLine(left, dvport.baselinePxY+i*1000*dvport.vFactor, right+5, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
 				}
 			
+			// Get Data (samples + dpoints)
+	            float points[] = dvport.getViewContents();
+	            LinkedList<LineDrawCommand> pointsList = dvport.getViewDPoints();
+				
 			// Render samples
-				ecgPaint.setColor(Color.rgb(30, 255, 30));
+				ecgPaint.setColor(Color.rgb(100, 240, 100));
 				ecgPaint.setAlpha((int) (255*0.9));
 				ecgPaint.setStrokeWidth(2.f);
-
-	            float points[] = dvport.getViewContents(fps);
 	            
 	            if (points != null) {
 	            	int toDraw = points.length;
@@ -306,7 +298,10 @@ public class ECGView extends AnimationView {
 				canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
 			
 			// Render dpoints
-	            // not yet
+	            //LinkedList<LineDrawCommand> pointsList = dvport.getViewDPoints();
+	            for (int i = 0; i < pointsList.size(); i++) {
+	            	renderDPoint(canvas, pointsList.remove(), points);
+	            }
 			
 			// Render frame
 				canvas.drawRect(new Rect(0, 0, getWidth(), dvport.vpPxY-1), rectPaint);
@@ -335,9 +330,20 @@ public class ECGView extends AnimationView {
 					canvas.drawText("" + (float) -i, left-2, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
 				}
 			
+			// Debug thingies
+				textPaint.setTextAlign(Align.LEFT);
+				canvas.drawText("" + dvport.areaOffset + " ~ " + dvport.lastOffset, left, top-10, textPaint);
+				textPaint.setTextAlign(Align.RIGHT);
+			
 			// Aaaaand done!
             canvas.restore();
-			
+			}
+		}
+		
+		protected void renderDPoint(Canvas canvas, LineDrawCommand com, float[] points) {
+			ecgPaint.setARGB(com.getA(), com.getR(), com.getG(), com.getB());
+			ecgPaint.setStrokeWidth(com.getWidth());
+			canvas.drawLine(com.getX1(), com.getY1(), com.getX2(), com.getY2(), ecgPaint);
 		}
 	}
 

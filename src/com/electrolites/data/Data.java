@@ -12,6 +12,9 @@ import android.app.Application;
 import android.graphics.Color;
 import android.os.Handler;
 
+import com.electrolites.ecg.ElectrolitesActivity;
+import com.electrolites.util.ExtendedDPoint;
+import com.electrolites.util.FixedLinkedList;
 import com.electrolites.util.SamplePoint;
 
 public class Data {
@@ -63,16 +66,26 @@ public class Data {
 	
 	// Data container for dynamic visualization mode
 	public class DynamicData {
+		public Object mutex;
 		public LinkedList<SamplePoint>samplesQueue;
+		public FixedLinkedList<ExtendedDPoint> dpointsQueue;
 		public int samplesQueueWidth;
+		public float hbr;
+		public boolean newHBR;
 
 		public DynamicData() {
+			mutex = new Object();
 			samplesQueue = new LinkedList<SamplePoint>();
+			dpointsQueue = new FixedLinkedList<ExtendedDPoint>(0);
 			samplesQueueWidth = -1;
+			hbr = 0;
+			newHBR = false;
 		};
 		
 		public void addSample(SamplePoint sample) {
 			if (samplesQueueWidth > 0) {
+				// Update dpoints queue size
+				dpointsQueue.capacity = samplesQueueWidth;
 				if (samplesQueue.size() + 1 >= samplesQueueWidth) {	
 					samplesQueue.remove();
 				}
@@ -86,6 +99,8 @@ public class Data {
 			if (samplesQueueWidth < 0)
 				samplesQueue.addAll(list);
 			else {
+				// Update dpoints queue size
+				dpointsQueue.capacity = samplesQueueWidth;
 				// Remove from head those that doesn't fit in
 				if (samplesQueue.size() + newSamples >= samplesQueueWidth) {
 					int toRemove = ((samplesQueue.size() + newSamples) - samplesQueueWidth);
@@ -108,6 +123,29 @@ public class Data {
 			
 		public SamplePoint getSample() {
 			return samplesQueue.remove();
+		}
+		
+		public void addDPoint(ExtendedDPoint p) {
+			// Add only if in range
+			if (samplesQueue.isEmpty())
+				dpointsQueue.add(p);
+			else {
+				/*if (p.getIndex() >= samplesQueue.peek().id && 
+						p.getIndex() <= samplesQueue.peekLast().id) {*/
+					dpointsQueue.add(p);
+				//}
+			}
+		}
+		
+		public void setHBR(float hbr) {
+			newHBR = true;
+			this.hbr = hbr;
+			((ElectrolitesActivity) activity).updateHBR();
+		}
+		
+		public float getHBR() {
+			newHBR = false;
+			return hbr;
 		}
 	};
 	
