@@ -24,11 +24,11 @@ public class ConnectThread extends Thread {
     	this.device = device;
         BluetoothSocket tmp = null;
 
-        // Obtenemos el socket para la conexi�n con el dispositivo dado
+        // Obtenemos el socket para la conexión con el dispositivo dado
         try {
         	tmp = device.createRfcommSocketToServiceRecord(uuid);
         } catch (IOException e) {
-            Log.e(BluetoothService.TAG, "Ha fallado la creaci�n del socket.", e);
+            Log.e(BluetoothService.TAG, "Ha fallado la creación del socket.", e);
         }
         
         socket = tmp;
@@ -42,7 +42,7 @@ public class ConnectThread extends Thread {
         if (bA.isDiscovering())
         	bA.cancelDiscovery();
 
-        // Creamos una conexi�n con el socket
+        // Creamos una conexión con el socket
         try {
             socket.connect(); // Llamada bloqueante
         } catch (IOException e) {

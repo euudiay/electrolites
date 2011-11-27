@@ -34,4 +34,9 @@ public class ExtendedDPoint{
 	public String toString() {
 		return "("+index+", "+dpoint+")";
 	}
+	
+	public ExtendedDPoint clone() {
+		DPoint p = new DPoint(dpoint.getType(), dpoint.getWave());
+		return new ExtendedDPoint(index, p);
+	}
 }

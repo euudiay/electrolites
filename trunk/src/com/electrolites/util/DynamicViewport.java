@@ -3,13 +3,14 @@ package com.electrolites.util;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
 
+import com.electrolites.data.DPoint;
+import com.electrolites.data.DPoint.PointType;
+import com.electrolites.data.DPoint.Wave;
 import com.electrolites.data.Data;
 
 public class DynamicViewport {
-	// Posiciï¿½n, ancho y alto del viewport en pixels
+	// Posición, ancho y alto del viewport en pixels
 	public int vpPxX;
 	public int vpPxY;
 	public int vpPxWidth;
@@ -28,9 +29,13 @@ public class DynamicViewport {
 	
 	// Samples Data
 	public LinkedList<SamplePoint> samplesData;
+	public LinkedList<LineDrawCommand> pointsData;
+	protected HashMap<Integer, Float> samplesIndex;
 	
 	// Testing area
 	public float vFactor;
+	public int areaOffset, lastOffset;
+	public float verticalThreshold;
 	
 	public DynamicViewport(int width, int height, float seconds) {
 		vpPxWidth = width;
@@ -41,6 +46,11 @@ public class DynamicViewport {
 		samplesData = new LinkedList<SamplePoint>();
 		
 		samplesPerSecond = 250f;
+		
+		areaOffset = 0;
+		lastOffset = 0;
+		
+		verticalThreshold = 0.4f;
 		
 		updateParameters();
 	}
@@ -63,7 +73,8 @@ public class DynamicViewport {
 		vFactor = top/max;
 	}
 	
-	public float[] getViewContents(int fps) {
+	public float[] getViewContents() {
+		
 		// Get a new sample and update drawing parameters
 		updateParameters();
 		
@@ -77,29 +88,40 @@ public class DynamicViewport {
 		// Full data clone 
 		samplesData = new LinkedList<SamplePoint>();
 		synchronized(actualData.dynamicData) {
-			//SamplePoint p;
 			int len = actualData.dynamicData.samplesQueue.size();
 			for (int i = 0; i < len; i++) {
 				samplesData.add(actualData.dynamicData.samplesQueue.get(i).clone());
 			}
 		}
+		
+		if (!samplesData.isEmpty()) {
+			areaOffset = samplesData.peek().id;
+			lastOffset = samplesData.peekLast().id;
+		}
 
 		float[] results = new float[4+4*(samplesData.size()-1)];
 		
 		Iterator<SamplePoint> it = samplesData.iterator();
-		
+		SamplePoint p;
+		samplesIndex = new HashMap<Integer, Float>();
 		for (int i = 0; i < samplesData.size()-1; i++) {
 			if (!it.hasNext()) {
 				System.err.println("No sample found at position " + i);
 				return null;
 			}
-				
+			
+			// Index sample
+			p = it.next();
+			samplesIndex.put(p.id, vpPxX + i*dpoints);
+			
 			if (i == 0) {
 				results[i] = vpPxX;
-				results[i+1] = baselinePxY - it.next().sample*vFactor;
+				results[i+1] = baselinePxY - p.sample*vFactor;
 				if (it.hasNext()) {
+					p = it.next();
+					samplesIndex.put(p.id, vpPxX + i*dpoints);
 					results[i+2] = vpPxX + dpoints;
-					results[i+3] = baselinePxY - it.next().sample*vFactor;
+					results[i+3] = baselinePxY - p.sample*vFactor;
 				}
 			}
 			else {
@@ -107,94 +129,55 @@ public class DynamicViewport {
 				results[4*i] = results[4*i-2];
 				results[4*i+1] = results[4*i-1];
 				results[4*i+2] = vpPxX + i*dpoints;
-				results[4*i+3] = baselinePxY - it.next().sample*vFactor;
+				results[4*i+3] = baselinePxY - p.sample*vFactor;
 			}
 		}
 		
 		return results;
 	}
 	
-	public float[] getRandomContents() {
-		
-		float dpoints = vpPxWidth / ((float) vaSamples);
-		
-		if (dpoints <= 0) {
-			System.err.println("No usable quantity of samples found. Please note, this error should not have popped.");
-			return null;
-		}
-		
-		if (samplesData.size() + samplesPerSecond/60 > vaSamples) {
-			for (int i = 0; i < vaSamples - samplesData.size() + samplesPerSecond/60; i++)
-				samplesData.remove();
-		}
-		
-		for (int i = 0; i < samplesPerSecond/60; i++)
-			samplesData.add(new SamplePoint(i, (short) (new Random().nextInt())));
-
-		float[] results = new float[4+4*(samplesData.size()-1)];
-		
-		Iterator<SamplePoint> it = samplesData.iterator();
-		
-		for (int i = 0; i < samplesData.size()-1; i++) {
-			if (!it.hasNext()) {
-				System.err.println("No sample found at position " + i);
-				return null;
-			}
+	public LinkedList<LineDrawCommand> getViewDPoints() {
+		// Full data clone 
+		pointsData = new LinkedList<LineDrawCommand>();
+		synchronized(actualData.dynamicData) {
+			int len = actualData.dynamicData.dpointsQueue.size();
+			for (int i = 0; i < len; i++) {
+				ExtendedDPoint ep = actualData.dynamicData.dpointsQueue.list.get(i).clone();
+				if (ep.getIndex() < areaOffset || ep.getIndex() >= lastOffset)
+					continue;
 				
-			if (i == 0) {
-				results[i] = vpPxX;
-				results[i+1] = baselinePxY - it.next().sample*vFactor;
-				if (it.hasNext()) {
-					results[i+2] = vpPxX + dpoints;
-					results[i+3] = baselinePxY - it.next().sample*vFactor;
+				LineDrawCommand com = new LineDrawCommand();
+				
+				DPoint p = ep.getDpoint();
+				if (p.getType() == PointType.start || p.getType() == PointType.end) {
+		            com.setWidth(1.f);
+					com.setARGB(200, 180, 180, 240);
 				}
-			}
-			else {
-				// Duplicate last point
-				results[4*i] = results[4*i-2];
-				results[4*i+1] = results[4*i-1];
-				results[4*i+2] = vpPxX + i*dpoints;
-				results[4*i+3] = baselinePxY - it.next().sample*vFactor;
+				else if (p.getType() == PointType.peak) {
+		            com.setWidth(2.f);
+		            if (p.getWave() == Wave.QRS)
+						com.setARGB(230, 255, 0, 255);
+		            else if (p.getWave() == Wave.P)
+						com.setARGB(230, 0, 255, 255);
+					else if (p.getWave() == Wave.T)
+						com.setARGB(230, 255, 255, 0);
+				}
+				else continue;
+				
+				float x = samplesIndex.get(ep.getIndex());
+				//float x = vpPxX + (samplesIndex[i] - areaOffset)*dpoints;
+				
+				/*if (baselinePxY > verticalThreshold*vpPxHeight)
+					com.setPoints(x, vpPxY, x, baselinePxY-samplesData.get(ep.getIndex()-areaOffset).sample*vFactor-10*vFactor);
+				else
+					com.setPoints(x, vpPxY+vpPxHeight, x, baselinePxY-samplesData.get(ep.getIndex()-areaOffset).sample*vFactor+10*vFactor);*/
+				
+				com.setPoints(x, vpPxY, x, baselinePxY+1);
+				
+				pointsData.add(com);
 			}
 		}
 		
-		return results;
-	}
-	
-	public Map<Float, ExtendedDPoint> getViewDPoints() {
-		
-		/*// Obtener nuevos parametros
-		updateParameters();
-		
-		// Calcular cantidad de puntos que caben
-		float npoints = vaSeconds*samplesPerSecond;
-		// Calcular densidad de puntos
-		float dpoints = vpPxWidth / npoints;
-		// Si la densidad es < 0 es que se quieren mostrar 
-		// mï¿½s puntos de los que caben (aglutinar o...)
-		if (dpoints < 0)
-			return null;
-		// Buscar primer punto
-		// Por ahora, redonder y coger el que sea (mejorar esto)
-		int start = Math.round(vaSecX*samplesPerSecond);
-		// Buscar ï¿½ltimo punto
-		int end = Math.min(start + Math.round(npoints), dataEnd);*/
-				
-		HashMap<Float, ExtendedDPoint> map = new HashMap<Float, ExtendedDPoint>();
-		
-		/*Iterator<Map.Entry<Integer, DPoint>> it = actualData.dpoints.entrySet().iterator();
-		Map.Entry<Integer, DPoint> entry;
-		boolean done = false;
-		
-		while (it.hasNext() && !done) {
-			entry = it.next();
-			
-			if (entry.getKey().intValue()-actualData.offset < start || entry.getKey().intValue()-actualData.offset >= end)
-				continue;
-			
-			map.put(vpPxX + (entry.getKey()-start-actualData.offset)*dpoints, new ExtendedDPoint(entry.getKey().intValue()-actualData.offset, entry.getValue()));
-		}*/
-		
-		return map;
+		return pointsData;
 	}
 }

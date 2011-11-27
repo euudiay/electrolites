@@ -21,7 +21,6 @@ import com.electrolites.bluetooth.ConnectedThread;
 import com.electrolites.data.DPoint;
 import com.electrolites.ecg.ElectrolitesActivity;
 import com.electrolites.util.FixedLinkedList;
-import com.electrolites.util.FriendlyDataParser;
 import com.electrolites.util.RealTimeFriendlyDataParser;
 import com.electrolites.util.SamplePoint;
 
@@ -132,9 +131,10 @@ public class BluetoothParserService extends DataService {
 	@Override
 	protected void retrieveData(Intent intent) {
 		while (true) {
-			synchronized(this.stream) {
-				while (this.stream.size() > 0)
+			synchronized(BluetoothParserService.stream) {
+				while (BluetoothParserService.stream.size() > 0) {
 					dp.step();
+				}
 			}
 			try {
 				synchronized (this) {
