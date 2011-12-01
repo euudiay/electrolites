@@ -7,7 +7,7 @@ import com.electrolites.data.Data;
 
 public class RealTimeFriendlyDataParser {		
 	private FixedLinkedList<Byte> stream;	// Bytes a tratar
-	private int lastSample;					// Última muestra leída
+	private int lastSample;					// ï¿½ltima muestra leï¿½da
 	
 	enum Token {None, Sample, DPoint, Offset, HBR};
 	
@@ -34,25 +34,25 @@ public class RealTimeFriendlyDataParser {
 		currentByte = stream.get();
 		switch (currentToken) {
 		case None:
-			switch (currentByte & 0xff) {
-			case 0xcc:
+			switch ((byte) (currentByte & 0xff)) {
+			case (byte) 0xcc:
 				// Start parsing an Offset
 				currentToken = Token.Offset;
 				break;
-			case 0xda:
+			case (byte) 0xda:
 				// Start parsing a sample
 				currentToken = Token.Sample;
 				break;
-			case 0xed:
+			case (byte) 0xed:
 				// Start parsing a delineation point
 				currentToken = Token.DPoint;
 				break;
-			case 0xfb:
+			case (byte) 0xfb:
 				currentToken = Token.HBR;
 				break;
 			default:
 				currentToken = Token.None;
-				System.out.println("Token unknown: " + (currentByte&0xff));
+				//System.out.println("Token unknown: " + ((byte) currentByte & 0xff));
 			}
 			// Reset parsing data
 			progress = 0;
@@ -80,8 +80,12 @@ public class RealTimeFriendlyDataParser {
 		storedBytes[progress] = (byte) (currentByte & 0xff);
 		progress++;
 		if (progress >= 5) {
+			
 			int offset = ((((storedBytes[0]*256)+storedBytes[1])*256)+storedBytes[2])*256+storedBytes[3];
+			if (offset != lastSample)
+				System.out.println("Offset, old: " + lastSample + " new: " + offset + "!");
 			lastSample = offset;
+			
 			currentToken = Token.None;
 			progress = 0;
 		}
@@ -141,7 +145,7 @@ public class RealTimeFriendlyDataParser {
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
-		// b1 más significativo que b2
+		// b1 mï¿½s significativo que b2
 		int i1 = b1;
 		int i2 = b2;
 		i1 &= 0xff;

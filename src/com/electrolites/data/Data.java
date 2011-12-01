@@ -70,6 +70,8 @@ public class Data {
 		public LinkedList<SamplePoint>samplesQueue;
 		public FixedLinkedList<ExtendedDPoint> dpointsQueue;
 		public int samplesQueueWidth;
+		public int samplesQueueActualWidth;
+		public float bufferWidth; 
 		public float hbr;
 		public boolean newHBR;
 
@@ -78,15 +80,22 @@ public class Data {
 			samplesQueue = new LinkedList<SamplePoint>();
 			dpointsQueue = new FixedLinkedList<ExtendedDPoint>(0);
 			samplesQueueWidth = -1;
+			samplesQueueActualWidth = -1;
+			bufferWidth = 0.5f;
 			hbr = 0;
 			newHBR = false;
 		};
 		
+		public void setSamplesQueueWidth(int width) {
+			samplesQueueWidth = width;
+			samplesQueueActualWidth = samplesQueueWidth + (int) (width*(1+bufferWidth));
+		}
+		
 		public void addSample(SamplePoint sample) {
-			if (samplesQueueWidth > 0) {
+			if (samplesQueueActualWidth > 0) {
 				// Update dpoints queue size
-				dpointsQueue.capacity = samplesQueueWidth;
-				if (samplesQueue.size() + 1 >= samplesQueueWidth) {	
+				dpointsQueue.capacity = samplesQueueActualWidth;
+				if (samplesQueue.size() + 1 >= samplesQueueActualWidth) {	
 					samplesQueue.remove();
 				}
 			}
@@ -96,14 +105,14 @@ public class Data {
 		public void addSamples(Collection<SamplePoint> list) {
 			// If no width's specified, just add them all
 			int newSamples = list.size();
-			if (samplesQueueWidth < 0)
+			if (samplesQueueActualWidth < 0)
 				samplesQueue.addAll(list);
 			else {
 				// Update dpoints queue size
-				dpointsQueue.capacity = samplesQueueWidth;
+				dpointsQueue.capacity = samplesQueueActualWidth;
 				// Remove from head those that doesn't fit in
-				if (samplesQueue.size() + newSamples >= samplesQueueWidth) {
-					int toRemove = ((samplesQueue.size() + newSamples) - samplesQueueWidth);
+				if (samplesQueue.size() + newSamples >= samplesQueueActualWidth) {
+					int toRemove = ((samplesQueue.size() + newSamples) - samplesQueueActualWidth);
 					for (int i = 0; i < toRemove; i++) {
 						if (samplesQueue.isEmpty())
 							break;
