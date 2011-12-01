@@ -10,7 +10,7 @@ import com.electrolites.data.DPoint.Wave;
 import com.electrolites.data.Data;
 
 public class DynamicViewport {
-	// Posición, ancho y alto del viewport en pixels
+	// Posiciï¿½n, ancho y alto del viewport en pixels
 	public int vpPxX;
 	public int vpPxY;
 	public int vpPxWidth;
@@ -63,7 +63,7 @@ public class DynamicViewport {
 	
 	public void updateParameters() {
 		synchronized (actualData.dynamicData) {
-			actualData.dynamicData.samplesQueueWidth = (int) (samplesPerSecond * Math.max(0.1f, actualData.getWidthScale()));
+			actualData.dynamicData.setSamplesQueueWidth((int) (samplesPerSecond * Math.max(0.1f, actualData.getWidthScale())));
 			vaSamples = actualData.dynamicData.samplesQueueWidth;
 			baselinePxY = vpPxY + vpPxHeight*actualData.getDrawBaseHeight();
 		}
@@ -88,9 +88,15 @@ public class DynamicViewport {
 		// Full data clone 
 		samplesData = new LinkedList<SamplePoint>();
 		synchronized(actualData.dynamicData) {
-			int len = actualData.dynamicData.samplesQueue.size();
+			// Shallow copy!
+			Object[] temp = actualData.dynamicData.samplesQueue.toArray();
+			SamplePoint p;
+			/*int len = Math.min((int) (actualData.dynamicData.samplesQueueWidth/* *(1+actualData.dynamicData.bufferWidth)),
+							temp.length);*/
+			int len = Math.min(actualData.dynamicData.samplesQueueWidth, temp.length);
 			for (int i = 0; i < len; i++) {
-				samplesData.add(actualData.dynamicData.samplesQueue.get(i).clone());
+				p = (SamplePoint) temp[i];
+				samplesData.add(p.clone());
 			}
 		}
 		
@@ -164,7 +170,13 @@ public class DynamicViewport {
 				}
 				else continue;
 				
-				float x = samplesIndex.get(ep.getIndex());
+				float x;
+				if (ep != null && samplesIndex != null)
+					x = samplesIndex.get(ep.getIndex());
+				else {
+					x = 0;
+					System.out.println("Sampes Index or ep null in getViewDPoints()");
+				}
 				//float x = vpPxX + (samplesIndex[i] - areaOffset)*dpoints;
 				
 				/*if (baselinePxY > verticalThreshold*vpPxHeight)
