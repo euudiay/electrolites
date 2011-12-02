@@ -4,6 +4,8 @@ import java.util.Formatter;
 
 import com.electrolites.data.DPoint;
 import com.electrolites.data.Data;
+import com.electrolites.data.DPoint.PointType;
+import com.electrolites.data.DPoint.Wave;
 
 public class RealTimeFriendlyDataParser {		
 	private FixedLinkedList<Byte> stream;	// Bytes a tratar
@@ -52,7 +54,10 @@ public class RealTimeFriendlyDataParser {
 				break;
 			default:
 				currentToken = Token.None;
-				//System.out.println("Token unknown: " + ((byte) currentByte & 0xff));
+				System.out.println("Token unknown: " + ((byte) currentByte & 0xff));
+				synchronized (data.dynamicData.mutex) {
+					data.dynamicData.addDPoint(new ExtendedDPoint(lastSample, new DPoint(PointType.end, Wave.Offset)));
+				}
 			}
 			// Reset parsing data
 			progress = 0;
@@ -82,9 +87,23 @@ public class RealTimeFriendlyDataParser {
 		if (progress >= 5) {
 			
 			int offset = ((((storedBytes[0]*256)+storedBytes[1])*256)+storedBytes[2])*256+storedBytes[3];
-			if (offset != lastSample)
-				System.out.println("Offset, old: " + lastSample + " new: " + offset + "!");
+			boolean wrong = false;
+			// Add a debug offset dpoint
+			DPoint p = new DPoint(PointType.start, Wave.Offset);
+			ExtendedDPoint ep = new ExtendedDPoint(lastSample , p);
+			
+			if (offset != lastSample) {
+				ep.getDpoint().setType(PointType.peak);
+				wrong = true;
+				System.err.println("WRONG OFFSET; READJUST");
+			}
 			lastSample = offset;
+			
+			synchronized (data.dynamicData.mutex) {
+				if (wrong)
+					data.dynamicData.discardUntil(offset-1);
+				data.dynamicData.addDPoint(ep);
+			}
 			
 			currentToken = Token.None;
 			progress = 0;
@@ -98,6 +117,8 @@ public class RealTimeFriendlyDataParser {
 			short sample = byteToShort(storedBytes[0], storedBytes[1]);
 			synchronized (data.dynamicData.mutex) {
 				data.dynamicData.addSample(new SamplePoint(lastSample, sample));
+				//if (storedBytes[1] == 0)
+				//	data.dynamicData.addDPoint(new ExtendedDPoint(lastSample, new DPoint(PointType.end, Wave.Offset)));
 			}
 			lastSample++;
 			currentToken = Token.None;

@@ -132,8 +132,10 @@ public class BluetoothParserService extends DataService {
 	protected void retrieveData(Intent intent) {
 		while (true) {
 			synchronized(BluetoothParserService.stream) {
-				while (BluetoothParserService.stream.size() > 0) {
-					dp.step();
+				for (int i = 0; i < 4; i++) {
+					if (BluetoothParserService.stream.size() > 0) {
+						dp.step();
+					}
 				}
 			}
 			try {

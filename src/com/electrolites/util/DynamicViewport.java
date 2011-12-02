@@ -91,12 +91,15 @@ public class DynamicViewport {
 			// Shallow copy!
 			Object[] temp = actualData.dynamicData.samplesQueue.toArray();
 			SamplePoint p;
-			/*int len = Math.min((int) (actualData.dynamicData.samplesQueueWidth/* *(1+actualData.dynamicData.bufferWidth)),
-							temp.length);*/
-			int len = Math.min(actualData.dynamicData.samplesQueueWidth, temp.length);
-			for (int i = 0; i < len; i++) {
+			//int len = Math.min((int) (actualData.dynamicData.samplesQueueWidth/* *(1+actualData.dynamicData.bufferWidth) */),
+			//				temp.length);
+			//int w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
+			int beginAt = 0;
+			int len = temp.length;
+			for (int i = beginAt; i < len; i++) {
 				p = (SamplePoint) temp[i];
-				samplesData.add(p.clone());
+				if (p != null)
+					samplesData.add(p.clone());
 			}
 		}
 		
@@ -106,6 +109,8 @@ public class DynamicViewport {
 		}
 
 		float[] results = new float[4+4*(samplesData.size()-1)];
+		
+		int w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
 		
 		Iterator<SamplePoint> it = samplesData.iterator();
 		SamplePoint p;
@@ -118,7 +123,10 @@ public class DynamicViewport {
 			
 			// Index sample
 			p = it.next();
-			samplesIndex.put(p.id, vpPxX + i*dpoints);
+			Float p2 = samplesIndex.put(p.id, vpPxX + i*dpoints);
+			if (p2 != null) {
+				System.err.println("SAMPLE REPLACEMENT OF " + p2 + " WITH " + i*dpoints + " AT " + p.id + "!!");  
+			}
 			
 			if (i == 0) {
 				results[i] = vpPxX;
@@ -155,9 +163,16 @@ public class DynamicViewport {
 				LineDrawCommand com = new LineDrawCommand();
 				
 				DPoint p = ep.getDpoint();
+				
 				if (p.getType() == PointType.start || p.getType() == PointType.end) {
 		            com.setWidth(1.f);
 					com.setARGB(200, 180, 180, 240);
+					// Debug offset dpoint
+					if (p.getWave() == Wave.Offset) {
+						com.setARGB(200, 244, 10, 10);
+						if (p.getType() == PointType.end)
+							com.setARGB(255, 255, 255, 255);
+					}
 				}
 				else if (p.getType() == PointType.peak) {
 		            com.setWidth(2.f);
@@ -167,6 +182,10 @@ public class DynamicViewport {
 						com.setARGB(230, 0, 255, 255);
 					else if (p.getWave() == Wave.T)
 						com.setARGB(230, 255, 255, 0);
+					else if (p.getWave() == Wave.Offset) {
+						com.setWidth(3.0f);
+						com.setARGB(230, 10, 244, 10);
+					}
 				}
 				else continue;
 				
@@ -185,6 +204,9 @@ public class DynamicViewport {
 					com.setPoints(x, vpPxY+vpPxHeight, x, baselinePxY-samplesData.get(ep.getIndex()-areaOffset).sample*vFactor+10*vFactor);*/
 				
 				com.setPoints(x, vpPxY, x, baselinePxY+1);
+				
+				if (p.getWave() == Wave.Offset)
+					com.setPoints(x, vpPxY, x, vpPxY+vpPxHeight);
 				
 				pointsData.add(com);
 			}
