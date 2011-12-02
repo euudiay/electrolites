@@ -4,7 +4,7 @@ package com.electrolites.data;
 public class DPoint {
 	// Tipo de punto: ninguno, comienzo, pico, final o pico secundario
 	public enum PointType { none, start, peak, end, s_peak };
-	public enum Wave { none, QRS, P, T };
+	public enum Wave { none, QRS, P, T, Offset };
 	
 	private PointType type;
 	private Wave wave;

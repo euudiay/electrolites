@@ -146,6 +146,19 @@ public class Data {
 			}
 		}
 		
+		public void discardUntil(int sample) {
+			SamplePoint p = new SamplePoint(-1, (short) -1);
+			while (!samplesQueue.isEmpty()) {
+				p = samplesQueue.remove();
+				if (p.id < sample)
+					p = null;
+				else
+					break;
+			}
+			// Re-insert the last one as it needs not to be removed
+			samplesQueue.addFirst(p);
+		}
+		
 		public void setHBR(float hbr) {
 			newHBR = true;
 			this.hbr = hbr;
