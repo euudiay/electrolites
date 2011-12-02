@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.usb.UsbAccessory;
+import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -33,6 +37,7 @@ import com.electrolites.services.BluetoothService;
 import com.electrolites.services.DataService;
 import com.electrolites.services.FileParserService;
 import com.electrolites.services.RandomGeneratorService;
+import com.electrolites.usb.AccessoryManager;
 
 public class ElectrolitesActivity extends Activity {
 
@@ -60,7 +65,7 @@ public class ElectrolitesActivity extends Activity {
 	private Button down;
 	private DownListener downListener;
 	private Button plus;
-	private PlusListener plusListener;
+	PlusListener plusListener;
 	private Button less;
 	private LessListener lessListener;
 
@@ -76,6 +81,8 @@ public class ElectrolitesActivity extends Activity {
 	Intent intentDePferv;
 
 	private ECGView ecgView;
+	
+	private AccessoryManager am;
 
 	@Override
 	public void onSaveInstanceState(Bundle saveInstanceState) {
@@ -162,6 +169,15 @@ public class ElectrolitesActivity extends Activity {
 		//Hiper Cutresy
 		data.handler = mHandler;
 		
+		// Instanciamos el manager de los accesorios USB y lo ponemos en marcha
+		// Comentado hasta que funcione y se pueda ejecutar bajo demanda
+		//am = new AccessoryManager(this);
+		//am.start(usbReceiver);
+	}
+
+	@Override
+	public void onDestroy() {
+		//am.stop();
 	}
 
 	// Menu Items
@@ -286,6 +302,33 @@ public class ElectrolitesActivity extends Activity {
 
 		return list;
 	}
+	
+	// Registra los eventos que se producen al conectar un accesorio USB
+	private final BroadcastReceiver usbReceiver = new BroadcastReceiver() {
+		 
+	    public void onReceive(Context context, Intent intent) {
+	        String action = intent.getAction();
+	        
+	        if (AccessoryManager.ACTION_USB_PERMISSION.equals(action)) {
+	        	synchronized (this) {
+	        		UsbAccessory accessory = (UsbAccessory) intent.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
+	    
+	        		Toast.makeText(context, "Accessory found.", Toast.LENGTH_SHORT);
+	        		
+	        		if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+	        			Toast.makeText(context, "Accessory permission granted.", Toast.LENGTH_SHORT);
+	                    if (accessory != null) {
+	                    	Toast.makeText(context, "Opening accessory...", Toast.LENGTH_SHORT);
+	                    	am.openAccessory(accessory);
+	                    }
+	                }
+	                else {
+	                	Toast.makeText(context, "Accessory permission denied.", Toast.LENGTH_SHORT);
+	                }
+	        	}
+	       }
+	    }
+	};
 
 	// The Handler that gets information back from the BluetoothChatService
 	private final Handler mHandler = new Handler() {
