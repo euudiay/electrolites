@@ -2,9 +2,9 @@ package com.electrolites.util;
 
 public class SamplePoint {
 	public int id;
-	public short sample;
+	public long sample;
 	
-	public SamplePoint(int id, short value) {
+	public SamplePoint(int id, long value) {
 		this.id = id;
 		this.sample = value;
 	}

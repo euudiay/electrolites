@@ -74,6 +74,8 @@ public class Data {
 		public float bufferWidth; 
 		public float hbr;
 		public boolean newHBR;
+		
+		public boolean stop;
 
 		public DynamicData() {
 			mutex = new Object();
@@ -84,6 +86,8 @@ public class Data {
 			bufferWidth = 0.5f;
 			hbr = 0;
 			newHBR = false;
+			
+			stop = false;
 		};
 		
 		public void setSamplesQueueWidth(int width) {
@@ -147,16 +151,19 @@ public class Data {
 		}
 		
 		public void discardUntil(int sample) {
-			SamplePoint p = new SamplePoint(-1, (short) -1);
+			/*SamplePoint p = new SamplePoint(-1, (short) -1);
 			while (!samplesQueue.isEmpty()) {
 				p = samplesQueue.remove();
+				if (p == null)
+					break;
 				if (p.id < sample)
 					p = null;
 				else
 					break;
 			}
 			// Re-insert the last one as it needs not to be removed
-			samplesQueue.addFirst(p);
+			samplesQueue.addFirst(p);*/
+			samplesQueue.clear();
 		}
 		
 		public void setHBR(float hbr) {

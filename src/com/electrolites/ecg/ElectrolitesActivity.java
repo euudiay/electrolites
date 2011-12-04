@@ -195,6 +195,9 @@ public class ElectrolitesActivity extends Activity {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
+									synchronized (data.dynamicData.mutex) {
+										data.dynamicData.stop = true;
+									}
 									ElectrolitesActivity.this.finish();
 								}
 							})

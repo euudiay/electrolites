@@ -1,3 +1,5 @@
+package com.electrolites.usb;
+
 import java.io.FileDescriptor;
 
 import android.app.Activity;
