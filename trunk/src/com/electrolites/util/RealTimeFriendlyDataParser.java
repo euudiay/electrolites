@@ -1,11 +1,18 @@
 package com.electrolites.util;
 
-import java.util.Formatter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import android.content.Context;
+import android.os.Environment;
+import android.text.format.Time;
 
 import com.electrolites.data.DPoint;
-import com.electrolites.data.Data;
 import com.electrolites.data.DPoint.PointType;
 import com.electrolites.data.DPoint.Wave;
+import com.electrolites.data.Data;
 
 public class RealTimeFriendlyDataParser {		
 	private FixedLinkedList<Byte> stream;	// Bytes a tratar
@@ -20,15 +27,34 @@ public class RealTimeFriendlyDataParser {
 	
 	private Data data;
 	
+	private FileOutputStream output;
+	
 	public RealTimeFriendlyDataParser() {
 		lastSample = 0;
 		
 		currentToken = Token.None;
 		progress = 0;
+	
+		output = null;
 	}
 	
 	public void setData(Data data) {
 		this.data = data;
+		
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {	
+			Time now = new Time();
+			now.setToNow();
+			//Environment.getExternalStorageDirectory().getPath() + 
+			File dir = new File("log-" + now.format("MM-dd-HH.mm") + ".txt");
+			System.out.println("File is: " + dir);
+			try {
+				output = data.app.getApplicationContext().openFileOutput(dir.getPath(), Context.MODE_WORLD_WRITEABLE);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				output = null;
+			}
+		}
 	}
 	
 	public void step() {
@@ -55,9 +81,6 @@ public class RealTimeFriendlyDataParser {
 			default:
 				currentToken = Token.None;
 				System.out.println("Token unknown: " + ((byte) currentByte & 0xff));
-				synchronized (data.dynamicData.mutex) {
-					data.dynamicData.addDPoint(new ExtendedDPoint(lastSample, new DPoint(PointType.end, Wave.Offset)));
-				}
 			}
 			// Reset parsing data
 			progress = 0;
@@ -82,11 +105,12 @@ public class RealTimeFriendlyDataParser {
 	}
 	
 	public void parseOffset() {
-		storedBytes[progress] = (byte) (currentByte & 0xff);
+		storedBytes[progress] = currentByte; //(byte) (currentByte & 0xff);
 		progress++;
 		if (progress >= 5) {
 			
-			int offset = ((((storedBytes[0]*256)+storedBytes[1])*256)+storedBytes[2])*256+storedBytes[3];
+			//int offset = ((((storedBytes[0]*256)+storedBytes[1])*256)+storedBytes[2])*256+storedBytes[3];
+			int offset = (storedBytes[0] << 24) | (storedBytes[1] << 16) | (storedBytes[2] << 8) | (storedBytes[3]);
 			boolean wrong = false;
 			// Add a debug offset dpoint
 			DPoint p = new DPoint(PointType.start, Wave.Offset);
@@ -111,14 +135,23 @@ public class RealTimeFriendlyDataParser {
 	}
 	
 	public void parseSample() {
-		storedBytes[progress] =  (byte) (currentByte & 0xff);
+		storedBytes[progress] = (byte) (currentByte & 0xff);
 		progress++;
 		if (progress >= 2) {
 			short sample = byteToShort(storedBytes[0], storedBytes[1]);
+			//long sample = byteToLong(storedBytes[0], storedBytes[1]);
+			//long sample = (storedBytes[0] << 8) | storedBytes[1];
 			synchronized (data.dynamicData.mutex) {
 				data.dynamicData.addSample(new SamplePoint(lastSample, sample));
-				//if (storedBytes[1] == 0)
-				//	data.dynamicData.addDPoint(new ExtendedDPoint(lastSample, new DPoint(PointType.end, Wave.Offset)));
+			}
+			
+			if (output != null) {
+				try {
+					output.write(0xda);
+					output.write(storedBytes, 0, 2);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			lastSample++;
 			currentToken = Token.None;
@@ -127,14 +160,15 @@ public class RealTimeFriendlyDataParser {
 	}
 	
 	public void parseDPoint() {
-		storedBytes[progress] = (byte) (currentByte & 0xff);
+		storedBytes[progress] = currentByte;//(byte) (currentByte & 0xff);
 		progress++;
 		if (progress >= 5) {
 			DPoint p = new DPoint();
 			p.setType(p.checkType(storedBytes[0]));
 			p.setWave(p.checkWave(storedBytes[0]));
-			ExtendedDPoint ep = new ExtendedDPoint(
-				((((storedBytes[1]*256)+storedBytes[2])*256) + storedBytes[3])*256+storedBytes[4] , p);
+			int index = ((((storedBytes[1]*256)+storedBytes[2])*256) + storedBytes[3])*256+storedBytes[4];
+			ExtendedDPoint ep = new ExtendedDPoint(index, p);
+				//(storedBytes[1] << 24) | (storedBytes[2] << 16) | (storedBytes[3] << 8) | (storedBytes[4]), p);//
 			synchronized (data.dynamicData.mutex) {
 				data.dynamicData.addDPoint(ep);
 			}
@@ -145,10 +179,10 @@ public class RealTimeFriendlyDataParser {
 	
 	public void parseHBR() {
 		System.out.println("AN HBR!");
-		storedBytes[progress] = currentByte;
+		storedBytes[progress] = (byte) (currentByte & 0xff);
 		progress++;
 		if (progress >= 2) {
-			int beatSamples = ((storedBytes[0]&0xff)*256 + (storedBytes[1]&0xff));
+			int beatSamples = (storedBytes[0]*256 + storedBytes[1]);
 			float hbr = 60*250/(float) beatSamples;
 			synchronized(data.dynamicData.mutex) {
 				hbr = Math.round(hbr*100)/100.f;
@@ -166,13 +200,19 @@ public class RealTimeFriendlyDataParser {
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
-		// b1 m�s significativo que b2
 		int i1 = b1;
 		int i2 = b2;
 		i1 &= 0xff;
 		i2 &= 0xff;
 		
 		return (short) (i1*256 + i2);
+	}
+	
+	public long byteToLong(byte b1, byte b2) {
+		byte i1 = (byte) (b1 & 0xff);
+		byte i2 = (byte) (b2 & 0xff);
+		
+		return (long) ((i1 * 256) + i2);
 	}
 	
 	public void setStream(FixedLinkedList<Byte> stream) { 
@@ -189,5 +229,15 @@ public class RealTimeFriendlyDataParser {
 
 	public FixedLinkedList<Byte> getStream() {
 		return stream;
+	}
+
+	public void finish() {
+		if (output != null)
+			try {
+				output.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("-----------------------DPARSER OUT-------------------");
 	}
 }

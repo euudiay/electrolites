@@ -132,13 +132,17 @@ public class BluetoothParserService extends DataService {
 	protected void retrieveData(Intent intent) {
 		while (true) {
 			synchronized(BluetoothParserService.stream) {
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 25; i++) {
 					if (BluetoothParserService.stream.size() > 0) {
 						dp.step();
 					}
 				}
 			}
 			try {
+				synchronized (data.dynamicData.mutex) {
+					if (data.dynamicData.stop) 
+						break;
+				}
 				synchronized (this) {
 					wait(4);
 				}
@@ -146,6 +150,7 @@ public class BluetoothParserService extends DataService {
 				e.printStackTrace();
 			}
 		}
+		dp.finish();
 	}
 	
     private synchronized void setState(int state) {

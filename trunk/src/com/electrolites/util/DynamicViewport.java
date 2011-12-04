@@ -87,19 +87,24 @@ public class DynamicViewport {
 		
 		// Full data clone 
 		samplesData = new LinkedList<SamplePoint>();
+		int w;
 		synchronized(actualData.dynamicData) {
 			// Shallow copy!
+			w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
+			//w = 0;
 			Object[] temp = actualData.dynamicData.samplesQueue.toArray();
 			SamplePoint p;
 			//int len = Math.min((int) (actualData.dynamicData.samplesQueueWidth/* *(1+actualData.dynamicData.bufferWidth) */),
 			//				temp.length);
 			//int w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
 			int beginAt = 0;
+			//int len = Math.min(temp.length, actualData.dynamicData.samplesQueue.size());
 			int len = temp.length;
 			for (int i = beginAt; i < len; i++) {
 				p = (SamplePoint) temp[i];
-				if (p != null)
+				if (p != null) {
 					samplesData.add(p.clone());
+				}
 			}
 		}
 		
@@ -110,12 +115,11 @@ public class DynamicViewport {
 
 		float[] results = new float[4+4*(samplesData.size()-1)];
 		
-		int w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
-		
 		Iterator<SamplePoint> it = samplesData.iterator();
 		SamplePoint p;
 		samplesIndex = new HashMap<Integer, Float>();
-		for (int i = 0; i < samplesData.size()-1; i++) {
+		
+		for (int i = 0; i < samplesData.size(); i++) {
 			if (!it.hasNext()) {
 				System.err.println("No sample found at position " + i);
 				return null;
@@ -123,20 +127,18 @@ public class DynamicViewport {
 			
 			// Index sample
 			p = it.next();
-			Float p2 = samplesIndex.put(p.id, vpPxX + i*dpoints);
-			if (p2 != null) {
-				System.err.println("SAMPLE REPLACEMENT OF " + p2 + " WITH " + i*dpoints + " AT " + p.id + "!!");  
-			}
+			if (p.id % 256 >= 128)
+				samplesIndex.put(p.id, vpPxX + i*dpoints + 8);
+			else
+				samplesIndex.put(p.id, vpPxX + i*dpoints);
 			
 			if (i == 0) {
 				results[i] = vpPxX;
 				results[i+1] = baselinePxY - p.sample*vFactor;
-				if (it.hasNext()) {
-					p = it.next();
-					samplesIndex.put(p.id, vpPxX + i*dpoints);
-					results[i+2] = vpPxX + dpoints;
-					results[i+3] = baselinePxY - p.sample*vFactor;
-				}
+			}
+			else if (i == 1) {
+				results[4*i-2] = vpPxX + dpoints;
+				results[4*i-1] = baselinePxY - p.sample*vFactor;
 			}
 			else {
 				// Duplicate last point
@@ -145,6 +147,9 @@ public class DynamicViewport {
 				results[4*i+2] = vpPxX + i*dpoints;
 				results[4*i+3] = baselinePxY - p.sample*vFactor;
 			}
+			
+			//if (i == samplesData.size()-w-1)
+			//	lastOffset = p.id;
 		}
 		
 		return results;
@@ -170,8 +175,6 @@ public class DynamicViewport {
 					// Debug offset dpoint
 					if (p.getWave() == Wave.Offset) {
 						com.setARGB(200, 244, 10, 10);
-						if (p.getType() == PointType.end)
-							com.setARGB(255, 255, 255, 255);
 					}
 				}
 				else if (p.getType() == PointType.peak) {
@@ -190,8 +193,15 @@ public class DynamicViewport {
 				else continue;
 				
 				float x;
-				if (ep != null && samplesIndex != null)
-					x = samplesIndex.get(ep.getIndex());
+				int index;
+				if (ep != null && samplesIndex != null) {
+					index = ep.getIndex();
+					try {
+						x = samplesIndex.get(index);
+					} catch (NullPointerException e) {
+						continue;
+					}
+				}
 				else {
 					x = 0;
 					System.out.println("Sampes Index or ep null in getViewDPoints()");

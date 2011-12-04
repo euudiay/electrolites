@@ -286,16 +286,15 @@ public class ECGView extends AnimationView {
 	            LinkedList<LineDrawCommand> pointsList = dvport.getViewDPoints();
 				
 			// Render samples
-				ecgPaint.setColor(Color.rgb(100, 240, 100));
+				ecgPaint.setColor(Color.rgb(59, 250, 59));
 				ecgPaint.setAlpha((int) (255*0.9));
 				ecgPaint.setStrokeWidth(2.f);
 	            
 	            if (points != null) {
-	            	int toDraw = points.length;
-	            	canvas.drawLines(points, 0, toDraw,  ecgPaint);
+	            	//canvas.drawLines(points, ecgPaint);
+	            	//canvas.drawPoints(points, ecgPaint);
+	            	canvas.drawLines(points, 0, (int) (points.length*0.45), ecgPaint);
 	            }
-				
-				canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
 			
 			// Render dpoints
 	            //LinkedList<LineDrawCommand> pointsList = dvport.getViewDPoints();
@@ -335,6 +334,8 @@ public class ECGView extends AnimationView {
 				canvas.drawText("" + dvport.areaOffset + " ~ " + dvport.lastOffset, left, top-10, textPaint);
 				textPaint.setTextAlign(Align.RIGHT);
 			
+				canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
+				
 			// Aaaaand done!
             canvas.restore();
 			}
