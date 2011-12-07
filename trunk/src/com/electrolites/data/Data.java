@@ -92,7 +92,7 @@ public class Data {
 		
 		public void setSamplesQueueWidth(int width) {
 			samplesQueueWidth = width;
-			samplesQueueActualWidth = samplesQueueWidth + (int) (width*(1+bufferWidth));
+			samplesQueueActualWidth = samplesQueueWidth + (int) (width*(bufferWidth));
 		}
 		
 		public void addSample(SamplePoint sample) {

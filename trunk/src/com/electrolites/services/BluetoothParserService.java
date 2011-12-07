@@ -124,12 +124,15 @@ public class BluetoothParserService extends DataService {
 
 	@Override
 	protected void stopRunning(Intent intent) {
-		stop();
+		//stop();
 		// Puede que haga falta hacer m�s cosas
 	}
 	
 	@Override
 	protected void retrieveData(Intent intent) {
+		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+		this.registerReceiver(receiver, filter);
+		
 		while (true) {
 			synchronized(BluetoothParserService.stream) {
 				for (int i = 0; i < 25; i++) {
@@ -151,6 +154,7 @@ public class BluetoothParserService extends DataService {
 			}
 		}
 		dp.finish();
+		stop();
 	}
 	
     private synchronized void setState(int state) {

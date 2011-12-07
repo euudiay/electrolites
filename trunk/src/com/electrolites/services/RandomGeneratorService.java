@@ -23,16 +23,11 @@ public class RandomGeneratorService extends DataService {
 	public void retrieveData(Intent intent) {
 		short base = 0;
 		short value;
-		for (int i = 0; i < 5*250; i++) {
-			synchronized (this) {
-				try {
-					value = (short) (r.nextInt(100)-50);
-					base += value;
-					data.dynamicData.samplesQueue.add(new SamplePoint(0, base));
-					wait(4);
-				} catch (InterruptedException e) {
-					System.err.println("He sido interrumpido!");
-				}
+		for (int i = 0; i < 250; i++) {
+			synchronized (data.dynamicData.mutex) {
+				value = (short) (r.nextInt(100)-50);
+				base += value;
+				data.dynamicData.samplesQueue.add(new SamplePoint(0, base));
 			}
 		}
 	}

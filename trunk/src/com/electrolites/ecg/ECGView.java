@@ -232,13 +232,13 @@ public class ECGView extends AnimationView {
 		
 		@Override
 		public void onUpdate() {
-			try {
+			super.onUpdate();
+			/*try {
 				super.onUpdate();
 				sleep((long) 4);
 			} catch (InterruptedException e) {
 				System.err.println("QUIEN OSA DESPERTAR A MALTUS!?");
-			}
-			
+			}*/
 		}
 		
 		@Override
@@ -314,7 +314,7 @@ public class ECGView extends AnimationView {
 				canvas.drawLine(left, bottom, right, bottom, textPaint);
 				canvas.drawLine(right, top, right, bottom, textPaint);
 			
-			// Render text labels
+			// Render text labels 
 				divisions = (int) Math.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
 				
 				canvas.drawText("0.0", left-2, dvport.baselinePxY, textPaint);
