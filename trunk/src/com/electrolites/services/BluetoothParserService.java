@@ -182,9 +182,9 @@ public class BluetoothParserService extends DataService {
 	
 	private synchronized void connect(BluetoothDevice bD) {
 		if (BluetoothService.DEBUG) 
-			Log.d(TAG, "Iniciando conexi�n a: " + bD);
+			Log.d(TAG, "Iniciando conexión a: " + bD);
 
-        // Cancelamos cualquier intento pendiente de conexi�n
+        // Cancelamos cualquier intento pendiente de conexión
         if (state == STATE_CONNECTING) {
             if (connectT != null) {
             	connectT.cancel(); 
@@ -214,13 +214,13 @@ public class BluetoothParserService extends DataService {
         	connectT = null;
         }
 
-        // Cancelamos cualquier thread que est� llevando a cabo una conexi�n
+        // Cancelamos cualquier thread que está llevando a cabo una conexión
         if (connectedT != null) {
         	connectedT.cancel(); 
         	connectedT = null;
         }
         
-        // Iniciamos el thread que maneja la conexi�n
+        // Iniciamos el thread que maneja la conexión
         connectedT = new ConnectedThread(this, socket);
         connectedT.start();
 
@@ -316,10 +316,10 @@ public class BluetoothParserService extends DataService {
         setState(STATE_NONE);
 	}
 	
-	// Indica que el intento de conexi�n ha fallado
+	// Indica que el intento de conexión ha fallado
 	public void connectionFailed() {
-		Log.e(BluetoothService.TAG, "El intento de conexi�n ha fallado. Reintentando...");
-		// Deber�amos avisar a la activity, no?
+		Log.e(BluetoothService.TAG, "El intento de conexión ha fallado. Reintentando...");
+		// Deberíamos avisar a la activity, no?
         // Send a failure message back to the Activity
         Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
@@ -335,7 +335,7 @@ public class BluetoothParserService extends DataService {
 	
 	public void connectionLost() {
 		Log.e(BluetoothService.TAG, "Se ha perdido la conexión. Reiniciando...");
-		// Deber�amos avisar a la activity, no?
+		// Deberíamos avisar a la activity, no?
         Message msg = handler.obtainMessage(ElectrolitesActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
         bundle.putString(ElectrolitesActivity.TOAST, "Se ha perdido la conexión");

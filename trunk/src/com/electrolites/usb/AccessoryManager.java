@@ -1,6 +1,7 @@
 package com.electrolites.usb;
 
 import java.io.FileDescriptor;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -23,10 +24,10 @@ public class AccessoryManager {
 	
 	private UsbManager usbManager;
 	
-	private ParcelFileDescriptor pfd;
+	private ParcelFileDescriptor pfd = null;
 	private FileDescriptor fd;
 	
-	private UsbComThread thread;	// Hilo que se encargar· de la comunicaciÛn con el accesorio
+	private UsbComThread thread;	// Hilo que se encargar√° de la comunicaci√≥n con el accesorio
 	
 	public AccessoryManager(Activity activity) {
 		this.activity = activity;
@@ -56,6 +57,19 @@ public class AccessoryManager {
 	}
 	
 	public void stop() {
+		// Terminamos la actividad del thread de comunicaci√≥n
+		if (thread != null)
+			thread.halt();
+		
+		// Cerramos el descriptor de archivo del accesorio
+		if (pfd != null) {
+			try {
+				pfd.close();
+			} catch (IOException e) {
+				Toast.makeText(context, "Accessory cannot be closed.", Toast.LENGTH_SHORT);
+			}
+		}
+		
 		activity.unregisterReceiver(usbReceiver);
 	}
 	
