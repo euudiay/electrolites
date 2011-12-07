@@ -92,6 +92,7 @@ public class DynamicViewport {
 			// Shallow copy!
 			w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
 			//w = 0;
+			int len2 = actualData.dynamicData.samplesQueue.size();
 			Object[] temp = actualData.dynamicData.samplesQueue.toArray();
 			SamplePoint p;
 			//int len = Math.min((int) (actualData.dynamicData.samplesQueueWidth/* *(1+actualData.dynamicData.bufferWidth) */),
@@ -99,13 +100,15 @@ public class DynamicViewport {
 			//int w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
 			int beginAt = 0;
 			//int len = Math.min(temp.length, actualData.dynamicData.samplesQueue.size());
-			int len = temp.length;
+			int len = temp.length - w;
 			for (int i = beginAt; i < len; i++) {
 				p = (SamplePoint) temp[i];
 				if (p != null) {
 					samplesData.add(p.clone());
 				}
 			}
+			int lenlen = samplesData.size();
+			System.out.println(lenlen);
 		}
 		
 		if (!samplesData.isEmpty()) {

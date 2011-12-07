@@ -178,6 +178,7 @@ public class ElectrolitesActivity extends Activity {
 	@Override
 	public void onDestroy() {
 		//am.stop();
+		super.onDestroy();
 	}
 
 	// Menu Items
