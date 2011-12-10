@@ -293,12 +293,13 @@ public class ECGView extends AnimationView {
 	            if (points != null) {
 	            	//canvas.drawLines(points, ecgPaint);
 	            	//canvas.drawPoints(points, ecgPaint);
-	            	canvas.drawLines(points, 0, (int) (points.length*0.45), ecgPaint);
+	            	canvas.drawLines(points, 0, (int) (points.length), ecgPaint);
 	            }
 			
 			// Render dpoints
 	            //LinkedList<LineDrawCommand> pointsList = dvport.getViewDPoints();
-	            for (int i = 0; i < pointsList.size(); i++) {
+	            int mierdas = pointsList.size();
+	            for (int i = 0; i < mierdas; i++) {
 	            	renderDPoint(canvas, pointsList.remove(), points);
 	            }
 			
