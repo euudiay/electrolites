@@ -90,17 +90,15 @@ public class DynamicViewport {
 		int w;
 		synchronized(actualData.dynamicData) {
 			// Shallow copy!
-			w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
-			//w = 0;
-			int len2 = actualData.dynamicData.samplesQueue.size();
+			//w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
 			Object[] temp = actualData.dynamicData.samplesQueue.toArray();
 			SamplePoint p;
 			//int len = Math.min((int) (actualData.dynamicData.samplesQueueWidth/* *(1+actualData.dynamicData.bufferWidth) */),
 			//				temp.length);
-			//int w = actualData.dynamicData.samplesQueueActualWidth - actualData.dynamicData.samplesQueueWidth;
-			int beginAt = 0;
-			//int len = Math.min(temp.length, actualData.dynamicData.samplesQueue.size());
-			int len = temp.length - w;
+			w = temp.length;
+			int beginAt = 0;//Math.min(temp.length, actualData.dynamicData.samplesQueueWidth);
+			int len = Math.min(temp.length, actualData.dynamicData.samplesQueueWidth);
+			//int len = temp.length;
 			for (int i = beginAt; i < len; i++) {
 				p = (SamplePoint) temp[i];
 				if (p != null) {
@@ -110,7 +108,6 @@ public class DynamicViewport {
 			int lenlen = samplesData.size();
 			System.out.println(lenlen);
 		}
-		
 		if (!samplesData.isEmpty()) {
 			areaOffset = samplesData.peek().id;
 			lastOffset = samplesData.peekLast().id;
@@ -167,6 +164,7 @@ public class DynamicViewport {
 				ExtendedDPoint ep = actualData.dynamicData.dpointsQueue.list.get(i).clone();
 				if (ep.getIndex() < areaOffset || ep.getIndex() >= lastOffset)
 					continue;
+					
 				
 				LineDrawCommand com = new LineDrawCommand();
 				

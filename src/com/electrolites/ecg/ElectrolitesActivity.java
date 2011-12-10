@@ -114,7 +114,7 @@ public class ElectrolitesActivity extends Activity {
 		startListener = new StartListener();
 		start.setOnClickListener(startListener);
 
-		more = (Button) findViewById(R.id.b_reset);
+		more = (Button) findViewById(R.id.b_connect);
 		moreListener = new MoreListener();
 		more.setOnClickListener(moreListener);
 
