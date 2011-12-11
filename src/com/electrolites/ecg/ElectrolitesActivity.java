@@ -237,12 +237,11 @@ public class ElectrolitesActivity extends Activity {
 				public void onClick(DialogInterface dialog, int item) {
 					Toast.makeText(getApplication(), items[item],
 							Toast.LENGTH_SHORT).show();
-					data.toLoad = items[item]/* + ".txt"*/;
+					data.toLoad = items[item] + ".txt";
 					dialog.cancel();
 					
-					intentDePferv = new Intent(getApplication(),
-							BluetoothService.class);
-					stopService(intentDePferv);
+					//intentDePferv = new Intent(getApplication(),BluetoothService.class);
+					//stopService(intentDePferv);
 					
 					intentDePferv = new Intent(getApplication(),
 							FileParserService.class);
@@ -299,7 +298,7 @@ public class ElectrolitesActivity extends Activity {
 		ArrayList<String> result = new ArrayList<String>();
 		for (int i = 0; i < list.length; i++) {
 			if (list[i].endsWith(".txt"))
-				result.add(list[i]/*.substring(0, list[i].length() - 4)*/);
+				result.add(list[i].substring(0, list[i].length() - 4));
 		}
 
 		list = result.toArray(new String[result.size()]);
