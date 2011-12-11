@@ -1,11 +1,12 @@
 package com.electrolites.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
-import android.content.Context;
 import android.os.Environment;
 import android.text.format.Time;
 
@@ -45,12 +46,14 @@ public class RealTimeFriendlyDataParser {
 		if (Environment.MEDIA_MOUNTED.equals(state)) {	
 			Time now = new Time();
 			now.setToNow();
-			//Environment.getExternalStorageDirectory().getPath() + 
-			File dir = new File("log-" + now.format("MM-dd-HH.mm") + ".txt");
-			System.out.println("File is: " + dir);
+
+			File root = Environment.getExternalStorageDirectory();
+			File path = new File(root, "/Download/");
+			File dir = new File(path, "log-" + now.format("%d%m-%Y_%H-%M") + ".txt");
+
 			try {
-				output = data.app.getApplicationContext().openFileOutput(dir.getPath(), Context.MODE_WORLD_WRITEABLE);
-			} catch (FileNotFoundException e) {
+				output = new FileOutputStream(dir.getPath());
+			} catch (IOException e) {
 				e.printStackTrace();
 				output = null;
 			}
@@ -109,18 +112,25 @@ public class RealTimeFriendlyDataParser {
 		progress++;
 		if (progress >= 5) {
 			
+			int first = storedBytes[0]<<24 &  0xFF000000;	//11111111000000000000000000000000
+			int second = storedBytes[1]<<16 & 0x00FF0000;	//00000000111111110000000000000000
+			int third = storedBytes[2]<<8  &  0x0000FF00;	//00000000000000001111111100000000
+			int fourth = storedBytes[3]    &  0x000000FF;	//00000000000000000000000011111111
+			
 			//int offset = ((((storedBytes[0]*256)+storedBytes[1])*256)+storedBytes[2])*256+storedBytes[3];
-			int offset = (storedBytes[0] << 24) | (storedBytes[1] << 16) | (storedBytes[2] << 8) | (storedBytes[3]);
+			//int offset = (int)(storedBytes[0] << 24) | (storedBytes[1] << 16) | (storedBytes[2] << 8) | (storedBytes[3]);
+			int offset = first | second | third | fourth;
 			boolean wrong = false;
 			// Add a debug offset dpoint
 			DPoint p = new DPoint(PointType.start, Wave.Offset);
 			ExtendedDPoint ep = new ExtendedDPoint(lastSample , p);
-			
+
 			if (offset != lastSample) {
 				ep.getDpoint().setType(PointType.peak);
 				wrong = true;
 				System.err.println("WRONG OFFSET; READJUST");
 			}
+			
 			lastSample = offset;
 			
 			synchronized (data.dynamicData.mutex) {
@@ -148,7 +158,7 @@ public class RealTimeFriendlyDataParser {
 			if (output != null) {
 				try {
 					output.write(0xda);
-					output.write(storedBytes, 0, 2);
+                    output.write(storedBytes, 0, 2);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -166,8 +176,16 @@ public class RealTimeFriendlyDataParser {
 			DPoint p = new DPoint();
 			p.setType(p.checkType(storedBytes[0]));
 			p.setWave(p.checkWave(storedBytes[0]));
-			int index = ((((storedBytes[1]*256)+storedBytes[2])*256) + storedBytes[3])*256+storedBytes[4];
+			
+			int first = storedBytes[1]<<24 &  0xFF000000;	//11111111000000000000000000000000
+			int second = storedBytes[2]<<16 & 0x00FF0000;	//00000000111111110000000000000000
+			int third = storedBytes[3]<<8  &  0x0000FF00;	//00000000000000001111111100000000
+			int fourth = storedBytes[4]    &  0x000000FF;	//00000000000000000000000011111111
+			
+			int index = first | second | third | fourth;
+			
 			ExtendedDPoint ep = new ExtendedDPoint(index, p);
+			//int index = ((((storedBytes[1]*256)+storedBytes[2])*256) + storedBytes[3])*256+storedBytes[4];
 				//(storedBytes[1] << 24) | (storedBytes[2] << 16) | (storedBytes[3] << 8) | (storedBytes[4]), p);//
 			synchronized (data.dynamicData.mutex) {
 				data.dynamicData.addDPoint(ep);

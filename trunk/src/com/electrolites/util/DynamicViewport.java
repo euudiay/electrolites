@@ -127,9 +127,9 @@ public class DynamicViewport {
 			
 			// Index sample
 			p = it.next();
-			if (p.id % 256 >= 128)
-				samplesIndex.put(p.id, vpPxX + i*dpoints + 8);
-			else
+			//if (p.id % 256 >= 128)
+				//samplesIndex.put(p.id, vpPxX + i*dpoints + 8);
+			//else
 				samplesIndex.put(p.id, vpPxX + i*dpoints);
 			
 			if (i == 0) {
