@@ -105,8 +105,6 @@ public class DynamicViewport {
 					samplesData.add(p.clone());
 				}
 			}
-			int lenlen = samplesData.size();
-			System.out.println(lenlen);
 		}
 		if (!samplesData.isEmpty()) {
 			areaOffset = samplesData.peek().id;
@@ -209,12 +207,12 @@ public class DynamicViewport {
 				}
 				//float x = vpPxX + (samplesIndex[i] - areaOffset)*dpoints;
 				
-				/*if (baselinePxY > verticalThreshold*vpPxHeight)
+				if (baselinePxY > verticalThreshold*vpPxHeight)
 					com.setPoints(x, vpPxY, x, baselinePxY-samplesData.get(ep.getIndex()-areaOffset).sample*vFactor-10*vFactor);
 				else
-					com.setPoints(x, vpPxY+vpPxHeight, x, baselinePxY-samplesData.get(ep.getIndex()-areaOffset).sample*vFactor+10*vFactor);*/
+					com.setPoints(x, vpPxY+vpPxHeight, x, baselinePxY-samplesData.get(ep.getIndex()-areaOffset).sample*vFactor+10*vFactor);
 				
-				com.setPoints(x, vpPxY, x, baselinePxY+1);
+				//com.setPoints(x, vpPxY, x, baselinePxY+1);
 				
 				if (p.getWave() == Wave.Offset)
 					com.setPoints(x, vpPxY, x, vpPxY+vpPxHeight);
