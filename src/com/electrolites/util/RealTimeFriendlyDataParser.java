@@ -130,6 +130,15 @@ public class RealTimeFriendlyDataParser {
 			
 			lastSample = offset;
 			
+			if (output != null) {
+				try {
+					output.write(0xcc);
+                    output.write(storedBytes, 0, 4);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			synchronized (data.dynamicData.mutex) {
 				if (wrong)
 					data.dynamicData.discardUntil(offset-1);
@@ -146,8 +155,6 @@ public class RealTimeFriendlyDataParser {
 		progress++;
 		if (progress >= 2) {
 			short sample = byteToShort(storedBytes[0], storedBytes[1]);
-			//long sample = byteToLong(storedBytes[0], storedBytes[1]);
-			//long sample = (storedBytes[0] << 8) | storedBytes[1];
 			synchronized (data.dynamicData.mutex) {
 				data.dynamicData.addSample(new SamplePoint(lastSample, sample));
 			}
@@ -182,8 +189,16 @@ public class RealTimeFriendlyDataParser {
 			int index = first | second | third | fourth;
 			
 			ExtendedDPoint ep = new ExtendedDPoint(index, p);
-			//int index = ((((storedBytes[1]*256)+storedBytes[2])*256) + storedBytes[3])*256+storedBytes[4];
-				//(storedBytes[1] << 24) | (storedBytes[2] << 16) | (storedBytes[3] << 8) | (storedBytes[4]), p);//
+			
+			if (output != null) {
+				try {
+					output.write(0xed);
+                    output.write(storedBytes, 0, 4);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			synchronized (data.dynamicData.mutex) {
 				data.dynamicData.addDPoint(ep);
 			}
@@ -197,13 +212,28 @@ public class RealTimeFriendlyDataParser {
 		storedBytes[progress] = (byte) (currentByte & 0xff);
 		progress++;
 		if (progress >= 2) {
-			int beatSamples = (storedBytes[0]*256 + storedBytes[1]);
+			int first = storedBytes[0]<<8 &  0x0000FF00;	//00000000000000001111111100000000
+			int second = storedBytes[1] & 0x000000FF;	//00000000000000000000000011111111
+		
+			int beatSamples = first | second;
+			
 			float hbr = 60*250/(float) beatSamples;
+			
+			if (output != null) {
+				try {
+					output.write(0xfb);
+                    output.write(storedBytes, 0, 2);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			synchronized(data.dynamicData.mutex) {
 				hbr = Math.round(hbr*100)/100.f;
 				System.out.println("HBR: " + hbr);
 				data.dynamicData.setHBR(hbr);
 			}
+			
 			currentToken = Token.None;
 			progress = 0;
 		}

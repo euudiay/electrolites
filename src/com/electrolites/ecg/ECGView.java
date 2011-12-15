@@ -298,8 +298,8 @@ public class ECGView extends AnimationView {
 			
 			// Render dpoints
 	            //LinkedList<LineDrawCommand> pointsList = dvport.getViewDPoints();
-	            int mierdas = pointsList.size();
-	            for (int i = 0; i < mierdas; i++) {
+	            int ndPonits = pointsList.size();
+	            for (int i = 0; i < ndPonits; i++) {
 	            	renderDPoint(canvas, pointsList.remove(), points);
 	            }
 			
