@@ -11,8 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.hardware.usb.UsbAccessory;
-import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -31,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.future.usb.UsbAccessory;
+import com.android.future.usb.UsbManager;
 import com.electrolites.data.Data;
 import com.electrolites.services.BluetoothParserService;
 import com.electrolites.services.BluetoothService;
@@ -58,8 +58,8 @@ public class ElectrolitesActivity extends Activity {
 
 	private Button start;
 	private StartListener startListener;
-	private Button more;
-	private MoreListener moreListener;
+	private Button usb;
+	private UsbListener usbListener;
 	private Button up;
 	private UpListener upListener;
 	private Button down;
@@ -82,7 +82,7 @@ public class ElectrolitesActivity extends Activity {
 
 	private ECGView ecgView;
 	
-	private AccessoryManager am;
+	private AccessoryManager am = null;
 
 	@Override
 	public void onSaveInstanceState(Bundle saveInstanceState) {
@@ -114,9 +114,9 @@ public class ElectrolitesActivity extends Activity {
 		startListener = new StartListener();
 		start.setOnClickListener(startListener);
 
-		more = (Button) findViewById(R.id.b_connect);
-		moreListener = new MoreListener();
-		more.setOnClickListener(moreListener);
+		usb = (Button) findViewById(R.id.b_connect);
+		usbListener = new UsbListener();
+		usb.setOnClickListener(usbListener);
 
 		up = (Button) findViewById(R.id.b_up);
 		up.setEnabled(true);
@@ -168,16 +168,12 @@ public class ElectrolitesActivity extends Activity {
 		
 		//Hiper Cutresy
 		data.handler = mHandler;
-		
-		// Instanciamos el manager de los accesorios USB y lo ponemos en marcha
-		// Comentado hasta que funcione y se pueda ejecutar bajo demanda
-		//am = new AccessoryManager(this);
-		//am.start(usbReceiver);
 	}
 
 	@Override
 	public void onDestroy() {
-		//am.stop();
+		if (am != null)
+			am.stop();
 		super.onDestroy();
 	}
 
@@ -314,7 +310,7 @@ public class ElectrolitesActivity extends Activity {
 	        
 	        if (AccessoryManager.ACTION_USB_PERMISSION.equals(action)) {
 	        	synchronized (this) {
-	        		UsbAccessory accessory = (UsbAccessory) intent.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
+	        		UsbAccessory accessory = (UsbAccessory) UsbManager.getAccessory(intent);
 	    
 	        		Toast.makeText(context, "Accessory found.", Toast.LENGTH_SHORT);
 	        		
@@ -329,6 +325,22 @@ public class ElectrolitesActivity extends Activity {
 	                	Toast.makeText(context, "Accessory permission denied.", Toast.LENGTH_SHORT);
 	                }
 	        	}
+	       }
+	        
+	       if (UsbManager.ACTION_USB_ACCESSORY_DETACHED.equals(action)) {
+	    	   UsbAccessory accessory = (UsbAccessory) UsbManager.getAccessory(intent);
+	    	   if (accessory != null) {
+	    		   String output = "Accessory " + accessory.toString() + " detached.";
+	    		   Toast.makeText(context, output, Toast.LENGTH_SHORT);
+	    		   am.stop();
+	    		   
+	    		   /*output = "";
+	    		   
+	    		   for (int i = 0; i < 10; i++)
+	    			   output += am.getDeita().get(i) + " ";
+	    		   
+	    		   Toast.makeText(context, output, Toast.LENGTH_SHORT);*/
+	    	   }
 	       }
 	    }
 	};
@@ -413,13 +425,11 @@ public class ElectrolitesActivity extends Activity {
 		}
 	}
 
-	class MoreListener implements OnClickListener {
+	class UsbListener implements OnClickListener {
 		public void onClick(View v) {
-
-			intentDePferv = new Intent(getApplication(),
-					RandomGeneratorService.class);
-			intentDePferv.setAction(DataService.RETRIEVE_DATA);
-			getApplication().startService(intentDePferv);
+			// Instanciamos el manager de los accesorios USB y lo ponemos en marcha
+			am = new AccessoryManager(data.activity);
+			am.start(usbReceiver);
 
 		}
 	}

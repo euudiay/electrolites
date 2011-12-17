@@ -2,6 +2,7 @@ package com.electrolites.usb;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -9,10 +10,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.hardware.usb.UsbAccessory;
-import android.hardware.usb.UsbManager;
 import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
+
+import com.android.future.usb.UsbAccessory;
+import com.android.future.usb.UsbManager;
 
 
 public class AccessoryManager {
@@ -27,12 +29,15 @@ public class AccessoryManager {
 	private ParcelFileDescriptor pfd = null;
 	private FileDescriptor fd;
 	
-	private UsbComThread thread;	// Hilo que se encargar√° de la comunicaci√≥n con el accesorio
+	// Debug!
+	private ArrayList<Byte> deita;
+	
+	private UsbComThread thread;	// Hilo que se encargar· de la comunicaciÛn con el accesorio
 	
 	public AccessoryManager(Activity activity) {
 		this.activity = activity;
 		context = activity.getApplicationContext();
-		usbManager = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
+		usbManager = UsbManager.getInstance(context);
 	}
 	
 	public void start(BroadcastReceiver usbReceiver) {
@@ -83,4 +88,7 @@ public class AccessoryManager {
 	        thread.run();
 	    }
 	}
+	
+	// Debug
+	public ArrayList<Byte> getDeita() { return deita; }
 }
