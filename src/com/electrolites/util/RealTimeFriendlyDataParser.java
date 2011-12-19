@@ -125,7 +125,7 @@ public class RealTimeFriendlyDataParser {
 			if (offset != lastSample) {
 				ep.getDpoint().setType(PointType.peak);
 				wrong = true;
-				System.err.println("WRONG OFFSET; READJUST");
+				System.err.println("WRONG OFFSET: GOT " + offset + " EXPECTED " + lastSample);
 			}
 			
 			lastSample = offset;

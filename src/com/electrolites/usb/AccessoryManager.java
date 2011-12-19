@@ -25,7 +25,6 @@ public class AccessoryManager {
 	private UsbManager usbManager;
 	
 	private ParcelFileDescriptor pfd = null;
-	private FileDescriptor fd;
 	
 	private UsbComThread thread;	// Hilo que se encargará de la comunicación con el accesorio
 	
@@ -45,8 +44,10 @@ public class AccessoryManager {
         UsbAccessory accessory = null;
         UsbAccessory[] accessoryList = usbManager.getAccessoryList();
         
-        if (accessoryList == null)
+        if (accessoryList == null) {
         	Toast.makeText(context, "No accessories attached.", Toast.LENGTH_SHORT).show();
+        	usbManager = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
+        }
         else
         	accessory = accessoryList[0];
         
@@ -80,7 +81,6 @@ public class AccessoryManager {
 	        
 	        thread = new UsbComThread(fd);
 	        thread.start();
-	        thread.run();
 	    }
 	}
 }

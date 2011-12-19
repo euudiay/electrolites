@@ -115,8 +115,8 @@ public class ElectrolitesActivity extends Activity {
 		start.setOnClickListener(startListener);
 
 		more = (Button) findViewById(R.id.b_connect);
-		moreListener = new MoreListener();
-		more.setOnClickListener(moreListener);
+		UsbListener uListener = new UsbListener();
+		more.setOnClickListener(uListener);
 
 		up = (Button) findViewById(R.id.b_up);
 		up.setEnabled(true);
@@ -168,11 +168,6 @@ public class ElectrolitesActivity extends Activity {
 		
 		//Hiper Cutresy
 		data.handler = mHandler;
-		
-		// Instanciamos el manager de los accesorios USB y lo ponemos en marcha
-		// Comentado hasta que funcione y se pueda ejecutar bajo demanda
-		//am = new AccessoryManager(this);
-		//am.start(usbReceiver);
 	}
 
 	@Override
@@ -415,12 +410,12 @@ public class ElectrolitesActivity extends Activity {
 
 	class MoreListener implements OnClickListener {
 		public void onClick(View v) {
-
+			/** Random Generator (Old) **/
 			intentDePferv = new Intent(getApplication(),
 					RandomGeneratorService.class);
 			intentDePferv.setAction(DataService.RETRIEVE_DATA);
 			getApplication().startService(intentDePferv);
-
+			
 		}
 	}
 
@@ -491,4 +486,22 @@ public class ElectrolitesActivity extends Activity {
 		});
 	}
 
+	/* Usb receiver launcher handler */
+	class UsbListener implements OnClickListener {
+		public void onClick(View v) {
+			
+			// Instanciamos el manager de los accesorios USB y lo ponemos en marcha
+			aHandler.post(new Runnable() {
+				public void run() {
+					am = new AccessoryManager(data.activity);
+					am.start(usbReceiver);
+					
+					start.setEnabled(false);
+					data.mode = Data.MODE_DYNAMIC;
+					ecgView.reset();
+					ecgView.setVisibility(View.VISIBLE);
+				}
+			});
+		}
+	}
 }
