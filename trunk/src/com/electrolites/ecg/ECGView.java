@@ -25,30 +25,46 @@ import com.electrolites.util.PositionedDPoint;
 import com.electrolites.util.Viewport;
 
 public class ECGView extends AnimationView {
+	
+	private class ECGThread extends AnimationThread {
+		
+		protected Paint textPaint, rectPaint, ecgPaint;
+		protected int bgColor;
 
-	private class ECGThreadStatic extends AnimationThread {
-		
-		private Intent intent;
-		
-		private Paint linePaint, rectPaint, ecgPaint;
-		
-		private int bgColor;
-
-		public ECGThreadStatic(SurfaceHolder holder) {
+		public ECGThread(SurfaceHolder holder) {
 			super(holder);
 			
-			//bgColor = Color.rgb(89, 89, 89);
 			bgColor = Color.rgb(0, 0, 0);
 			
-			linePaint = new Paint();
-			linePaint.setARGB(200, 100, 255, 100);
-			linePaint.setStrokeWidth(2.f);
-			linePaint.setTextAlign(Align.RIGHT);
+			textPaint = new Paint();
+			textPaint.setARGB(200, 100, 255, 100);
+			textPaint.setStrokeWidth(2.f);
+			textPaint.setTextAlign(Align.RIGHT);
 			
 			ecgPaint = new Paint();
 			
 			rectPaint = new Paint();
 			rectPaint.setColor(Color.rgb(69, 69, 69));
+		}
+		
+		protected void renderDPoint(Canvas canvas, LineDrawCommand com) {
+			ecgPaint.setARGB(com.getA(), com.getR(), com.getG(), com.getB());
+			ecgPaint.setStrokeWidth(com.getWidth());
+			canvas.drawLine(com.getX1(), com.getY1(), com.getX2(), com.getY2(), ecgPaint);
+		}
+
+		@Override
+		public void onRender(Canvas canvas) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+
+	private class ECGThreadStatic extends ECGThread {
+		
+		public ECGThreadStatic(SurfaceHolder holder) {
+			super(holder);
 		}
 		
 		@Override
@@ -81,36 +97,36 @@ public class ECGView extends AnimationView {
 				canvas.drawRect(new Rect(0, 0, left, getHeight()), rectPaint);
 				canvas.drawRect(new Rect(right, 0, getWidth(), getHeight()), rectPaint);
 				
-				linePaint.setStrokeWidth(2.f);
-				canvas.drawLine(left, top, right, top, linePaint);
-				canvas.drawLine(left, top, left, bottom, linePaint);
-				canvas.drawLine(left, bottom, right, bottom, linePaint);
-				canvas.drawLine(right, top, right, bottom, linePaint);
+				textPaint.setStrokeWidth(2.f);
+				canvas.drawLine(left, top, right, top, textPaint);
+				canvas.drawLine(left, top, left, bottom, textPaint);
+				canvas.drawLine(left, bottom, right, bottom, textPaint);
+				canvas.drawLine(right, top, right, bottom, textPaint);
 				
-				Align a = linePaint.getTextAlign();
-				float s = linePaint.getTextSize();
-				linePaint.setTextAlign(Align.CENTER);
-				linePaint.setTextSize(48);
-				canvas.drawText("Loading...", vport.vpPxX+vport.vpPxWidth/2, vport.vpPxY+vport.vpPxHeight/2, linePaint);
-				linePaint.setTextAlign(a);
-				linePaint.setTextSize(s);
+				Align a = textPaint.getTextAlign();
+				float s = textPaint.getTextSize();
+				textPaint.setTextAlign(Align.CENTER);
+				textPaint.setTextSize(48);
+				canvas.drawText("Loading...", vport.vpPxX+vport.vpPxWidth/2, vport.vpPxY+vport.vpPxHeight/2, textPaint);
+				textPaint.setTextAlign(a);
+				textPaint.setTextSize(s);
 				
 			} else {
 				// Render Axis and Data
-				linePaint.setARGB(230, 150, 150, 150);
-				linePaint.setStrokeWidth(2.f);
-				canvas.drawLine(left, vport.vpPxY, left, vport.vpPxY+vport.vpPxHeight, linePaint);
+				textPaint.setARGB(230, 150, 150, 150);
+				textPaint.setStrokeWidth(2.f);
+				canvas.drawLine(left, vport.vpPxY, left, vport.vpPxY+vport.vpPxHeight, textPaint);
 				
 				// Render Axis Scales
 				// Upper part
 				int divisions = (int) Math.floor((vport.baselinePxY - vport.vpPxY) / (1000*vport.vFactor));
 				
 				//canvas.drawText("0.0", left-2, vport.baselinePxY, linePaint);
-				canvas.drawLine(left, vport.baselinePxY, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY, linePaint);
-				linePaint.setStrokeWidth(1.f);
+				canvas.drawLine(left, vport.baselinePxY, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY, textPaint);
+				textPaint.setStrokeWidth(1.f);
 				for (int i = 0; i <= divisions; i++) {
 				//	canvas.drawText("" + (float) i, left-2, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
-					canvas.drawLine(left, vport.baselinePxY-i*1000*vport.vFactor, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
+					canvas.drawLine(left, vport.baselinePxY-i*1000*vport.vFactor, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY-i*1000*vport.vFactor, textPaint);
 				}
 				
 				// Lower part
@@ -118,7 +134,7 @@ public class ECGView extends AnimationView {
 				
 				for (int i = 1; i <= divisions; i++) {
 				//	canvas.drawText("" + (float) -i, left-2, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
-					canvas.drawLine(left, vport.baselinePxY+i*1000*vport.vFactor, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
+					canvas.drawLine(left, vport.baselinePxY+i*1000*vport.vFactor, vport.vpPxX+5+vport.vpPxWidth, vport.baselinePxY+i*1000*vport.vFactor, textPaint);
 				}
 				
 				
@@ -131,10 +147,8 @@ public class ECGView extends AnimationView {
 	            canvas.drawLines(points, 0, toDraw,  ecgPaint);
 	            
 				// Render delineation results
-				Map<Float, ExtendedDPoint> specials = vport.getViewDPoints();
-				for (Map.Entry<Float, ExtendedDPoint> ent : specials.entrySet()) {
-					renderDPoint(canvas, ent.getKey().floatValue(), ent.getValue(), points);
-				}
+	            for (LineDrawCommand cmd: vport.getViewDPoints())
+	            	renderDPoint(canvas, cmd);
 	            
 				// Ultimate Cutresy!
 				canvas.drawRect(new Rect(0, 0, getWidth(), vport.vpPxY-1), rectPaint);
@@ -142,90 +156,40 @@ public class ECGView extends AnimationView {
 				canvas.drawRect(new Rect(0, 0, left, getHeight()), rectPaint);
 				canvas.drawRect(new Rect(right, 0, getWidth(), getHeight()), rectPaint);
 				
-				linePaint.setStrokeWidth(2.f);
-				canvas.drawLine(left, top, right, top, linePaint);
-				canvas.drawLine(left, top, left, bottom, linePaint);
-				canvas.drawLine(left, bottom, right, bottom, linePaint);
-				canvas.drawLine(right, top, right, bottom, linePaint);
+				textPaint.setStrokeWidth(2.f);
+				canvas.drawLine(left, top, right, top, textPaint);
+				canvas.drawLine(left, top, left, bottom, textPaint);
+				canvas.drawLine(left, bottom, right, bottom, textPaint);
+				canvas.drawLine(right, top, right, bottom, textPaint);
 				
 				divisions = (int) Math.floor((vport.baselinePxY - vport.vpPxY) / (1000*vport.vFactor));
 				
-				canvas.drawText("0.0", left-2, vport.baselinePxY, linePaint);
+				canvas.drawText("0.0", left-2, vport.baselinePxY, textPaint);
 				for (int i = 0; i <= divisions; i++) {
-					canvas.drawText("" + (float) i, left-2, vport.baselinePxY-i*1000*vport.vFactor, linePaint);
+					canvas.drawText("" + (float) i, left-2, vport.baselinePxY-i*1000*vport.vFactor, textPaint);
 				}
 				
 				// Lower part
 				divisions = (int) Math.floor((vport.vpPxY+vport.vpPxHeight- vport.baselinePxY) / (1000*vport.vFactor));
 				
 				for (int i = 1; i <= divisions; i++) {
-					canvas.drawText("" + (float) -i, left-2, vport.baselinePxY+i*1000*vport.vFactor, linePaint);
+					canvas.drawText("" + (float) -i, left-2, vport.baselinePxY+i*1000*vport.vFactor, textPaint);
 				}
 				
-				linePaint.setTextAlign(Align.LEFT);
-				canvas.drawText(vport.vaSecX + " - " + (vport.vaSecX+vport.vaSeconds), left, top-10, linePaint);
-				linePaint.setTextAlign(Align.RIGHT);
+				textPaint.setTextAlign(Align.LEFT);
+				canvas.drawText(vport.vaSecX + " - " + (vport.vaSecX+vport.vaSeconds), left, top-10, textPaint);
+				textPaint.setTextAlign(Align.RIGHT);
 			}
 			
             canvas.restore();
-			
-		}
-		
-		protected void renderDPoint(Canvas canvas, float x, ExtendedDPoint edp, float[] points) {
-			DPoint p = edp.getDpoint();
-			
-			if (edp.getIndex() < 0 || edp.getIndex() >= data.samples.size())
-				return;
-			
-			if (p.getType() == PointType.start || p.getType() == PointType.end) {
-	            ecgPaint.setStrokeWidth(1.f);
-				ecgPaint.setARGB(200, 180, 180, 240);
-			}
-			else if (p.getType() == PointType.peak) {
-	            ecgPaint.setStrokeWidth(2.f);
-	            if (p.getWave() == Wave.QRS)
-					ecgPaint.setARGB(230, 240, 240, 240);
-	            else if (p.getWave() == Wave.P)
-					ecgPaint.setARGB(230, 240, 110, 110);
-				else if (p.getWave() == Wave.T)
-					ecgPaint.setARGB(230, 110, 240, 110);
-			}
-			else
-				return;
-
-			if (vport.baselinePxY > 0.3*getHeight())
-				canvas.drawLine(x, vport.vpPxY, x, vport.baselinePxY-data.samples.get(edp.getIndex())*vport.vFactor-10*vport.vFactor, ecgPaint);
-			else
-				canvas.drawLine(x, vport.vpPxY+vport.vpPxHeight, x, vport.baselinePxY-data.samples.get(edp.getIndex())*vport.vFactor+10*vport.vFactor, ecgPaint);
 		}
 	}
 
-	private class ECGThreadDynamic extends AnimationThread {
-		
-		private Paint textPaint, rectPaint, ecgPaint;
-		
-		private int bgColor;
-		
+	private class ECGThreadDynamic extends ECGThread {
 		private long lastTime;
 
 		public ECGThreadDynamic(SurfaceHolder holder) {
 			super(holder);
-			
-			// Background color
-			bgColor = Color.rgb(0, 0, 0);
-			
-			// Text painter
-			textPaint = new Paint();
-			textPaint.setARGB(200, 100, 255, 100);
-			textPaint.setStrokeWidth(2.f);
-			textPaint.setTextAlign(Align.RIGHT);
-			
-			// Ecg painter
-			ecgPaint = new Paint();
-			
-			// Frame painter
-			rectPaint = new Paint();
-			rectPaint.setColor(Color.rgb(69, 69, 69));
 			
 			lastTime = 0;
 		}
@@ -300,7 +264,7 @@ public class ECGView extends AnimationView {
 	            //LinkedList<LineDrawCommand> pointsList = dvport.getViewDPoints();
 	            int ndPonits = pointsList.size();
 	            for (int i = 0; i < ndPonits; i++) {
-	            	renderDPoint(canvas, pointsList.remove(), points);
+	            	renderDPoint(canvas, pointsList.remove());
 	            }
 			
 			// Render frame
@@ -340,12 +304,6 @@ public class ECGView extends AnimationView {
 			// Aaaaand done!
             canvas.restore();
 			}
-		}
-		
-		protected void renderDPoint(Canvas canvas, LineDrawCommand com, float[] points) {
-			ecgPaint.setARGB(com.getA(), com.getR(), com.getG(), com.getB());
-			ecgPaint.setStrokeWidth(com.getWidth());
-			canvas.drawLine(com.getX1(), com.getY1(), com.getX2(), com.getY2(), ecgPaint);
 		}
 	}
 

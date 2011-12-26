@@ -2,57 +2,72 @@ package com.electrolites.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.electrolites.data.DPoint;
-import com.electrolites.util.DataParser;
+import com.electrolites.util.ExtendedDPoint;
+import com.electrolites.util.FileConverter;
+import com.electrolites.util.SamplePoint;
+import com.electrolites.util.StaticFriendlyDataParser;
 
 public class FileParserService extends DataService {
-
-	Random r;
-	DataParser dp;
+	public static final String TAG = "FileParserService";
+	public static final boolean DEBUG = true;
 	
-	// Muestras indexadas por no. de muestra
-	protected ArrayList<Short> samples;
-	// Puntos resultantes de la delineación, indexados por número de muestra
-	protected HashMap<Integer, DPoint> dpoints;
-	// Valores del ritmo cardíaco, indexados según el número de muestra anterior a su recepción
-	protected HashMap<Integer, Short> hbrs;
-	// Primera muestra dibujable
-	protected Integer offset;
+	private FileConverter fc;
+	private StaticFriendlyDataParser dp;
+	
+	private ArrayList<Byte> stream;
+	private ArrayList<SamplePoint> samples;
+	private ArrayList<ExtendedDPoint> dpoints;
+	private HashMap<Integer, Short> hbrs;
+	private int offset;
 	
 	public FileParserService() {
 		super("FileParserService");
 		
-		dp = new DataParser();
-		samples = new ArrayList<Short>();
-		dpoints = new HashMap<Integer, DPoint>();
-		hbrs = new HashMap<Integer, Short>();
-		offset = new Integer(15000);
+		fc = new FileConverter();
+		stream = fc.readBinary(data.toLoad);
+		
+		dp = new StaticFriendlyDataParser();
+		dp.setStream(stream);
 	}
 	
 	@Override
 	public void startRunning(Intent intent) {
-		System.out.println("Voy a leer data!");
+		if (DEBUG)
+			Log.d(TAG, "FileParserService starts.");
 	}
 	
 	@Override
 	public void retrieveData(Intent intent) {
-		
 		synchronized(this) {
 			data.loading = true;
-			data.samples = new ArrayList<Short>();
-			data.dpoints = new HashMap<Integer, DPoint>();
+			
+			if (data.samples != null)
+				data.samples.clear();
+			else
+				data.samples = new ArrayList<SamplePoint>();
+			
+			if (data.dpoints != null)
+				data.dpoints.clear();
+			else
+				data.dpoints = new ArrayList<ExtendedDPoint>();
+			
 			data.offset = 0;
 		}
 		
-		dp.loadBinaryFile(data.toLoad, samples, dpoints, hbrs, offset);
+		dp.parseStream();
+		samples = dp.getSamples();
+		dpoints = dp.getDPoints();
+		hbrs = dp.getHBRs();
+		offset = dp.getOffset();
 		
 		synchronized(this) {
 			data.samples.addAll(samples);
-			data.dpoints.putAll(dpoints);
+			data.dpoints.addAll(dpoints);
 			data.offset = offset;
 			data.loading = false;
 		}

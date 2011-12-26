@@ -58,8 +58,8 @@ public class ElectrolitesActivity extends Activity {
 
 	private Button start;
 	private StartListener startListener;
-	private Button more;
-	private MoreListener moreListener;
+	private Button usb;
+	private UsbListener usbListener;
 	private Button up;
 	private UpListener upListener;
 	private Button down;
@@ -172,7 +172,8 @@ public class ElectrolitesActivity extends Activity {
 
 	@Override
 	public void onDestroy() {
-		//am.stop();
+		if (am != null)
+			am.stop();
 		super.onDestroy();
 	}
 
@@ -324,6 +325,13 @@ public class ElectrolitesActivity extends Activity {
 	                	Toast.makeText(context, "Accessory permission denied.", Toast.LENGTH_SHORT);
 	                }
 	        	}
+	       }
+	        
+	       if (UsbManager.ACTION_USB_ACCESSORY_DETACHED.equals(action)) {
+	    	   UsbAccessory accessory = (UsbAccessory) intent.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
+    		   String output = "Accessory " + accessory.toString() + " detached.";
+    		   Toast.makeText(context, output, Toast.LENGTH_SHORT);
+    		   am.stop();
 	       }
 	    }
 	};

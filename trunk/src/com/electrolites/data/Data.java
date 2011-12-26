@@ -39,9 +39,11 @@ public class Data {
 	// Escala de ancho: 0 (evitar) ~ whatever
 	private float widthScale = 1;
 	// Muestras indexadas por no. de muestra
-	public ArrayList<Short> samples = null;
+	//public ArrayList<Short> samples = null;
+	public ArrayList<SamplePoint> samples = null;
 	// Puntos resultantes de la delineaci�n, indexados por no. de muestra
-	public Map<Integer, DPoint> dpoints = null;
+	//public Map<Integer, DPoint> dpoints = null;
+	public ArrayList<ExtendedDPoint> dpoints = null;
 	// Valores del ritmo card�aco, indexados seg�n el n�mero de muestra anterior a su recepci�n
 	public Map<Integer, Short> hbrs = null;
 	// Primera muestra dibujable
@@ -185,8 +187,10 @@ public class Data {
 		vaSecX = 0;
 		drawBaseHeight = 0.5f;
 		widthScale = 3;
-		samples = new ArrayList<Short>();
-		dpoints = new HashMap<Integer, DPoint>();
+		//samples = new ArrayList<Short>();
+		samples = new ArrayList<SamplePoint>();
+		//dpoints = new HashMap<Integer, DPoint>();
+		dpoints = new ArrayList<ExtendedDPoint>();
 		hbrs = new HashMap<Integer, Short>();
 		app = null;
 		autoScroll = false;
@@ -217,7 +221,7 @@ public class Data {
 	}
 	
 	public short[] getSamplesArray() {
-		Object samp[] = samples.toArray();
+		/*Object samp[] = samples.toArray();
 		short result[] = new short[samp.length];
 		try {
 			for (int i = 0; i < samp.length; i++) {
@@ -229,7 +233,14 @@ public class Data {
 		}
 		catch (NullPointerException e) {
 			e.printStackTrace();
-		}
+		}*/
+		Object samp[] = samples.toArray();
+		short result[] = new short[samp.length];
+		for (int i = 0; i < samp.length; i++)
+			if (samp[i] != null)
+				result[i] = (short) ((SamplePoint) samp[i]).sample;
+			else
+				result[i] = 0;
 		
 		return result;
 	}
