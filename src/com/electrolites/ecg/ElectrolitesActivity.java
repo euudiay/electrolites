@@ -114,9 +114,9 @@ public class ElectrolitesActivity extends Activity {
 		startListener = new StartListener();
 		start.setOnClickListener(startListener);
 
-		more = (Button) findViewById(R.id.b_connect);
+		usb = (Button) findViewById(R.id.b_connect);
 		UsbListener uListener = new UsbListener();
-		more.setOnClickListener(uListener);
+		usb.setOnClickListener(uListener);
 
 		up = (Button) findViewById(R.id.b_up);
 		up.setEnabled(true);
