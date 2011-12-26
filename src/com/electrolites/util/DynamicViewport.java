@@ -165,8 +165,9 @@ public class DynamicViewport {
 					
 				
 				LineDrawCommand com = new LineDrawCommand();
+				com.defaultValues(ep.getDpoint());
 				
-				DPoint p = ep.getDpoint();
+				/*DPoint p = ep.getDpoint();
 				
 				if (p.getType() == PointType.start || p.getType() == PointType.end) {
 		            com.setWidth(1.f);
@@ -189,7 +190,7 @@ public class DynamicViewport {
 						com.setARGB(230, 10, 244, 10);
 					}
 				}
-				else continue;
+				else continue;*/
 				
 				float x;
 				int index;
@@ -214,7 +215,7 @@ public class DynamicViewport {
 				
 				//com.setPoints(x, vpPxY, x, baselinePxY+1);
 				
-				if (p.getWave() == Wave.Offset)
+				if (ep.getDpoint().getWave() == Wave.Offset)
 					com.setPoints(x, vpPxY, x, vpPxY+vpPxHeight);
 				
 				pointsData.add(com);

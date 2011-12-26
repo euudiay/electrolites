@@ -1,11 +1,13 @@
 package com.electrolites.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import com.electrolites.data.DPoint;
 import com.electrolites.data.Data;
+import com.electrolites.data.DPoint.PointType;
+import com.electrolites.data.DPoint.Wave;
 
 public class Viewport {
 	// Posici�n, ancho y alto del viewport en pixels
@@ -114,6 +116,7 @@ public class Viewport {
 			int start = Math.round(vaSecX*samplesPerSecond);
 			// Buscar �ltimo punto
 			int end = Math.min(start + Math.round(npoints), dataEnd);
+			//int end = Math.max(start + Math.round(npoints), dataEnd);
 			// Construir la lista de puntos a devolver
 			float points[] = new float[(end-start-2)*4+4];
 			
@@ -155,46 +158,68 @@ public class Viewport {
 		}
 	}
 	
-	public Map<Float, ExtendedDPoint> getViewDPoints() {
-		
-		// Obtener nuevos parametros
+	public ArrayList<LineDrawCommand> getViewDPoints() {
 		updateParameters();
 		
-		HashMap<Float, ExtendedDPoint> map = new HashMap<Float, ExtendedDPoint>();
+		ArrayList<LineDrawCommand> list = new ArrayList<LineDrawCommand>();
 		
-		synchronized (this) {
+		/*synchronized (this) {
+			
+		}*/
 		
-			// Calcular cantidad de puntos que caben
-			float npoints = vaSeconds*samplesPerSecond;
-			// Calcular densidad de puntos
-			float dpoints = vpPxWidth / npoints;
-			// Si la densidad es < 0 es que se quieren mostrar 
-			// m�s puntos de los que caben (aglutinar o...)
-			if (dpoints < 0)
-				return null;
-			// Buscar primer punto
-			// Por ahora, redonder y coger el que sea (mejorar esto)
-			int start = Math.round(vaSecX*samplesPerSecond);
-			// Buscar �ltimo punto
-			int end = Math.min(start + Math.round(npoints), dataEnd);
+		// Calcular cantidad de puntos que caben
+		float npoints = vaSeconds*samplesPerSecond;
+		// Calcular densidad de puntos
+		float dpoints = vpPxWidth / npoints;
+		// Si la densidad es < 0 es que se quieren mostrar 
+		// m�s puntos de los que caben (aglutinar o...)
+		if (dpoints < 0)
+			return null;
+		// Buscar primer punto
+		// Por ahora, redonder y coger el que sea (mejorar esto)
+		int start = Math.round(vaSecX*samplesPerSecond);
+		// Buscar �ltimo punto
+		int end = Math.min(start + Math.round(npoints), dataEnd);
+		
+		boolean done = false;
+		
+		int i = 0;
+		while (i < actualData.dpoints.size() && !done) {
+			ExtendedDPoint edp = actualData.dpoints.get(i);
+			DPoint p = edp.getDpoint();
 			
-			Iterator<Map.Entry<Integer, DPoint>> it = actualData.dpoints.entrySet().iterator();
-			Map.Entry<Integer, DPoint> entry;
-			boolean done = false;
+			i++;
 			
-			while (it.hasNext() && !done) {
-				entry = it.next();
-				
-				if (entry.getKey().intValue()-actualData.offset < start || entry.getKey().intValue()-actualData.offset >= end)
-					continue;
-				
-				map.put(vpPxX + (entry.getKey()-start-actualData.offset)*dpoints, new ExtendedDPoint(entry.getKey().intValue()-actualData.offset, entry.getValue()));
-			}
+			if (edp.index - actualData.offset < start || edp.index - actualData.offset >= end)
+				continue;
+			
+			LineDrawCommand com = new LineDrawCommand();
+			com.defaultValues(p);
+			
+			float x = vpPxX + (edp.index - start - actualData.offset) * dpoints;
+			
+			SamplePoint sample = actualData.samples.get(edp.getIndex() - actualData.offset);
+			
+			if (sample != null) {
+				if (baselinePxY > 0.3*vpPxHeight)
+					com.setPoints(x, vpPxY, x, baselinePxY - actualData.samples.get(
+							edp.getIndex() - actualData.offset).sample * vFactor - 10 * vFactor);
+				else
+					com.setPoints(x, vpPxY + vpPxHeight, x, baselinePxY - actualData.samples.get(
+							edp.getIndex() - actualData.offset).sample * vFactor + 10 * vFactor);
+			} else
+				; // DPoint refers to a sample which has not been received
+			
+			
+			if (p.getWave() == Wave.Offset)
+				com.setPoints(x, vpPxY, x, vpPxY+vpPxHeight);
+			
+			list.add(com);
 		}
 		
-		return map;
+		return list;
 	}
-	
+
 	public boolean move(float secDeltaX) {		
 		vaSecX += secDeltaX;
 		

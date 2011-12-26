@@ -9,7 +9,12 @@
                 android:layout_height="wrap_content"
                 android:text="Bluetooth" android:layout_width="wrap_content">
 			</Button>
-            <Button android:text="USB" android:id="@+id/b_connect" android:layout_height="wrap_content" android:layout_width="wrap_content"></Button>
+			<Button
+                android:id="@+id/b_usb"
+                android:layout_height="wrap_content"
+                android:text="Usb!" android:layout_width="wrap_content">
+			</Button>
+            <Button android:text="Connect" android:id="@+id/b_connect" android:layout_height="wrap_content" android:layout_width="wrap_content"></Button>
 
             <EditText
                 android:id="@+id/e_id"

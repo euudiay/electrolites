@@ -1,5 +1,9 @@
 package com.electrolites.util;
 
+import com.electrolites.data.DPoint;
+import com.electrolites.data.DPoint.PointType;
+import com.electrolites.data.DPoint.Wave;
+
 public class LineDrawCommand {
 	float width;
 	short A, R, G, B;
@@ -24,6 +28,33 @@ public class LineDrawCommand {
 		this.R = (short) R;
 		this.G = (short) G;
 		this.B = (short) B;
+	}
+	
+	public void defaultValues(DPoint dp) {
+		if (dp.getType() == PointType.start || dp.getType() == PointType.end) {
+            setWidth(1.f);
+			setARGB(200, 180, 180, 240);
+			// Debug offset dpoint
+			if (dp.getWave() == Wave.Offset) {
+				setARGB(200, 244, 10, 10);
+			}
+		}
+		else if (dp.getType() == PointType.peak) {
+            setWidth(2.f);
+            if (dp.getWave() == Wave.QRS)
+				setARGB(230, 255, 0, 255);
+            else if (dp.getWave() == Wave.P)
+				setARGB(230, 0, 255, 255);
+			else if (dp.getWave() == Wave.T)
+				setARGB(230, 255, 255, 0);
+			else if (dp.getWave() == Wave.Offset) {
+				setWidth(3.0f);
+				setARGB(230, 10, 244, 10);
+			}
+		} else if (dp.getType() == PointType.s_peak) {
+			setWidth(2.f);
+			setARGB(255, 255, 0, 255);
+		}
 	}
 	
 	public void setPoints(float x1, float y1, float x2, float y2) {

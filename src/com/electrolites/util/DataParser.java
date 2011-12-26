@@ -8,15 +8,17 @@ import android.content.res.Resources;
 
 import com.electrolites.data.DPoint;
 import com.electrolites.data.Data;
+import com.electrolites.data.DPoint.PointType;
+import com.electrolites.data.DPoint.Wave;
 
 public class DataParser {
 	private FileConverter fc;		
 	
-	private ArrayList<Byte> stream;	// Bytes le�dos
-	private int p1, p2;				// Punteros al �ltimo byte consumido y al �ltimo producido
+	private ArrayList<Byte> stream;	// Bytes leÔøΩdos
+	private int p1, p2;				// Punteros al ÔøΩltimo byte consumido y al ÔøΩltimo producido
 	private int expected_bytes;		// Bytes que se espera que vengan
-	private int lastSample;			// �ltima muestra le�da (n�mero de orden)
-	private float lastHBR;			// �ltimo resultado de ritmo card�aco le�do
+	private int lastSample;			// ÔøΩltima muestra leÔøΩda (nÔøΩmero de orden)
+	private float lastHBR;			// ÔøΩltimo resultado de ritmo cardÔøΩaco leÔøΩdo
 	
 	// Referencias a las estructuras de DataService
 	private ArrayList<Short> dataSamplesStatic;
@@ -42,7 +44,7 @@ public class DataParser {
 		this.data = data;
 	}
 	
-	// Obtiene datos para la aplicaci�n de un archivo binario
+	// Obtiene datos para la aplicaciÔøΩn de un archivo binario
 	public void loadBinaryFile(String fname, ArrayList<Short> samples, 
 			HashMap<Integer, DPoint> dpoints, HashMap <Integer, Short> hbrs, Integer offset) {
 		fc = new FileConverter();		// Instancia el conversor de archivos		
@@ -61,7 +63,7 @@ public class DataParser {
 		readStreamStatic(samples, dpoints, hbrs, offset);
 	}
 	
-	// Obtiene datos para la aplicaci�n de un recurso interno
+	// Obtiene datos para la aplicaciÔøΩn de un recurso interno
 	public void loadResource(Resources resources, int id, ArrayList<Short> samples, 
 			HashMap<Integer, DPoint> dpoints, HashMap <Integer, Short> hbrs, Integer offset) {
 		fc = new FileConverter();					// Instancia el conversor de archivos
@@ -84,7 +86,7 @@ public class DataParser {
 		return (p1 <= p2 && p2-p1 >= expected_bytes);
 	} 
 	
-	// Devuelve el n�mero de bytes que nos han sobrado (forman parte del siguiente flujo de bytes)
+	// Devuelve el nÔøΩmero de bytes que nos han sobrado (forman parte del siguiente flujo de bytes)
 	public int nextField(boolean staticMode) {
 		// Obtenemos el siguiente byte
 		int new_byte = ((int) stream.get(p1)) & 0xff;
@@ -95,12 +97,12 @@ public class DataParser {
 			case 0xcc:					// Offset
 				expected_bytes = 4;
 				if (data_amount >= 4) 	// Tenemos que leer 4 bytes
-					readOffset(staticMode);		// Comprueba, adem�s, si se han perdido muestras
+					readOffset(staticMode);		// Comprueba, ademÔøΩs, si se han perdido muestras
 				break;
 			case 0xfb:					// HBR
 				expected_bytes = 2;
 				if (data_amount >= 2)
-					readHBR(); 			// Lee el ritmo card�aco actual y lo guarda en data
+					readHBR(); 			// Lee el ritmo cardÔøΩaco actual y lo guarda en data
 				break;
 			case 0xda:					// Sample
 				expected_bytes = 2;
@@ -110,7 +112,7 @@ public class DataParser {
 			case 0xed:					// Point
 				expected_bytes = 5;
 				if (data_amount >= 5)
-					readDPoint(); 	// Tratar puntos de delineaci�n
+					readDPoint(); 	// Tratar puntos de delineaciÔøΩn
 				break;
 			default:
 				System.err.println("Delimitador no reconocido: " + new_byte);
@@ -141,7 +143,7 @@ public class DataParser {
 			if ((bytes = nextField(false)) != 0)
 				System.out.println("Faltan " + bytes + " por parsear."); // Quedan cosas por leer
 		//stream = new ArrayList<Byte>();
-		System.out.println("Tamaño de array en dataParser: " + stream.size());
+		System.out.println("Tama√±o de array en dataParser: " + stream.size());
 		return bytes;
 	}
 	
@@ -164,26 +166,37 @@ public class DataParser {
 	}
 	
 	
-	// Devuelve el n�mero de muestras que se ha saltado, -1 si error
-	// Coloca el �ndice en el siguiente byte a los 5 del offset
+	// Devuelve el nÔøΩmero de muestras que se ha saltado, -1 si error
+	// Coloca el ÔøΩndice en el siguiente byte a los 5 del offset
 	// Actualiza el HBR con el nuevo valor
 	public void readOffset(boolean staticData) {
 		// Antes el valor menos significativo
-		int byte0 = ((int) stream.get(p1+1)) & 0xff;
+		/*int byte0 = ((int) stream.get(p1+1)) & 0xff;
 		int byte1 = ((int) stream.get(p1+2)) & 0xff;
 		int byte2 = ((int) stream.get(p1+3)) & 0xff;
-		int byte3 = ((int) stream.get(p1+4)) & 0xff;
+		int byte3 = ((int) stream.get(p1+4)) & 0xff;*/
 		
-		// Calculamos el n�mero de muestras que nos dice el offset
-		int nSamples = byte3 + 256*(byte2 + 256*(byte1 + 256*byte0));
+		int first = stream.get(p1+1)  << 24 & 0xFF000000;	//11111111000000000000000000000000
+		int second = stream.get(p1+2) << 16 & 0x00FF0000;	//00000000111111110000000000000000
+		int third = stream.get(p1+3)  << 8  & 0x0000FF00;	//00000000000000001111111100000000
+		int fourth = stream.get(p1+4)       & 0x000000FF;	//00000000000000000000000011111111
 		
-		// Si no coincide con la �ltima muestra le�da, hemos perdido muestras
+		// Calculamos el nÔøΩmero de muestras que nos dice el offset
+		//int nSamples = byte3 + 256*(byte2 + 256*(byte1 + 256*byte0));
+		int nSamples = first | second | third | fourth;
+		
+		// Add a debug offset dpoint
+		DPoint p = new DPoint(PointType.start, Wave.Offset);
+		//ExtendedDPoint ep = new ExtendedDPoint(lastSample , p);
+		dataDPoints.put(nSamples, p);
+		
+		// Si no coincide con la ÔøΩltima muestra leÔøΩda, hemos perdido muestras
 		if (staticData && lastSample < nSamples && lastSample > 0) {
-			// Rellenamos los huecos vac�os de las muestras en data
+			// Rellenamos los huecos vacÔøΩos de las muestras en data
 			for (int i = 0; i < nSamples - lastSample; i++)
 					dataSamplesStatic.add(null);
 			System.err.println("Se han perdido " + (nSamples - lastSample) + " muestras");
-			// Actualizamos cu�l fue la �ltima muestra (perdida)
+			// Actualizamos cuÔøΩl fue la ÔøΩltima muestra (perdida)
 			lastSample = nSamples;
 		}
 		else if (lastSample == 0) {
@@ -198,11 +211,18 @@ public class DataParser {
 	}
 	
 	public void readHBR() {
-		int byte0 = ((int) stream.get(p1+1)) & 0xff;
-		int byte1 = ((int) stream.get(p1+2)) & 0xff;
-		// Calcula el ritmo card�aco (60*250/X)
-		lastHBR = 15000f / (byte0*255 + byte1);
-		// Guarda en data el valor del ritmo card�aco en este momento (index�ndolo seg�n la �ltima muestra recibida)
+		/*int byte0 = ((int) stream.get(p1+1)) & 0xff;
+		int byte1 = ((int) stream.get(p1+2)) & 0xff;*/
+		
+		int first = stream.get(p1+1) << 8 &  0x0000FF00;	//00000000000000001111111100000000
+		int second = stream.get(p1+2)     &  0x000000FF;	//00000000000000000000000011111111
+	
+		int beatSamples = first | second;
+		
+		// Calcula el ritmo cardÔøΩaco (60*250/X)
+		//lastHBR = 15000f / (byte0*255 + byte1);
+		lastHBR = 15000f / beatSamples;
+		// Guarda en data el valor del ritmo cardÔøΩaco en este momento (indexÔøΩndolo segÔøΩn la ÔøΩltima muestra recibida)
 		//data.hbr.put(lastSample, (short) lastHBR);
 		dataHBRs.put(lastSample, (short) lastHBR);
 		
@@ -212,11 +232,11 @@ public class DataParser {
 	}
 	
 	public void readSample(boolean staticMode) {
-		// Incrementamos la cantidad de muestras le�das
+		// Incrementamos la cantidad de muestras leÔøΩdas
 		lastSample++;	
 		// Calculamos el valor de la muestra
 		short sample = byteToShort(stream.get(p1+1), stream.get(p1+2));
-		// A�adimos la muestra con su n�mero de orden a la tabla de muestras
+		// AÔøΩadimos la muestra con su nÔøΩmero de orden a la tabla de muestras
 		if (staticMode)
 			dataSamplesStatic.add(sample);
 		else /*
@@ -242,8 +262,8 @@ public class DataParser {
 		// Comprobamos la onda a la que se refiere
 		dp.setWave(dp.checkWave(byte0));
 		
-		// Vemos a qu� muestra se refiere
-		int byte1 = ((int) stream.get(p1+2)) & 0xff;
+		// Vemos a quÔøΩ muestra se refiere
+		/*int byte1 = ((int) stream.get(p1+2)) & 0xff;
 		int byte2 = ((int) stream.get(p1+3)) & 0xff;
 		int byte3 = ((int) stream.get(p1+4)) & 0xff;
 		int byte4 = ((int) stream.get(p1+5)) & 0xff;
@@ -251,7 +271,19 @@ public class DataParser {
 		
 		// A�adimos el punto a la tabla de puntos de data
 		//data.dpoints.put(sample, dp);
-		dataDPoints.put(sample, dp);
+		dataDPoints.put(sample, dp);*/
+		
+		int first = stream.get(p1+2)  << 24 & 0xFF000000;	//11111111000000000000000000000000
+		int second = stream.get(p1+3) << 16 & 0x00FF0000;	//00000000111111110000000000000000
+		int third = stream.get(p1+4)  << 8  & 0x0000FF00;	//00000000000000001111111100000000
+		int fourth = stream.get(p1+5)       & 0x000000FF;	//00000000000000000000000011111111
+		
+		// Calculamos el nÔøΩmero de muestras que nos dice el offset
+		int nSamples = first | second | third | fourth;
+			
+		// AÔøΩadimos el punto a la tabla de puntos de data
+		//data.dpoints.put(sample, dp);
+		dataDPoints.put(nSamples, dp);
 		
 		// Adelantamos el puntero de lectura 6 posiciones (delimitador + 5 bytes)
 		p1 += 6;
@@ -260,7 +292,7 @@ public class DataParser {
 	
 	// Convierte dos bytes dados en su short correspondiente (en complemento a 2)
 	public short byteToShort(byte b1, byte b2) {
-		// b1 m�s significativo que b2
+		// b1 mÔøΩs significativo que b2
 		int i1 = b1;
 		int i2 = b2;
 		i1 &= 0xff;
