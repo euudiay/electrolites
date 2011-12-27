@@ -1,4 +1,4 @@
-package com.electrolites.data;
+package com.electrolites.util;
 
 // Objeto que representa un punto resultante de la delineaci�n
 public class DPoint {

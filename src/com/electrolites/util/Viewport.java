@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.electrolites.data.DPoint;
 import com.electrolites.data.Data;
-import com.electrolites.data.DPoint.PointType;
-import com.electrolites.data.DPoint.Wave;
+import com.electrolites.util.DPoint.PointType;
+import com.electrolites.util.DPoint.Wave;
 
 public class Viewport {
 	// Posici�n, ancho y alto del viewport en pixels
@@ -184,8 +183,8 @@ public class Viewport {
 		boolean done = false;
 		
 		int i = 0;
-		while (i < actualData.dpoints.size() && !done) {
-			ExtendedDPoint edp = actualData.dpoints.get(i);
+		while (i < actualData.staticData.dpoints.size() && !done) {
+			ExtendedDPoint edp = actualData.staticData.dpoints.get(i);
 			DPoint p = edp.getDpoint();
 			
 			i++;
@@ -198,14 +197,14 @@ public class Viewport {
 			
 			float x = vpPxX + (edp.index - start - actualData.offset) * dpoints;
 			
-			SamplePoint sample = actualData.samples.get(edp.getIndex() - actualData.offset);
+			SamplePoint sample = actualData.staticData.samples.get(edp.getIndex() - actualData.offset);
 			
 			if (sample != null) {
 				if (baselinePxY > 0.3*vpPxHeight)
-					com.setPoints(x, vpPxY, x, baselinePxY - actualData.samples.get(
+					com.setPoints(x, vpPxY, x, baselinePxY - actualData.staticData.samples.get(
 							edp.getIndex() - actualData.offset).sample * vFactor - 10 * vFactor);
 				else
-					com.setPoints(x, vpPxY + vpPxHeight, x, baselinePxY - actualData.samples.get(
+					com.setPoints(x, vpPxY + vpPxHeight, x, baselinePxY - actualData.staticData.samples.get(
 							edp.getIndex() - actualData.offset).sample * vFactor + 10 * vFactor);
 			} else
 				; // DPoint refers to a sample which has not been received

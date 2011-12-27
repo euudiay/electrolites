@@ -78,7 +78,7 @@ public class ElectrolitesActivity extends Activity {
 	private LinearLayout lSuperior;
 	private LinearLayout lInferior;
 
-	Intent intentDePferv;
+	Intent intent;
 
 	private ECGView ecgView;
 	
@@ -115,8 +115,8 @@ public class ElectrolitesActivity extends Activity {
 		start.setOnClickListener(startListener);
 
 		usb = (Button) findViewById(R.id.b_connect);
-		UsbListener uListener = new UsbListener();
-		usb.setOnClickListener(uListener);
+		usbListener = new UsbListener();
+		usb.setOnClickListener(usbListener);
 
 		up = (Button) findViewById(R.id.b_up);
 		up.setEnabled(true);
@@ -233,16 +233,16 @@ public class ElectrolitesActivity extends Activity {
 				public void onClick(DialogInterface dialog, int item) {
 					Toast.makeText(getApplication(), items[item],
 							Toast.LENGTH_SHORT).show();
-					data.toLoad = items[item] + ".txt";
+					data.staticData.toLoad = items[item] + ".txt";
 					dialog.cancel();
 					
 					//intentDePferv = new Intent(getApplication(),BluetoothService.class);
 					//stopService(intentDePferv);
 					
-					intentDePferv = new Intent(getApplication(),
+					intent = new Intent(getApplication(),
 							FileParserService.class);
-					intentDePferv.setAction(DataService.RETRIEVE_DATA);
-					getApplication().startService(intentDePferv);
+					intent.setAction(DataService.RETRIEVE_DATA);
+					getApplication().startService(intent);
 
 					data.mode = Data.MODE_STATIC;
 					ecgView.reset();
@@ -347,7 +347,7 @@ public class ElectrolitesActivity extends Activity {
 				switch (msg.arg1) {
 				case BluetoothService.STATE_CONNECTED:
 					display.setText("Connected to: ");
-					display.append(data.connected);
+					display.append(data.dynamicData.connected);
 					break;
 				case BluetoothService.STATE_CONNECTING:
 					display.setText("Connecting...");
@@ -363,9 +363,9 @@ public class ElectrolitesActivity extends Activity {
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
-				data.connected = msg.getData().getString(DEVICE_NAME);
+				data.dynamicData.connected = msg.getData().getString(DEVICE_NAME);
 				Toast.makeText(getApplicationContext(),
-						"Connected to " + data.connected,
+						"Connected to " + data.dynamicData.connected,
 						Toast.LENGTH_SHORT).show();
 				break;
 			case MESSAGE_TOAST:
@@ -400,10 +400,10 @@ public class ElectrolitesActivity extends Activity {
 			 * start.setEnabled(false); ecgView.setVisibility(View.VISIBLE);
 			 */
 
-			intentDePferv = new Intent(getApplication(), BluetoothParserService.class);
-			intentDePferv.setAction(DataService.START_RUNNING);
-			intentDePferv.putExtra("deviceName", data.connected);
-			getApplication().startService(intentDePferv);
+			intent = new Intent(getApplication(), BluetoothParserService.class);
+			intent.setAction(DataService.START_RUNNING);
+			intent.putExtra("deviceName", data.dynamicData.connected);
+			getApplication().startService(intent);
 
 			/*intentDePferv.setAction(DataService.RETRIEVE_DATA);
 			getApplication().startService(intentDePferv);*/
@@ -412,17 +412,6 @@ public class ElectrolitesActivity extends Activity {
 			data.mode = Data.MODE_DYNAMIC;
 			ecgView.reset();
 			ecgView.setVisibility(View.VISIBLE);
-			
-		}
-	}
-
-	class MoreListener implements OnClickListener {
-		public void onClick(View v) {
-			/** Random Generator (Old) **/
-			intentDePferv = new Intent(getApplication(),
-					RandomGeneratorService.class);
-			intentDePferv.setAction(DataService.RETRIEVE_DATA);
-			getApplication().startService(intentDePferv);
 			
 		}
 	}

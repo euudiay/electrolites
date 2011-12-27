@@ -32,28 +32,19 @@ public class Data {
 		return instance;
 	}
 	
-	// Posiciï¿½n X de la vista en secs
+	// Posición X de la vista en secs
 	public float vaSecX;
 	// Altura base de renderizado (0~1)
 	private float drawBaseHeight = 0.5f;
 	// Escala de ancho: 0 (evitar) ~ whatever
 	private float widthScale = 1;
-	// Muestras indexadas por no. de muestra
-	//public ArrayList<Short> samples = null;
-	public ArrayList<SamplePoint> samples = null;
-	// Puntos resultantes de la delineaciï¿½n, indexados por no. de muestra
-	//public Map<Integer, DPoint> dpoints = null;
-	public ArrayList<ExtendedDPoint> dpoints = null;
-	// Valores del ritmo cardï¿½aco, indexados segï¿½n el nï¿½mero de muestra anterior a su recepciï¿½n
-	public Map<Integer, Short> hbrs = null;
+	
 	// Primera muestra dibujable
 	public int offset;
 	
-	//Nombre del archivo de log a cargar
-	public String toLoad;
 	
-	//Nombre del dispositivo conectado
-	public String connected;
+	
+	
 	
 	// Test area
 	public Application app;
@@ -66,7 +57,68 @@ public class Data {
 	
 	public Handler handler;
 	
-	// Data container for dynamic visualization mode
+	// Data container for dynamic visualization mode instance
+	public DynamicData dynamicData;
+	public StaticData staticData;
+	
+	public Data() {
+		vaSecX = 0;
+		drawBaseHeight = 0.5f;
+		widthScale = 3;
+		app = null;
+		autoScroll = false;
+		loading = false;
+		
+		bgColor = Color.rgb(0, 0, 0);
+		
+		
+		//Data container for dynamic visualization mode
+		dynamicData = new DynamicData();
+		staticData = new StaticData();
+		dynamicData.samplesQueueWidth = -1;
+	}
+
+	public float getDrawBaseHeight() {
+		return drawBaseHeight;
+	}
+
+	public void setDrawBaseHeight(float drawBaseHeight) {
+		this.drawBaseHeight = drawBaseHeight;
+	}
+
+	public float getWidthScale() {
+		return widthScale;
+	}
+
+	public void setWidthScale(float widthScale) {
+		this.widthScale = widthScale;
+	}
+	
+	public short[] getSamplesArray() {
+		/*Object samp[] = samples.toArray();
+		short result[] = new short[samp.length];
+		try {
+			for (int i = 0; i < samp.length; i++) {
+				if (samp[i] != null)
+					result[i] = ((Short) samp[i]).shortValue();
+				else
+					result[i] = 0;
+			}
+		}
+		catch (NullPointerException e) {
+			e.printStackTrace();
+		}*/
+		Object samp[] = staticData.samples.toArray();
+		short result[] = new short[samp.length];
+		for (int i = 0; i < samp.length; i++)
+			if (samp[i] != null)
+				result[i] = (short) ((SamplePoint) samp[i]).sample;
+			else
+				result[i] = 0;
+		
+		return result;
+	}
+	
 	public class DynamicData {
 		public Object mutex;
 		public LinkedList<SamplePoint>samplesQueue;
@@ -76,6 +128,9 @@ public class Data {
 		public float bufferWidth; 
 		public float hbr;
 		public boolean newHBR;
+		
+		//Nombre del dispositivo conectado
+		public String connected;
 		
 		public boolean stop;
 
@@ -88,6 +143,8 @@ public class Data {
 			bufferWidth = 0.5f;
 			hbr = 0;
 			newHBR = false;
+			
+			connected = "FireFly-3781";
 			
 			stop = false;
 		};
@@ -178,70 +235,25 @@ public class Data {
 			newHBR = false;
 			return hbr;
 		}
-	};
+	}
 	
-	// Data container for dynamic visualization mode instance
-	public DynamicData dynamicData;
-	
-	public Data() {
-		vaSecX = 0;
-		drawBaseHeight = 0.5f;
-		widthScale = 3;
-		//samples = new ArrayList<Short>();
-		samples = new ArrayList<SamplePoint>();
-		//dpoints = new HashMap<Integer, DPoint>();
-		dpoints = new ArrayList<ExtendedDPoint>();
-		hbrs = new HashMap<Integer, Short>();
-		app = null;
-		autoScroll = false;
-		loading = false;
-		toLoad = "traza.txt";
-		bgColor = Color.rgb(0, 0, 0);
-		connected = "FireFly-3781";
+	public class StaticData {
+		// Muestras indexadas por no. de muestra
+		public ArrayList<SamplePoint> samples = null;
+		// Puntos resultantes de la delineaciï¿½n, indexados por no. de muestra
+		public ArrayList<ExtendedDPoint> dpoints = null;
+		// Valores del ritmo cardï¿½aco, indexados segï¿½n el nï¿½mero de muestra anterior a su recepciï¿½n
+		public Map<Integer, Short> hbrs = null;
 		
-		//Data container for dynamic visualization mode
-		dynamicData = new DynamicData();
-		dynamicData.samplesQueueWidth = -1;
-	}
-
-	public float getDrawBaseHeight() {
-		return drawBaseHeight;
-	}
-
-	public void setDrawBaseHeight(float drawBaseHeight) {
-		this.drawBaseHeight = drawBaseHeight;
-	}
-
-	public float getWidthScale() {
-		return widthScale;
-	}
-
-	public void setWidthScale(float widthScale) {
-		this.widthScale = widthScale;
-	}
-	
-	public short[] getSamplesArray() {
-		/*Object samp[] = samples.toArray();
-		short result[] = new short[samp.length];
-		try {
-			for (int i = 0; i < samp.length; i++) {
-				if (samp[i] != null)
-					result[i] = ((Short) samp[i]).shortValue();
-				else
-					result[i] = 0;
-			}
+		//Nombre del archivo de log a cargar
+		public String toLoad;
+		
+		public StaticData() {
+			samples = new ArrayList<SamplePoint>();
+			dpoints = new ArrayList<ExtendedDPoint>();
+			hbrs = new HashMap<Integer, Short>();
+			
+			toLoad = "traza.txt";
 		}
-		catch (NullPointerException e) {
-			e.printStackTrace();
-		}*/
-		Object samp[] = samples.toArray();
-		short result[] = new short[samp.length];
-		for (int i = 0; i < samp.length; i++)
-			if (samp[i] != null)
-				result[i] = (short) ((SamplePoint) samp[i]).sample;
-			else
-				result[i] = 0;
-		
-		return result;
 	}
 }

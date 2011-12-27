@@ -7,10 +7,9 @@ import java.io.IOException;
 import android.os.Environment;
 import android.text.format.Time;
 
-import com.electrolites.data.DPoint;
-import com.electrolites.data.DPoint.PointType;
-import com.electrolites.data.DPoint.Wave;
 import com.electrolites.data.Data;
+import com.electrolites.util.DPoint.PointType;
+import com.electrolites.util.DPoint.Wave;
 
 public class RealTimeFriendlyDataParser {		
 	private FixedLinkedList<Byte> stream;	// Bytes a tratar

@@ -1,8 +1,7 @@
 package com.electrolites.util;
 
-import com.electrolites.data.DPoint;
-import com.electrolites.data.DPoint.PointType;
-import com.electrolites.data.DPoint.Wave;
+import com.electrolites.util.DPoint.PointType;
+import com.electrolites.util.DPoint.Wave;
 
 public class LineDrawCommand {
 	float width;

@@ -6,10 +6,9 @@ import java.util.HashMap;
 
 import android.content.res.Resources;
 
-import com.electrolites.data.DPoint;
 import com.electrolites.data.Data;
-import com.electrolites.data.DPoint.PointType;
-import com.electrolites.data.DPoint.Wave;
+import com.electrolites.util.DPoint.PointType;
+import com.electrolites.util.DPoint.Wave;
 
 public class DataParser {
 	private FileConverter fc;		
