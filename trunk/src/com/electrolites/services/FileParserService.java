@@ -6,7 +6,7 @@ import java.util.HashMap;
 import android.content.Intent;
 import android.util.Log;
 
-import com.electrolites.data.DPoint;
+import com.electrolites.util.DPoint;
 import com.electrolites.util.ExtendedDPoint;
 import com.electrolites.util.FileConverter;
 import com.electrolites.util.SamplePoint;
@@ -29,7 +29,7 @@ public class FileParserService extends DataService {
 		super("FileParserService");
 		
 		fc = new FileConverter();
-		stream = fc.readBinary(data.toLoad);
+		stream = fc.readBinary(data.staticData.toLoad);
 		
 		dp = new StaticFriendlyDataParser();
 		dp.setStream(stream);
@@ -46,15 +46,15 @@ public class FileParserService extends DataService {
 		synchronized(this) {
 			data.loading = true;
 			
-			if (data.samples != null)
-				data.samples.clear();
+			if (data.staticData.samples != null)
+				data.staticData.samples.clear();
 			else
-				data.samples = new ArrayList<SamplePoint>();
+				data.staticData.samples = new ArrayList<SamplePoint>();
 			
-			if (data.dpoints != null)
-				data.dpoints.clear();
+			if (data.staticData.dpoints != null)
+				data.staticData.dpoints.clear();
 			else
-				data.dpoints = new ArrayList<ExtendedDPoint>();
+				data.staticData.dpoints = new ArrayList<ExtendedDPoint>();
 			
 			data.offset = 0;
 		}
@@ -66,8 +66,8 @@ public class FileParserService extends DataService {
 		offset = dp.getOffset();
 		
 		synchronized(this) {
-			data.samples.addAll(samples);
-			data.dpoints.addAll(dpoints);
+			data.staticData.samples.addAll(samples);
+			data.staticData.dpoints.addAll(dpoints);
 			data.offset = offset;
 			data.loading = false;
 		}

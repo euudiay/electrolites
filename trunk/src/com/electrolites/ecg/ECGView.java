@@ -14,15 +14,15 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import com.electrolites.data.DPoint;
-import com.electrolites.data.DPoint.PointType;
-import com.electrolites.data.DPoint.Wave;
 import com.electrolites.data.Data;
+import com.electrolites.util.DPoint;
 import com.electrolites.util.DynamicViewport;
 import com.electrolites.util.ExtendedDPoint;
 import com.electrolites.util.LineDrawCommand;
 import com.electrolites.util.PositionedDPoint;
 import com.electrolites.util.Viewport;
+import com.electrolites.util.DPoint.PointType;
+import com.electrolites.util.DPoint.Wave;
 
 public class ECGView extends AnimationView {
 	

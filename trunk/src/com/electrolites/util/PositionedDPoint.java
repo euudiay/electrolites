@@ -1,6 +1,5 @@
 package com.electrolites.util;
 
-import com.electrolites.data.DPoint;
 
 public class PositionedDPoint {
 	

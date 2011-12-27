@@ -5,9 +5,8 @@ import java.util.HashMap;
 
 import android.util.Log;
 
-import com.electrolites.data.DPoint;
-import com.electrolites.data.DPoint.PointType;
-import com.electrolites.data.DPoint.Wave;
+import com.electrolites.util.DPoint.PointType;
+import com.electrolites.util.DPoint.Wave;
 
 public class StaticFriendlyDataParser {
 	public final static boolean DEBUG = true;

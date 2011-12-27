@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.electrolites.data.DPoint;
-import com.electrolites.data.DPoint.PointType;
-import com.electrolites.data.DPoint.Wave;
 import com.electrolites.data.Data;
+import com.electrolites.util.DPoint.PointType;
+import com.electrolites.util.DPoint.Wave;
 
 public class DynamicViewport {
 	// Posici�n, ancho y alto del viewport en pixels

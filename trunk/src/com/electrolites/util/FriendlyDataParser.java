@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import android.content.res.Resources;
 
-import com.electrolites.data.DPoint;
 import com.electrolites.data.Data;
 
 public class FriendlyDataParser {
