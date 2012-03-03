@@ -25,6 +25,7 @@ public class RealTimeFriendlyDataParser {
 	private Data data;
 	
 	private FileOutputStream output;
+	private FileOutputStream rawput;
 	
 	public RealTimeFriendlyDataParser() {
 		lastSample = 0;
@@ -33,6 +34,7 @@ public class RealTimeFriendlyDataParser {
 		progress = 0;
 	
 		output = null;
+		rawput = null;
 	}
 	
 	public void setData(Data data) {
@@ -46,12 +48,15 @@ public class RealTimeFriendlyDataParser {
 			File root = Environment.getExternalStorageDirectory();
 			File path = new File(root, "/Download/");
 			File dir = new File(path, "log-" + now.format("%d%m-%Y_%H-%M") + ".txt");
+			File rawDir = new File(path, "raw-" + now.format("%d%m-%Y_%H-%M") + ".txt");
 
 			try {
 				output = new FileOutputStream(dir.getPath());
+				rawput = new FileOutputStream(rawDir.getPath());
 			} catch (IOException e) {
 				e.printStackTrace();
 				output = null;
+				rawput = null;
 			}
 		}
 	}
@@ -59,6 +64,12 @@ public class RealTimeFriendlyDataParser {
 	public void step() {
 		// Suponemos que hay siguiente token
 		currentByte = stream.get();
+		try {
+			rawput.write(currentByte);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		switch (currentToken) {
 		case None:
 			switch ((byte) (currentByte & 0xff)) {
