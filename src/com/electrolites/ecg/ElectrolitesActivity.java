@@ -11,7 +11,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.hardware.usb.UsbAccessory;
+//import android.hardware.usb.UsbAccessory;
+import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,8 +37,8 @@ import com.electrolites.services.BluetoothParserService;
 import com.electrolites.services.BluetoothService;
 import com.electrolites.services.DataService;
 import com.electrolites.services.FileParserService;
-import com.electrolites.services.RandomGeneratorService;
-import com.electrolites.usb.AccessoryManager;
+//import com.electrolites.usb.AccessoryManager;
+import com.electrolites.usb.DeviceManager;
 
 public class ElectrolitesActivity extends Activity {
 
@@ -82,7 +83,8 @@ public class ElectrolitesActivity extends Activity {
 
 	private ECGView ecgView;
 	
-	private AccessoryManager am;
+	//private AccessoryManager am;
+	private DeviceManager dm;
 
 	@Override
 	public void onSaveInstanceState(Bundle saveInstanceState) {
@@ -172,8 +174,8 @@ public class ElectrolitesActivity extends Activity {
 
 	@Override
 	public void onDestroy() {
-		if (am != null)
-			am.stop();
+		if (dm != null)
+			dm.stop();
 		super.onDestroy();
 	}
 
@@ -308,30 +310,30 @@ public class ElectrolitesActivity extends Activity {
 	    public void onReceive(Context context, Intent intent) {
 	        String action = intent.getAction();
 	        
-	        if (AccessoryManager.ACTION_USB_PERMISSION.equals(action)) {
+	        if (DeviceManager.ACTION_USB_PERMISSION.equals(action)) {
 	        	synchronized (this) {
-	        		UsbAccessory accessory = (UsbAccessory) intent.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
+	        		UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
 	    
-	        		Toast.makeText(context, "Accessory found.", Toast.LENGTH_SHORT);
+	        		Toast.makeText(context, "Device found.", Toast.LENGTH_SHORT);
 	        		
 	        		if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
-	        			Toast.makeText(context, "Accessory permission granted.", Toast.LENGTH_SHORT);
-	                    if (accessory != null) {
-	                    	Toast.makeText(context, "Opening accessory...", Toast.LENGTH_SHORT);
-	                    	am.openAccessory(accessory);
+	        			Toast.makeText(context, "Device permission granted.", Toast.LENGTH_SHORT);
+	                    if (device != null) {
+	                    	Toast.makeText(context, "Opening device...", Toast.LENGTH_SHORT);
+	                    	dm.openDevice(device);
 	                    }
 	                }
 	                else {
-	                	Toast.makeText(context, "Accessory permission denied.", Toast.LENGTH_SHORT);
+	                	Toast.makeText(context, "Device permission denied.", Toast.LENGTH_SHORT);
 	                }
 	        	}
 	       }
 	        
-	       if (UsbManager.ACTION_USB_ACCESSORY_DETACHED.equals(action)) {
-	    	   UsbAccessory accessory = (UsbAccessory) intent.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
-    		   String output = "Accessory " + accessory.toString() + " detached.";
+	       if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(action)) {
+	    	   UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+    		   String output = "Device " + device.toString() + " detached.";
     		   Toast.makeText(context, output, Toast.LENGTH_SHORT);
-    		   am.stop();
+    		   dm.stop();
 	       }
 	    }
 	};
@@ -490,8 +492,8 @@ public class ElectrolitesActivity extends Activity {
 			// Instanciamos el manager de los accesorios USB y lo ponemos en marcha
 			aHandler.post(new Runnable() {
 				public void run() {
-					am = new AccessoryManager(data.activity);
-					am.start(usbReceiver);
+					dm = new DeviceManager(data.activity);
+					dm.start(usbReceiver);
 					
 					start.setEnabled(false);
 					data.mode = Data.MODE_DYNAMIC;
