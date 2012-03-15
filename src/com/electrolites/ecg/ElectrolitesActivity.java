@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-//import android.hardware.usb.UsbAccessory;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ import com.electrolites.services.BluetoothParserService;
 import com.electrolites.services.BluetoothService;
 import com.electrolites.services.DataService;
 import com.electrolites.services.FileParserService;
-//import com.electrolites.usb.AccessoryManager;
 import com.electrolites.usb.DeviceManager;
 
 public class ElectrolitesActivity extends Activity {

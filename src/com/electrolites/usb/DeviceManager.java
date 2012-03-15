@@ -52,15 +52,6 @@ public class DeviceManager {
 		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
         activity.registerReceiver(usbReceiver, filter);
         
-        //UsbAccessory accessory = null;
-        //UsbAccessory[] accessoryList = usbManager.getAccessoryList();
-        
-        //if (accessoryList == null) {
-        	//Toast.makeText(context, "No accessories attached.", Toast.LENGTH_SHORT).show();
-        	//usbManager = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
-        //}
-        //else
-        	//accessory = accessoryList[0];
         UsbDevice device = null;
         HashMap<String, UsbDevice> deviceList = usbManager.getDeviceList();
         Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();

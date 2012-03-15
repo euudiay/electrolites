@@ -94,7 +94,6 @@ public class UsbComThread extends Thread {
 			}*/break;
 		}
 		
-		int n = -1;
 		// Nos ponemos a la escucha
 		try{
 			while (!stop) {
@@ -103,11 +102,10 @@ public class UsbComThread extends Thread {
 						dp.step();
 				}
 				//Parte nueva para leer si eres host
-				request.queue(buffer, bufferDataLength);
-				requestQueued = connection.requestWait();
-				if (request.equals(requestQueued))  {
+				//requestQueued = connection.requestWait();
+				if (request.queue(buffer, bufferDataLength) && request.equals(connection.requestWait()))  {
 					
-					byte[] byteBuffer = new byte[bufferDataLength + 1];
+					byte[] byteBuffer = new byte[bufferDataLength];
 					buffer.get(byteBuffer, 0, bufferDataLength);
 			
 					if (bufferDataLength > 0) {
@@ -120,7 +118,11 @@ public class UsbComThread extends Thread {
 						
 						// To dataparser!
 						for (int i = 0; i < bufferDataLength; i++)
+						{
 							stream.add(new Byte((byte) 0xda));
+							stream.add(new Byte((byte) 0x00));
+							stream.add(new Byte(buffer.array()[i]));
+						}
 							//stream.add(new Byte(buffer.array()[i]));
 					}
 					buffer.clear();
@@ -157,10 +159,10 @@ public class UsbComThread extends Thread {
 		buffer.put(data);
 
 		request.initialize(connection, endpointWrite);
-		request.queue(buffer, bufferDataLength);
+		//;
 		try
 		{
-			if (request.equals(connection.requestWait())){
+			if (request.queue(buffer, bufferDataLength) && request.equals(connection.requestWait())){
 				return true;
 			}
 			return false;
