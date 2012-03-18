@@ -143,6 +143,7 @@ public class RealTimeFriendlyDataParser {
 			if (offset != lastSample) {
 				System.err.println("WRONG OFFSET: GOT " + offset + 
 						" EXPECTED " + lastSample);
+				dataHolder.handleOffset(offset);
 			}
 			
 			lastSample = offset;
@@ -213,7 +214,8 @@ public class RealTimeFriendlyDataParser {
 				}
 			}
 			
-			dataHolder.addDPoint(index, checkPointType(storedBytes[0]), checkWaveType(storedBytes[0]));
+			if (checkPointType(storedBytes[0]) != DataHolder.DP_TYPE_SPEAK)
+				dataHolder.addDPoint(index, checkPointType(storedBytes[0]), checkWaveType(storedBytes[0]));
 			
 			currentToken = Token.None;
 			progress = 0;

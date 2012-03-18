@@ -1,6 +1,7 @@
 package org.microlites.view;
 
 import android.graphics.Canvas;
+import android.os.Bundle;
 import android.view.SurfaceHolder;
 
 public abstract class AnimationThread extends Thread {
@@ -65,6 +66,14 @@ public abstract class AnimationThread extends Thread {
 	
 	public void finish() {
 		// Finish whatever you need to finish
+	}
+
+	public void saveYourData(Bundle outState) {
+		// Save data you want
+	}
+	
+	public void restoreYourData(Bundle inState) {
+		// Restore data you want
 	}
 }
 

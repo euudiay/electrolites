@@ -1,4 +1,4 @@
-﻿package org.microlites.bluetooth;
+﻿package org.microlites.data.bluetooth;
 
 import java.io.IOException;
 import java.util.UUID;

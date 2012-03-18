@@ -1,7 +1,8 @@
 package org.microlites;
 
-import org.microlites.bluetooth.BluetoothManager;
 import org.microlites.data.Data;
+import org.microlites.data.DataManager;
+import org.microlites.data.bluetooth.BluetoothManager;
 import org.microlites.view.AnimationThread;
 import org.microlites.view.ECGView;
 import org.microlites.view.FullDynamicThread;
@@ -10,6 +11,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,42 +20,55 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MicrolitesActivity extends Activity implements OnGestureListener {
-	BluetoothManager bluetoothManager;
-	GestureDetector gestureScanner;
+	GestureDetector gestureScanner;				// Gesture Detector
 	
-	public static MicrolitesActivity instance = null;
+	public static MicrolitesActivity instance;	// Reference to this Activity
+	ECGView currentView;						// Reference to current View
+	AnimationThread currentViewThread;			// Reference to View Thread
+	DataManager currentManager;					// Reference to Data Manager
+	View menuView;								// Refernece to initial Menu
 	
-	AnimationThread currentViewThread;
-	BluetoothManager currentManager;
-	ECGView currentView;
-	View menuView;
-	
-    /** Called when the activity is first created. */
+    /** Called when the activity is first created,
+     * 	when the screen is rotated or when the
+     *  application is paused and resumed by the system
+     *  or the user.
+     * */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
         
-        // Store references
+        // Set main layout
+    	setContentView(R.layout.main);
+    	
+    	// Store reference to this instance
         MicrolitesActivity.instance = this;
+        // Instantiate Gesture Detector
         gestureScanner = new GestureDetector(this);
+        // Initialize references
         currentView = null;
+        currentViewThread = null;
+        currentManager = null;
+        menuView = null;
         
-        // Create handlers
-        Button start = (Button) findViewById(R.id.startButton);
+        // Restore view if application has been restored
+    	if (savedInstanceState != null) {
+    		if (savedInstanceState.containsKey("currentView")) {
+    			String view = savedInstanceState.getString("currentView");
+    			if (view == "ECGView") {
+    				initBluetoothVisualization(0, null);
+    				// TODO: Restore Thread Status
+    				// 1. Restore View
+    				// 2. Restore Thread
+    			}
+    		}
+        }
+        
+        // Create Button Handlers
+        Button start = (Button) findViewById(R.id.startBluetoothButton);
         start.setOnClickListener(new OnClickListener() {
+        	// Start button inits visualization
 			public void onClick(View v) {
 				MicrolitesActivity.instance.initBluetoothVisualization(0, null);
-			}
-		});
-        
-        Button end = (Button) findViewById(R.id.stopButton);
-        end.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				if (currentView != null) {
-					bluetoothManager.stopRunning();
-					MicrolitesActivity.instance.destroyECGView();
-				}
 			}
 		});
     }
@@ -61,42 +77,67 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     	switch (phase) {
     	case 0: // Phase 0 - Init
     		System.out.println("Init Bluetooth Phase 0");
+    		
 	    	// Create Bluetooth Manager
-	    	bluetoothManager = new BluetoothManager();
+	    	currentManager = new BluetoothManager();
+	    	
 	    	// Create ECGView
 	    	// 1. Get reference to main content panel
 	    	LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
 	    	menuView = content.getChildAt(0);
+	    	
 	    	// 2. Clear it
 			content.removeAllViews();
+			
 			// 3. Add new Dynamic Surface Holder
 			currentView = new ECGView(getApplicationContext(), null, this);
+			currentView.notifyAboutCreation = true;
 	        content.addView(currentView);
+	        
 	        // 4. Wait for dynamicHolder to call this again
 	        break;
     	case 1: // Phase 1 - Surface available, start the magic!
     		System.out.println("Init Bluetooth Phase 1");
     		Data d = Data.getInstance();
+    		
     		// 1. Instantiate viewthread
     		d.dynamicThread = new FullDynamicThread(d.currentViewHolder, currentView);
     		currentView.setThread(d.dynamicThread);
+    		
     		// 2. Start reception thread
-			bluetoothManager.startRunning("FireFly-3781", Data.getInstance().dynamicThread);
+    		currentManager.configure(Data.getInstance().dynamicThread);
+			currentManager.start();
 			break;
     	}
     }
     
     public void destroyECGView() {
-    	bluetoothManager.stopRunning();
-    	LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
-		content.removeAllViews();
-		content.addView(menuView);
-		currentView = null;
+    	if (currentManager != null) {
+    		currentManager.stop();
+    		LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
+    		content.removeAllViews();
+    		content.addView(menuView);
+    		currentView = null;
+    	}
+    }
+    
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    	if (currentView instanceof ECGView) {
+    		outState.putString("currentView", "ECGView");
+    		if (currentViewThread != null)
+    			currentViewThread.saveYourData(outState);
+    	}
+    	else
+    		outState.remove("currentView");
     }
     
     @Override
     public void onDestroy() {
     	super.onDestroy();
+    	
+    	if (currentManager != null)
+    		currentManager.stop();
     }
     
     @Override
@@ -108,8 +149,6 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
     {
-    	//ECGView v = (ECGView) findViewById(R.id.ecgView);
-    	//System.out.println("SCROLLSHIORE! [" + distanceX + ", " + distanceY + "]");
     	if (currentView != null)
     		currentView.handleScroll(distanceX,distanceY);
         return true;
@@ -125,14 +164,12 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		// TODO Auto-generated method stub
-		// System.out.println("FLIGHSOR! [" + velocityX + ", " + velocityY + "]");
 		return true;
 	}
 
 	@Override
 	public void onLongPress(MotionEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -144,6 +181,31 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
-		return false;
+		Data.getInstance().pause = !Data.getInstance().pause;
+		return true;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Detener");
+		menu.add("Más Cosas");
+		menu.add("Salir");
+		menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		//menu.getItem(0).setEnabled(false);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    if (item.getTitle().equals("Detener")) {
+            destroyECGView();
+	    } else if (item.getTitle().equals("Salir")){
+	    	finish();
+	    } else {
+	    	return super.onOptionsItemSelected(item);
+	    }
+	    
+        return true;
 	}
 }
