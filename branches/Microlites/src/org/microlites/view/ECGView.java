@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 public class ECGView extends AnimationView {
 	
 	MicrolitesActivity currentActivity;
+	public boolean notifyAboutCreation;
 	
 	public ECGView(Context context, AttributeSet attrs, MicrolitesActivity act) {
 		super(context, attrs);
@@ -20,24 +21,16 @@ public class ECGView extends AnimationView {
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		
+		Data.getInstance().currentViewHolder = holder;
+		Data.getInstance().dynamicThread.onSurfaceChange(width, height);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		// TODO: Just store reference to holder into data
 		Data.getInstance().currentViewHolder = holder;
-		currentActivity.initBluetoothVisualization(1, this);
-		// thread = new FullDynamicThread(holder, this);
-		// Data.getInstance().dynamicThread = (FullDynamicThread) thread;
-		/*
-		try {
-			if (!thread.isAlive()) {
-				thread.setRunning(true);
-				thread.start();
-			}
-		} catch (Exception e) {
-		}*/
+		if (notifyAboutCreation)
+			currentActivity.initBluetoothVisualization(1, this);
 	}
 
 	@Override

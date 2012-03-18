@@ -1,10 +1,11 @@
-package org.microlites.bluetooth;
+package org.microlites.data.bluetooth;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.microlites.data.DataHolder;
+import org.microlites.data.DataSourceThread;
 import org.microlites.util.RealTimeFriendlyDataParser;
 
 import android.bluetooth.BluetoothSocket;

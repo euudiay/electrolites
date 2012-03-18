@@ -1,16 +1,18 @@
-package org.microlites.bluetooth;
+package org.microlites.data.bluetooth;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.microlites.view.FullDynamicThread;
+import org.microlites.data.DataHolder;
+import org.microlites.data.DataManager;
+import org.microlites.data.DataSourceThread;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-public class BluetoothManager {
+public class BluetoothManager implements DataManager {
 	public static final String TAG = "BluetoothService";
 	public static final boolean DEBUG = true;
 	
@@ -26,12 +28,14 @@ public class BluetoothManager {
     public static final int STATE_CONNECTED = 3;  // Conectado a un dispositivo
     
     private final BluetoothAdapter bA;
+    private BluetoothDevice bD;
     
     private ArrayList<BluetoothDevice> bondedDevices;
     private ArrayList<BluetoothDevice> newDevicesArrayAdapter;
 	
 	private ConnectThread connectT;
-	private FullDynamicThread connectedT;
+	private ConnectedThread connectedT;
+	private DataHolder dataHolder;
 	
 	private int state;			// Estado del servicio
 	private int adapterState;	// Estado del adaptador bluetooth
@@ -50,13 +54,17 @@ public class BluetoothManager {
 				adapterState = BT_ENABLED;
 		        // Register for broadcasts when a device is discovered
 			}
+		
+		connectT = null;
+		connectedT = null;
+		dataHolder = null;
 	}
 
-	public void startRunning(String deviceName, FullDynamicThread thread) {
+	public void startRunning(String deviceName, DataHolder thread) {
 		if (DEBUG) 
 			Log.d(TAG, "BluetoothService.start()");
 		
-		connectedT = thread;
+		dataHolder = thread;
 
         // Cancelamos cualquier intento de conexi�n pendiente
         if (connectT != null) {
@@ -66,7 +74,8 @@ public class BluetoothManager {
 
         // Cancelamos cualquier conexi�n en ejecuci�n
         if (connectedT != null) {
-        	connectedT.cancel(); 
+        	connectedT.cancel();
+        	connectedT = null;
         }
 
         setState(STATE_LISTEN);
@@ -80,7 +89,7 @@ public class BluetoothManager {
 		newDevicesArrayAdapter = new ArrayList<BluetoothDevice>();
         
 		// Recuperamos el dispositivo al que queremos conectarnos
-		BluetoothDevice bD = getBluetoothDevice(deviceName);
+		bD = getBluetoothDevice(deviceName);
 
 		bA.cancelDiscovery();
 		
@@ -101,7 +110,6 @@ public class BluetoothManager {
 		}
 		if (connectedT != null) {
 			connectedT.cancel();
-			connectedT.finish();
 			try {
 				connectedT.join();
 			} catch (InterruptedException e) {
@@ -125,7 +133,7 @@ public class BluetoothManager {
         // Cancelamos cualquier conexi�n actual
         if (connectedT != null) {
         	connectedT.cancel(); 
-        	// connectedT = null;
+        	connectedT = null;
         }
 
         // Iniciamos el thread para conectar con el dispositivo 
@@ -136,7 +144,7 @@ public class BluetoothManager {
 	
 	// Indica que el intento de conexión ha fallado
 	public void connectionFailed() {
-		Log.e(TAG, "El intento de conexión ha fallado. Reintentando...");
+		Log.e(TAG, "El intento de conexión ha fallado.");
         setState(STATE_NONE);
 	}
 	
@@ -235,9 +243,8 @@ public class BluetoothManager {
         }
         
         // Iniciamos el thread que maneja la conexión
-        // connectedT = new FullDynamicThread(this, socket);
-        connectedT.setBluetoothSocket(socket);
-        // connectedT.start()
+        connectedT = new ConnectedThread(dataHolder, socket);
+        connectedT.start();
 
         // Send the name of the connected device back to the UI Activity
         setState(STATE_CONNECTED);
@@ -249,7 +256,7 @@ public class BluetoothManager {
 	
 	private void write(byte[] bytes) {
 		// Creamos un objeto temporal para realizar la escritura
-		FullDynamicThread r;
+		DataSourceThread r;
         // Sincronizamos una copia del connectedT
         synchronized (this) {
             if (state != STATE_CONNECTED) 
@@ -258,5 +265,20 @@ public class BluetoothManager {
         }
         // Realizamos la escritura de manera as�ncrona
         r.write(bytes);
+	}
+
+	@Override
+	public void configure(DataHolder dataHolder) {
+		this.dataHolder = dataHolder;
+	}
+
+	@Override
+	public void start() {
+		startRunning("FireFly-3781", this.dataHolder);
+	}
+
+	@Override
+	public void stop() {
+		stopRunning();
 	}
 }

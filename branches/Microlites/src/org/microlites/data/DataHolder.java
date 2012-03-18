@@ -16,4 +16,5 @@ public interface DataHolder {
 	public abstract void initData();
 	public abstract void addSample(int index, short sample);
 	public abstract void addDPoint(int sample, short type, short wave);
+	public abstract void handleOffset(int offset);
 }

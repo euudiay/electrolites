@@ -1,4 +1,4 @@
-package org.microlites.bluetooth;
+package org.microlites.data;
 
 public abstract class DataSourceThread extends Thread {
 	public abstract void write(byte[] buffer);

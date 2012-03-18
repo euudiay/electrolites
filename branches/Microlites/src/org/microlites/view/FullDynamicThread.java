@@ -1,15 +1,14 @@
 package org.microlites.view;
 
-import org.microlites.bluetooth.ConnectedThread;
-import org.microlites.bluetooth.DataSourceThread;
+import org.microlites.data.Data;
 import org.microlites.data.DataHolder;
 import org.microlites.util.DynamicViewport;
 
-import android.bluetooth.BluetoothSocket;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.os.Bundle;
 import android.view.SurfaceHolder;
 
 public class FullDynamicThread extends AnimationThread 
@@ -19,7 +18,7 @@ public class FullDynamicThread extends AnimationThread
 	 * 		or it IS ConnectedThread 		 
 	 */
 	/* Data source */
-	protected DataSourceThread dataSourceThread;	// Thread providing data
+	// protected DataSourceThread dataSourceThread;	// Thread providing data
 	
 	/* Data items */
 	// Samples
@@ -43,6 +42,7 @@ public class FullDynamicThread extends AnimationThread
 	protected Paint rectPaint;						// Rectangle paint instance
 	
 	protected int bgColor;							// Background color
+	protected int dpGray;							// DPoint render gray
 	
 	protected float samplePoints[];					// Samples (x1, y1, x2, y2)
 	
@@ -59,6 +59,7 @@ public class FullDynamicThread extends AnimationThread
 		/* Prepare renderers */
 		// Black background
 		bgColor = Color.rgb(0, 0, 0);
+		dpGray = Color.rgb(180, 180, 140);
 		
 		// Green Text
 		textPaint = new Paint();
@@ -83,7 +84,7 @@ public class FullDynamicThread extends AnimationThread
 	}
 	
 	public void onRender(Canvas canvas) {
-		if (canvas == null || dvport == null)
+		if (canvas == null || dvport == null || Data.getInstance().pause)
 			return;
 		
 			dvport.updateParameters();
@@ -154,31 +155,43 @@ public class FullDynamicThread extends AnimationThread
 			}
 		
 		// Render dpoints
-			// TODO: Render DPoints
 			// DPoints arrays variables
-			/*int ammount = dp_end + ((dp_end < dp_start) ? dp_size : 0) - dp_start;
+			int ammount = dp_end + ((dp_end < dp_start) ? dp_size : 0) - dp_start;
 			int ii = -1;
 			
-			// Samples arrays variables
-			int sammount = s_end + ((s_end < s_start) ? s_size : 0) - s_start;
-			int oldj = -1;
-			int jj = -1;
 			float sampleX = -1;
+			int indexDistance;
+			int sampleIndex;
 
 			for (int i = 0; i < ammount; i++) {
-				System.out.println(oldj);
 				ii = (dp_start + i) % dp_size;
-				for (int j = 0; j < sammount; j++) {
-					jj = (s_start + j) % s_size;
-					if (s_index[jj] == dp_sample[ii]) {
-						// Calculate sample x = vPxX + relativeIndex*dpoints
-						sampleX = dvport.vpPxX + dpoints*(jj + (jj < s_start ? s_size : 0) - s_start);
-						oldj = jj;
-						break;
-					}
+				if (dp_sample[ii] < 0 || dp_sample[ii] < s_index[s_start]) {
+					dp_sample[ii] = -1;
+					continue;
 				}
+				
+				indexDistance = dp_sample[ii] - s_index[s_start];
+				sampleIndex = (s_start + indexDistance) % s_size;
+				sampleX = dvport.vpPxX + dpoints*(sampleIndex + (sampleIndex < s_start ? s_size : 0) - s_start);
+				
+				if (dp_type[ii] == DP_TYPE_START || dp_type[ii] == DP_TYPE_END) {
+					if (dp_wave[ii] == WAVE_OFFSET)
+						ecgPaint.setColor(Color.RED);
+					else 
+						ecgPaint.setColor(dpGray);
+				} else {
+					if (dp_wave[ii] == WAVE_QRS)
+						ecgPaint.setColor(Color.MAGENTA);
+					else if (dp_wave[ii] == WAVE_P)
+						ecgPaint.setColor(Color.CYAN);
+					else if (dp_wave[ii] == WAVE_T)
+						ecgPaint.setColor(Color.YELLOW);
+				}
+				ecgPaint.setStrokeWidth(1);
+				
+				
 				canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.vpPxY+dvport.vpPxHeight, ecgPaint);
-			}*/
+			}
 		
 		// Render frame
 			canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
@@ -220,7 +233,8 @@ public class FullDynamicThread extends AnimationThread
 	
 	public void initData() {
 		// Set queue sizes (TODO: Paramtrize size)
-		s_size = dp_size = 768;
+		s_size = 768;
+		dp_size = 128;
 		
 		// Reset indexes
 		s_start = s_end = 0;
@@ -260,37 +274,52 @@ public class FullDynamicThread extends AnimationThread
 			dp_start = (dp_start + 1) % dp_size;
 	}
 	
-	public void setBluetoothSocket(BluetoothSocket socket) {
-        dataSourceThread = new ConnectedThread(this, socket);
-        dataSourceThread.start();
-        System.out.println("FullDynamicThread: DataSourceThread created!");
-    }
-	
-	public void write(byte[] buffer) {
-        dataSourceThread.write(buffer);
-    }
-	
-	public void cancel() {
-		if (dataSourceThread != null)
-			dataSourceThread.cancel();
-    }
-	
+	public void handleOffset(int offset) {
+		dp_start = dp_end = 0;
+		s_start = s_end = 0;
+	}
+
 	@Override
 	public void finish() {
-		if (dataSourceThread != null) {
-			boolean retry = true;
-			dataSourceThread.stopSending();
-			while (retry) {
-				try {
-					dataSourceThread.join();
-					retry = false;
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			System.out.println("Finished DataSourceThread execution");
-		}
-		
 		setRunning(false);
+	}
+	
+	public void onSurfaceChange(int width, int height) {
+		dvport = new DynamicViewport((int) (width*0.95), 
+									 (int) (height*0.9), 3);
+		dvport.setOnScreenPosition((width - dvport.vpPxWidth)/2,
+								   (height - dvport.vpPxHeight)/2);
+	}
+	
+	@Override
+	public void saveYourData(Bundle out) {
+		/*
+		 * 	// Samples
+			protected int s_start, s_end;					// Circular queue pointers
+			public int s_size;								// Circular queue max size
+			public int s_index[];							// Sample index
+			public short s_amplitude[];						// Sample amplitude
+			
+			// DPoints
+			protected int dp_start, dp_end;					// Circular queue pointers
+			public int dp_size;								// Circular queue max size
+			public short dp_type[];							// DPoint types
+			public short dp_wave[];							// DPoint waves
+			public int dp_sample[];							// DPoint samples
+		 */
+		out.putIntArray("s_index", s_index);
+		out.putShortArray("s_amplitude", s_amplitude);
+		out.putInt("s_start", s_start);
+		out.putInt("s_end", s_end);
+		out.putInt("s_size", s_size);
+	}
+	
+	@Override
+	public void restoreYourData(Bundle in) {
+		s_index = in.getIntArray("s_index"); 
+		s_amplitude = in.getShortArray("s_amplitude");
+		s_start = in.getInt("s_start");
+		s_end = in.getInt("s_end");
+		s_size = in.getInt("s_size");
 	}
 }
