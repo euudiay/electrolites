@@ -34,6 +34,9 @@ public class FullDynamicThread extends AnimationThread
 	public short dp_wave[];							// DPoint waves
 	public int dp_sample[];							// DPoint samples
 	
+	// HBR
+	public float hbr_current;						// Current HBR in BPM
+	
 	/* Render items */
 	protected AnimationView view;					// View that contains thread
 	protected DynamicViewport dvport;				// Dynamic Viewport Info
@@ -101,7 +104,7 @@ public class FullDynamicThread extends AnimationThread
 		/*** Render axis and scales ***/
 			
 			// y axis
-			textPaint.setARGB(230, 150, 150, 150);
+			textPaint.setColor(dpGray);
 			textPaint.setStrokeWidth(2.f);
 			canvas.drawLine(left, top, left, bottom, textPaint);
 			
@@ -219,12 +222,17 @@ public class FullDynamicThread extends AnimationThread
 			for (int i = 1; i <= divisions; i++) {
 				canvas.drawText("" + (float) -i, left-2, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
 			}
+			
+		// Render HBR Label
+			textPaint.setTextAlign(Align.RIGHT);
+			textPaint.setColor(Color.RED);
+			canvas.drawText("HBR: " + hbr_current, right, bottom + 16, textPaint);
+			textPaint.setTextAlign(Align.CENTER);
+			canvas.drawText("No se ha detectado arritmia", left+right/2, bottom+16, textPaint);
+			textPaint.setColor(dpGray);
 		
 		// Debug thingies
-			textPaint.setTextAlign(Align.LEFT);
-			canvas.drawText("" + dvport.areaOffset + " ~ " + dvport.lastOffset, left, top-10, textPaint);
 			textPaint.setTextAlign(Align.RIGHT);
-		
 			canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
 			
 		// Aaaaand done!
@@ -233,8 +241,9 @@ public class FullDynamicThread extends AnimationThread
 	
 	public void initData() {
 		// Set queue sizes (TODO: Paramtrize size)
-		s_size = 768;
-		dp_size = 128;
+		float rsize = Data.getInstance().viewWidth*250; // TODO: Parametrize sps
+		s_size = (int) rsize;
+		dp_size = (int) (rsize / 6);
 		
 		// Reset indexes
 		s_start = s_end = 0;
@@ -277,6 +286,10 @@ public class FullDynamicThread extends AnimationThread
 	public void handleOffset(int offset) {
 		dp_start = dp_end = 0;
 		s_start = s_end = 0;
+	}
+	
+	public void handleHBR(float hbr) {
+		hbr_current = hbr;
 	}
 
 	@Override

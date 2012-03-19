@@ -85,7 +85,7 @@ public class RealTimeFriendlyDataParser {
 		
 		switch (currentToken) {
 		case None:
-			switch ((byte) (currentByte & 0xff)) {
+			switch ((byte) (currentByte & 0x0ff)) {
 			case (byte) 0xcc:
 				// Start parsing an Offset
 				currentToken = Token.Offset;
@@ -103,8 +103,8 @@ public class RealTimeFriendlyDataParser {
 				break;
 			default:
 				currentToken = Token.None;
-				//System.out.println("Token unknown: " + 
-				//		((byte) currentByte & 0xff));
+				// System.out.println("Token unknown: " + 
+				// System.out.println(((byte) currentByte & 0xff));
 			}
 			// Reset parsing data
 			progress = 0;
@@ -246,6 +246,7 @@ public class RealTimeFriendlyDataParser {
 				}
 			}
 			
+			dataHolder.handleHBR(hbr);
 			/*synchronized(data.dynamicData.mutex) {
 				hbr = Math.round(hbr*100)/100.f;
 				System.out.println("HBR: " + hbr);

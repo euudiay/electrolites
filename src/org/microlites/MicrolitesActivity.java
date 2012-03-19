@@ -18,6 +18,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 public class MicrolitesActivity extends Activity implements OnGestureListener {
 	GestureDetector gestureScanner;				// Gesture Detector
@@ -63,14 +66,47 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     		}
         }
         
-        // Create Button Handlers
-        Button start = (Button) findViewById(R.id.startBluetoothButton);
-        start.setOnClickListener(new OnClickListener() {
-        	// Start button inits visualization
-			public void onClick(View v) {
-				MicrolitesActivity.instance.initBluetoothVisualization(0, null);
-			}
-		});
+        // Create Main Menu Button Handlers
+    	if (currentView == null) {
+    		SeekBar bar = (SeekBar) findViewById(R.id.seekBar1);
+    		bar.setProgress(50);
+    		
+    		bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress,
+						boolean fromUser) {
+					int max = seekBar.getMax();
+					Float w = 1 + progress/((float) max)*2;
+					if (w - Math.floor(w.doubleValue()) > 0.5)
+						w = (float) (Math.floor(w.doubleValue()) + 0.5);
+					else
+						w = (float) (Math.floor(w.doubleValue()));
+						
+					((TextView) findViewById(R.id.textView1)).setText("Ancho en segundos: "+w);
+					Data.getInstance().viewWidth = w;
+				}
+			});
+    		
+	        Button start = (Button) findViewById(R.id.startBluetoothButton);
+	        start.setOnClickListener(new OnClickListener() {
+	        	// Start button inits visualization
+				public void onClick(View v) {
+					MicrolitesActivity.instance.initBluetoothVisualization(0, null);
+				}
+			});
+    	}
     }
     
     public void initBluetoothVisualization(int phase, ECGView v) {
