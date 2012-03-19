@@ -15,11 +15,14 @@ public final class R {
     }
     public static final class id {
         public static final int contentPanel=0x7f050000;
+        public static final int seekBar1=0x7f050008;
         public static final int startBluetoothButton=0x7f050003;
         public static final int startLogButton=0x7f050005;
         public static final int startUsbButton=0x7f050004;
         public static final int tableLayout1=0x7f050001;
         public static final int tableRow1=0x7f050002;
+        public static final int tableRow2=0x7f050006;
+        public static final int textView1=0x7f050007;
     }
     public static final class layout {
         public static final int main=0x7f030000;
