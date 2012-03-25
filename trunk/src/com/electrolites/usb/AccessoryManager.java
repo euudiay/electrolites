@@ -79,7 +79,7 @@ public class AccessoryManager {
 	    if (pfd != null) {
 	        FileDescriptor fd = pfd.getFileDescriptor();
 	        
-	        thread = new UsbComThread(fd);
+	        //thread = new UsbComThread(fd);
 	        thread.start();
 	    }
 	}

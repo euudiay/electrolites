@@ -32,15 +32,16 @@ public class UsbComThread extends Thread {
 	public UsbComThread(UsbInterface interf, UsbEndpoint endpointIn, UsbEndpoint endpointOut, UsbDeviceConnection connection) {
 
 		this.connection = connection;
+		//teniendo la conexión y los endpoints la interfaz creo que no nos haría falta guardarla aqui
 		this.interf = interf;
 		this.endpointRead = endpointIn;
 		this.endpointWrite = endpointOut;
-		
-		//this.fd = fd;
 	}
 	
 	@Override
 	public void start() {
+		//Esto, o sobra aquí, o nos guardamos los tamaños de los dos en vez de uno solo
+		//Y quitamos el calculo del run y del write
 		bufferDataLength = endpointWrite.getMaxPacketSize();
 		
 		stream = new FixedLinkedList<Byte>(0);
@@ -58,40 +59,25 @@ public class UsbComThread extends Thread {
 	public void run() {
 
 		stop = false;
-
-		//byte[] buffer = new byte[256];
-		
 		String str;
 		
 		bufferDataLength = endpointRead.getMaxPacketSize();
 		ByteBuffer buffer = ByteBuffer.allocate(bufferDataLength + 1);
-		UsbRequest requestQueued = null;
 		UsbRequest request = new UsbRequest();
 		
 		byte startToken = (byte) 0xC0;
 		
 		request.initialize(connection, endpointRead);
 
-		
 		// Mandamos el token para empezar a recibir
 		while (true) {
-			if (! write(startToken)){
+			//Tal y como está si falla se queda ciclando por lo que esto es un poco inutil
+			//pero si cambiamos el writte esto es necesario así que lo mantengo
+			if (!write(startToken)){
 				Log.w(TAG, "Start token could not be delivered.");
 				return;
 			}
-			
-			/*try {
-				if (input.read(buffer) == 1) {
-					System.out.println(buffer[0]);
-					if (buffer[0] == (byte) 0xc0) {
-						System.out.println("ACK!");
-						break;
-					}
-						
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/break;
+			break;
 		}
 		
 		// Nos ponemos a la escucha
@@ -102,7 +88,6 @@ public class UsbComThread extends Thread {
 						dp.step();
 				}
 				//Parte nueva para leer si eres host
-				//requestQueued = connection.requestWait();
 				if (request.queue(buffer, bufferDataLength) && request.equals(connection.requestWait()))  {
 					
 					byte[] byteBuffer = new byte[bufferDataLength];
@@ -119,11 +104,11 @@ public class UsbComThread extends Thread {
 						// To dataparser!
 						for (int i = 0; i < bufferDataLength; i++)
 						{
+							//Apaño para poder ver por pantalla algo coherente y comprobar si funcionaba bien
 							stream.add(new Byte((byte) 0xda));
 							stream.add(new Byte((byte) 0x00));
 							stream.add(new Byte(buffer.array()[i]));
 						}
-							//stream.add(new Byte(buffer.array()[i]));
 					}
 					buffer.clear();
 				}
@@ -140,18 +125,19 @@ public class UsbComThread extends Thread {
 				}
 			}
 		}catch (Exception ex){
-			Log.w(TAG, "Algo a pasado durante la transmisi�n");
+			Log.w(TAG, "Algo a pasado durante la transmisi�n");
 		}
 		try	{
 			 request.cancel();
 			 request.close();
 		}catch (Exception ex){
-			Log.w(TAG, "Algo a pasado al cerrar la transmisi�n");
+			Log.w(TAG, "Algo a pasado al cerrar la transmisi�n");
 		}
 			
 	}
 	
 	private boolean write(byte data){
+		//Esta es la manera estandar de mandar datos asincronamente, aunque por supuesto hay otras
 		bufferDataLength = endpointWrite.getMaxPacketSize();
 		ByteBuffer buffer = ByteBuffer.allocate(bufferDataLength + 1);
 		UsbRequest request = new UsbRequest();
@@ -159,9 +145,11 @@ public class UsbComThread extends Thread {
 		buffer.put(data);
 
 		request.initialize(connection, endpointWrite);
-		//;
 		try
 		{
+			//En teoría al hacerlo de esta manera si el request falla, debería devolver falso y nos evitariamos
+			//hacer una llamada al Wait que se quedaría bloqueada para siempre, pero en la práctica, 
+			//hay veces que el request devuelve true y aún así el requestWait se queda bloqueado
 			if (request.queue(buffer, bufferDataLength) && request.equals(connection.requestWait())){
 				return true;
 			}
@@ -174,8 +162,10 @@ public class UsbComThread extends Thread {
 	}
 
 	
+	public void halt() { stop = true; }
+}	
 	
-	/* El run para cuando es modo device
+	/* El run para cuando es modo device, lo conservo por si acaso
 	 	public void run() {
 		
 		
@@ -252,9 +242,7 @@ public class UsbComThread extends Thread {
 			}
 		}
 	}*/
-	
-	public void halt() { stop = true; }
-}
+
 
 /* Old, deprectated run method **
 	public void runOld() {
