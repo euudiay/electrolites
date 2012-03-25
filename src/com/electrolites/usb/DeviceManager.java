@@ -86,11 +86,13 @@ public class DeviceManager {
         }
 		interf = device.getInterface(0);
 		
-		if (interf.getEndpointCount() < 2) {
+		if (interf.getEndpointCount() != 2) {
 			Log.w(TAG, "could not find the endpoints.");
 	        return;
 	    }
 		
+		//El MSP tiene 2 endpoints, y su orden es relevante pero al preguntar no tiene 
+		//porque devolverlos en el mismo orden siempre, 
 		UsbEndpoint endpoint1 = interf.getEndpoint(0);
 		UsbEndpoint endpoint2 = interf.getEndpoint(1);
 			
@@ -120,7 +122,6 @@ public class DeviceManager {
 		//connection.bulkTransfer(endpoint, bytes, bytes.length, TIMEOUT); //do in another thread
 		
 	    if (connection != null) {		    
-
 			connection.claimInterface(interf, forceClaim);
 	        thread = new UsbComThread(interf, endpointRead, endpointWrite, connection);
 	        thread.start();
