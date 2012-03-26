@@ -20,6 +20,8 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	public int s_index[];					// Sample index
 	public short s_amplitude[];				// Sample amplitude
 	
+	public boolean loading;					// Loading flag
+	
 	// DPoints
 	protected int dp_current;				// Circular queue pointers
 	public int dp_size;						// Circular queue max size
@@ -29,6 +31,7 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	
 	/* Scroll handling Items */
 	public int s_viewstart;					// View to start in this array index
+	public int s_viewend;					// View to end in this array index
 	public int s_viewsize;					// View size in array positions
 	
 	public int dp_viewstart;				// View to start in this array index
@@ -38,6 +41,8 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	public float hacc;						// Horizontal scrolling deceleration
 	
 	public FileDataSourceThread(DataHolder d, String pathToFile) {
+		loading = true;
+		
 		filename = pathToFile;
 		fileConverter = new FileConverter();
 		stream = fileConverter.readBinary(pathToFile);
@@ -52,10 +57,18 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 			parser.step(b.byteValue());
 		}
 		
-		for (int i = 0; i < s_current; i++)
-			System.out.println(s_amplitude[i]+", ");
+		loading = false;
+		/*for (int i = 0; i < s_current; i++)
+			System.out.println(s_amplitude[i]+", ");*/
 	}
 
+
+	public void setViewSamplesSize(int size) {
+		s_viewsize = size;
+		s_viewend = Math.min(s_viewstart + size, s_size); 
+	}
+	
+	/* DataHolder Implementation for storing parsing result*/
 	@Override
 	public void initData() {
 		// Arrays are initialized to arbitrary sizes
@@ -113,6 +126,4 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	/* DataHolder implementation */
 }

@@ -1,18 +1,17 @@
 package org.microlites;
 
-import java.io.File;
-
 import org.microlites.data.Data;
+import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.data.bluetooth.BluetoothManager;
-import org.microlites.data.filereader.FileDataSourceThread;
+import org.microlites.data.filereader.FileManager;
 import org.microlites.view.AnimationThread;
 import org.microlites.view.ECGView;
 import org.microlites.view.dynamic.DynamicViewThread;
+import org.microlites.view.still.StaticViewThread;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
@@ -34,6 +33,9 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	AnimationThread currentViewThread;			// Reference to View Thread
 	DataManager currentManager;					// Reference to Data Manager
 	View menuView;								// Refernece to initial Menu
+	
+	public static final byte MODE_BLUETOOTH = 0x1;		// Bluetooth Constant
+	public static final byte MODE_FILELOG	= 0x2;		// Log Constant
 	
     /** Called when the activity is first created,
      * 	when the screen is rotated or when the
@@ -116,12 +118,51 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 				@Override
 				public void onClick(View v) {
 					// TODO: Init log view correctly
-					File root = Environment.getExternalStorageDirectory();
-					//File path = new File(root, "/Download/raw-1903-2012_13-19.txt");
-					File path = new File(root, "/Download/a.log");
-					FileDataSourceThread fdst = new FileDataSourceThread(null, path.getAbsolutePath());
+					// TODO: Put these lines in Manager (or something)
+					initVisualization(0, null);
 				}
 	        });
+    	}
+    }
+    
+    public void initVisualization(int phase, ECGView v) {
+    	switch (phase) {
+    	case 0: // Phase 0 - Init
+    		System.out.println("Init Phase 0");
+    		
+	    	// Create Manager
+    		// TODO: Parametrize the instance
+	    	currentManager = new FileManager();
+	    	
+	    	// Create ECGView
+	    	// 1. Get reference to main content panel
+	    	LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
+	    	menuView = content.getChildAt(0);
+	    	
+	    	// 2. Clear it
+			content.removeAllViews();
+			
+			// 3. Add new Dynamic Surface Holder
+			currentView = new ECGView(getApplicationContext(), null, this);
+			currentView.notifyAboutCreation = MODE_FILELOG;
+	        content.addView(currentView);
+	        
+	        // 4. Wait for dynamicHolder to call this again
+	        break;
+    	case 1: // Phase 1 - Surface available, start the magic!
+    		System.out.println("Init Phase 1");
+    		Data d = Data.getInstance();
+    		
+    		// 1. Instantiate viewthread
+    		// TODO: Parametrize the instance
+    		d.currentViewThread = new StaticViewThread(d.currentViewHolder, currentView);
+    		currentView.setThread(d.currentViewThread);
+
+    		// 2. Start reception thread
+    		// TODO: Parametrize the instance
+    		currentManager.configure((DataHolder) Data.getInstance().currentViewThread);
+			currentManager.start();
+			break;
     	}
     }
     
@@ -143,7 +184,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 			
 			// 3. Add new Dynamic Surface Holder
 			currentView = new ECGView(getApplicationContext(), null, this);
-			currentView.notifyAboutCreation = true;
+			currentView.notifyAboutCreation = MODE_BLUETOOTH;
 	        content.addView(currentView);
 	        
 	        // 4. Wait for dynamicHolder to call this again
@@ -153,11 +194,11 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     		Data d = Data.getInstance();
     		
     		// 1. Instantiate viewthread
-    		d.dynamicThread = new DynamicViewThread(d.currentViewHolder, currentView);
-    		currentView.setThread(d.dynamicThread);
+    		d.currentViewThread = new DynamicViewThread(d.currentViewHolder, currentView);
+    		currentView.setThread(d.currentViewThread);
     		
     		// 2. Start reception thread
-    		currentManager.configure(Data.getInstance().dynamicThread);
+    		currentManager.configure((DataHolder) Data.getInstance().currentViewThread);
 			currentManager.start();
 			break;
     	}

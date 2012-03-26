@@ -79,5 +79,7 @@ public abstract class AnimationThread extends Thread {
 	public void handleScroll(float distX, float distY) {
 		// Handle scroll
 	}
+	
+	public abstract void onSurfaceChange(int w, int h);
 }
 
