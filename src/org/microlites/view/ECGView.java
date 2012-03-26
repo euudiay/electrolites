@@ -49,7 +49,8 @@ public class ECGView extends AnimationView {
 	}
 	
 	public void handleScroll(float distX, float distY) {
-		Data.getInstance().drawBaseHeight -= distY*0.002;
+		if (thread != null)
+			thread.handleScroll(distX, distY);
 	}
 	
 	public AnimationThread getThread() {

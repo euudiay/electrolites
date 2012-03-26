@@ -75,5 +75,9 @@ public abstract class AnimationThread extends Thread {
 	public void restoreYourData(Bundle inState) {
 		// Restore data you want
 	}
+	
+	public void handleScroll(float distX, float distY) {
+		// Handle scroll
+	}
 }
 

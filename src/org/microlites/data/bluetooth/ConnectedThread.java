@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataSourceThread;
-import org.microlites.util.RealTimeFriendlyDataParser;
+import org.microlites.util.RealTimeDataParser;
 
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
@@ -24,14 +24,14 @@ public class ConnectedThread extends DataSourceThread {
 	int readCount;									// bytes read to buffer
 
 	/* Parser */
-	private RealTimeFriendlyDataParser parser;		// Raw data parser
+	private RealTimeDataParser parser;		// Raw data parser
 	
 	public ConnectedThread(DataHolder d, BluetoothSocket s) {
 		Log.d("ConnectedThread", "ConnectedThread creado.");
 		// Store refrence to socket
 		socket = s;
 		// Create parser
-		parser = new RealTimeFriendlyDataParser(d);
+		parser = new RealTimeDataParser(d);
 
         // Get input and output streams
         InputStream tmpIn = null;

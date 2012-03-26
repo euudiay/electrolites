@@ -1,6 +1,6 @@
 package org.microlites.data;
 
-import org.microlites.view.FullDynamicThread;
+import org.microlites.view.dynamic.DynamicViewThread;
 
 import android.view.SurfaceHolder;
 
@@ -17,7 +17,7 @@ public class Data {
 	public Object mutex;
 	public float drawBaseHeight = 0.5f;
 	public float viewWidth = 1.5f;
-	public FullDynamicThread dynamicThread = null;
+	public DynamicViewThread dynamicThread = null;
 	public SurfaceHolder currentViewHolder = null;
 	public boolean pause = false;
 	
