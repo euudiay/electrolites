@@ -1,6 +1,6 @@
 package org.microlites.data;
 
-import org.microlites.view.dynamic.DynamicViewThread;
+import org.microlites.view.AnimationThread;
 
 import android.view.SurfaceHolder;
 
@@ -14,10 +14,14 @@ public class Data {
 		return _instance;
 	}
 	
+	/* Temporary storage */
+	// TODO: Clean and organize this
 	public Object mutex;
 	public float drawBaseHeight = 0.5f;
 	public float viewWidth = 1.5f;
-	public DynamicViewThread dynamicThread = null;
+	// public DynamicViewThread dynamicThread = null;
+	// public StaticViewThread staticThread = null;
+	public AnimationThread currentViewThread = null;
 	public SurfaceHolder currentViewHolder = null;
 	public boolean pause = false;
 	

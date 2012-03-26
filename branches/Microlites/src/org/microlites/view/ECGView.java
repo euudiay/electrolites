@@ -10,7 +10,7 @@ import android.view.SurfaceHolder;
 public class ECGView extends AnimationView {
 	
 	MicrolitesActivity currentActivity;
-	public boolean notifyAboutCreation;
+	public byte notifyAboutCreation;
 	
 	public ECGView(Context context, AttributeSet attrs, MicrolitesActivity act) {
 		super(context, attrs);
@@ -22,15 +22,23 @@ public class ECGView extends AnimationView {
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		Data.getInstance().currentViewHolder = holder;
-		Data.getInstance().dynamicThread.onSurfaceChange(width, height);
+		Data.getInstance().currentViewThread.onSurfaceChange(width, height);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		// TODO: Just store reference to holder into data
 		Data.getInstance().currentViewHolder = holder;
-		if (notifyAboutCreation)
+		
+		switch (notifyAboutCreation) {
+		case MicrolitesActivity.MODE_BLUETOOTH:
 			currentActivity.initBluetoothVisualization(1, this);
+			break;
+		case MicrolitesActivity.MODE_FILELOG:
+			currentActivity.initVisualization(1, this);
+			break;
+		default:
+			System.err.println("Visualization Init failed: Unkown code");
+		}
 	}
 
 	@Override

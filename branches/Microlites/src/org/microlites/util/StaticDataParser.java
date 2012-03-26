@@ -53,8 +53,6 @@ public class StaticDataParser {
 				break;
 			default:
 				currentToken = Token.None;
-				// System.out.println("Token unknown: " + 
-				// System.out.println(((byte) currentByte & 0xff));
 			}
 			// Reset parsing data
 			progress = 0;
