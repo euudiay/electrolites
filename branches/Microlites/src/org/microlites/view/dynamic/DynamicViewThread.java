@@ -1,8 +1,10 @@
-package org.microlites.view;
+package org.microlites.view.dynamic;
 
 import org.microlites.data.Data;
 import org.microlites.data.DataHolder;
 import org.microlites.util.DynamicViewport;
+import org.microlites.view.AnimationThread;
+import org.microlites.view.AnimationView;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,14 +13,8 @@ import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 
-public class FullDynamicThread extends AnimationThread 
+public class DynamicViewThread extends AnimationThread 
 										implements DataHolder {
-	
-	/* TODO: Decide if consumes input from ConnectedThread
-	 * 		or it IS ConnectedThread 		 
-	 */
-	/* Data source */
-	// protected DataSourceThread dataSourceThread;	// Thread providing data
 	
 	/* Data items */
 	// Samples
@@ -50,7 +46,7 @@ public class FullDynamicThread extends AnimationThread
 	protected float samplePoints[];					// Samples (x1, y1, x2, y2)
 	
 	
-	public FullDynamicThread(SurfaceHolder holder, AnimationView aview) {
+	public DynamicViewThread(SurfaceHolder holder, AnimationView aview) {
 		super(holder);
 		
 		view = aview;
@@ -334,5 +330,10 @@ public class FullDynamicThread extends AnimationThread
 		s_start = in.getInt("s_start");
 		s_end = in.getInt("s_end");
 		s_size = in.getInt("s_size");
+	}
+	
+	@Override
+	public void handleScroll(float distX, float distY) {
+		Data.getInstance().drawBaseHeight -= distY*0.002;
 	}
 }

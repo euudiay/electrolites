@@ -1,14 +1,18 @@
 package org.microlites;
 
+import java.io.File;
+
 import org.microlites.data.Data;
 import org.microlites.data.DataManager;
 import org.microlites.data.bluetooth.BluetoothManager;
+import org.microlites.data.filereader.FileDataSourceThread;
 import org.microlites.view.AnimationThread;
 import org.microlites.view.ECGView;
-import org.microlites.view.FullDynamicThread;
+import org.microlites.view.dynamic.DynamicViewThread;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
@@ -106,6 +110,18 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 					MicrolitesActivity.instance.initBluetoothVisualization(0, null);
 				}
 			});
+	        
+	        Button logButton = (Button) findViewById(R.id.startLogButton);
+	        logButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO: Init log view correctly
+					File root = Environment.getExternalStorageDirectory();
+					//File path = new File(root, "/Download/raw-1903-2012_13-19.txt");
+					File path = new File(root, "/Download/a.log");
+					FileDataSourceThread fdst = new FileDataSourceThread(null, path.getAbsolutePath());
+				}
+	        });
     	}
     }
     
@@ -137,7 +153,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     		Data d = Data.getInstance();
     		
     		// 1. Instantiate viewthread
-    		d.dynamicThread = new FullDynamicThread(d.currentViewHolder, currentView);
+    		d.dynamicThread = new DynamicViewThread(d.currentViewHolder, currentView);
     		currentView.setThread(d.dynamicThread);
     		
     		// 2. Start reception thread
