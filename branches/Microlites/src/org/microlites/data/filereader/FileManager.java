@@ -28,6 +28,7 @@ public class FileManager implements DataManager {
 	@Override
 	public void start() {
 		dataSource = new FileDataSourceThread(null, path.getAbsolutePath());
+		dataSource.start();
 		((StaticViewThread) Data.getInstance().currentViewThread).setDataSource(dataSource);
 	}
 
@@ -36,6 +37,7 @@ public class FileManager implements DataManager {
 		boolean retry = true;
 		while (retry) {
 			try {
+				dataSource.finish();
 				dataSource.join();
 				retry = false;
 			} catch (InterruptedException e) {
