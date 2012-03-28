@@ -5,6 +5,7 @@ import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.data.bluetooth.BluetoothManager;
 import org.microlites.data.filereader.FileManager;
+import org.microlites.data.usb.DeviceManager;
 import org.microlites.view.AnimationThread;
 import org.microlites.view.ECGView;
 import org.microlites.view.dynamic.DynamicViewThread;
@@ -13,17 +14,17 @@ import org.microlites.view.still.StaticViewThread;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class MicrolitesActivity extends Activity implements OnGestureListener {
 	GestureDetector gestureScanner;				// Gesture Detector
@@ -36,6 +37,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	
 	public static final byte MODE_BLUETOOTH = 0x1;		// Bluetooth Constant
 	public static final byte MODE_FILELOG	= 0x2;		// Log Constant
+	public static final byte MODE_USB		= 0x3;		// USB Constant
 	
     /** Called when the activity is first created,
      * 	when the screen is rotated or when the
@@ -113,6 +115,14 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 				}
 			});
 	        
+	        Button usb = (Button) findViewById(R.id.startUsbButton);
+	        usb.setOnClickListener(new OnClickListener() {
+	        	// Start button inits visualization
+				public void onClick(View v) {
+					MicrolitesActivity.instance.initUSBVisualization(0, null);
+				}
+			});
+	        
 	        Button logButton = (Button) findViewById(R.id.startLogButton);
 	        logButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -185,6 +195,45 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 			// 3. Add new Dynamic Surface Holder
 			currentView = new ECGView(getApplicationContext(), null, this);
 			currentView.notifyAboutCreation = MODE_BLUETOOTH;
+	        content.addView(currentView);
+	        
+	        // 4. Wait for dynamicHolder to call this again
+	        break;
+    	case 1: // Phase 1 - Surface available, start the magic!
+    		System.out.println("Init Bluetooth Phase 1");
+    		Data d = Data.getInstance();
+    		
+    		// 1. Instantiate viewthread
+    		d.currentViewThread = new DynamicViewThread(d.currentViewHolder, currentView);
+    		currentView.setThread(d.currentViewThread);
+    		
+    		// 2. Start reception thread
+    		currentManager.configure((DataHolder) Data.getInstance().currentViewThread);
+			currentManager.start();
+			break;
+    	}
+    }
+    
+    // TODO: Delete this motherfucker
+    public void initUSBVisualization(int phase, ECGView v) {
+    	switch (phase) {
+    	case 0: // Phase 0 - Init
+    		System.out.println("Init Bluetooth Phase 0");
+    		
+	    	// Create Bluetooth Manager
+	    	currentManager = new DeviceManager(this);
+	    	
+	    	// Create ECGView
+	    	// 1. Get reference to main content panel
+	    	LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
+	    	menuView = content.getChildAt(0);
+	    	
+	    	// 2. Clear it
+			content.removeAllViews();
+			
+			// 3. Add new Dynamic Surface Holder
+			currentView = new ECGView(getApplicationContext(), null, this);
+			currentView.notifyAboutCreation = MODE_USB;
 	        content.addView(currentView);
 	        
 	        // 4. Wait for dynamicHolder to call this again
