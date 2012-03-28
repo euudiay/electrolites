@@ -17,8 +17,10 @@ public class StaticViewThread extends AnimationThread
 							  implements StaticDataHolder {
 	/* Scroll Handling Items */
 	protected FileDataSourceThread dataSource;		// Data Source Thread
-	public int s_start, s_end;					// Samples array pointers
-	public int s_size;							// Samples array size
+	public int s_start, s_end;						// Samples array pointers
+	public int s_size;								// Samples array size
+	public int dp_start, dp_end;					// TODO: Document these
+	public int dp_size;								// TODO: Document these
 	
 	/* Render items */
 	protected AnimationView view;					// View that contains thread
@@ -79,9 +81,7 @@ public class StaticViewThread extends AnimationThread
 	@Override
 	public void handleScroll(float distX, float distY) {
 		Data.getInstance().drawBaseHeight -= distY*0.002;
-		// TODO: Move scroll to FileDataSourceThread
-		dataSource.s_viewstart += distX;
-		dataSource.setViewSamplesSize(s_size);
+		dataSource.handleScroll(distX);
 	}
 	
 	@Override
@@ -99,25 +99,39 @@ public class StaticViewThread extends AnimationThread
 		if (canvas == null || dvport == null || Data.getInstance().pause)
 			return;
 		
-		if (dataSource == null || dataSource.loading)
-			return;
-		
+		/*** Update viewport dimensions ***/
 			dvport.updateParameters();
-			
-			// int[] s_index = dataSource.s_index;
-			short[] s_amplitude = dataSource.s_amplitude;
-			s_start = dataSource.s_viewstart;
-			s_end = dataSource.s_viewend;
-			
+		
 		/*** Calculate border positions ***/
 			int left = dvport.vpPxX;
 			int right = dvport.vpPxX + dvport.vpPxWidth;
 			int top = dvport.vpPxY;
 			int bottom = dvport.vpPxY + dvport.vpPxHeight;
-		
+	
 		/*** Clear canvas ***/
 			canvas.drawColor(bgColor);
 		
+		/*** If still loading, show just a message */
+		if (dataSource == null || dataSource.loading) {
+			textPaint.setColor(Color.GREEN);
+			textPaint.setStrokeWidth(2.f);
+			textPaint.setTextAlign(Align.CENTER);
+			canvas.drawText("Cargando...", (left+right)/2, (top+bottom)/2, textPaint);
+			return;
+		}
+			
+		/*** Fetch data from DataSource ***/
+			int[] s_index = dataSource.s_index;
+			short[] s_amplitude = dataSource.s_amplitude;
+			s_start = dataSource.s_viewstart;
+			s_end = dataSource.s_viewend;
+			
+			int[] dp_sample = dataSource.dp_sample;
+			short[] dp_type = dataSource.dp_type;
+			short[] dp_wave = dataSource.dp_wave;
+			dp_start = dataSource.dp_viewstart;
+			dp_end = dataSource.dp_viewend;
+			
 		/*** Render axis and scales ***/
 			
 			// y axis
@@ -176,7 +190,7 @@ public class StaticViewThread extends AnimationThread
 		
 		// Render dpoints
 			// DPoints arrays variables
-			/*int ammount = dp_end + ((dp_end < dp_start) ? dp_size : 0) - dp_start;
+			int ammount = dp_end - dp_start;
 			int ii = -1;
 			
 			float sampleX = -1;
@@ -184,15 +198,16 @@ public class StaticViewThread extends AnimationThread
 			int sampleIndex;
 
 			for (int i = 0; i < ammount; i++) {
-				ii = (dp_start + i) % dp_size;
-				if (dp_sample[ii] < 0 || dp_sample[ii] < s_index[s_start]) {
-					dp_sample[ii] = -1;
+				ii = (dp_start + i);
+				if (dp_sample[ii] < 0 || dp_sample[ii] < s_index[s_start] || 
+					dp_sample[ii] > s_index[s_end]) {
+					// dp_sample[ii] = -1;
 					continue;
 				}
 				
 				indexDistance = dp_sample[ii] - s_index[s_start];
 				sampleIndex = (s_start + indexDistance) % s_size;
-				sampleX = dvport.vpPxX + dpoints*(sampleIndex + (sampleIndex < s_start ? s_size : 0) - s_start);
+				sampleX = dvport.vpPxX + dpoints*(sampleIndex - s_start);
 				
 				if (dp_type[ii] == DP_TYPE_START || dp_type[ii] == DP_TYPE_END) {
 					if (dp_wave[ii] == WAVE_OFFSET)
@@ -211,7 +226,7 @@ public class StaticViewThread extends AnimationThread
 				
 				
 				canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.vpPxY+dvport.vpPxHeight, ecgPaint);
-			}*/
+			}
 		
 		// Render frame
 			canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
@@ -241,11 +256,13 @@ public class StaticViewThread extends AnimationThread
 			}
 			
 		// Render HBR Label
-			textPaint.setTextAlign(Align.RIGHT);
+			// textPaint.setTextAlign(Align.RIGHT);
 			// textPaint.setColor(Color.RED);
 			// canvas.drawText("HBR: " + hbr_current, right, bottom + 16, textPaint);
 			// textPaint.setTextAlign(Align.CENTER);
 			// canvas.drawText("No se ha detectado arritmia", left+right/2, bottom+16, textPaint);
+			textPaint.setTextAlign(Align.LEFT);
+			canvas.drawText("hsp: " + dataSource.hspeed, left+right/2, bottom+16, textPaint);
 			textPaint.setColor(dpGray);
 		
 		// Debug thingies

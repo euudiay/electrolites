@@ -48,6 +48,50 @@ public class FileConverter {
 	}
 	
 	// Lee un archivo binario y devuelve sus datos en un ArrayList de bytes
+	// @param resultSize One element array to output size of returned array
+	public byte[] readBinaryFriendly(String fname, int[] resultSize) {
+		byte[] bytes = new byte[256];
+		int size = 256;
+		int curr = 0;
+		
+		try {
+			FileInputStream s = new FileInputStream(new File(fname));
+			
+			int aux = 0;
+			while ((aux = s.read()) >= 0) {
+				// Add the new byte
+				bytes[curr++] = (byte) aux;
+				// Duplicate the array if filled
+				if (curr >= size) {
+					byte[] newbytes = new byte[size*2];
+					for (int i = 0; i < size; i++)
+						newbytes[i] = bytes[i];
+					bytes = newbytes;
+					size *= 2;
+				}
+			}
+			
+			s.close();
+		}
+		catch (FileNotFoundException e) {
+			System.err.println("Archivo no encontrado: " + fname);
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		if (resultSize.length >= 1)
+			resultSize[0] = curr;
+		else
+			System.err.println("FileConverter::readBinaryFriendly - " +
+					"No suitable array to contain result size provided");
+		
+		return bytes;
+	}
+	
+	// Lee un archivo binario y devuelve sus datos en un ArrayList de bytes
 	public ArrayList<Byte> readBinary(String fname) {
 		stream.clear();
 		
