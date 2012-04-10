@@ -14,17 +14,17 @@ import org.microlites.view.still.StaticViewThread;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 public class MicrolitesActivity extends Activity implements OnGestureListener {
 	GestureDetector gestureScanner;				// Gesture Detector
@@ -65,8 +65,9 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     	if (savedInstanceState != null) {
     		if (savedInstanceState.containsKey("currentView")) {
     			String view = savedInstanceState.getString("currentView");
-    			if (view == "ECGView") {
-    				initBluetoothVisualization(0, null);
+    			if (view.equals("ECGView")) {
+    				// TODO: Save and restore visualization mode
+    				initVisualization(MODE_BLUETOOTH, 0, null);
     				// TODO: Restore Thread Status
     				// 1. Restore View
     				// 2. Restore Thread
@@ -100,7 +101,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 					if (w - Math.floor(w.doubleValue()) > 0.5)
 						w = (float) (Math.floor(w.doubleValue()) + 0.5);
 					else
-						w = (float) (Math.floor(w.doubleValue()));
+						w = android.util.FloatMath.floor((float) w.doubleValue());
 						
 					((TextView) findViewById(R.id.textView1)).setText("Ancho en segundos: "+w);
 					Data.getInstance().viewWidth = w;
@@ -109,17 +110,15 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     		
 	        Button start = (Button) findViewById(R.id.startBluetoothButton);
 	        start.setOnClickListener(new OnClickListener() {
-	        	// Start button inits visualization
 				public void onClick(View v) {
-					MicrolitesActivity.instance.initBluetoothVisualization(0, null);
+					MicrolitesActivity.instance.initVisualization(MODE_BLUETOOTH, 0, null);
 				}
 			});
 	        
 	        Button usb = (Button) findViewById(R.id.startUsbButton);
 	        usb.setOnClickListener(new OnClickListener() {
-	        	// Start button inits visualization
 				public void onClick(View v) {
-					MicrolitesActivity.instance.initUSBVisualization(0, null);
+					MicrolitesActivity.instance.initVisualization(MODE_USB, 0, null);
 				}
 			});
 	        
@@ -127,22 +126,31 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	        logButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO: Init log view correctly
-					// TODO: Put these lines in Manager (or something)
-					initVisualization(0, null);
+					initVisualization(MODE_FILELOG, 0, null);
 				}
 	        });
     	}
     }
     
-    public void initVisualization(int phase, ECGView v) {
+    public void initVisualization(byte mode, int phase, ECGView v) {
     	switch (phase) {
-    	case 0: // Phase 0 - Init
-    		System.out.println("Init Phase 0");
-    		
-	    	// Create Manager
-    		// TODO: Parametrize the instance
-	    	currentManager = new FileManager();
+    	case 0: 
+			// Phase 0 - Init
+
+			// Create Manager
+    		switch (mode) {
+				case MODE_BLUETOOTH:
+					currentManager = new BluetoothManager();
+				break;
+				case MODE_FILELOG:
+					currentManager = new FileManager();
+				break;
+				case MODE_USB:
+					currentManager = new DeviceManager(this);
+				break;
+				default:
+					System.out.println("Modo no reconocido: " + mode);
+			}
 	    	
 	    	// Create ECGView
 	    	// 1. Get reference to main content panel
@@ -154,105 +162,36 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 			
 			// 3. Add new Dynamic Surface Holder
 			currentView = new ECGView(getApplicationContext(), null, this);
-			currentView.notifyAboutCreation = MODE_FILELOG;
+			currentView.notifyAboutCreation = mode;
 	        content.addView(currentView);
 	        
 	        // 4. Wait for dynamicHolder to call this again
 	        break;
-    	case 1: // Phase 1 - Surface available, start the magic!
-    		System.out.println("Init Phase 1");
+    	case 1: 
+			// Phase 1 - Surface available, start the magic!
     		Data d = Data.getInstance();
     		
     		// 1. Instantiate viewthread
-    		// TODO: Parametrize the instance
-    		d.currentViewThread = new StaticViewThread(d.currentViewHolder, currentView);
+			switch (mode) {
+				case MODE_BLUETOOTH:
+				case MODE_USB:
+					d.currentViewThread = new DynamicViewThread(d.currentViewHolder, currentView);
+				break;
+				case MODE_FILELOG:
+					d.currentViewThread = new StaticViewThread(d.currentViewHolder, currentView);
+				break;
+				default:
+					System.out.println("Modo no reconocido: " + mode);
+			}
     		currentView.setThread(d.currentViewThread);
 
     		// 2. Start reception thread
-    		// TODO: Parametrize the instance
     		currentManager.configure((DataHolder) Data.getInstance().currentViewThread);
 			currentManager.start();
 			break;
     	}
     }
-    
-    public void initBluetoothVisualization(int phase, ECGView v) {
-    	switch (phase) {
-    	case 0: // Phase 0 - Init
-    		System.out.println("Init Bluetooth Phase 0");
-    		
-	    	// Create Bluetooth Manager
-	    	currentManager = new BluetoothManager();
-	    	
-	    	// Create ECGView
-	    	// 1. Get reference to main content panel
-	    	LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
-	    	menuView = content.getChildAt(0);
-	    	
-	    	// 2. Clear it
-			content.removeAllViews();
-			
-			// 3. Add new Dynamic Surface Holder
-			currentView = new ECGView(getApplicationContext(), null, this);
-			currentView.notifyAboutCreation = MODE_BLUETOOTH;
-	        content.addView(currentView);
-	        
-	        // 4. Wait for dynamicHolder to call this again
-	        break;
-    	case 1: // Phase 1 - Surface available, start the magic!
-    		System.out.println("Init Bluetooth Phase 1");
-    		Data d = Data.getInstance();
-    		
-    		// 1. Instantiate viewthread
-    		d.currentViewThread = new DynamicViewThread(d.currentViewHolder, currentView);
-    		currentView.setThread(d.currentViewThread);
-    		
-    		// 2. Start reception thread
-    		currentManager.configure((DataHolder) Data.getInstance().currentViewThread);
-			currentManager.start();
-			break;
-    	}
-    }
-    
-    // TODO: Delete this motherfucker
-    public void initUSBVisualization(int phase, ECGView v) {
-    	switch (phase) {
-    	case 0: // Phase 0 - Init
-    		System.out.println("Init Bluetooth Phase 0");
-    		
-	    	// Create Bluetooth Manager
-	    	currentManager = new DeviceManager(this);
-	    	
-	    	// Create ECGView
-	    	// 1. Get reference to main content panel
-	    	LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
-	    	menuView = content.getChildAt(0);
-	    	
-	    	// 2. Clear it
-			content.removeAllViews();
-			
-			// 3. Add new Dynamic Surface Holder
-			currentView = new ECGView(getApplicationContext(), null, this);
-			currentView.notifyAboutCreation = MODE_USB;
-	        content.addView(currentView);
-	        
-	        // 4. Wait for dynamicHolder to call this again
-	        break;
-    	case 1: // Phase 1 - Surface available, start the magic!
-    		System.out.println("Init Bluetooth Phase 1");
-    		Data d = Data.getInstance();
-    		
-    		// 1. Instantiate viewthread
-    		d.currentViewThread = new DynamicViewThread(d.currentViewHolder, currentView);
-    		currentView.setThread(d.currentViewThread);
-    		
-    		// 2. Start reception thread
-    		currentManager.configure((DataHolder) Data.getInstance().currentViewThread);
-			currentManager.start();
-			break;
-    	}
-    }
-    
+        
     public void destroyECGView() {
     	if (currentManager != null) {
     		currentManager.stop();
@@ -332,7 +271,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 		menu.add("Detener");
 		menu.add("Más Cosas");
 		menu.add("Salir");
-		menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		//menu.getItem(0).setEnabled(false);
 		return true;
 	}

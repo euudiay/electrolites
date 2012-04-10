@@ -74,6 +74,7 @@ public class FileConverter {
 			s.close();
 		}
 		catch (FileNotFoundException e) {
+			// TODO: Controlar qué pasa en este caso! (Toast y no fallar, o algo)
 			System.err.println("Archivo no encontrado: " + fname);
 			e.printStackTrace();
 		}

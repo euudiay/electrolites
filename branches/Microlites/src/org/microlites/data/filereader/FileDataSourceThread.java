@@ -111,7 +111,7 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 		}
 		
 		while (running) {
-			s_viewstart += (int) Math.floor(hspeed);
+			s_viewstart += (int) android.util.FloatMath.floor(hspeed);
 			s_viewstart = Math.max(0, Math.min(s_viewstart, s_size-s_viewsize-1));
 			s_viewend = s_viewstart + s_viewsize;
 			

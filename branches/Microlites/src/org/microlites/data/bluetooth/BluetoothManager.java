@@ -80,6 +80,8 @@ public class BluetoothManager implements DataManager {
 
         setState(STATE_LISTEN);
         
+        // TODO: Control bA == null
+        
      // Si estamos realizando descubrimiento, paramos
         if (bA.isDiscovering()) {
         	bA.cancelDiscovery();
