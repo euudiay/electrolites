@@ -77,11 +77,6 @@ public class DynamicViewThread extends AnimationThread
 		initData(); 
 	}
 	
-	@Override
-	protected void onUpdate() {
-		super.onUpdate();
-	}
-	
 	public void onRender(Canvas canvas) {
 		if (canvas == null || dvport == null || Data.getInstance().pause)
 			return;
@@ -105,7 +100,7 @@ public class DynamicViewThread extends AnimationThread
 			canvas.drawLine(left, top, left, bottom, textPaint);
 			
 			// Upper scale part
-			int divisions = (int) Math.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
+			int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
 			
 			canvas.drawLine(left, dvport.baselinePxY, right+5, dvport.baselinePxY, textPaint);
 			textPaint.setStrokeWidth(1.f);
@@ -114,7 +109,7 @@ public class DynamicViewThread extends AnimationThread
 			}
 			
 			// Lower part
-			divisions = (int) Math.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
 			
 			for (int i = 1; i <= divisions; i++) {
 				canvas.drawLine(left, dvport.baselinePxY+i*1000*dvport.vFactor, right+5, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
@@ -205,7 +200,7 @@ public class DynamicViewThread extends AnimationThread
 			canvas.drawLine(right, top, right, bottom, textPaint);
 		
 		// Render text labels 
-			divisions = (int) Math.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
 			
 			canvas.drawText("0.0", left-2, dvport.baselinePxY, textPaint);
 			for (int i = 0; i <= divisions; i++) {
@@ -213,7 +208,7 @@ public class DynamicViewThread extends AnimationThread
 			}
 			
 			// Lower part
-			divisions = (int) Math.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
 			
 			for (int i = 1; i <= divisions; i++) {
 				canvas.drawText("" + (float) -i, left-2, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);

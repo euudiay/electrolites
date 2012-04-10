@@ -28,20 +28,7 @@ public class ECGView extends AnimationView {
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		Data.getInstance().currentViewHolder = holder;
-		
-		switch (notifyAboutCreation) {
-		case MicrolitesActivity.MODE_BLUETOOTH:
-			currentActivity.initBluetoothVisualization(1, this);
-			break;
-		case MicrolitesActivity.MODE_FILELOG:
-			currentActivity.initVisualization(1, this);
-			break;
-		case MicrolitesActivity.MODE_USB:
-			currentActivity.initUSBVisualization(1, this);
-			break;
-		default:
-			System.err.println("Visualization Init failed: Unkown code");
-		}
+		currentActivity.initVisualization(notifyAboutCreation, 1, this);
 	}
 
 	@Override

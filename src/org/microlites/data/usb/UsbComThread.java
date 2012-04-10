@@ -89,7 +89,7 @@ public class UsbComThread extends DataSourceThread {
 							//Apa??o para poder ver por pantalla algo coherente y comprobar si funcionaba bien
 							parser.step((byte) 0xda);
 							parser.step((byte) 0x00);
-							parser.step((byte) buffer.array()[i]);
+							parser.step(buffer.array()[i]);
 						}
 					}
 					buffer.clear();

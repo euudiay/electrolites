@@ -19,11 +19,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-	    	<LinearLayout
-			    xmlns:android="http://schemas.android.com/apk/res/android"
-		        android:layout_width="fill_parent"
-		        android:layout_height="fill_parent">
-
 				<TableLayout
 				    android:id="@+id/tableLayout1"
 				    android:layout_width="match_parent"
@@ -36,15 +31,15 @@
 		
 				        <Button
 				            android:id="@+id/startBluetoothButton"
-				            android:text="Bluetooth" />
+				            android:text="@string/bluetoothButtonLabel"/>
 				        
 				        <Button
 				            android:id="@+id/startUsbButton"
-				            android:text="USB" />
+				            android:text="@string/usbButtonLabel" />
 		
 				        <Button
 				            android:id="@+id/startLogButton"
-				            android:text="Cargar Log"
+				            android:text="@string/fileLogButtonLabel"
 				            />
 				        
 				    </TableRow>
@@ -59,20 +54,17 @@
 				            android:id="@+id/textView1"
 				            android:layout_width="wrap_content"
 				            android:layout_height="wrap_content"
-				            android:text="Ancho en segundos: 1.5"
+				            android:text="@string/viewWidthFullLabel"
 				            android:textAppearance="?android:attr/textAppearanceMedium" />
 
 				        <SeekBar
 				            android:id="@+id/seekBar1"
-				            android:text="ASD!"
-				            android:layout_width="256px"
+				            android:layout_width="256dp"
 				            android:layout_height="wrap_content" />
 
 				    </TableRow>
 		
 				</TableLayout>
-	
-		    </LinearLayout>
 				    
     </LinearLayout>
 
