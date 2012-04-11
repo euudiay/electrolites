@@ -53,9 +53,11 @@ public class StaticViewThread extends AnimationThread
 		textPaint.setARGB(200, 100, 255, 100);
 		textPaint.setStrokeWidth(2.f);
 		textPaint.setTextAlign(Align.RIGHT);
+		textPaint.setAntiAlias(true);
 		
 		// ECG Paint will be configured while on use
 		ecgPaint = new Paint();
+		ecgPaint.setAntiAlias(true);
 		
 		// Theme-gray Rectangles 
 		rectPaint = new Paint();
@@ -153,7 +155,7 @@ public class StaticViewThread extends AnimationThread
 		// Render samples
 			ecgPaint.setColor(Color.rgb(59, 250, 59));
 			ecgPaint.setAlpha((int) (255*0.9));
-			ecgPaint.setStrokeWidth(2.f);
+			ecgPaint.setStrokeWidth(2.5f);
             
 			float dpoints = dvport.vpPxWidth / ((float) s_size);
 			if (dpoints <= 0) {
@@ -191,10 +193,10 @@ public class StaticViewThread extends AnimationThread
 
 			for (int i = 0; i < ammount; i++) {
 				ii = (dp_start + i);
-				if (dp_sample[ii] < 0 || dp_sample[ii] < s_index[s_start] || 
-					dp_sample[ii] > s_index[s_end]) {
-					// dp_sample[ii] = -1;
-					continue;
+				if (dp_sample[ii] < 0 || dp_sample[ii] < s_index[s_start])
+					continue; 
+				else if (dp_sample[ii] > s_index[s_end]) {
+					break;
 				}
 				
 				indexDistance = dp_sample[ii] - s_index[s_start];
@@ -221,16 +223,16 @@ public class StaticViewThread extends AnimationThread
 			}
 		
 		// Render frame
-			canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
-			canvas.drawRect(0, dvport.vpPxY+dvport.vpPxHeight+1, view.getWidth(), view.getHeight(), rectPaint);
-			canvas.drawRect(0, 0, left, view.getHeight(), rectPaint);
-			canvas.drawRect(right, 0,view. getWidth(), view.getHeight(), rectPaint);
+			// canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
+			// canvas.drawRect(0, dvport.vpPxY+dvport.vpPxHeight+1, view.getWidth(), view.getHeight(), rectPaint);
+			// canvas.drawRect(0, 0, left, view.getHeight(), rectPaint);
+			// canvas.drawRect(right, 0,view. getWidth(), view.getHeight(), rectPaint);
 			
-			textPaint.setStrokeWidth(2.f);
-			canvas.drawLine(left, top, right, top, textPaint);
-			canvas.drawLine(left, top, left, bottom, textPaint);
-			canvas.drawLine(left, bottom, right, bottom, textPaint);
-			canvas.drawLine(right, top, right, bottom, textPaint);
+			// textPaint.setStrokeWidth(2.f);
+			// canvas.drawLine(left, top, right, top, textPaint);
+			// canvas.drawLine(left, top, left, bottom, textPaint);
+			// canvas.drawLine(left, bottom, right, bottom, textPaint);
+			// canvas.drawLine(right, top, right, bottom, textPaint);
 		
 		// Render text labels 
 			divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
