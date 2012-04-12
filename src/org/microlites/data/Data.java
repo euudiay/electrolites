@@ -24,6 +24,7 @@ public class Data {
 	public AnimationThread currentViewThread = null;
 	public SurfaceHolder currentViewHolder = null;
 	public boolean pause = false;
+	public float yScaleFactor = 12000.0f;
 	
 	protected Data() {
 		// TODO: Data initialization
