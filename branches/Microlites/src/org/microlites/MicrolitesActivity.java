@@ -81,19 +81,19 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     		bar.setProgress(50);
     		
     		bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-				@Override
+				//@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {
 					// TODO Auto-generated method stub
 					
 				}
 				
-				@Override
+				//@Override
 				public void onStartTrackingTouch(SeekBar seekBar) {
 					// TODO Auto-generated method stub
 					
 				}
 				
-				@Override
+				//@Override
 				public void onProgressChanged(SeekBar seekBar, int progress,
 						boolean fromUser) {
 					int max = seekBar.getMax();
@@ -124,7 +124,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	        
 	        Button logButton = (Button) findViewById(R.id.startLogButton);
 	        logButton.setOnClickListener(new OnClickListener() {
-				@Override
+				//@Override
 				public void onClick(View v) {
 					initVisualization(MODE_FILELOG, 0, null);
 				}
@@ -227,7 +227,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
         return gestureScanner.onTouchEvent(me);
     }
     
-    @Override
+    //@Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
     {
     	if (currentView != null)
@@ -235,31 +235,31 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
         return true;
     }
 
-	@Override
+	//@Override
 	public boolean onDown(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
-	@Override
+	//@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
-	@Override
+	//@Override
 	public void onLongPress(MotionEvent e) {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
+	//@Override
 	public void onShowPress(MotionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		Data.getInstance().pause = !Data.getInstance().pause;

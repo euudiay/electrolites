@@ -99,7 +99,7 @@ public class DeviceManager implements DataManager {
         	Toast.makeText(context, "No devices attached.", Toast.LENGTH_SHORT).show();
 	}
 	
-	@Override
+	//@Override
 	public void stop() {
 		// Terminamos la actividad del thread de comunicaci??n
 		if (thread != null)
@@ -163,7 +163,7 @@ public class DeviceManager implements DataManager {
 	    }
 	}
 
-	@Override
+	//@Override
 	public void configure(DataHolder dataHolder) {
 		this.dataHolder = dataHolder;
 	}
