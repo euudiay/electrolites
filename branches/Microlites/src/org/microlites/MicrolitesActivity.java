@@ -262,16 +262,20 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	//@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
-		Data.getInstance().pause = !Data.getInstance().pause;
+		// Data.getInstance().pause = !Data.getInstance().pause;
 		return true;
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Zoom");
+		menu.add("Shrink");
 		menu.add("Detener");
 		menu.add("Más Cosas");
 		menu.add("Salir");
 		menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		menu.getItem(1).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		menu.getItem(2).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		//menu.getItem(0).setEnabled(false);
 		return true;
 	}
@@ -281,6 +285,10 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	    // Handle item selection
 	    if (item.getTitle().equals("Detener")) {
             destroyECGView();
+	    } else if (item.getTitle().equals("Shrink")) {
+	    	Data.getInstance().yScaleFactor *= 1.5f; 
+	    } else if (item.getTitle().equals("Zoom")) {
+	    	Data.getInstance().yScaleFactor /= 1.5f;
 	    } else if (item.getTitle().equals("Salir")){
 	    	finish();
 	    } else {

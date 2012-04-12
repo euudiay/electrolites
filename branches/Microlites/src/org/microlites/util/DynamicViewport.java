@@ -17,6 +17,7 @@ public class DynamicViewport {
 	public int areaOffset;			// TODO: Document these 
 	public int lastOffset;			// TODO: Document these
 	public float verticalThreshold;	// TODO: Document these
+	public float max;				// Max Wave Height (used to calc vFactor)
 	
 	public Data data;				// Application data holder
 	
@@ -45,10 +46,10 @@ public class DynamicViewport {
 	public void updateParameters() {
 		synchronized (data.mutex) {
 			baselinePxY = vpPxY + vpPxHeight*data.drawBaseHeight;
+			max = data.yScaleFactor;
 		}
 		
 		float top = vpPxHeight*0.85f;
-		float max = 12000f;
 		vFactor = top/max;
 	}
 }

@@ -45,12 +45,14 @@ public class StaticViewThread extends AnimationThread
 		
 		/* Prepare renderers */
 		// Black background
-		bgColor = Color.rgb(0, 0, 0);
-		dpGray = Color.rgb(180, 180, 140);
+		bgColor = Color.rgb(255-0, 255-0, 255-0);
+		//dpGray = Color.rgb(255-180, 255-180, 255-140);
+		dpGray = Color.rgb(40, 40, 40);
 		
 		// Green Text
 		textPaint = new Paint();
-		textPaint.setARGB(200, 100, 255, 100);
+		// textPaint.setARGB(200, 100, 255, 100);
+		textPaint.setColor(Color.rgb(100, 255, 100));
 		textPaint.setStrokeWidth(2.f);
 		textPaint.setTextAlign(Align.RIGHT);
 		textPaint.setAntiAlias(true);
@@ -137,12 +139,13 @@ public class StaticViewThread extends AnimationThread
 			canvas.drawLine(left, top, left, bottom, textPaint);
 			
 			// Upper scale part
-			int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
+			float groups = ((dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor);
+			int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / groups);
 			
 			canvas.drawLine(left, dvport.baselinePxY, right+5, dvport.baselinePxY, textPaint);
 			textPaint.setStrokeWidth(1.f);
 			for (int i = 0; i <= divisions; i++) {
-				canvas.drawLine(left, dvport.baselinePxY-i*1000*dvport.vFactor, right+5, dvport.baselinePxY-i*1000*dvport.vFactor, textPaint);
+				canvas.drawLine(left, dvport.baselinePxY-i*(dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor, right+5, dvport.baselinePxY-i*(dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor, textPaint);
 			}
 			
 			// Lower part
@@ -153,9 +156,9 @@ public class StaticViewThread extends AnimationThread
 			}
 		
 		// Render samples
-			ecgPaint.setColor(Color.rgb(59, 250, 59));
-			ecgPaint.setAlpha((int) (255*0.9));
-			ecgPaint.setStrokeWidth(2.5f);
+			ecgPaint.setColor(Color.rgb(250, 59, 59));
+			// ecgPaint.setAlpha((int) (255*0.9));
+			ecgPaint.setStrokeWidth(3.0f);
             
 			float dpoints = dvport.vpPxWidth / ((float) s_size);
 			if (dpoints <= 0) {
@@ -223,7 +226,7 @@ public class StaticViewThread extends AnimationThread
 			}
 		
 		// Render frame
-			 canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
+			 /*canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
 			 canvas.drawRect(0, dvport.vpPxY+dvport.vpPxHeight+1, view.getWidth(), view.getHeight(), rectPaint);
 			 canvas.drawRect(0, 0, left, view.getHeight(), rectPaint);
 			 canvas.drawRect(right, 0,view. getWidth(), view.getHeight(), rectPaint);
@@ -232,7 +235,7 @@ public class StaticViewThread extends AnimationThread
 			 canvas.drawLine(left, top, right, top, textPaint);
 			 canvas.drawLine(left, top, left, bottom, textPaint);
 			 canvas.drawLine(left, bottom, right, bottom, textPaint);
-			 canvas.drawLine(right, top, right, bottom, textPaint);
+			 canvas.drawLine(right, top, right, bottom, textPaint);*/
 		
 		// Render text labels 
 			divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
