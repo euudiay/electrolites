@@ -18,21 +18,21 @@ public class FileManager implements DataManager {
 		
 	}
 	
-	@Override
+	//@Override
 	public void configure(DataHolder dataHolder) {
 		File root = Environment.getExternalStorageDirectory();
 		//File path = new File(root, "/Download/raw-1903-2012_13-19.txt");
 		path = new File(root, "/Download/a.log");
 	}
 
-	@Override
+	//@Override
 	public void start() {
 		dataSource = new FileDataSourceThread(null, path.getAbsolutePath());
 		dataSource.start();
 		((StaticViewThread) Data.getInstance().currentViewThread).setDataSource(dataSource);
 	}
 
-	@Override
+	//@Override
 	public void stop() {
 		boolean retry = true;
 		while (retry) {

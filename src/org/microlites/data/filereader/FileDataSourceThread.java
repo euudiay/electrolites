@@ -42,6 +42,7 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	
 	public float hspeed;					// Horizontal scrolling speed
 	public float hacc;						// Horizontal scrolling deceleration
+	public boolean forcedMovement;			// Should not apply deceleration
 	
 	public boolean running;					// Running flag 
 	
@@ -54,6 +55,7 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 		
 		hspeed = 0;
 		hacc = 0.2f;
+		forcedMovement = false;
 	}
 
 	public void setViewSamplesSize(int size) {
@@ -62,7 +64,12 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	}
 	
 	public void handleScroll(float distX) {
-		hspeed = distX/2;
+		//System.out.println("distX: " + distX);
+		if (Math.abs(distX) < 20)
+			forcedMovement = true;
+		else
+			forcedMovement = false;
+		hspeed = distX*0.1f;
 	}
 	
 	public void finish() {
@@ -118,12 +125,14 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 			if (s_viewstart == 0 || s_viewend >= s_size-1)
 				hspeed = 0;
 			
-			if (Math.abs(hspeed) <= hacc)
-				hspeed = 0;
-			else if (hspeed > 0)
-				hspeed -= hacc;
-			else if (hspeed < 0)
-				hspeed += hacc;
+			if (!forcedMovement) {
+				if (Math.abs(hspeed) <= hacc)
+					hspeed = 0;
+				else if (hspeed > 0)
+					hspeed -= hacc;
+				else if (hspeed < 0)
+					hspeed += hacc;
+			}
 			
 			try {
 				sleep(4);
@@ -134,7 +143,7 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	}
 	
 	/* DataHolder Implementation for storing parsing result*/
-	@Override
+	//@Override
 	public void initData() {
 		// Arrays are initialized to arbitrary sizes
 		s_size = stream.length/2;
@@ -150,7 +159,7 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	}
 
 
-	@Override
+	//@Override
 	public void addSample(int index, short sample) {
 		s_index[s_current] = index;
 		s_amplitude[s_current] = sample;
@@ -172,7 +181,7 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	}
 
 
-	@Override
+	//@Override
 	public void addDPoint(int sample, short type, short wave) {
 		dp_sample[dp_current] = sample;
 		dp_type[dp_current] = type;
@@ -200,14 +209,14 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	}
 
 
-	@Override
+	//@Override
 	public void handleOffset(int offset) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
-	@Override
+	//@Override
 	public void handleHBR(float hbr) {
 		// TODO Auto-generated method stub
 		

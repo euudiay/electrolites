@@ -223,16 +223,16 @@ public class StaticViewThread extends AnimationThread
 			}
 		
 		// Render frame
-			// canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
-			// canvas.drawRect(0, dvport.vpPxY+dvport.vpPxHeight+1, view.getWidth(), view.getHeight(), rectPaint);
-			// canvas.drawRect(0, 0, left, view.getHeight(), rectPaint);
-			// canvas.drawRect(right, 0,view. getWidth(), view.getHeight(), rectPaint);
+			 canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
+			 canvas.drawRect(0, dvport.vpPxY+dvport.vpPxHeight+1, view.getWidth(), view.getHeight(), rectPaint);
+			 canvas.drawRect(0, 0, left, view.getHeight(), rectPaint);
+			 canvas.drawRect(right, 0,view. getWidth(), view.getHeight(), rectPaint);
 			
-			// textPaint.setStrokeWidth(2.f);
-			// canvas.drawLine(left, top, right, top, textPaint);
-			// canvas.drawLine(left, top, left, bottom, textPaint);
-			// canvas.drawLine(left, bottom, right, bottom, textPaint);
-			// canvas.drawLine(right, top, right, bottom, textPaint);
+			 textPaint.setStrokeWidth(2.f);
+			 canvas.drawLine(left, top, right, top, textPaint);
+			 canvas.drawLine(left, top, left, bottom, textPaint);
+			 canvas.drawLine(left, bottom, right, bottom, textPaint);
+			 canvas.drawLine(right, top, right, bottom, textPaint);
 		
 		// Render text labels 
 			divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
@@ -268,7 +268,7 @@ public class StaticViewThread extends AnimationThread
 	}
 	
 	/* StaticDataHolder implementation */
-	@Override
+	//@Override
 	public void setSamplesArrays(int[] indexes, short[] amplitudes, 
 								 int from, int to, int size) {
 		/*s_start = from;
@@ -300,25 +300,25 @@ public class StaticViewThread extends AnimationThread
 		samplePoints = new float[s_size*4];
 	}
 
-	@Override
+	//@Override
 	public void addSample(int index, short sample) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public void addDPoint(int sample, short type, short wave) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public void handleOffset(int offset) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public void handleHBR(float hbr) {
 		// TODO Auto-generated method stub
 		

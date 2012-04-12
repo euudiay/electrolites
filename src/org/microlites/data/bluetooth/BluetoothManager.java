@@ -269,17 +269,17 @@ public class BluetoothManager implements DataManager {
         r.write(bytes);
 	}
 
-	@Override
+	//@Override
 	public void configure(DataHolder dataHolder) {
 		this.dataHolder = dataHolder;
 	}
 
-	@Override
+	//@Override
 	public void start() {
 		startRunning("FireFly-3781", this.dataHolder);
 	}
 
-	@Override
+	//@Override
 	public void stop() {
 		stopRunning();
 	}
