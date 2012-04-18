@@ -3,6 +3,7 @@ package org.microlites.data.usb;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.microlites.MicrolitesActivity;
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 
@@ -48,6 +49,8 @@ public class DeviceManager implements DataManager {
 		this.activity = activity;
 		context = activity.getApplicationContext();
 		usbManager = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
+		
+		MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_USB, 1, null);
 	}
 	
 	public void start() {

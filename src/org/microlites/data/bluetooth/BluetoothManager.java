@@ -3,6 +3,7 @@ package org.microlites.data.bluetooth;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.microlites.MicrolitesActivity;
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.data.DataSourceThread;
@@ -58,6 +59,8 @@ public class BluetoothManager implements DataManager {
 		connectT = null;
 		connectedT = null;
 		dataHolder = null;
+		
+		MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_BLUETOOTH, 1, null);
 	}
 
 	public void startRunning(String deviceName, DataHolder thread) {

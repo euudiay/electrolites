@@ -40,6 +40,7 @@ public class DynamicViewThread extends AnimationThread
 	protected Paint ecgPaint;						// ECG Render paint instance
 	protected Paint rectPaint;						// Rectangle paint instance
 	
+	protected int samplesColor;						// Samples color
 	protected int bgColor;							// Background color
 	protected int dpGray;							// DPoint render gray
 	
@@ -57,17 +58,23 @@ public class DynamicViewThread extends AnimationThread
 		
 		/* Prepare renderers */
 		// Black background
-		bgColor = Color.rgb(0, 0, 0);
-		dpGray = Color.rgb(180, 180, 140);
+		// Samples color
+		samplesColor = Color.rgb(250, 59, 59);
+		// Black background
+		bgColor = Color.rgb(239, 239, 239);
+		//dpGray = Color.rgb(255-180, 255-180, 255-140);
+		dpGray = Color.rgb(40, 40, 40);
 		
 		// Green Text
 		textPaint = new Paint();
-		textPaint.setARGB(200, 100, 255, 100);
+		textPaint.setColor(Color.rgb(100, 255, 100));
 		textPaint.setStrokeWidth(2.f);
 		textPaint.setTextAlign(Align.RIGHT);
+		textPaint.setAntiAlias(true);
 		
 		// ECG Paint will be configured while on use
 		ecgPaint = new Paint();
+		ecgPaint.setAntiAlias(true);
 		
 		// Theme-gray Rectangles 
 		rectPaint = new Paint();
@@ -100,25 +107,25 @@ public class DynamicViewThread extends AnimationThread
 			canvas.drawLine(left, top, left, bottom, textPaint);
 			
 			// Upper scale part
-			int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
+			float delta = (dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor;
+			int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / delta);
 			
 			canvas.drawLine(left, dvport.baselinePxY, right+5, dvport.baselinePxY, textPaint);
 			textPaint.setStrokeWidth(1.f);
 			for (int i = 0; i <= divisions; i++) {
-				canvas.drawLine(left, dvport.baselinePxY-i*1000*dvport.vFactor, right+5, dvport.baselinePxY-i*1000*dvport.vFactor, textPaint);
+				canvas.drawLine(left, dvport.baselinePxY-i*delta, right+5, dvport.baselinePxY-i*delta, textPaint);
 			}
 			
 			// Lower part
-			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / delta);
 			
 			for (int i = 1; i <= divisions; i++) {
-				canvas.drawLine(left, dvport.baselinePxY+i*1000*dvport.vFactor, right+5, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
+				canvas.drawLine(left, dvport.baselinePxY+i*delta, right+5, dvport.baselinePxY+i*delta, textPaint);
 			}
 		
 		// Render samples
-			ecgPaint.setColor(Color.rgb(59, 250, 59));
-			ecgPaint.setAlpha((int) (255*0.9));
-			ecgPaint.setStrokeWidth(2.f);
+			ecgPaint.setColor(samplesColor);
+			ecgPaint.setStrokeWidth(3.f);
             
 			float dpoints = dvport.vpPxWidth / ((float) s_size);
 			if (dpoints <= 0) {
@@ -181,37 +188,38 @@ public class DynamicViewThread extends AnimationThread
 					else if (dp_wave[ii] == WAVE_T)
 						ecgPaint.setColor(Color.YELLOW);
 				}
-				ecgPaint.setStrokeWidth(1);
+				ecgPaint.setStrokeWidth(2);
 				
-				
-				canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.vpPxY+dvport.vpPxHeight, ecgPaint);
+				canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.baselinePxY - s_amplitude[sampleIndex]*dvport.vFactor, ecgPaint);
+				//canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.vpPxY+dvport.vpPxHeight, ecgPaint);
 			}
 		
 		// Render frame
+			rectPaint.setColor(bgColor);
 			canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
 			canvas.drawRect(0, dvport.vpPxY+dvport.vpPxHeight+1, view.getWidth(), view.getHeight(), rectPaint);
 			canvas.drawRect(0, 0, left, view.getHeight(), rectPaint);
 			canvas.drawRect(right, 0,view. getWidth(), view.getHeight(), rectPaint);
 			
-			textPaint.setStrokeWidth(2.f);
+			/*textPaint.setStrokeWidth(2.f);
 			canvas.drawLine(left, top, right, top, textPaint);
 			canvas.drawLine(left, top, left, bottom, textPaint);
 			canvas.drawLine(left, bottom, right, bottom, textPaint);
-			canvas.drawLine(right, top, right, bottom, textPaint);
+			canvas.drawLine(right, top, right, bottom, textPaint);*/
 		
 		// Render text labels 
-			divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / delta);
 			
 			canvas.drawText("0.0", left-2, dvport.baselinePxY, textPaint);
 			for (int i = 0; i <= divisions; i++) {
-				canvas.drawText("" + (float) i, left-2, dvport.baselinePxY-i*1000*dvport.vFactor, textPaint);
+				canvas.drawText("" + (float) i, left-2, dvport.baselinePxY-i*delta, textPaint);
 			}
 			
 			// Lower part
-			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / delta);
 			
 			for (int i = 1; i <= divisions; i++) {
-				canvas.drawText("" + (float) -i, left-2, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
+				canvas.drawText("" + (float) -i, left-2, dvport.baselinePxY+i*delta, textPaint);
 			}
 			
 		// Render HBR Label
@@ -328,7 +336,7 @@ public class DynamicViewThread extends AnimationThread
 	}
 	
 	@Override
-	public void handleScroll(float distX, float distY) {
+	public void handleScroll(float distX, float distY, float x, float y) {
 		Data.getInstance().drawBaseHeight -= distY*0.002;
 	}
 }

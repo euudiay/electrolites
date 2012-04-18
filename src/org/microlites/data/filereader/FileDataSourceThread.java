@@ -64,11 +64,16 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	}
 	
 	public void handleScroll(float distX) {
-		//System.out.println("distX: " + distX);
+		boolean forced;
 		if (Math.abs(distX) < 20)
-			forcedMovement = true;
+			forced = true;
 		else
-			forcedMovement = false;
+			forced = false;
+		handleScroll(distX, forced);
+	}
+	
+	public void handleScroll(float distX, boolean forced) {
+		forcedMovement = forced;
 		hspeed = distX*0.1f;
 	}
 	
@@ -118,7 +123,8 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 		}
 		
 		while (running) {
-			s_viewstart += (int) android.util.FloatMath.floor(hspeed);
+			//s_viewstart += (int) android.util.FloatMath.floor(hspeed);
+			s_viewstart += (int) Math.round(hspeed);
 			s_viewstart = Math.max(0, Math.min(s_viewstart, s_size-s_viewsize-1));
 			s_viewend = s_viewstart + s_viewsize;
 			
@@ -132,6 +138,8 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 					hspeed -= hacc;
 				else if (hspeed < 0)
 					hspeed += hacc;
+			} else {
+				forcedMovement = false;
 			}
 			
 			try {

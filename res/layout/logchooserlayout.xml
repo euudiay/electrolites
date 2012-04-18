@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation = "horizontal">
+
+	
+	<LinearLayout
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="match_parent"
+   	    android:orientation="vertical" >
+
+    	<TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Visor de Logs de ECG - Seleccione un archivo para comenzar"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="640dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="16sp" >
+
+        </ListView>
+
+    </LinearLayout>
+	<LinearLayout
+   	android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+		<TextView
+			android:id="@+id/textView2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Opciones"
+			android:textAppearance="?android:attr/textAppearanceMedium" />
+
+		<CheckBox
+		    android:id="@+id/checkBox1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Micchán" />
+
+		<CheckBox
+		    android:id="@+id/checkBox2"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="RafRaf" />
+
+		<CheckBox
+		    android:id="@+id/checkBox3"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Pferv" />
+			
+    </LinearLayout>
+
+</LinearLayout>
