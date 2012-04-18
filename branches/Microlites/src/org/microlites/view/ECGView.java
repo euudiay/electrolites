@@ -28,7 +28,7 @@ public class ECGView extends AnimationView {
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		Data.getInstance().currentViewHolder = holder;
-		currentActivity.initVisualization(notifyAboutCreation, 1, this);
+		currentActivity.initVisualization(notifyAboutCreation, 2, this);
 	}
 
 	@Override
@@ -46,9 +46,9 @@ public class ECGView extends AnimationView {
 		}
 	}
 	
-	public void handleScroll(float distX, float distY) {
+	public void handleScroll(float distX, float distY, float x, float y) {
 		if (thread != null)
-			thread.handleScroll(distX, distY);
+			thread.handleScroll(distX, distY, x, y);
 	}
 	
 	public AnimationThread getThread() {

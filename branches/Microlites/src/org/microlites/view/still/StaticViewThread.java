@@ -29,6 +29,7 @@ public class StaticViewThread extends AnimationThread
 	protected Paint ecgPaint;						// ECG Render paint instance
 	protected Paint rectPaint;						// Rectangle paint instance
 	
+	protected int samplesColor;						// Samples Color
 	protected int bgColor;							// Background color
 	protected int dpGray;							// DPoint render gray
 	
@@ -44,14 +45,15 @@ public class StaticViewThread extends AnimationThread
 								   (view.getHeight() - dvport.vpPxHeight)/2);
 		
 		/* Prepare renderers */
+		// Samples color
+		samplesColor = Color.rgb(250, 59, 59);
 		// Black background
-		bgColor = Color.rgb(255-0, 255-0, 255-0);
+		bgColor = Color.rgb(239, 239, 239);
 		//dpGray = Color.rgb(255-180, 255-180, 255-140);
 		dpGray = Color.rgb(40, 40, 40);
 		
 		// Green Text
 		textPaint = new Paint();
-		// textPaint.setARGB(200, 100, 255, 100);
 		textPaint.setColor(Color.rgb(100, 255, 100));
 		textPaint.setStrokeWidth(2.f);
 		textPaint.setTextAlign(Align.RIGHT);
@@ -83,9 +85,19 @@ public class StaticViewThread extends AnimationThread
 	}
 	
 	@Override
-	public void handleScroll(float distX, float distY) {
-		Data.getInstance().drawBaseHeight -= distY*0.002;
-		dataSource.handleScroll(distX);
+	public void handleScroll(float distX, float distY, float x, float y) {
+		if (y < dvport.vpPxY + dvport.vpPxHeight) {
+			// Upper area
+			Data.getInstance().drawBaseHeight -= distY*0.002;
+			dataSource.handleScroll(distX);
+		} else {
+			// Lower area (Minimap)
+			int left = dvport.vpPxX;
+			int right = dvport.vpPxX + dvport.vpPxWidth;
+			float width = (right - left)/2;
+			if (x >= left + width / 2 && x <= right - width/2)
+				dataSource.handleScroll(-distX*dataSource.s_viewsize/2, true);
+		}
 	}
 	
 	@Override
@@ -124,6 +136,7 @@ public class StaticViewThread extends AnimationThread
 			short[] s_amplitude = dataSource.s_amplitude;
 			s_start = dataSource.s_viewstart;
 			s_end = dataSource.s_viewend;
+			int s_ssize = dataSource.s_size;
 			
 			int[] dp_sample = dataSource.dp_sample;
 			short[] dp_type = dataSource.dp_type;
@@ -139,24 +152,24 @@ public class StaticViewThread extends AnimationThread
 			canvas.drawLine(left, top, left, bottom, textPaint);
 			
 			// Upper scale part
-			float groups = ((dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor);
-			int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / groups);
+			float delta = (dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor;
+			int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / delta);
 			
 			canvas.drawLine(left, dvport.baselinePxY, right+5, dvport.baselinePxY, textPaint);
 			textPaint.setStrokeWidth(1.f);
 			for (int i = 0; i <= divisions; i++) {
-				canvas.drawLine(left, dvport.baselinePxY-i*(dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor, right+5, dvport.baselinePxY-i*(dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor, textPaint);
+				canvas.drawLine(left, dvport.baselinePxY-i*delta, right+5, dvport.baselinePxY-i*delta, textPaint);
 			}
 			
 			// Lower part
-			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / delta);
 			
 			for (int i = 1; i <= divisions; i++) {
-				canvas.drawLine(left, dvport.baselinePxY+i*1000*dvport.vFactor, right+5, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
+				canvas.drawLine(left, dvport.baselinePxY+i*delta, right+5, dvport.baselinePxY+i*delta, textPaint);
 			}
 		
 		// Render samples
-			ecgPaint.setColor(Color.rgb(250, 59, 59));
+			ecgPaint.setColor(samplesColor);
 			// ecgPaint.setAlpha((int) (255*0.9));
 			ecgPaint.setStrokeWidth(3.0f);
             
@@ -164,9 +177,9 @@ public class StaticViewThread extends AnimationThread
 			if (dpoints <= 0) {
 				System.err.println("No usable quantity of samples found. Please note, this error should not have popped.");
 			} else {
-				int ammount = s_end - s_start;
+				int ammount = Math.min(s_end - s_start, s_index.length);
 				int ii = -1;
-				for (int i = 0; i < ammount; i++) {
+				for (int i = 0; i < ammount-1; i++) {
 					ii = (s_start + i);
 					if (i == 0) {
 						samplePoints[i] = dvport.vpPxX;
@@ -196,11 +209,11 @@ public class StaticViewThread extends AnimationThread
 
 			for (int i = 0; i < ammount; i++) {
 				ii = (dp_start + i);
-				if (dp_sample[ii] < 0 || dp_sample[ii] < s_index[s_start])
+				if (dp_sample[ii] < 0 || dp_sample[ii] < s_index[s_start] || dp_sample[ii] > s_index[s_end])
 					continue; 
-				else if (dp_sample[ii] > s_index[s_end]) {
+				/*else if (dp_sample[ii] > s_index[s_end]) {
 					break;
-				}
+				}*/
 				
 				indexDistance = dp_sample[ii] - s_index[s_start];
 				sampleIndex = (s_start + indexDistance) % s_size;
@@ -219,37 +232,38 @@ public class StaticViewThread extends AnimationThread
 					else if (dp_wave[ii] == WAVE_T)
 						ecgPaint.setColor(Color.YELLOW);
 				}
-				ecgPaint.setStrokeWidth(1);
+				ecgPaint.setStrokeWidth(2);
 				
-				
-				canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.vpPxY+dvport.vpPxHeight, ecgPaint);
+				canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.baselinePxY - s_amplitude[sampleIndex]*dvport.vFactor, ecgPaint);
+				// canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.vpPxY+dvport.vpPxHeight, ecgPaint);
 			}
 		
 		// Render frame
-			 /*canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
+			rectPaint.setColor(bgColor);
+			 canvas.drawRect(0, 0, view.getWidth(), dvport.vpPxY-1, rectPaint);
 			 canvas.drawRect(0, dvport.vpPxY+dvport.vpPxHeight+1, view.getWidth(), view.getHeight(), rectPaint);
 			 canvas.drawRect(0, 0, left, view.getHeight(), rectPaint);
 			 canvas.drawRect(right, 0,view. getWidth(), view.getHeight(), rectPaint);
 			
-			 textPaint.setStrokeWidth(2.f);
+			 /*textPaint.setStrokeWidth(2.f);
 			 canvas.drawLine(left, top, right, top, textPaint);
 			 canvas.drawLine(left, top, left, bottom, textPaint);
 			 canvas.drawLine(left, bottom, right, bottom, textPaint);
 			 canvas.drawLine(right, top, right, bottom, textPaint);*/
 		
 		// Render text labels 
-			divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / delta);
 			
 			canvas.drawText("0.0", left-2, dvport.baselinePxY, textPaint);
 			for (int i = 0; i <= divisions; i++) {
-				canvas.drawText("" + (float) i, left-2, dvport.baselinePxY-i*1000*dvport.vFactor, textPaint);
+				canvas.drawText("" + (float) i, left-2, dvport.baselinePxY-i*delta, textPaint);
 			}
 			
 			// Lower part
-			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / (1000*dvport.vFactor));
+			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / delta);
 			
 			for (int i = 1; i <= divisions; i++) {
-				canvas.drawText("" + (float) -i, left-2, dvport.baselinePxY+i*1000*dvport.vFactor, textPaint);
+				canvas.drawText("" + (float) -i, left-2, dvport.baselinePxY+i*delta, textPaint);
 			}
 			
 		// Render HBR Label
@@ -258,13 +272,21 @@ public class StaticViewThread extends AnimationThread
 			// canvas.drawText("HBR: " + hbr_current, right, bottom + 16, textPaint);
 			// textPaint.setTextAlign(Align.CENTER);
 			// canvas.drawText("No se ha detectado arritmia", left+right/2, bottom+16, textPaint);
-			textPaint.setTextAlign(Align.LEFT);
-			canvas.drawText("hsp: " + dataSource.hspeed, left+right/2, bottom+16, textPaint);
-			textPaint.setColor(dpGray);
-		
+			
 		// Debug thingies
 			textPaint.setTextAlign(Align.RIGHT);
 			canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
+			
+			/*textPaint.setTextAlign(Align.LEFT);
+			canvas.drawText("hsp: " + dataSource.hspeed, left+right/2, bottom+16, textPaint);
+			textPaint.setColor(dpGray);*/
+			
+			// Minimap
+			float width = (right - left)/2;
+			canvas.drawLine(left + width/2, bottom + 15, right-width/2, bottom + 15, textPaint);
+			textPaint.setStyle(Paint.Style.STROKE);
+			canvas.drawRect(left + width/2 + (s_start / (float) s_ssize) * width, bottom+7, left + width/2 + (s_end / (float) s_ssize) * width, bottom + 22, textPaint);
+			textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 			
 		// Aaaaand done!
 			canvas.restore();
@@ -300,7 +322,7 @@ public class StaticViewThread extends AnimationThread
 		// dp_wave = new short[dp_size];
 		
 		// Initialize point array
-		samplePoints = new float[s_size*4];
+		samplePoints = new float[s_size*4+1];
 	}
 
 	//@Override

@@ -76,7 +76,7 @@ public abstract class AnimationThread extends Thread {
 		// Restore data you want
 	}
 	
-	public void handleScroll(float distX, float distY) {
+	public void handleScroll(float distX, float distY, float x, float y) {
 		// Handle scroll
 	}
 	

@@ -1,5 +1,7 @@
 package org.microlites;
 
+import java.util.Stack;
+
 import org.microlites.data.Data;
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
@@ -27,17 +29,20 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class MicrolitesActivity extends Activity implements OnGestureListener {
+	public static final byte MODE_NONE		= 0xF;		// No mode (Start Menu) 
+	public static final byte MODE_BLUETOOTH = 0x1;		// Bluetooth Constant
+	public static final byte MODE_FILELOG	= 0x2;		// Log Constant
+	public static final byte MODE_USB		= 0x3;		// USB Constant
+	
 	GestureDetector gestureScanner;				// Gesture Detector
 	
 	public static MicrolitesActivity instance;	// Reference to this Activity
+	
+	byte currentMode;							// Current App Mode
 	ECGView currentView;						// Reference to current View
 	AnimationThread currentViewThread;			// Reference to View Thread
 	DataManager currentManager;					// Reference to Data Manager
 	View menuView;								// Refernece to initial Menu
-	
-	public static final byte MODE_BLUETOOTH = 0x1;		// Bluetooth Constant
-	public static final byte MODE_FILELOG	= 0x2;		// Log Constant
-	public static final byte MODE_USB		= 0x3;		// USB Constant
 	
     /** Called when the activity is first created,
      * 	when the screen is rotated or when the
@@ -56,27 +61,26 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
         // Instantiate Gesture Detector
         gestureScanner = new GestureDetector(this);
         // Initialize references
+        currentMode = MODE_NONE;
         currentView = null;
         currentViewThread = null;
         currentManager = null;
         menuView = null;
         
+        // Testing Area
+        viewStack = new Stack<View>();
+        
         // Restore view if application has been restored
     	if (savedInstanceState != null) {
-    		if (savedInstanceState.containsKey("currentView")) {
-    			String view = savedInstanceState.getString("currentView");
-    			if (view.equals("ECGView")) {
-    				// TODO: Save and restore visualization mode
-    				initVisualization(MODE_BLUETOOTH, 0, null);
-    				// TODO: Restore Thread Status
-    				// 1. Restore View
-    				// 2. Restore Thread
-    			}
+    		if (savedInstanceState.containsKey("currentMode")) {
+    			byte mode = savedInstanceState.getByte("currentMode");
+    			if (mode != MODE_NONE)
+    				initVisualization(mode, 0, null);
     		}
         }
         
         // Create Main Menu Button Handlers
-    	if (currentView == null) {
+    	if (currentMode == MODE_NONE) {
     		SeekBar bar = (SeekBar) findViewById(R.id.seekBar1);
     		bar.setProgress(50);
     		
@@ -137,7 +141,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     	case 0: 
 			// Phase 0 - Init
 
-			// Create Manager
+			// 1. Create Manager
     		switch (mode) {
 				case MODE_BLUETOOTH:
 					currentManager = new BluetoothManager();
@@ -151,24 +155,23 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 				default:
 					System.out.println("Modo no reconocido: " + mode);
 			}
-	    	
-	    	// Create ECGView
-	    	// 1. Get reference to main content panel
-	    	LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
-	    	menuView = content.getChildAt(0);
-	    	
-	    	// 2. Clear it
-			content.removeAllViews();
-			
-			// 3. Add new Dynamic Surface Holder
+    		
+    		currentMode = mode;
+    		
+			break;
+    	case 1:
+    		// Phase 1 - Dynamic Surface
+    		
+			// 2. Add new Dynamic Surface Holder
 			currentView = new ECGView(getApplicationContext(), null, this);
 			currentView.notifyAboutCreation = mode;
-	        content.addView(currentView);
+	        // content.addView(currentView);
+			pushView(currentView);
 	        
-	        // 4. Wait for dynamicHolder to call this again
+	        // 3. Wait for dynamicHolder to call this again
 	        break;
-    	case 1: 
-			// Phase 1 - Surface available, start the magic!
+    	case 2: 
+			// Phase 2 - Surface available, start the magic!
     		Data d = Data.getInstance();
     		
     		// 1. Instantiate viewthread
@@ -195,22 +198,26 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     public void destroyECGView() {
     	if (currentManager != null) {
     		currentManager.stop();
-    		LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
-    		content.removeAllViews();
-    		content.addView(menuView);
+    		/*popView();
     		currentView = null;
+    		currentMode = MODE_NONE;*/
+    	} else {
+    		currentView = null;
+    		currentMode = MODE_NONE;
     	}
     }
     
     @Override
     public void onSaveInstanceState(Bundle outState) {
-    	if (currentView instanceof ECGView) {
+    	/*if (currentView instanceof ECGView) {
     		outState.putString("currentView", "ECGView");
     		if (currentViewThread != null)
     			currentViewThread.saveYourData(outState);
     	}
     	else
-    		outState.remove("currentView");
+    		outState.remove("currentView");*/
+    	outState.putByte("currentMode", currentMode);
+    	// TODO: Save actual state
     }
     
     @Override
@@ -230,8 +237,10 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     //@Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
     {
+    	float x = e1.getX(0);
+    	float y = e1.getY(0);
     	if (currentView != null)
-    		currentView.handleScroll(distanceX,distanceY);
+    		currentView.handleScroll(distanceX, distanceY, x, y);
         return true;
     }
 
@@ -296,5 +305,47 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	    }
 	    
         return true;
+	}
+	
+	Stack<View> viewStack;
+		
+	OnClickListener addLayoutListener;
+	
+	public View pushView(View v) {
+		// 1. Get reference to main content panel
+    	LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
+    	View last = content.getChildAt(0);
+        // Pushing old to stack
+        viewStack.push(last);
+    	
+    	// 2. Clear it
+		content.removeAllViews();
+		
+		// 3. Add new View
+        content.addView(v);
+        
+        return last;
+	}
+	
+	public View popView() {
+		if (!viewStack.isEmpty()) {
+			// 1. Get reference to main content panel
+			LinearLayout content = (LinearLayout) findViewById(R.id.contentPanel);
+			View last = content.getChildAt(0);
+			
+			// 2. Clear it
+			content.removeAllViews();
+			
+			// 3. Add last View
+		    content.addView(viewStack.pop());
+		    // Pushing old to stack
+		    return last;
+		} else {
+			return null;
+		}
+	}
+	
+	public DataManager getCurrentManager() {
+		return currentManager;
 	}
 }
