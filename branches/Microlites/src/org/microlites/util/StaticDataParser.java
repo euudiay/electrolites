@@ -149,7 +149,7 @@ public class StaticDataParser {
 			int beatSamples = first | second;
 			
 			float hbr = 60*250/(float) beatSamples;
-			System.out.println("HBR: " + hbr);
+			System.out.println("HBR: " + hbr + "(" + beatSamples + ")");
 
 			dataHolder.handleHBR(hbr);
 			/*synchronized(data.dynamicData.mutex) {

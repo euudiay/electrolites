@@ -114,7 +114,10 @@ public class DeviceManager implements DataManager {
 			connection.releaseInterface(interf);
 		}
 		
+		// TODO: Bug if receiver not registered
 		activity.unregisterReceiver(usbReceiver);
+		
+		MicrolitesActivity.instance.popView();
 	}
 	
 	public void openDevice(UsbDevice device) {

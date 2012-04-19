@@ -285,5 +285,6 @@ public class BluetoothManager implements DataManager {
 	//@Override
 	public void stop() {
 		stopRunning();
+		MicrolitesActivity.instance.popView();
 	}
 }
