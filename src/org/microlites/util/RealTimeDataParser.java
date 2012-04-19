@@ -233,7 +233,7 @@ public class RealTimeDataParser {
 			int beatSamples = first | second;
 			
 			float hbr = 60*250/(float) beatSamples;
-			System.out.println("HBR: " + hbr);
+			System.out.println("HBR: " + hbr + "(" + beatSamples + ")");
 			
 			if (output != null) {
 				try {

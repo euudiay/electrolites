@@ -44,6 +44,11 @@ public class DynamicViewThread extends AnimationThread
 	protected int bgColor;							// Background color
 	protected int dpGray;							// DPoint render gray
 	
+	protected int qrsColor;
+	protected int pColor;
+	protected int tColor;
+	protected int offsetColor;
+	
 	protected float samplePoints[];					// Samples (x1, y1, x2, y2)
 	
 	
@@ -61,9 +66,14 @@ public class DynamicViewThread extends AnimationThread
 		// Samples color
 		samplesColor = Color.rgb(250, 59, 59);
 		// Black background
-		bgColor = Color.rgb(239, 239, 239);
+		bgColor = Color.rgb(30, 30, 31);//239, 239, 239);
 		//dpGray = Color.rgb(255-180, 255-180, 255-140);
-		dpGray = Color.rgb(40, 40, 40);
+		dpGray = Color.rgb(80, 90, 90);
+		// DPoints colors
+		qrsColor = Color.MAGENTA;
+		pColor = Color.CYAN;
+		tColor = Color.YELLOW;
+		offsetColor = Color.RED;
 		
 		// Green Text
 		textPaint = new Paint();
@@ -74,7 +84,7 @@ public class DynamicViewThread extends AnimationThread
 		
 		// ECG Paint will be configured while on use
 		ecgPaint = new Paint();
-		ecgPaint.setAntiAlias(true);
+		//ecgPaint.setAntiAlias(true);
 		
 		// Theme-gray Rectangles 
 		rectPaint = new Paint();
@@ -176,22 +186,26 @@ public class DynamicViewThread extends AnimationThread
 				sampleX = dvport.vpPxX + dpoints*(sampleIndex + (sampleIndex < s_start ? s_size : 0) - s_start);
 				
 				if (dp_type[ii] == DP_TYPE_START || dp_type[ii] == DP_TYPE_END) {
+					ecgPaint.setStrokeWidth(1);
 					if (dp_wave[ii] == WAVE_OFFSET)
-						ecgPaint.setColor(Color.RED);
+						ecgPaint.setColor(offsetColor);
 					else 
 						ecgPaint.setColor(dpGray);
 				} else {
 					if (dp_wave[ii] == WAVE_QRS)
-						ecgPaint.setColor(Color.MAGENTA);
+						ecgPaint.setColor(qrsColor);
 					else if (dp_wave[ii] == WAVE_P)
-						ecgPaint.setColor(Color.CYAN);
+						ecgPaint.setColor(pColor);
 					else if (dp_wave[ii] == WAVE_T)
-						ecgPaint.setColor(Color.YELLOW);
+						ecgPaint.setColor(tColor);
+					ecgPaint.setStrokeWidth(2);
 				}
-				ecgPaint.setStrokeWidth(2);
 				
-				canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.baselinePxY - s_amplitude[sampleIndex]*dvport.vFactor, ecgPaint);
-				//canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.vpPxY+dvport.vpPxHeight, ecgPaint);
+				if (dp_wave[ii] == WAVE_OFFSET)
+					canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.vpPxY+dvport.vpPxHeight, ecgPaint);
+				else
+					canvas.drawLine(sampleX, dvport.vpPxY, sampleX, dvport.baselinePxY - s_amplitude[sampleIndex]*dvport.vFactor, ecgPaint);
+
 			}
 		
 		// Render frame

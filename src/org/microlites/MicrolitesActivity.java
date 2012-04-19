@@ -198,6 +198,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     public void destroyECGView() {
     	if (currentManager != null) {
     		currentManager.stop();
+    		//currentManager = null;
     		/*popView();
     		currentView = null;
     		currentMode = MODE_NONE;*/
@@ -271,7 +272,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	//@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
-		// Data.getInstance().pause = !Data.getInstance().pause;
+		Data.getInstance().pause = !Data.getInstance().pause;
 		return true;
 	}
 	
