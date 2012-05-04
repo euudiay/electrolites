@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent" 
+	android:layout_width="match_parent">
+    <LinearLayout android:layout_gravity="fill" 
+        android:layout_width="match_parent" 
+        android:orientation="vertical" 
+        android:weightSum="1" 
+        android:layout_height="match_parent" 
+        android:id="@+id/linearLayout1">
+        <LinearLayout android:id="@+id/l_superior" 
+            android:baselineAligned="true" 
+            android:gravity="top" 
+            android:orientation="horizontal" 
+            android:weightSum="1" 
+            android:layout_height="50dp" 
+            android:layout_width="match_parent">
+            <Button
+                android:id="@+id/b_start"
+                android:layout_height="wrap_content"
+                android:text="Bluetooth" 
+                android:layout_width="wrap_content">
+			</Button>
+			
+			<Button
+                android:id="@+id/b_usb"
+                android:layout_height="wrap_content"
+                android:text="Usb!" 
+                android:layout_width="wrap_content">
+			</Button>
+			
+            <Button android:text="Connect" 
+                android:id="@+id/b_connect" 
+                android:layout_height="wrap_content" 
+                android:layout_width="wrap_content">
+            </Button>
+
+            <EditText
+                android:id="@+id/e_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:text="Id" >
+			</EditText>
+
+            <EditText
+                android:id="@+id/e_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:text="Name" >
+                <requestFocus></requestFocus>
+            </EditText>
+            
+            <Button android:text="-" 
+                android:id="@+id/b_less" 
+                android:layout_height="wrap_content" 
+                android:layout_width="80sp">
+            </Button>
+            
+            <Button 
+                android:id="@+id/b_plus"
+                android:layout_height="wrap_content"
+                android:text="+" android:layout_width="80sp">
+			</Button>
+        </LinearLayout>
+        
+        <com.electrolites.ecg.ECGView android:id="@+id/v_eCGView" 
+            android:layout_width="match_parent" 
+            android:layout_height="600dp" 
+            android:layout_weight="1">
+        </com.electrolites.ecg.ECGView>
+        
+        <LinearLayout android:id="@+id/l_inferior" 
+            android:layout_height="48dp" 
+            android:layout_width="match_parent">            
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" 
+                android:id="@+id/t_hRate" 
+                android:text="TextView" 
+                android:layout_height="match_parent" 
+                android:layout_width="wrap_content" 
+                android:layout_weight="0.2">
+            </TextView>
+            
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" 
+                android:text="TextView" android:id="@+id/t_display" 
+                android:layout_height="match_parent" 
+                android:layout_width="870dp" 
+                android:layout_weight="0.8">
+            </TextView>
+            
+            <Button android:text="Up" 
+                android:id="@+id/b_up" 
+                android:layout_height="match_parent" 
+                android:layout_width="90dp">
+            </Button>
+            
+            <Button android:text="Down" 
+                android:id="@+id/b_down" 
+                android:layout_height="match_parent" 
+                android:layout_width="90dp">
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+	
+</FrameLayout>
