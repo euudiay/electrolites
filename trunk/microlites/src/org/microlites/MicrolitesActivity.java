@@ -7,6 +7,7 @@ import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.data.bluetooth.BluetoothManager;
 import org.microlites.data.filereader.FileManager;
+import org.microlites.data.generator.GeneratorManager;
 import org.microlites.data.usb.DeviceManager;
 import org.microlites.view.AnimationThread;
 import org.microlites.view.ECGView;
@@ -33,6 +34,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	public static final byte MODE_BLUETOOTH = 0x1;		// Bluetooth Constant
 	public static final byte MODE_FILELOG	= 0x2;		// Log Constant
 	public static final byte MODE_USB		= 0x3;		// USB Constant
+	public static final byte MODE_GEN		= 0x4;		// Generator Constant
 	
 	GestureDetector gestureScanner;				// Gesture Detector
 	
@@ -115,7 +117,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	        Button start = (Button) findViewById(R.id.startBluetoothButton);
 	        start.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					MicrolitesActivity.instance.initVisualization(MODE_BLUETOOTH, 0, null);
+					MicrolitesActivity.instance.initVisualization(MODE_GEN, 0, null);
 				}
 			});
 	        
@@ -152,6 +154,9 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 				case MODE_USB:
 					currentManager = new DeviceManager(this);
 				break;
+				case MODE_GEN:
+					currentManager = new GeneratorManager();
+				break;
 				default:
 					System.out.println("Modo no reconocido: " + mode);
 			}
@@ -178,6 +183,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 			switch (mode) {
 				case MODE_BLUETOOTH:
 				case MODE_USB:
+				case MODE_GEN:
 					d.currentViewThread = new DynamicViewThread(d.currentViewHolder, currentView);
 				break;
 				case MODE_FILELOG:
@@ -278,6 +284,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Zero/NotZero");
 		menu.add("Zoom");
 		menu.add("Shrink");
 		menu.add("Detener");
@@ -286,6 +293,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 		menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.getItem(1).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.getItem(2).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		menu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		//menu.getItem(0).setEnabled(false);
 		return true;
 	}
@@ -293,14 +301,24 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
+		Data d = Data.getInstance();
 	    if (item.getTitle().equals("Detener")) {
             destroyECGView();
 	    } else if (item.getTitle().equals("Shrink")) {
-	    	Data.getInstance().yScaleFactor *= 1.5f; 
+	    	d.yScaleFactor *= 1.5f; 
 	    } else if (item.getTitle().equals("Zoom")) {
-	    	Data.getInstance().yScaleFactor /= 1.5f;
+	    	d.yScaleFactor /= 1.5f;
 	    } else if (item.getTitle().equals("Salir")){
 	    	finish();
+	    } else if (item.getTitle().equals("Zero/NotZero")) {
+	    	d.generateZeros = !d.generateZeros;
+	    	
+	    	if (d.generateZeros) {
+	    		if (Math.random() < 0.5)
+	    			d.generateHeight -= 500;
+	    		else
+	    			d.generateHeight += 500;
+	    	}
 	    } else {
 	    	return super.onOptionsItemSelected(item);
 	    }

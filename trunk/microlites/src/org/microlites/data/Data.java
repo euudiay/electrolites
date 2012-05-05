@@ -26,6 +26,9 @@ public class Data {
 	public boolean pause = false;
 	public float yScaleFactor = 12000.0f;
 	
+	public boolean generateZeros = false;
+	public short generateHeight = 2000;
+	
 	protected Data() {
 		// TODO: Data initialization
 		mutex = new Object();
