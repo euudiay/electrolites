@@ -51,7 +51,7 @@ public class DynamicViewThread extends AnimationThread
 	
 	protected float samplePoints[];					// Samples (x1, y1, x2, y2)
 	protected float divisionsPoints[];				// Scale divisions (x1, y1, x2, y2)
-	protected static final int DIVISIONS_MAX = 25;
+	protected static final int DIVISIONS_MAX = 25;	// Max positive axis divisions (for memory allocation)
 	
 	public DynamicViewThread(SurfaceHolder holder, AnimationView aview) {
 		super(holder);

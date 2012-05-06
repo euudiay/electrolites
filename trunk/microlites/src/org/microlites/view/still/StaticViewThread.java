@@ -34,6 +34,8 @@ public class StaticViewThread extends AnimationThread
 	protected int dpGray;							// DPoint render gray
 	
 	protected float samplePoints[];					// Samples (x1, y1, x2, y2)
+	protected float divisionsPoints[];				// Scale divisions (x1, y1, x2, y2)
+	protected static final int DIVISIONS_MAX = 25;	// Max positive axis divisions (for memory allocation)
 	
 	public StaticViewThread(SurfaceHolder holder, AnimationView aview) {
 		super(holder);
@@ -90,14 +92,14 @@ public class StaticViewThread extends AnimationThread
 			// Upper area
 			Data.getInstance().drawBaseHeight -= distY*0.002;
 			dataSource.handleScroll(distX);
-		} else {
+		}/* else {
 			// Lower area (Minimap)
 			int left = dvport.vpPxX;
 			int right = dvport.vpPxX + dvport.vpPxWidth;
 			float width = (right - left)/2;
 			if (x >= left + width / 2 && x <= right - width/2)
 				dataSource.handleScroll(-distX*dataSource.s_viewsize/2, true);
-		}
+		}*/
 	}
 	
 	@Override
@@ -149,24 +151,35 @@ public class StaticViewThread extends AnimationThread
 			// y axis
 			textPaint.setColor(dpGray);
 			textPaint.setStrokeWidth(2.f);
-			canvas.drawLine(left, top, left, bottom, textPaint);
-			
-			// Upper scale part
-			float delta = (dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor;
-			int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / delta);
-			
-			canvas.drawLine(left, dvport.baselinePxY, right+5, dvport.baselinePxY, textPaint);
-			textPaint.setStrokeWidth(1.f);
-			for (int i = 0; i <= divisions; i++) {
-				canvas.drawLine(left, dvport.baselinePxY-i*delta, right+5, dvport.baselinePxY-i*delta, textPaint);
-			}
-			
-			// Lower part
-			divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / delta);
-			
-			for (int i = 1; i <= divisions; i++) {
-				canvas.drawLine(left, dvport.baselinePxY+i*delta, right+5, dvport.baselinePxY+i*delta, textPaint);
-			}
+			// Render y axis
+				canvas.drawLine(left, top, left, bottom, textPaint);
+				// Render x axis
+				canvas.drawLine(left, dvport.baselinePxY, right+5, dvport.baselinePxY, textPaint);
+				
+				// Upper scale part
+				float delta = (dvport.max > 40000 ? 2*dvport.max/40000f : 1)*1000*dvport.vFactor;
+				int divisions = (int) android.util.FloatMath.floor((dvport.baselinePxY - dvport.vpPxY) / delta);
+				
+				textPaint.setStrokeWidth(1.f);
+				int counter = 0;
+				for (int i = 0; i <= divisions; i++) {
+					divisionsPoints[counter++] = left;
+					divisionsPoints[counter++] = dvport.baselinePxY-i*delta;
+					divisionsPoints[counter++] = right+5;
+					divisionsPoints[counter++] = dvport.baselinePxY-i*delta;
+				}
+				
+				// Lower part
+				divisions = (int) android.util.FloatMath.floor((dvport.vpPxY+dvport.vpPxHeight- dvport.baselinePxY) / delta);
+				
+				for (int i = 1; i <= divisions; i++) {
+					divisionsPoints[counter++] = left;
+					divisionsPoints[counter++] = dvport.baselinePxY+i*delta;
+					divisionsPoints[counter++] = right+5;
+					divisionsPoints[counter++] = dvport.baselinePxY+i*delta;				
+				}
+				
+				canvas.drawLines(divisionsPoints, 0, counter, textPaint);
 		
 		// Render samples
 			ecgPaint.setColor(samplesColor);
@@ -179,7 +192,7 @@ public class StaticViewThread extends AnimationThread
 			} else {
 				int ammount = Math.min(s_end - s_start, s_index.length);
 				int ii = -1;
-				for (int i = 0; i < ammount-1; i++) {
+				/*for (int i = 0; i < ammount-1; i++) {
 					ii = (s_start + i);
 					if (i == 0) {
 						samplePoints[i] = dvport.vpPxX;
@@ -195,7 +208,98 @@ public class StaticViewThread extends AnimationThread
 					}
 				}
 				
-				canvas.drawLines(samplePoints, ecgPaint);
+				canvas.drawLines(samplePoints, ecgPaint);*/
+				
+				boolean zeroProcessing = false;
+				// int nz = 0;
+				int i = 0;
+				int ai = 0; // Actual samplePoints array index 
+				short iipa; // Sample amplitude to add in current iteration
+				while (i < ammount-1) {
+					
+					// System.err.println(i + ", " + ai);
+					
+					ii = (s_start + i) % s_size;
+					iipa = s_amplitude[(ii+1)%s_size];
+					if (i == 0) {
+						samplePoints[ai] = dvport.vpPxX;
+						samplePoints[ai+1] = (dvport.baselinePxY - s_amplitude[ii]*dvport.vFactor);
+						samplePoints[ai+2] = dvport.vpPxX + dpoints;
+						samplePoints[ai+3] = (dvport.baselinePxY - iipa*dvport.vFactor);
+						// At this point zeroProcessing can't be true
+						// so we just activate the flag and add the point as usual
+						if (iipa == 0) {
+							// nz = 0;
+							// System.out.print("Start ZeroProcessing [");
+							zeroProcessing = true;
+							// Activate zero processing
+							// and reserve the slot for the other 0point
+							// ai++;
+						}
+						// Point stored
+						ai++;
+					} 
+					else {
+						if (zeroProcessing) {
+							if (iipa == 0) {
+								// nz++;
+								// Another 0, skip it
+							} else {
+								// System.out.println(nz + "]/nStop ZeroProcessing");
+								// Non zero sample, zeroProcessing ended
+								zeroProcessing = false;
+								
+								ai++;
+								
+								// Add pair 0point (has a reserved slot)
+								samplePoints[4*(ai-1)] = samplePoints[4*(ai-1)-2];
+								samplePoints[4*(ai-1)+1] = (dvport.baselinePxY);
+								samplePoints[4*(ai-1)+2] = (dvport.vpPxX + i*dpoints);
+								samplePoints[4*(ai-1)+3] = (dvport.baselinePxY);
+								
+								samplePoints[4*ai] = samplePoints[4*ai-2];
+								samplePoints[4*ai+1] = samplePoints[4*ai-1];
+								samplePoints[4*ai+2] = (dvport.vpPxX + (i+1)*dpoints);
+								samplePoints[4*ai+3] = (dvport.baselinePxY - iipa*dvport.vFactor);
+								
+								// Point stored
+								// ai++;
+							}
+						} else {
+							// Not zero processing
+							// Store point
+							samplePoints[4*ai] = samplePoints[4*ai-2];
+							samplePoints[4*ai+1] = samplePoints[4*ai-1];
+							samplePoints[4*ai+2] = (dvport.vpPxX + (i+1)*dpoints);
+							samplePoints[4*ai+3] = (dvport.baselinePxY - iipa*dvport.vFactor);
+							
+							if (iipa == 0) {
+								// nz = 0;
+								// System.out.print("Start ZeroProcessing [");
+								// A zero, start zero processing
+								zeroProcessing = true;
+								// Reserve slot for the other 0point
+								// ai++;
+							}
+							
+							ai++;
+						}
+					}
+					
+					i++;
+				}
+				
+				if (zeroProcessing) {
+					// An endopoint 0 is missing
+					// Add pair 0point (has a reserved slot)
+					// System.out.println("]\nUnfinished ZeroProcessing");
+					samplePoints[4*(ai)] = samplePoints[4*(ai)-2];
+					samplePoints[4*(ai)+1] = samplePoints[4*ai-1];
+					samplePoints[4*(ai)+2] = (dvport.vpPxX + i*dpoints);
+					samplePoints[4*(ai)+3] = (dvport.baselinePxY);
+				}
+				
+				canvas.drawLines(samplePoints, 0, 4*ai+4, ecgPaint);
 			}
 		
 		// Render dpoints
@@ -323,6 +427,8 @@ public class StaticViewThread extends AnimationThread
 		
 		// Initialize point array
 		samplePoints = new float[s_size*4+1];
+		// Initialize divisions array
+		divisionsPoints = new float[DIVISIONS_MAX*2*4];
 	}
 
 	//@Override

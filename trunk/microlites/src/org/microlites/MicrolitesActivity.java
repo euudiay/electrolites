@@ -117,7 +117,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	        Button start = (Button) findViewById(R.id.startBluetoothButton);
 	        start.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					MicrolitesActivity.instance.initVisualization(MODE_GEN, 0, null);
+					MicrolitesActivity.instance.initVisualization(MODE_BLUETOOTH, 0, null);
 				}
 			});
 	        
@@ -305,9 +305,9 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	    if (item.getTitle().equals("Detener")) {
             destroyECGView();
 	    } else if (item.getTitle().equals("Shrink")) {
-	    	d.yScaleFactor *= 1.5f; 
+	    	d.yScaleTopValue *= 1.5f; 
 	    } else if (item.getTitle().equals("Zoom")) {
-	    	d.yScaleFactor /= 1.5f;
+	    	d.yScaleTopValue /= 1.5f;
 	    } else if (item.getTitle().equals("Salir")){
 	    	finish();
 	    } else if (item.getTitle().equals("Zero/NotZero")) {
@@ -362,6 +362,10 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 		} else {
 			return null;
 		}
+	}
+	
+	public View getCurrentView() {
+		return ((LinearLayout)findViewById(R.id.contentPanel)).getChildAt(0);
 	}
 	
 	public DataManager getCurrentManager() {
