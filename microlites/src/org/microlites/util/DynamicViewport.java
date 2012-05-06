@@ -46,7 +46,7 @@ public class DynamicViewport {
 	public void updateParameters() {
 		synchronized (data.mutex) {
 			baselinePxY = vpPxY + vpPxHeight*data.drawBaseHeight;
-			max = data.yScaleFactor;
+			max = data.yScaleTopValue;
 		}
 		
 		float top = vpPxHeight*0.85f;

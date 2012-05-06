@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="logLoadingSettingsTitle">Visualización Bluetooth - Configuración</string>
+    <string name="logLoadingSettingsChooseFile">Seleccione un archivo para comenzar</string>
+    <string name="logLoadingSettingsOptions">Opciones</string>
+    
+</resources>

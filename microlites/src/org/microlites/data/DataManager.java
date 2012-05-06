@@ -1,5 +1,9 @@
 package org.microlites.data;
 
+/** DataManager interface.
+ * 	A DataManager handles initialization of a DataSourceThread and comunication
+ * 	between it and a DataHolder which is passed to it.
+ */
 public interface DataManager {
 	// The manager stores its DataHolder reference and prepare whatever it needs
 	void configure(DataHolder dataHolder);

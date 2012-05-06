@@ -4,42 +4,59 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.microlites.MicrolitesActivity;
+import org.microlites.R;
+import org.microlites.data.Data;
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.data.DataSourceThread;
+import org.microlites.util.ColorPickerDialog;
+import org.microlites.util.ColorPickerDialog.OnColorChangedListener;
 
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 public class BluetoothManager implements DataManager {
-	public static final String TAG = "BluetoothService";
-	public static final boolean DEBUG = true;
+	
+	public static final String TAG = "BluetoothService";		// Logging TAG
+	public static final boolean DEBUG = true;					// Debug Mode On/Off
 	
 	private static final UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	
-	public final static int BT_DISABLED = 0;
-	public final static int BT_ENABLED = 1;
-	public final static int BT_UNAVAILABLE = -1;
+	// System BT Service State Constants
+	public final static int BT_DISABLED = 0;					// Disabled
+	public final static int BT_ENABLED = 1;						// Enabled
+	public final static int BT_UNAVAILABLE = -1;				// Unavailable
 	  
-	public static final int STATE_NONE = 0;       // Estado inicial
-    public static final int STATE_LISTEN = 1;     // A la espera de nuevas conexiones
-    public static final int STATE_CONNECTING = 2; // Iniciando una conexi�n al exterior
-    public static final int STATE_CONNECTED = 3;  // Conectado a un dispositivo
+	// Bluetooth Manager State Constants
+	public static final int STATE_NONE = 0;       				// No connection requested
+    public static final int STATE_LISTEN = 1;     				// Awaiting connections
+    public static final int STATE_CONNECTING = 2; 				// Trying to connect to a device
+    public static final int STATE_CONNECTED = 3;  				// Connected to a device
     
-    private final BluetoothAdapter bA;
-    private BluetoothDevice bD;
+    private final BluetoothAdapter bA;							// BT Adapter reference
+    private BluetoothDevice bD;									// BT Device refence
     
-    private ArrayList<BluetoothDevice> bondedDevices;
-    private ArrayList<BluetoothDevice> newDevicesArrayAdapter;
+    private ArrayList<BluetoothDevice> bondedDevices;			// Collection of bonded bt devices
+    private ArrayList<BluetoothDevice> newDevicesArrayAdapter;	// Collection of new bt devices	
 	
-	private ConnectThread connectT;
-	private ConnectedThread connectedT;
-	private DataHolder dataHolder;
+	private ConnectThread connectT;								// Connection handling thread 
+	private ConnectedThread connectedT;							// Thread run after successful connection
+	private DataHolder dataHolder;								// Received data holder reference
 	
-	private int state;			// Estado del servicio
-	private int adapterState;	// Estado del adaptador bluetooth
+	private int state;											// Bluetooth Service State
+	private int adapterState;									// Bluetooth Adapter State
+	
+	private String deviceName;									// Connect to this device
 	
 	public BluetoothManager() {
 		bA = BluetoothAdapter.getDefaultAdapter();
@@ -60,7 +77,9 @@ public class BluetoothManager implements DataManager {
 		connectedT = null;
 		dataHolder = null;
 		
-		MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_BLUETOOTH, 1, null);
+		deviceName = "FireFly-3781";
+		
+		buildMenu();
 	}
 
 	public void startRunning(String deviceName, DataHolder thread) {
@@ -279,12 +298,100 @@ public class BluetoothManager implements DataManager {
 
 	//@Override
 	public void start() {
-		startRunning("FireFly-3781", this.dataHolder);
+		startRunning(deviceName, this.dataHolder);
 	}
 
 	//@Override
 	public void stop() {
 		stopRunning();
 		MicrolitesActivity.instance.popView();
+	}
+	
+	/** Builds Bluetooth Configuration Menu and pushes it into the View Stack
+	*/ 
+	private void buildMenu() {
+		MicrolitesActivity act = MicrolitesActivity.instance; 
+		LayoutInflater li = act.getLayoutInflater();
+		View view = li.inflate(R.layout.btconfiglayout, null);
+		
+		/*LinearLayout l = (LinearLayout) view.findViewById(R.id.viewOptionsPanel);
+		l.addView(li.inflate(R.layout.viewconfiglayout, null));
+		
+		Spinner sp = (Spinner) l.findViewById(R.id.themeSpinner);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+	            act.getApplicationContext(), R.array.colorThemes, android.R.layout.simple_spinner_item);
+	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    sp.setAdapter(adapter);*/
+		
+		Button vs = (Button) view.findViewById(R.id.btSettingsViewConfig);
+		vs.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final Dialog dialog = new Dialog(MicrolitesActivity.instance);
+
+				dialog.setContentView(R.layout.viewconfiglayout);
+				dialog.setTitle("Configuración de Vista");
+				
+				Spinner sp = (Spinner) dialog.findViewById(R.id.themeSpinner);
+				ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+			            MicrolitesActivity.instance.getApplicationContext(), R.array.colorThemes, android.R.layout.simple_spinner_item);
+			    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			    sp.setAdapter(adapter);
+			    
+			    final Button c1 = (Button) dialog.findViewById(R.id.buttonC1);
+			    c1.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						ColorPickerDialog p = new ColorPickerDialog(MicrolitesActivity.instance, new OnColorChangedListener() {
+							public void colorChanged(int color) {
+								Data.getInstance().color1 = color;
+								c1.setBackgroundColor(color);
+							}
+						}, Data.getInstance().color1);
+						
+						p.show();
+					}
+				});
+			    
+			    final Button c2 = (Button) dialog.findViewById(R.id.buttonC2);
+			    c2.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						ColorPickerDialog p = new ColorPickerDialog(MicrolitesActivity.instance, new OnColorChangedListener() {
+							public void colorChanged(int color) {
+								Data.getInstance().color2 = color;
+								c2.setBackgroundColor(color);
+							}
+						}, Data.getInstance().color2);
+						
+						p.show();
+					}
+				});
+			    
+			    Button b = (Button) dialog.findViewById(R.id.button1);
+			    b.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
+				
+				dialog.setOwnerActivity(MicrolitesActivity.instance);
+				
+				dialog.show();
+			}
+		});
+		
+		Button b = (Button) view.findViewById(R.id.btSettingsStart);
+		b.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				View view = MicrolitesActivity.instance.getCurrentView();
+				TextView tv = (TextView) view.findViewById(R.id.btDeviceNameTextfield);
+				CharSequence cs = tv.getText(); 
+				deviceName = cs.toString();
+				// TODO: Check name here
+				MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_BLUETOOTH, 1, null);
+			}
+		});
+		
+		act.pushView(view);
 	}
 }
