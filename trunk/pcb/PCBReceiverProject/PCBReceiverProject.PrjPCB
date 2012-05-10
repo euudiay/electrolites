@@ -94,6 +94,26 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
 
+[Document5]
+DocumentPath=USBLC6-2SC6.SchLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+
+[SearchPath1]
+Path=C:\Documents and Settings\All Users\Documentos\Altium\AD 10\Library\*.*
+IncludeSubFolders=1
+
 [PCBConfiguration1]
 ReleaseItemId=
 CurrentRevision=
