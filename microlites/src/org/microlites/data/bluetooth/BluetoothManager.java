@@ -9,15 +9,17 @@ import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.data.DataSourceThread;
 
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 public class BluetoothManager implements DataManager {
 	
@@ -304,23 +306,42 @@ public class BluetoothManager implements DataManager {
 	/** Builds Bluetooth Configuration Menu and pushes it into the View Stack
 	*/ 
 	private void buildMenu() {
-		MicrolitesActivity act = MicrolitesActivity.instance; 
-		LayoutInflater li = act.getLayoutInflater();
-		View view = li.inflate(R.layout.btconfiglayout, null);
+		// Store a reference to the activity instance
+		MicrolitesActivity act = MicrolitesActivity.instance;
 		
-		Button b = (Button) view.findViewById(R.id.btSettingsStart);
+		// Display Bluetooth Settings dialog
+		final Dialog dialog = new Dialog(act);
+		dialog.setTitle(R.string.bluetoothSettingsTitle);
+		dialog.setContentView(R.layout.btconfiglayout);
+		dialog.setOwnerActivity(act);
+		dialog.show();
+		
+		// Set button listener
+		Button b = (Button) dialog.findViewById(R.id.btSettingsStart);
 		b.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				View view = MicrolitesActivity.instance.getCurrentView();
-				TextView tv = (TextView) view.findViewById(R.id.btDeviceNameTextfield);
-				CharSequence cs = tv.getText(); 
-				deviceName = cs.toString();
-				// TODO: Check name here
+				// Fetch device name holder
+				EditText deviceNameHolder = (EditText) dialog.findViewById(R.id.btDeviceNameTextfield);
+				
+				// Close keyboard (if present)
+				InputMethodManager imm = (InputMethodManager) MicrolitesActivity.instance.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(deviceNameHolder.getWindowToken(), 0);
+				
+				// Fetch device name
+				CharSequence charSequence = deviceNameHolder.getText(); 
+				deviceName = charSequence.toString();
+				// TODO: Check name here and act according
+				
+				// DEBUG: Print name
+				System.out.println(deviceName);
+				
+				// Close dialog
+				dialog.cancel();
+				
+				// Begin visualization
 				MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_BLUETOOTH, 1, null);
 			}
 		});
-		
-		act.pushView(view);
 	}
 }

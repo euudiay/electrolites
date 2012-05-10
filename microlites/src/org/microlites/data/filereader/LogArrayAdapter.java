@@ -32,14 +32,7 @@ public class LogArrayAdapter extends ArrayAdapter<String> {
 		textView.setText(values[position]);
 		textView = (TextView) rowView.findViewById(R.id.sizeLabel);
 		textView.setText(sizes[position]);
-		// Change the icon for Windows and iPhone
-		/*String s = values[position];
-		if (s.startsWith("iPhone")) {
-			imageView.setImageResource(R.drawable.no);
-		} else {
-			imageView.setImageResource(R.drawable.ok);
-		}*/
-		imageView.setImageResource(R.drawable.ic_launcher);
+		imageView.setImageResource(R.drawable.ecg_icon);
 
 		return rowView;
 	}
