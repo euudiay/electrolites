@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Microlites</string>
+    <string name="app_name">microlites</string>
     <string name="usbButtonLabel">USB</string>
     <string name="bluetoothButtonLabel">Bluetooth</string>
     <string name="fileLogButtonLabel">Read Log</string>
