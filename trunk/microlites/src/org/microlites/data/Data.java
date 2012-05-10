@@ -30,7 +30,7 @@ public class Data {
 	/** Inter-thread synchronization mutex */
 	public Object mutex;
 	
-	/* Aplication Mode Related */
+	/* Aplication Mode Related */ 
 	/** Active visualization view thread reference */
 	public AnimationThread currentViewThread = null;
 	/** Active visualization surface holder reference */
