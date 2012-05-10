@@ -5,14 +5,10 @@ import java.util.UUID;
 
 import org.microlites.MicrolitesActivity;
 import org.microlites.R;
-import org.microlites.data.Data;
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.data.DataSourceThread;
-import org.microlites.util.ColorPickerDialog;
-import org.microlites.util.ColorPickerDialog.OnColorChangedListener;
 
-import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -20,9 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 public class BluetoothManager implements DataManager {
@@ -313,71 +307,6 @@ public class BluetoothManager implements DataManager {
 		MicrolitesActivity act = MicrolitesActivity.instance; 
 		LayoutInflater li = act.getLayoutInflater();
 		View view = li.inflate(R.layout.btconfiglayout, null);
-		
-		/*LinearLayout l = (LinearLayout) view.findViewById(R.id.viewOptionsPanel);
-		l.addView(li.inflate(R.layout.viewconfiglayout, null));
-		
-		Spinner sp = (Spinner) l.findViewById(R.id.themeSpinner);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-	            act.getApplicationContext(), R.array.colorThemes, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    sp.setAdapter(adapter);*/
-		
-		Button vs = (Button) view.findViewById(R.id.btSettingsViewConfig);
-		vs.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Dialog dialog = new Dialog(MicrolitesActivity.instance);
-
-				dialog.setContentView(R.layout.viewconfiglayout);
-				dialog.setTitle("Configuración de Vista");
-				
-				Spinner sp = (Spinner) dialog.findViewById(R.id.themeSpinner);
-				ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-			            MicrolitesActivity.instance.getApplicationContext(), R.array.colorThemes, android.R.layout.simple_spinner_item);
-			    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			    sp.setAdapter(adapter);
-			    
-			    final Button c1 = (Button) dialog.findViewById(R.id.buttonC1);
-			    c1.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {
-						ColorPickerDialog p = new ColorPickerDialog(MicrolitesActivity.instance, new OnColorChangedListener() {
-							public void colorChanged(int color) {
-								Data.getInstance().color1 = color;
-								c1.setBackgroundColor(color);
-							}
-						}, Data.getInstance().color1);
-						
-						p.show();
-					}
-				});
-			    
-			    final Button c2 = (Button) dialog.findViewById(R.id.buttonC2);
-			    c2.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {
-						ColorPickerDialog p = new ColorPickerDialog(MicrolitesActivity.instance, new OnColorChangedListener() {
-							public void colorChanged(int color) {
-								Data.getInstance().color2 = color;
-								c2.setBackgroundColor(color);
-							}
-						}, Data.getInstance().color2);
-						
-						p.show();
-					}
-				});
-			    
-			    Button b = (Button) dialog.findViewById(R.id.button1);
-			    b.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {
-						dialog.dismiss();
-					}
-				});
-				
-				dialog.setOwnerActivity(MicrolitesActivity.instance);
-				
-				dialog.show();
-			}
-		});
 		
 		Button b = (Button) view.findViewById(R.id.btSettingsStart);
 		b.setOnClickListener(new OnClickListener() {

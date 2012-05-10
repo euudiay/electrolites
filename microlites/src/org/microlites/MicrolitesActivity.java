@@ -17,17 +17,17 @@ import org.microlites.view.still.StaticViewThread;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class MicrolitesActivity extends Activity implements OnGestureListener {
 	public static final byte MODE_NONE		= 0xF;		// No mode (Start Menu) 
@@ -284,17 +284,17 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("Zero/NotZero");
+		// menu.add("Zero/NotZero");
 		menu.add("Zoom");
 		menu.add("Shrink");
-		menu.add("Detener");
+		// menu.add("Detener");
 		menu.add("Más Cosas");
 		menu.add("Salir");
 		menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.getItem(1).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		menu.getItem(2).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		menu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		//menu.getItem(0).setEnabled(false);
+		// menu.getItem(2).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		// menu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		// menu.getItem(0).setEnabled(false);
 		return true;
 	}
 	
@@ -370,5 +370,12 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	
 	public DataManager getCurrentManager() {
 		return currentManager;
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if (viewStack.isEmpty())
+			finish();
+		else popView();
 	}
 }
