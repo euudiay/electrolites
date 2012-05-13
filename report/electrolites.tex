@@ -4,16 +4,21 @@
 
 %\usepackage[options]{package}
 \usepackage{graphicx}			% Para meter gráficos EPS
-\usepackage[english,spanish]{babel}
+\usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[nottoc]{tocbibind}
+\usepackage{appendix}
 
 %\usepackage[dvipdfm,colorlinks]{hyperref}
-\usepackage[dvipdfm]{hyperref}
+%\usepackage[dvipdfm]{hyperref}
+\usepackage[breaklinks,backref=true,colorlinks=true]{hyperref}
 \usepackage{fancyhdr}
 \date{}
 \title{Electrolites}
 \author{Pablo Fernández\\Rafael de la Hoz\\Miguel Márquez}
+
+\hypersetup{backref=true,
+colorlinks=true, linkcolor=black, menucolor=black, urlcolor=black, citecolor=black} 
 
 \begin{document}
 
@@ -34,8 +39,12 @@
 \fancyfoot[RO,LE]{\thepage}
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
-\include{abstract}
-\include{acknowledgements}
+
+% Documentos anteriores al índice
+\input{cover}
+\input{abstract}
+\input{acknowledgements}
+
 %\pagenumbering{roman}
 \tableofcontents
 %
@@ -54,6 +63,7 @@
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
 \listoftables
+
 %formato para encabezado/pie de pagina para el resto del documento
 \mainmatter
 \pagestyle{fancy}
@@ -68,15 +78,24 @@
 \cfoot{}
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0.5pt}
-% Contenidos a incluir
-\include{intro}
-% Moar contents
-\include{results}
-\include{findings}
-%
-\appendix{}
-%\include{fname}
-% sin encabezados para la bibliografía
+
+% Capítulos
+\input{intro}
+\input{android}
+\input{hardware}
+\input{results}
+
+% Anexos
+\begin{appendices}
+	\renewcommand{\setthesection}{\Alph{section}}
+	\appendix
+	%\appendixpage
+	%\addappheadtotoc
+	\input{tools}
+	%\input{anexoPlataformaAndroid}
+\end{appendices}
+
+% Bibliografía
 \fancyhf{}
 \fancyfoot[RO,LE]{\thepage}
 \renewcommand{\headrulewidth}{0.0pt}
