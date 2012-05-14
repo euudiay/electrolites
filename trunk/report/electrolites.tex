@@ -1,105 +1,93 @@
-\documentclass[12pt,a4paper,openright]{book} % Formato report impreso en DinA4 y cada capítulo empieza en una página nueva
-
-% Abstract
-
-%\usepackage[options]{package}
-\usepackage{graphicx}			% Para meter gráficos EPS
+\documentclass[a4paper]{book}
+\usepackage{graphicx}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[nottoc]{tocbibind}
 \usepackage{appendix}
-
-%\usepackage[dvipdfm,colorlinks]{hyperref}
-%\usepackage[dvipdfm]{hyperref}
 \usepackage[breaklinks,backref=true,colorlinks=true]{hyperref}
 \usepackage{fancyhdr}
-\date{}
-\title{Electrolites}
+
+% Comandos para consultar la fecha y el título del documento
+\newcommand{\thedate}{\today}
+\newcommand{\thetitle}{Electrolites}
+
+\title{\thetitle}
 \author{Pablo Fernández\\Rafael de la Hoz\\Miguel Márquez}
 
-\hypersetup{backref=true,
-colorlinks=true, linkcolor=black, menucolor=black, urlcolor=black, citecolor=black} 
+\hypersetup{backref=true, colorlinks=true, linkcolor=black, menucolor=black,
+	urlcolor=black, citecolor=black} 
 
 \begin{document}
 
-%\maketitle
-\frontmatter
-\pagestyle{fancy}
+	\maketitle
+	\frontmatter % Para prólogos y abstracts y cosas así (numeración romana)
+	\pagestyle{fancy}
+	
+	% Redefinición del estilo plain para cambiar los inicios de capítulos
+	\fancypagestyle{plain} {
+		\fancyhf{}
+		\fancyfoot[RO,LE]{\thepage}
+		\renewcommand{\headrulewidth}{0.0pt}
+		\renewcommand{\footrulewidth}{0.0pt}
+	}
 
-% redefinicion del estilo plain para cambiar los inicios de capitulos
-\fancypagestyle{plain} {
- \fancyhf{}
- \fancyfoot[RO,LE]{\thepage}
- \renewcommand{\headrulewidth}{0.0pt}
- \renewcommand{\footrulewidth}{0.0pt}
-}
-%
-\pagestyle{plain}
-\fancyhf{}
-\fancyfoot[RO,LE]{\thepage}
-\renewcommand{\headrulewidth}{0.0pt}
-\renewcommand{\footrulewidth}{0.0pt}
+	% Sin encabezados ni pie de página, sólo la numeración de la página
+	\pagestyle{plain}
+	\fancyhf{}
+	\fancyfoot[RO,LE]{\thepage}
+	\renewcommand{\headrulewidth}{0.0pt}
+	\renewcommand{\footrulewidth}{0.0pt}
 
-% Documentos anteriores al índice
-\input{cover}
-\input{abstract}
-\input{acknowledgements}
+	% Documentos anteriores al índice
+	\input{cover}
+	\input{abstract}
+	\input{acknowledgements}
 
-%\pagenumbering{roman}
-\tableofcontents
-%
-\pagestyle{plain}
-\fancyhf{}
-\fancyfoot[RO,LE]{\thepage}
-\renewcommand{\headrulewidth}{0.0pt}
-\renewcommand{\footrulewidth}{0.0pt}
-\listoffigures
-%
-\pagestyle{plain}
-%\pagenumbering{arabic}
-%\setcounter{page}{1}
-\fancyhf{}
-\fancyfoot[RO,LE]{\thepage}
-\renewcommand{\headrulewidth}{0.0pt}
-\renewcommand{\footrulewidth}{0.0pt}
-\listoftables
+	\tableofcontents % Índice
 
-%formato para encabezado/pie de pagina para el resto del documento
-\mainmatter
-\pagestyle{fancy}
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{#1}{}}
-\fancyfoot[RO,LE]{\thepage}
-\fancyfoot[RE,LO]{{\it Electrolites}}
-\fancyhead[LE]{{\it \leftmark}}
-\fancyhead[RO]{{\it \rightmark}}
-\fancyhead[RE]{}
-\fancyhead[LO]{}
-\cfoot{}
-\renewcommand{\headrulewidth}{0.5pt}
-\renewcommand{\footrulewidth}{0.5pt}
+	% Para la lista de figuras y la de tablas, lo mismo
+	\pagestyle{plain}
+	\fancyhf{}
+	\fancyfoot[RO,LE]{\thepage}
+	\renewcommand{\headrulewidth}{0.0pt}
+	\renewcommand{\footrulewidth}{0.0pt}
+	\listoffigures
+	\listoftables
 
-% Capítulos
-\input{intro}
-\input{android}
-\input{hardware}
-\input{results}
+	% formato para encabezado/pie de pagina para el resto del documento
+	\mainmatter % Para el resto del documento (numeración arábiga)
+	\pagestyle{fancy}
+	\renewcommand{\chaptermark}[1]{\markboth{#1}{}}	% Para que no nos lo escriba en mayúsculas
+	\renewcommand{\sectionmark}[1]{\markright{#1}{}}	% Para que no nos lo escriba en mayúsculas
+	\fancyfoot[RO,LE]{\thepage}					% Número de página en los bordes
+	\fancyfoot[RE,LO]{{\it \thetitle}}				% Título del documento en el interior del pie de página
+	\fancyhead[LE]{{\it \leftmark}}				% Sección (izquierda, pares)
+	\fancyhead[RO]{{\it \rightmark}}				% Capítulo (derecha, impares)
+	\fancyhead[RE]{}							% (derecha, pares)
+	\fancyhead[LO]{}							% (izquierda, impares)
+	\cfoot{}
+	\renewcommand{\headrulewidth}{1.1pt}			% Grosor de la línea del encabezado
+	\renewcommand{\footrulewidth}{1.1pt}			% Grosor de la línea del pie de página
 
-% Anexos
-\begin{appendices}
-	\renewcommand{\setthesection}{\Alph{section}}
-	\appendix
-	%\appendixpage
-	%\addappheadtotoc
-	\input{tools}
-	%\input{anexoPlataformaAndroid}
-\end{appendices}
+	% Capítulos
+	\input{intro}
+	\input{android}
+	\input{hardware}
+	\input{results}
 
-% Bibliografía
-\fancyhf{}
-\fancyfoot[RO,LE]{\thepage}
-\renewcommand{\headrulewidth}{0.0pt}
-\renewcommand{\footrulewidth}{0.0pt}
-\include{bibliography}
+	% Anexos
+	\begin{appendices}
+		\renewcommand{\setthesection}{\Alph{section}}	% Numeramos con letras
+		\appendix
+		\appendixpage
+		\input{tools}
+	\end{appendices}
+
+	% Bibliografía
+	\fancyhf{}
+	\fancyfoot[RO,LE]{\thepage}
+	\renewcommand{\headrulewidth}{0.0pt}
+	\renewcommand{\footrulewidth}{0.0pt}
+	\include{bibliography}
 
 \end{document}
