@@ -2,11 +2,24 @@
 \label{cha:intro}
 	\section{Main targets}
 	
-		% Motivación y objetivos principales del proyecto
-		% Proyecto ya existente (a nivel europeo, Lausanne, ...)
+		% En esta sección: Motivación y objetivos principales del proyecto
+		
+
 		% Objetivo: desarrollo de un receptor mac 802.15.4 (ZigBee) con conexión usb para dispositivos android y de una aplicación android para visualización de datos recibidos de ecg
+
 		% Interesante porque engloba gran parte de lo aprendido en la carrera, habiendo que desarrollar el proyecto en casi todos los niveles de abstracción, desde diseño y miniaturización de placas hasta desarrollo basado en un framework de muy alto nivel como es Android, pasando por prototipado en placa(pasando por arduino) y desarrollo a nivel de microarquitecturas, en concreto FreeRTOs para procesadores MSP430.
-		%Utilidad para el mundo real, que podría ser adoptada en hospitales dado que es algo que ya se ha estado probando en algunos hospitales y esto sería un importante impulso para el proyecto
+
+		% Novedad en la comunicación USB entre Android y el MSP sin hardware intermedio, actuando el dispositivo Android de host para eliminar la fuente de alimentación del MSP, minimizando al máximo el coste del dispositivo de recepción
+		% Interés en la utilización del stack ZigBee para maximizar la duración de la batería del shimmer (nodo delineador). e.g. enviando por bluetooth horas, enviando por shimmer días
+		%		+ Una red zigbee es mucho más barata (y factible) que una bluetooth. Repetidores zigbee baratos.
+
+		% Utilidad para el mundo real, que podría ser adoptada en hospitales dado que es algo que ya se ha estado probando en algunos hospitales y esto sería un importante impulso para el proyecto
+		% Relacionado con la aplicación real en hospitales (o uso en domicilio particular) el reducido tamaño del nodo delineador permite gran portabilidad, incluso llevarlo encima con objeto de monitorización constante.
+		% Cubre necesidad profesional, médico o enfermera monitorizando un grupo de pacientes de tamaño arbitrario con un único dispositivo android; o incluso a larga distancia recibiendo los datos por internet.
+		% Desarrollando el uso particular, posible aplicación a particulares que posean dispositivos táctiles android, para automonitorización en enfermedades en que sea necesario.
+
+		% Proyecto ya existente (a nivel europeo, Lausanne, ...)
+		% Aplicación ya desarrollada (dentro del mismo proyecto) para dispositivos iOS, en particular iPhone, en plan prototipo con grandes limitaciones, poco accesible (instalar manualmente stack bluetooth, implicando jailbreak), sólo por bluetooth, sin funcionalidad de lectura de logs. Dispositivos iOS alto coste.
 		
 	\section{Description}
 	

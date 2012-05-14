@@ -1,0 +1,22 @@
+1. Estructura
+	Introducción:
+		Con tres pasos, sin orden específico:
+		- Estado del asunto al iniciar el proyecto.
+		- Objetivos.
+		- Objetivos alcanzados.
+
+	Cuerpo:
+		- Software: todo lo IS que podamos
+		- Hardware: prototipos, iteraciones, blahblah
+
+	Resultado
+
+	Conclusiones
+	
+2. Ideas
+	Comprobar si renta al Android ejecutar su stack bluetooth o alimentar el receptor zigbee, en cuanto a batería.
+	
+	Trabajo Futuro: 
+		aplicación de monitorización de varios pacientes a la vez (enfermera, médico, en hospital)
+		aplicación de monitorización a distancia: el nodo delineador envía al tablet, el tablet por red al hospital.
+		Problema: Android y su política de gestión de procesos que puede finalizar lo que quiera cuando quiera. (No es un S.O. en tiempo Real)
