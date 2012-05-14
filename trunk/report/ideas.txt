@@ -15,6 +15,7 @@
 	
 2. Ideas
 	Comprobar si renta al Android ejecutar su stack bluetooth o alimentar el receptor zigbee, en cuanto a batería.
+	Hablar de ZigBee (especificación y tal) si necesitamos relleno.
 	
 	Trabajo Futuro: 
 		aplicación de monitorización de varios pacientes a la vez (enfermera, médico, en hospital)
