@@ -1,8 +1,73 @@
-\chapter{Android app} % application?
+\chapter{Software Development} % application?
 
-	% Brief description and scope for this chapter
-	
-	\paragraph{}
+	% Brief description and scope for this chapter	
+
+	\section{Overview}
+
+	\begin{comment}
+		Microestado del arte:
+		Desarrollo para dispositivos android, paradigma particular, no estamos formados en él (y esto ha dado problemas), 
+arquitecturas muy particulares, en el momento de comenzar el desarrollo documentación buena pero muy técnica, más para consulta que para formación. Versiones de android para usb host, … => impone requisitos al dispositivo tablet
+    (Posibilidad de hilos destruidos en cada momento, atender al giro de pantalla, destrucción de la actividad, …)
+    Limitaciones de android como plataforma (java vm, opengl, …)
+    Aplicación iphone: funcionalidad limitada, captura de requisitos comenzó por ella, crear un producto a partir del prototipo.
+    Se añadió feedback de los médicos con que trabaja Fran en Murcia (Preguntar a Recas) (en particular los logs!)
+
+	\end{comment}
+
+	% Introduction: app + feedback medicos fran
+	The development of a software application targeted at Android Operating System for mobile systms is the counter-part to the hardware research part of the project.
+	This application was to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained from actual medical staff [!]Fran and EPFL[!]. The software must provide functionality to visualize ECG data from Bluetoth or 802.15.44 sources (the latter obtained via [!]our receiver node[!]) in realtime, as well as to save that data into file logs for reading afterwards.\\
+
+	% Android
+	Android as a development platform provides a wide set of high abstraction level tools to emphasize robust and reusable design for low resource based, quick development cycles. Such benefits require the adequation of the software design and architecture to the constrains imposed by the Android development framework.
+		% None android formation + android peculiarities
+	Given that none of the project team members had received any instruction on this framework, engaging the development of an Android application implied an important risk. Moreover, after the research and training steps concluded, follow up of that risk was not halted, as the quick, robust software development is only assured when building an standard Android application; dynamic, soft real-time functionality implementation is not discouraged, but also not guaranteed to work.
+	Mobile devices development restrictions and common practices were also unkown to the team.\\
+
+		% Android limitations
+	Even when the aforementioned eased development features are applicable, mobile devices are harsh software environments due to, amongst others, memory and battery constrains, where processes have to handle being suspeded by an incoming call or similar external events. This factors are specially critical for an application as the one developed in this project, which needs to continually parse and log data.\\
+
+	The application was also intended to act as a quick testing front-end for the prototypes produced by the parallel-conducted hardware research. By providing fully-functional application modules since early stages of development, hardware prototypes could be best-case and worst-case checked by directly connecting them to the Android device for data visualization. Visual verification proved to be a very effective method when working with large quantities of data which were more easily checked against their visual representation than value-by-value reading.
+
+	These factors lead to the adoption of an agile software development process focusing on functionality building while prototyping more high risk involving features. To avoid typical drawbacks of such methodologies, great emphasis was put on the application of characteristics found in \it{Iterative and Incremental processes}, namely, Use Case Driven and Risk Focused Development. That way, [el foco se mantuvo en donde debía estar y los riesgos pudieron assessarse antes de aparecer y se cumplieron los plazos previstos, blah blah blah como se verá ahora].
+
+	\section{Requirements}
+
+		\begin{itemize}
+		\item R01 - Receive raw data via Bluetooth
+		\item R02 - Receive raw data via 802.15.4
+		\item R03 - Receive raw data from a log file
+		\item R04 - Parse raw data into processed data
+		\item R05 - Display processed data
+		\item R06	- Log raw data
+		\item R07 - Log processed data	% Delete if not developed
+		\item R08 - Scale View Vertically
+		\item R09 - Scroll View Vertically
+		\item R10 - Scroll View Horizontally
+		\end{itemize}
+
+	% ?Non-functional requirements?
+	% 30fps
+	% Android 3.1
+
+	\section{Use Cases}
+
+		\subsection{UC1. View data from Bluetooth}
+		\subsection{UC2. View data from USB Receiver}
+		\subsection{UC3. View data from log file}
+		\subsection{UC4. Adjust view parameters}
+
+	\section{Design and Architecture}
+
+	\section{Implementation Details}
+		\subsection{Iteration 1}
+			
+		\subsection{Iteration 2}
+
+	\section{Closure}
+
+	\begin{comment} \paragraph{%} 
 	One fairly important stage of this project was the development of an application
 	based on the mobile operating system Android. This application acts as the receiver
 	part of the whole product, which depends on the emitter module in order to work
@@ -42,3 +107,5 @@
 		% Rewriting(s) and such
 		
 	\section{Performance improvements}
+
+	\end{comment}
