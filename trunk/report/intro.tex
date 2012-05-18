@@ -1,42 +1,101 @@
 \chapter{Intro}
 \label{cha:intro}
-	\section{Main targets}
-	
-		\section{Motivación}
-		\section{Estado del arte}
-			\begin{itemize}
-				\item Proyecto EPFL (pedir referencias a Fran)
-				\item Hace un año: estado de la comunicación android-usb y android-802.15.4 (conexión de dispositivos portátiles con sensores biométricos y no biométricos, costes, consumo, acho de banda, ...)
-				\item 802.15.4
-				\item Estado del arte en cuanto a estados, Nodos Zigbee
-			\end{itemize}
-		\section{Objetivos concretos a lograr}
-			\begin{enumerate}
-				\item Android <- ecg
-				\item Android - msp430 (no hecho, usb)
-				\item Android - 802.15.4 (no hecho)
-				\item Aplicación completa
-			\end{enumerate}
-		\section{Estructura del documento}
-			Y tal.
+	\section{Project driver}
+		\paragraph{}
+		The main motivation for developing this project was the fact that it meant
+		the gathering of almost every branch of this career. From its very beginning, this
+		work involved both software and hardware development, researching on unknown 
+		tools and platforms as well as high and low-level design and programming.
+		
+		\paragraph{}
+		Besides, if successful, it would be likely it could become a real product
+		and be useful both in a professional and particular scope, which added a practical
+		end for the work to be carried out. Something like this could be made thanks to
+		the special features --such as less power consumption and investment-- a 802.15.4-compliant
+		technology provides which dominant ones lack (Bluetooth, for instance).
+		
+		\paragraph{}
+		In addition, not only developing applications for portable devices but accessories
+		are mainstream nowadays; thus, getting in touch with these activities could
+		provide us with extra experience at leading edge practices.
+		
+		\paragraph{}
+		However, certain areas of the project would mean working on unprecedent techniques
+		--as it will be detailed later on within this section-- and dealing with tools
+		which were unknown for us at that moment. Hitches like these could lead to the
+		unfulfillment of the project, yet they could also add extra value to it if 
+		they were overcome.		
+		
+	\section{State of the art}
+		\begin{itemize}
+			\item Proyecto EPFL (pedir referencias a Fran)
+			%\item Hace un año: estado de la comunicación android-usb y android-802.15.4 (conexión de dispositivos portátiles con sensores biométricos y no biométricos, costes, consumo, acho de banda, ...)
+			\item \emph{Android Accessory Development}\\
+				As of May, 2011, there were no easy nor official methods to develop
+				accessories capable of communicate with Android running devices. At that
+				certain time, the release of the Android Accessory Development Kit (ADK)
+				was announced in San Francisco, within the context of Google I/O, developers
+				conferenced arranged by Google.
+				With the release of that kit, Android project opened itself to the development
+				of all kind of new accessories which would add potential and functionalities
+				it lacked.
+				As well as this kit, the following release of Android 3.1 API version completed
+				the accessory ecosystem with the inclusion of directly supported host and device
+				USB modes --previous versions of the API did only support accessory mode in a 
+				provisional way--.
+			\item 802.15.4
+			\item Estado del arte en cuanto a estados, Nodos Zigbee
+		\end{itemize}
+	\section{Main goals}
+		\begin{enumerate}
+			\item Android <- ecg
+			\item Android - msp430 (no hecho, usb)
+			\item Android - 802.15.4 (no hecho)
+			\item Aplicación completa
+		\end{enumerate}
+	\section{Document overview}
+		Y tal.
 		
 		% Ideas Pool
 		% ===========
 		% En esta sección: Motivación y objetivos principales del proyecto
 		
 
-		% Objetivo: desarrollo de un receptor mac 802.15.4 (ZigBee) con conexión usb para dispositivos android y de una aplicación android para visualización de datos recibidos de ecg
+		% Objetivo: desarrollo de un receptor mac 802.15.4 (ZigBee) con conexión 
+		% usb para dispositivos android y de una aplicación android para visualización 
+		% de datos recibidos de ecg
 
-		% Interesante porque engloba gran parte de lo aprendido en la carrera, habiendo que desarrollar el proyecto en casi todos los niveles de abstracción, desde diseño y miniaturización de placas hasta desarrollo basado en un framework de muy alto nivel como es Android, pasando por prototipado en placa(pasando por arduino) y desarrollo a nivel de microarquitecturas, en concreto FreeRTOs para procesadores MSP430.
+		% Interesante porque engloba gran parte de lo aprendido en la carrera, habiendo 
+		% que desarrollar el proyecto en casi todos los niveles de abstracción, desde diseño 
+		% y miniaturización de placas hasta desarrollo basado en un framework de muy alto 
+		% nivel como es Android, pasando por prototipado en placa(pasando por arduino) y 
+		% desarrollo a nivel de microarquitecturas, en concreto FreeRTOs para procesadores MSP430.
 
-		% Novedad en la comunicación USB entre Android y el MSP sin hardware intermedio, actuando el dispositivo Android de host para eliminar la fuente de alimentación del MSP, minimizando al máximo el coste del dispositivo de recepción
-		% Interés en la utilización del stack ZigBee para maximizar la duración de la batería del shimmer (nodo delineador). e.g. enviando por bluetooth horas, enviando por shimmer días
+		% Novedad en la comunicación USB entre Android y el MSP sin hardware intermedio, 
+		% actuando el dispositivo Android de host para eliminar la fuente de alimentación del MSP, 
+		% minimizando al máximo el coste del dispositivo de recepción
+		
+		% Interés en la utilización del stack ZigBee para maximizar la duración de la batería 
+		% del shimmer (nodo delineador). e.g. enviando por bluetooth horas, enviando por shimmer días
 		%		+ Una red zigbee es mucho más barata (y factible) que una bluetooth. Repetidores zigbee baratos.
 
-		% Utilidad para el mundo real, que podría ser adoptada en hospitales dado que es algo que ya se ha estado probando en algunos hospitales y esto sería un importante impulso para el proyecto
-		% Relacionado con la aplicación real en hospitales (o uso en domicilio particular) el reducido tamaño del nodo delineador permite gran portabilidad, incluso llevarlo encima con objeto de monitorización constante.
-		% Cubre necesidad profesional, médico o enfermera monitorizando un grupo de pacientes de tamaño arbitrario con un único dispositivo android; o incluso a larga distancia recibiendo los datos por internet.
-		% Desarrollando el uso particular, posible aplicación a particulares que posean dispositivos táctiles android, para automonitorización en enfermedades en que sea necesario.
+		% Utilidad para el mundo real, que podría ser adoptada en hospitales dado que es 
+		% algo que ya se ha estado probando en algunos hospitales y esto sería un importante 
+		% impulso para el proyecto
+		
+		% Relacionado con la aplicación real en hospitales (o uso en domicilio particular) 
+		% el reducido tamaño del nodo delineador permite gran portabilidad, incluso llevarlo 
+		% encima con objeto de monitorización constante.
+		
+		% Cubre necesidad profesional, médico o enfermera monitorizando un grupo de pacientes 
+		% de tamaño arbitrario con un único dispositivo android; o incluso a larga distancia 
+		% recibiendo los datos por internet.
+		
+		% Desarrollando el uso particular, posible aplicación a particulares que posean dispositivos 
+		% táctiles android, para automonitorización en enfermedades en que sea necesario.
 
 		% Proyecto ya existente (a nivel europeo, Lausanne, ...)
-		% Aplicación ya desarrollada (dentro del mismo proyecto) para dispositivos iOS, en particular iPhone, en plan prototipo con grandes limitaciones, poco accesible (instalar manualmente stack bluetooth, implicando jailbreak), sólo por bluetooth, sin funcionalidad de lectura de logs. Dispositivos iOS alto coste.
+		% Aplicación ya desarrollada (dentro del mismo proyecto) para dispositivos iOS, en particular 
+		% iPhone, en plan prototipo con grandes limitaciones, poco accesible (instalar manualmente 
+		% stack bluetooth, implicando jailbreak), sólo por bluetooth, sin funcionalidad de lectura 
+		% de logs. Dispositivos iOS alto coste.
