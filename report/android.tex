@@ -50,7 +50,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\item R03 - Receive raw data from a log file
 		\item R04 - Parse raw data into processed data
 		\item R05 - Display processed data
-		\item R06	- Log raw data
+		\item R06 - Log raw data
 		\item R07 - Log processed data	% Delete if not developed
 		\item R08 - Scale View Vertically
 		\item R09 - Scroll View Vertically
@@ -61,6 +61,44 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	% 30fps
 	% Android 3.1
 
+	\section{Risk Analysis}
+
+		Being the project mainly a hardware research project, and considering the software development part of it useless without successful results on the hardware part, a detailed process of risk analysis was mandatory to be conducted since the earlier stages of planning and development so as to avoid wasting manpower on futile work.\\
+
+		The risk list at the end of the project is as follows:
+		\begin{itemize}
+		\item \textbf{PR1.} Application funcionality inferior to that featured by existing iOS application
+		\item \textbf{HR1.} 802.15.4 receiver device unfeasible
+		\item \textbf{HR2.} 802.15.4 receiver device delayed
+		\item \textbf{AR1.} Android providing subpar performance when handling required data
+		\item \textbf{AR2.} Android ?Xoom? rendering capabilities unable to handle required data
+		\item \textbf{AR3.} Lack of instruction on Android development
+		\end{itemize}
+
+		% Risk anaylisis process explanation (decisions, ...)
+		This risk anaylisis focused on two main risk sources: the parallel-conducted hardware research, and Android as a development platform. Project definition and team related risks were also considered.\\
+
+		The hardware research part of the project delivered the highest probability and impact rated risks. It was so because those risks were external to the software development project scope and thus could not be handled by any of the tools provided by any development methodology. At the same time, should such risks come to be, the impact on the software product would be, in most of cases, as cathastrophic as turning the whole development useless thus causing it's cancellation.\\
+		
+		Regarding Android development only a subset of the final set of risks was assessed at first. All the risks in this subset dealt with the team lack of knowledge about the Android platform and were scheduled to be addressed foremost. A last risk was added to this group after the first research on mobile devices limitations regarding potential unfitness of such devices for near real-time display and handling of not-so-small data packages, and that risk handling plan proved to be key to the successful outcome of the project as the remaining subset of Android-related risks were linked to Android applications display performance.\\ % Further explanation on this last set?
+
+		The usual project definition and personal risks such as incorrect deadline scheduling or the unability to reach critical milestones on time were pondered, increasing their impact rates as the application would be needed by the hardware device to secure a successful outcome for the project.
+		
+		% Risk Table including evolution
+		A detailed view of each assessed risk is provided next, including risk evolution throughout the project lifetime.
+
+		\paragraph{HR1} Application funcionality inferior to that featured by existing iOS application\\
+		\textbf{Probability:} Moderate\\
+		\textbf{Impact:} Hight\\
+		Two versions: 
+			a. Hardware part and/or USB communication not achieved,
+			b. Funcionality provided by iOS app to best not surpassed
+			(or both)
+		That makes the software project a failure.
+
+		% Conclussion:
+		\paragraph{draft} Thanks to this a schedule was developed that prioritized risk supressing and the decission was taken to plan only the first two of the five intended development iterations, leaving the other three as drafts to allow them to evolve at par with the uncancelled risks.
+	
 % Command to auto-generate Use Case headings (NON FUNCTIONAL YET)
 \begin{comment}
 \newcounter{uccounter}
@@ -166,51 +204,41 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\section{Design and Architecture}
 
 	\section{Implementation Details}
+
+		\begin{comment}
+			Potential iterations
+			It1. Bluetooth + Architecture prototype
+			It2. USB + Log
+			It3. Architecture rewriting
+			It4. Adding it all and finishing
+		\end{comment}
+
+		First two iterations planned so as to reach iOS software functionality, next iterations only drafted because dependant on hw research.
+
 		\subsection{Iteration 1}
+
+			The main objectives for this first iteration were
+			\begin{itemize} 
+				\item the instruction of the team on Android development, 
+				\item the lay out of an initial version of the application architecture and
+				\item the implementation of the Bluetooth receiver module.
+			\end{itemize}
+
+			Learning of android, product disposable.
+			Architecture as a prototype to evolve to (or be substituted by) next versions.
+			By the end of the iteration, UC1 realization was complete but not final.
+			Not yet hardware development => full team at this => smaller time
+			Bluetooth module fully developed except nice user interface and overall user friendlyness
+
+			Results and adaptation of pre-planned it2
 			
 		\subsection{Iteration 2}
 
+			The main objectives for this first iteration were
+			\begin{itemize} 
+				\item the instruction of the team on Android development, 
+				\item the lay out of an initial version of the application architecture and
+				\item the implementation of the Bluetooth receiver module.
+			\end{itemize}
+			As can be noted, this
 	\section{Closure}
-
-	\begin{comment} \paragraph{%} 
-	One fairly important stage of this project was the development of an application
-	based on the mobile operating system Android. This application acts as the receiver
-	part of the whole product, which depends on the emitter module in order to work
-	properly.
-	
-	\paragraph{}
-	Features and requirements will be dealt in deep detail later on, but it would be
-	relevant to cite the main guidelines for this application's development.\\
-	The chosen device belongs to the portable multi-touch category, products commonly referred as
-	``tablets''.\\
-	The application should be able to communicate and receive ecg data from Bluetooth
-	or ZigBee emitter devices, deal and show this data to the user as well as
-	save it for potential future revisions.
-	This kind of devices are usually equipped with Bluetooth radio modules, but the same
-	cannot be said about ZigBee ones. So as to make the device compatible with this
-	technology the application should be made so that it could incorporate and use
-	extra components ---this task was carried out through the USB interface---.
-
-	\section{Requirements} % Features?
-	
-	\section{Design and architecture}
-	
-	\section{Implementation details}
-	
-		\subsection{Parser module}
-		
-		\subsection{Bluetooth module}
-		
-		\subsection{Usb module}
-		
-		\subsection{Display module}
-		
-		% And so on...
-		
-	\section{Versions}
-	
-		% Rewriting(s) and such
-		
-	\section{Performance improvements}
-
-	\end{comment}
