@@ -15,22 +15,32 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	\end{comment}
 
-	% Introduction: app + feedback medicos fran
-	The development of a software application targeted at Android Operating System for mobile systms is the counter-part to the hardware research part of the project.
-	This application was to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained from actual medical staff [!]Fran and EPFL[!]. The software must provide functionality to visualize ECG data from Bluetoth or 802.15.44 sources (the latter obtained via [!]our receiver node[!]) in realtime, as well as to save that data into file logs for reading afterwards.\\
+	% Introduction: app + feedback medical staff (hey, it's an important project!)
+	The development of a software application targeted at Android Operating System for mobile devices is the counter-part to the hardware research part of the project.
+	This application was to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained from actual medical staff [!]Fran and EPFL[!]. The software must provide functionality to visualize ECG data from Bluetoth or 802.15.4 sources (the latter obtained via [!]our receiver node[!]) in realtime, as well as to save that data into file logs for afterwards reading.\\
 
-	% Android
-	Android as a development platform provides a wide set of high abstraction level tools to emphasize robust and reusable design for low resource based, quick development cycles. Such benefits require the adequation of the software design and architecture to the constrains imposed by the Android development framework.
-		% None android formation + android peculiarities
+	% Android general
+	Android as a development platform provides a wide set of high abstraction level tools to emphasize robust and reusable design for low resource based, quick development cycles. Such benefits require the adequation of the software design and architecture to the constrains imposed by the Android development framework.\\
+
+	% None android formation + android peculiarities
 	Given that none of the project team members had received any instruction on this framework, engaging the development of an Android application implied an important risk. Moreover, after the research and training steps concluded, follow up of that risk was not halted, as the quick, robust software development is only assured when building an standard Android application; dynamic, soft real-time functionality implementation is not discouraged, but also not guaranteed to work.
 	Mobile devices development restrictions and common practices were also unkown to the team.\\
 
-		% Android limitations
+	% Android limitations
 	Even when the aforementioned eased development features are applicable, mobile devices are harsh software environments due to, amongst others, memory and battery constrains, where processes have to handle being suspeded by an incoming call or similar external events. This factors are specially critical for an application as the one developed in this project, which needs to continually parse and log data.\\
 
-	The application was also intended to act as a quick testing front-end for the prototypes produced by the parallel-conducted hardware research. By providing fully-functional application modules since early stages of development, hardware prototypes could be best-case and worst-case checked by directly connecting them to the Android device for data visualization. Visual verification proved to be a very effective method when working with large quantities of data which were more easily checked against their visual representation than value-by-value reading.
+	% App linked to hw development and a useful tool
+	The application was also intended to act as a quick testing front-end for the prototypes produced by the parallel-conducted hardware research. By providing fully-functional application modules since early stages of development, hardware prototypes could be best-case and worst-case checked by directly connecting them to the Android device for data visualization. Visual verification proved to be a very effective method when working with large quantities of data which were more easily checked against their visual representation than value-by-value reading.\\
 
-	These factors lead to the adoption of an agile software development process focusing on functionality building while prototyping more high risk involving features. To avoid typical drawbacks of such methodologies, great emphasis was put on the application of characteristics found in \it{Iterative and Incremental processes}, namely, Use Case Driven and Risk Focused Development. That way, [el foco se mantuvo en donde debía estar y los riesgos pudieron assessarse antes de aparecer y se cumplieron los plazos previstos, blah blah blah como se verá ahora].
+	% Development process
+	These factors lead to the adoption of an agile software development process focusing on functionality building while prototyping more high risk involving features. To avoid typical drawbacks of such methodologies, great emphasis was put on the application of characteristics found in \textit{Iterative and Incremental processes}, namely, use case driven and risk focused development. That way, project scheduling was done addressing higher risks first while assuring expected functionality to be implemented on time thanks to the use case model.\\
+
+	% Conclusion and chapter presentation
+	In the following sections a complete view of the software development project will be presented, beginning with the requirements captured for the project. The use case scenarios identified from those requisites will be detailed next, followed by an explanation of the system architecture ?via 4+1 view model?. Then implementation details will be exposed and the chapter will finish with a short conclusion.
+
+	\begin{comment}
+	Full implementation, architectural and yadda yadda are presented in Annex X
+	\end{comment}
 
 	\section{Requirements}
 
@@ -51,12 +61,107 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	% 30fps
 	% Android 3.1
 
+% Command to auto-generate Use Case headings (NON FUNCTIONAL YET)
+\begin{comment}
+\newcounter{uccounter}
+\newcommand{\addUC}[1]{
+	\stepcounter{uccounter}
+	\bf{UC\arabic{uccounter} #1}
+	}
+\end{comment}
+	
 	\section{Use Cases}
-
 		\subsection{UC1. View data from Bluetooth}
+
+			\paragraph{Description} The user wish to receive and visualize data from 	a Bluetooth ECG node in real time. He will start the communication, visualize real-time received data and finish the connection once done.\\
+			\\This use case captures requisites R01, R04, R05, R06, and R07.
+
+			\paragraph{Preconditions} The application is in the main menu screen.
+			\paragraph{Main flow}
+				\begin{enumerate}
+				\item The user indicates his will to start Bluetooh data visualization.
+				\item The system prompts for the node to connect to.
+				\item The user specifies the desired node.
+				\item The system manages connection to the node. If unable to establish the connection, see AF1.
+				\item The system shows processed data to the user. Received data is also logged.
+				\item The user can now adjust view parameters (See UC4)
+				\item The user chooses to finish data visualization.
+				\item The system closes active connections and stops data visualization.
+				\item The system returns to the main menu.
+				\end{enumerate}
+
+			\paragraph{Alternative Flow 1} The system can't establish connection to the Bluetooth node selected by the user.
+				\begin{enumerate}
+				\item The system notifies the user about the problem.
+				\item The system returns to the main menu.
+				\end{enumerate}
+
 		\subsection{UC2. View data from USB Receiver}
+
+			\paragraph{Description} The user wish to receive and visualize data from 	an 802.15.4 ECG node in real time. He will start the communication, visualize real-time received data and finish the connection once done. The data from the node will be received via the USB 802.15.4 receiver device.\\
+			\\This use case captures requisites R02, R04, R05, R06, and R07.
+
+			\paragraph{Preconditions} The application is in the main menu screen.
+			\paragraph{Main flow}
+				\begin{enumerate}
+				\item The user indicates his will to start USB receiver data visualization.
+				\item The system asks the user to connect the USB receiver.
+				\item The user connects the USB receiver.
+				\item The system manages connection to the USB receiver. If unable to establish the connection, see AF1.
+				\item The system shows processed data to the user. Received data is also logged.
+				\item The user can now adjust view parameters (See UC4)
+				\item The user chooses to finish data visualization.
+				\item The system closes active connections and stops data visualization.
+				\item The system returns to the main menu.
+				\end{enumerate}
+
+			\paragraph{Alternative Flow 1} The system can't establish connection to the USB receiver device.
+				\begin{enumerate}
+				\item The system notifies the user about the problem.
+				\item The system returns to the main menu.
+				\end{enumerate}
+
 		\subsection{UC3. View data from log file}
+
+			\paragraph{Description} The user wish to read a log file created from a real time visualization session. He will specify the log file to load, visualize stored data and finish visualization once done.\\
+			\\This use case captures requisites R03, R04 and R05.
+
+			\paragraph{Preconditions} The application is in the main menu screen.
+			\paragraph{Main flow}
+				\begin{enumerate}
+				\item The user indicates his will to start log data visualization.
+				\item The system prompts for the log file to load.
+				\item The user specifies the desired file.
+				\item The system reads the selected log file.
+				\item The system shows logged data to the user.
+				\item The user can now adjust view parameters (See UC4)
+				\item The user chooses to finish data visualization.
+				\item The system stops data visualization.
+				\item The system returns to the file selection menu.
+				\item The user selects to return to main menu. Else follow from step 3.
+				\item The system returns to the main menu.
+				\end{enumerate}
+
 		\subsection{UC4. Adjust view parameters}
+
+			\paragraph{Description} When visualizing ECG data the user wishes to adjust view paramters such as plot vertical scale, plot vertical scroll and plot horizontal scroll.\\
+			\\This use case captures requisites R08, R09, R10.
+
+			\paragraph{Preconditions} The application is displaying ECG data.
+			\paragraph{Main flow}
+				\begin{enumerate}
+				\item The user indicates his will to change the vertical scale.
+				\item The system updates plot vertical scale.
+				\item The user indicates his will to change plot vertical scroll.
+				\item The system updates plot vertical scroll.
+				\item If the displayed data is read from a log file, see AF1.
+				\end{enumerate}
+			
+			\paragraph{Alternate Flow 1} The user is able to control horizontal scroll parameter.	
+				\begin{enumerate}
+				\item The user indicates his will to change the horizontal scroll.
+				\item The system updates plot horizontal scroll.
+				\end{enumerate}
 
 	\section{Design and Architecture}
 
