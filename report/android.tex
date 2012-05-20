@@ -17,7 +17,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	% Introduction: app + feedback medical staff (hey, it's an important project!)
 	The development of a software application targeted at Android Operating System for mobile devices is the counter-part to the hardware research part of the project.
-	This application was to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained from actual medical staff [!]Fran and EPFL[!]. The software must provide functionality to visualize ECG data from Bluetoth or 802.15.4 sources (the latter obtained via [!]our receiver node[!]) in realtime, as well as to save that data into file logs for afterwards reading.\\
+	This application was to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained from actual medical staff [!]Fran and EPFL[!]. The software must provide functionality to visualize ECG data from Bluetooth or 802.15.4 sources (the latter obtained via [!]our receiver node[!]) in realtime, as well as to save that data into file logs for afterwards reading.\\
 
 	% Android general
 	Android as a development platform provides a wide set of high abstraction level tools to emphasize robust and reusable design for low resource based, quick development cycles. Such benefits require the adequation of the software design and architecture to the constrains imposed by the Android development framework.\\
@@ -27,7 +27,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	Mobile devices development restrictions and common practices were also unkown to the team.\\
 
 	% Android limitations
-	Even when the aforementioned eased development features are applicable, mobile devices are harsh software environments due to, amongst others, memory and battery constrains, where processes have to handle being suspeded by an incoming call or similar external events. This factors are specially critical for an application as the one developed in this project, which needs to continually parse and log data.\\
+	Even when the aforementioned eased development features are applicable, mobile devices are harsh software environments due to, amongst others, memory and battery constrains, where processes have to handle being suspended by an incoming call or similar external events. This factors are specially critical for an application as the one developed in this project, which needs to continually parse and log data.\\
 
 	% App linked to hw development and a useful tool
 	The application was also intended to act as a quick testing front-end for the prototypes produced by the parallel-conducted hardware research. By providing fully-functional application modules since early stages of development, hardware prototypes could be best-case and worst-case checked by directly connecting them to the Android device for data visualization. Visual verification proved to be a very effective method when working with large quantities of data which were more easily checked against their visual representation than value-by-value reading.\\
@@ -80,9 +80,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		The hardware research part of the project delivered the highest probability and impact rated risks. It was so because those risks were external to the software development project scope and thus could not be handled by any of the tools provided by any development methodology. At the same time, should such risks come to be, the impact on the software product would be, in most of cases, as cathastrophic as turning the whole development useless thus causing it's cancellation.\\
 		
-		Regarding Android development only a subset of the final set of risks was assessed at first. All the risks in this subset dealt with the team lack of knowledge about the Android platform and were scheduled to be addressed foremost. A last risk was added to this group after the first research on mobile devices limitations regarding potential unfitness of such devices for near real-time display and handling of not-so-small data packages, and that risk handling plan proved to be key to the successful outcome of the project as the remaining subset of Android-related risks were linked to Android applications display performance.\\ % Further explanation on this last set?
+		Regarding Android development only a subset of the final set of risks was assessed at first. Every risk in this subset dealt with the team lack of knowledge about the Android platform and was scheduled to be addressed foremost. A last risk was added to this group after the first research on mobile devices limitations regarding potential unfitness of such devices for near real-time display and handling of not-so-small data packages, and that risk handling plan proved to be key to the successful outcome of the project as the remaining subset of Android-related risks were linked to Android applications display performance.\\ % Further explanation on this last set?
 
-		The usual project definition and personal risks such as incorrect deadline scheduling or the unability to reach critical milestones on time were pondered, increasing their impact rates as the application would be needed by the hardware device to secure a successful outcome for the project.
+		The usual project definition and personal risks such as incorrect deadline scheduling or unability to reach critical milestones on time were pondered, increasing their impact rates as the application would be needed by the hardware device to secure a successful outcome for the project.
 		
 		% Risk Table including evolution
 		A detailed view of each assessed risk is provided next, including risk evolution throughout the project lifetime.
@@ -111,13 +111,13 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\section{Use Cases}
 		\subsection{UC1. View data from Bluetooth}
 
-			\paragraph{Description} The user wish to receive and visualize data from 	a Bluetooth ECG node in real time. He will start the communication, visualize real-time received data and finish the connection once done.\\
+			\paragraph{Description} The user wish to receive and visualize data from a Bluetooth ECG node in real time. He will start the communication, visualize real-time received data and finish the connection once done.\\
 			\\This use case captures requisites R01, R04, R05, R06, and R07.
 
 			\paragraph{Preconditions} The application is in the main menu screen.
 			\paragraph{Main flow}
 				\begin{enumerate}
-				\item The user indicates his will to start Bluetooh data visualization.
+				\item The user indicates his will to start Bluetooth data visualization.
 				\item The system prompts for the node to connect to.
 				\item The user specifies the desired node.
 				\item The system manages connection to the node. If unable to establish the connection, see AF1.
@@ -128,7 +128,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\item The system returns to the main menu.
 				\end{enumerate}
 
-			\paragraph{Alternative Flow 1} The system can't establish connection to the Bluetooth node selected by the user.
+			\paragraph{Alternative Flow 1} The system cannot establish connection to the Bluetooth node selected by the user.
 				\begin{enumerate}
 				\item The system notifies the user about the problem.
 				\item The system returns to the main menu.
@@ -141,6 +141,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			\paragraph{Preconditions} The application is in the main menu screen.
 			\paragraph{Main flow}
+				% Aquí evitaría el uso de tanto "the", me suena mejor "User indicates..." y "System manages..."
 				\begin{enumerate}
 				\item The user indicates his will to start USB receiver data visualization.
 				\item The system asks the user to connect the USB receiver.
@@ -153,7 +154,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\item The system returns to the main menu.
 				\end{enumerate}
 
-			\paragraph{Alternative Flow 1} The system can't establish connection to the USB receiver device.
+			\paragraph{Alternative Flow 1} The system cannot establish connection to the USB receiver device.
 				\begin{enumerate}
 				\item The system notifies the user about the problem.
 				\item The system returns to the main menu.
@@ -161,7 +162,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		\subsection{UC3. View data from log file}
 
-			\paragraph{Description} The user wish to read a log file created from a real time visualization session. He will specify the log file to load, visualize stored data and finish visualization once done.\\
+			\paragraph{Description} The user wishes to read a log file created from a real time visualization session. He will specify the log file to load, visualize stored data and finish visualization once done.\\
 			\\This use case captures requisites R03, R04 and R05.
 
 			\paragraph{Preconditions} The application is in the main menu screen.
@@ -182,7 +183,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		\subsection{UC4. Adjust view parameters}
 
-			\paragraph{Description} When visualizing ECG data the user wishes to adjust view paramters such as plot vertical scale, plot vertical scroll and plot horizontal scroll.\\
+			\paragraph{Description} When visualizing ECG data the user wishes to adjust view parameters such as plot vertical scale, plot vertical scroll and plot horizontal scroll.\\
 			\\This use case captures requisites R08, R09, R10.
 
 			\paragraph{Preconditions} The application is displaying ECG data.
