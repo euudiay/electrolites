@@ -11,7 +11,7 @@
 		Besides, if successful, it would be likely it could become a real product
 		and be useful both in a professional and particular scope, which added a practical
 		end for the work to be carried out. Something like this could be made thanks to
-		the special features --such as less power consumption and investment-- a 802.15.4-compliant
+		the special features --such as less power consumption and investment-- 802.15.4-compliant
 		technology provides which dominant ones lack (Bluetooth, for instance).
 		
 		\paragraph{}
@@ -49,8 +49,29 @@
 	\section{Main goals}
 		\begin{enumerate}
 			\item Android <- ecg
-			\item Android - msp430 (no hecho, usb)
-			\item Android - 802.15.4 (no hecho)
+			\item \emph{Communication with 802.15.4 emmiters}\\\\
+				An initial research was carried out so as to study precedent projects which covered communication
+				using this standard with Android devices, obtaining no results though. Therefore, developing and
+				incorporating this feature to the project would make it pioneer in this field.\\\\
+				However, this sort of communication is not natively supported by any existing Android device
+				--not even any other widely known portable computing device--, which leads to the following goal
+				for the project to fulfill.\\
+			\item \emph{Android accessory development}\\\\
+				As it was stated before, Android-powered devices are usually equipped with Bluetooth radio
+				modules, yet they lack the capability to communicate with devices which implements other 
+				standards. In order to achieve this feature for this sort of device, development of an
+				specifically designed accessory is both a required and mandatory task.\\\\
+				The aforementioned support Android OS provides for USB device and host modes would allow us to
+				obtain data processed by the accessory through an available interface for almost every 
+				Android device. In particular, USB host mode would be required so that the Android device 
+				[!]was able to power the accessory, hence the restriction of using devices running % were?
+				Android version 3.1 or newer.\\\\
+				For this goal an USB-capable board equipped with an MSP430 microcontroller was chosen for acting
+				as the receiver accessory. More specifically, this microcontroller would be running FreeRTOS,
+				which would be accordingly modified for dealing with the USB interface and 802.15.4 
+				communication.\\\\
+				It is also noteworthy that the usage of a prototyping board and a potential miniaturitasion of
+				the previously described board were included into the scope of this objective as well.\\
 			\item Aplicación completa
 		\end{enumerate}
 	\section{Document overview}
