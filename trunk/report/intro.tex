@@ -35,20 +35,39 @@
 				% iPhone, en plan prototipo con grandes limitaciones, poco accesible (instalar manualmente 
 				% stack bluetooth, implicando jailbreak), sólo por bluetooth, sin funcionalidad de lectura 
 				% de logs. Dispositivos iOS alto coste.
-			\item \emph{Android Accessory Development}\\
+			\item \emph{IEEE 802.15.4}\\\\
+				This standard describes the physical and Media Access Control (MAC) layers for low-rate wireless
+				personal area networks. It is intended to be implemented into embedded devices, so as to build up
+				short-range networks --10 meters, tipically-- with narrow bandwith, up to 250kbps, among other
+				possibilites with lower transfer rates.\\\\
+				802.15.4 is specially suitable for this kind of project due to its low power consumption. In
+				fact, ZigBee, which uses this standard as its low-level layer, presents a series of advantages
+				over Bluetooth, underlying technology of the previously mentioned EPFL project:
+				\begin{itemize}
+					\item \textbf{Lower power consumption:} 30mA, ($3\mu A$ idle); while Bluetooth uses 40mA 
+						($200\mu A$ idle).
+					\item \textbf{Bandwith:} Bluetooth offers much wider bandwith, up to 3Mbps, meanwhile ZigBee 
+						only offers up to 250kbps. This, however, is not a relevant disadvantage because our needs 
+						are not so high.
+					\item \textbf{Host number:} ZigBee allows to build networks with up to 65535 hosts, subnetworks 
+						with 255 hosts. On the ohter hand, Bluetooth can only support as much as 8 hosts within a 
+						network. 
+				\end{itemize}
+				ZigBee, though, is not employed as a whole within this project, but 802.15.4 standard as
+				its basis. Nevertheless, its advantages over Bluetooth remains the same.\\
+			\item \emph{Android Accessory Development}\\\\
 				As of May, 2011, there were no easy nor official methods to develop
 				accessories capable of communicate with Android running devices. At that
 				certain time, the release of the Android Accessory Development Kit (ADK)
 				was announced in San Francisco, within the context of Google I/O, developers
-				conferenced arranged by Google.
+				conferenced arranged by Google.\\\\
 				With the release of that kit, Android project opened itself to the development
 				of all kind of new accessories which would add potential and functionalities
-				it lacked.
+				it lacked.\\\\
 				As well as this kit, the following release of Android 3.1 API version completed
 				the accessory ecosystem with the inclusion of directly supported host and device
 				USB modes --previous versions of the API did only support accessory mode in a 
-				provisional way--.
-			\item 802.15.4
+				provisional way--.\\
 			\item Estado del arte en cuanto a estados, Nodos Zigbee
 		\end{itemize}
 	
