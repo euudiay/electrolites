@@ -319,7 +319,7 @@ public class BluetoothManager implements DataManager {
 		// Set button listener
 		Button b = (Button) dialog.findViewById(R.id.btSettingsStart);
 		b.setOnClickListener(new OnClickListener() {
-			@Override
+			// @Override
 			public void onClick(View v) {
 				// Fetch device name holder
 				EditText deviceNameHolder = (EditText) dialog.findViewById(R.id.btDeviceNameTextfield);
