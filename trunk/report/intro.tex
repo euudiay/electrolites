@@ -28,13 +28,29 @@
 		
 	\section{State of the art}
 		\begin{itemize}
-			\item Proyecto EPFL (pedir referencias a Fran)
+			\item \emph{EPFL Project}\\\\
+				% Proyecto EPFL (pedir referencias a Fran)
 				%\item Hace un año: estado de la comunicación android-usb y android-802.15.4 (conexión de dispositivos portátiles con sensores biométricos y no biométricos, costes, consumo, acho de banda, ...)
 				% Proyecto ya existente (a nivel europeo, Lausanne, ...)
 				% Aplicación ya desarrollada (dentro del mismo proyecto) para dispositivos iOS, en particular 
 				% iPhone, en plan prototipo con grandes limitaciones, poco accesible (instalar manualmente 
 				% stack bluetooth, implicando jailbreak), sólo por bluetooth, sin funcionalidad de lectura 
 				% de logs. Dispositivos iOS alto coste.
+				As a precedent of the present project, at the École Polytechnique Fédérale de Lausanne (EPFL)
+				a wireless ECG monitoring system was developed, similar to the one has been built up during
+				this project. Just as ours, this system also used *Shimmers as monitoring, transmitter devices; % No sé si es el nombre técnico adecuado, y tampoco sé exactamente de qué es lo que no podemos hablar.
+				and the obtained data could be displayed in portable computing devices.\\\\
+				Nonetheless, the list of similarities ends there. The application responsible for rendering
+				the ECG waves was meant to be used over iOS devices, particularly iPhone. This fact led to several
+				additional restrictions, such as mandatory usage of Bluetooth as wireless transmission method as
+				well as the need of ``jailbreaking'' the device itself. Jailbreak process was needed in order that
+				a explicitly installed Bluetooth stack allowed the device to receive the emitted data properly.
+				Therefore, the employment of Android in our project is partially motivated by this sort of
+				limitations other platforms usually impose.\\\\
+				*Our project collaborates with EPFL, from whom we have received feedback as well as hardware and % No me quedó claro quién colaboraba con quién, y cómo decir que la colaboración está mediada por "Fran".
+				software requirements. In fact, the aforementioned iOS application *settled most of the
+				requirements for the Android one in our project, although there were added some extra ones --such as
+				making logs from received data so they can be read again later--.\\
 			\item \emph{IEEE 802.15.4}\\\\
 				This standard describes the physical and Media Access Control (MAC) layers for low-rate wireless
 				personal area networks. It is intended to be implemented into embedded devices, so as to build up
@@ -96,7 +112,7 @@
 				The aforementioned support Android OS provides for USB device and host modes would allow us to
 				obtain data processed by the accessory through an available interface for almost every 
 				Android device. In particular, USB host mode would be required so that the Android device 
-				[!]was able to power the accessory, hence the restriction of using devices running % were?
+				*was able to power the accessory, hence the restriction of using devices running % were?
 				Android version 3.1 or newer.\\\\
 				For this goal an USB-capable board equipped with an MSP430 microcontroller was chosen for acting
 				as the receiver accessory. More specifically, this microcontroller would be running FreeRTOS,
