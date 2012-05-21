@@ -68,7 +68,7 @@ public class FileManager implements DataManager {
 		File path = new File(root, "/Download/");
 		
 		File[] files = path.listFiles(new FilenameFilter() {
-			@Override
+			// @Override
 			public boolean accept(File dir, String filename) {
 				return (!filename.contains("log-") &&
 						(filename.endsWith(".log") || filename.endsWith(".txt")));
@@ -87,7 +87,7 @@ public class FileManager implements DataManager {
 		lv.setDescendantFocusability(ListView.FOCUS_BLOCK_DESCENDANTS);
 
 		lv.setOnItemClickListener(new OnItemClickListener() {
-			@Override
+			// @Override
 			public void onItemClick(AdapterView<?> parent, View view,
 				int position, long id) {
 				File root = Environment.getExternalStorageDirectory();

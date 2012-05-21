@@ -68,29 +68,36 @@ public class UsbComThread extends DataSourceThread {
 		
 		// Nos ponemos a la escucha
 		try{
+			byte[] byteBuffer = new byte[bufferDataLength];
+			short actualBytes = -1;
 			while (!stop) {
 				//Parte nueva para leer si eres host
 				if (request.queue(buffer, bufferDataLength) && request.equals(connection.requestWait()))  {
 					
-					byte[] byteBuffer = new byte[bufferDataLength];
 					buffer.get(byteBuffer, 0, bufferDataLength);
 			
-					if (bufferDataLength > 0) {
-						// Show data
-						str = "";
-						for (int i = 0; i < bufferDataLength; i++)
-							str += (buffer.array()[i] & 0xff) + "_";
-						str.substring(0, str.length()-1);
-						System.out.println(str);
+					if (bufferDataLength > 2) {
+						// Received data
+						// str = "";
+						// for (int i = 0; i < bufferDataLength; i++)
+						//	str += (buffer.array()[i] & 0xff) + "_";
+						// str.substring(0, str.length()-1);
+						// System.out.println(str);
+						
+						// Correct package?
+						/*if (byteBuffer[0] != 0x63) {
+							System.err.println("Incorrect usb data package received. Expected 63 got " + buffer.array()[0]);
+							buffer.clear();
+							continue;
+						}*/
+						// Number of bytes received?
+						actualBytes = byteBuffer[1];
+						// Checks here
 						
 						// To dataparser!
-						for (int i = 0; i < bufferDataLength; i++)
+						for (int i = 2; i < actualBytes + 2; i++)
 						{
-							//Apa??o para poder ver por pantalla algo coherente y comprobar si funcionaba bien
-							parser.step((byte) 0xda);
-							parser.step((byte) 0x00);
-							parser.step(buffer.array()[i]);
-							
+							parser.step(byteBuffer[i]);
 						}
 					}
 					buffer.clear();
