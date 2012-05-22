@@ -44,6 +44,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	\section{Requirements}
 
+		% Paragraph here explaining requirement capture process
+		\subsection{Functional Requirements}
+
 		\begin{itemize}
 		\item R01 - Receive raw data via Bluetooth
 		\item R02 - Receive raw data via 802.15.4
@@ -59,7 +62,15 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	% ?Non-functional requirements?
 	% 30fps
-	% Android 3.1
+	% USB-host Android 3.1
+
+		\subsection{Non-functional Requirements}
+
+		The following non-functional requirements are identified:
+		\begin{itemize}
+			\item The application must display ECG data at 30fps.
+			\item The application must run on a Motorla Xoom device.
+		\end{itemize}
 
 	\section{Risk Analysis}
 
@@ -68,11 +79,15 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		The risk list at the end of the project is as follows:
 		\begin{itemize}
 		\item \textbf{PR1.} Application funcionality inferior to that featured by existing iOS application
-		\item \textbf{HR1.} 802.15.4 receiver device unfeasible
-		\item \textbf{HR2.} 802.15.4 receiver device delayed
-		\item \textbf{AR1.} Android providing subpar performance when handling required data
-		\item \textbf{AR2.} Android ?Xoom? rendering capabilities unable to handle required data
-		\item \textbf{AR3.} Lack of instruction on Android development
+
+		\item \textbf{HR1.} 802.15.4 receiver device delayed
+		\item \textbf{HR2.} 802.15.4 receiver device unfeasible
+
+		\item \textbf{AR1.} Lack of instruction on Android development delays workflow
+		\item \textbf{AR2.} Android providing subpar performance when handling required data
+		\item \textbf{AR3.} Android rendering capabilities unable to handle required data
+
+		\item \textbf{MR1.} Mobile device unsuitable for target functionality
 		\end{itemize}
 
 		% Risk anaylisis process explanation (decisions, ...)
@@ -96,7 +111,62 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		Preventive measures were taken to avoid the occurence of this risk since the beginning of the development by a functionality building focused project scheduling for the first development phases.\\
 		\textbf{This risk was marked as surpassed at the reviewing metting of Iteration 2 as all key functionality had been implemented, as planned.}
 
-		% H
+		% HR1
+		\paragraph{HR1.}802.15.4 receiver device delayed\\
+		\textbf{Probability:} High\\
+		\textbf{Impact:} High\\
+		\textbf{Description:} Being the production of the 802.15.4 receiver device dependant on the hardware research part of the project a delay on the estimated milestones for that part of the project is likely to occur. Should that happen, hardware research and development will need to be prioritized over this software project. That could lead to big delays in software production.
+		To prevent the rising of further problems derived from those potential delays, the software development process must always work with non-solid, ready-to-change deadlines and milestones. Application functionality is to be ranked in order of importance of implementation to be prepared, in case of an unexpectedly big delay, to leave less important functionality out of the scope of the project.
+		Markers to be followed up are: unsuccessful output from hardware research (a new branch of the potential technologies tree has to be explored), failure to reach hardware development or research milestones and delays in the acquisition of tools or devices needed for the hardware project.
+		Preventive measures considered are: detailed follow up of the hardware research development, reducing the software development team if manpower is needed in the hardware area, and planning asuming delays on component acquisition.\\
+		\textbf{HR1 was monitored throughout the whole software development project, and marked as surpassed at the reviewing meeting of Iteration 5.}
+
+		% HR2
+		\paragraph{HR2.}802.15.4 receiver device unfeasibe\\
+		\textbf{Probability:} Medium\\
+		\textbf{Impact:} Critical\\
+		\textbf{Description:} Until hardware research results are successfully delivered there is no guarantee of the viability of the 802.15.4 receiver device. This software development project loses most of its value if such device is not developed, as the iOS application already exists. Developing an Android application with an equal feature set is also a valid objective, so this risk does not render the development invalid: the full team will then work on software development, and requirements will be restated to include more final-user oriented functionality and/or features from the \emph{future} set.
+		This risk can be monitored with the following markers: unsuccessful output from hardware research and failure to reach hardware development or research milestones. Being both external to this software project, no preventive measures can be applied apart from scheduling allowing smaller team sizes for the software area.\\
+		\textbf{The probability of the risk was reduced to low after the reviewing meeting for Iteration 3, when the critical hardware research had concluded with positive results. HR2 was marked as surpassed when the production of a device prototype was finished and tested [?TIME?].}
+
+		% AR1
+		\paragraph{AR1.}Lack of instruction on Android development delays workflow\\
+		\textbf{Probability:} High\\
+		\textbf{Impact:} Moderate\\
+		\textbf{Description:} None of the team members has received any instruction on Android development and throughout research is not viable because of time restrictions. It is reasonable to foresee potential delays in the development because of the parallel instruction-development flow, as well as the need to rewrite parts of the system rendered obsolete when further knowledge is acquired.
+		Application malfunctioning, unexpected behaviours and low performance are markers to be tracked.
+		As a preventive measure a short instruction time will be scheduled at the beginning of the project, but every team member is responsible to continue his instruction throughout the whole project. Application builds are to be checked for big differences against canon Android applications behaviour.\\
+		\textbf{The risk was marked as surpassed after Iteration 3, as critical functionality had already been implemented and tested, though Android instruction was not halted.}
+
+		% AR2
+		\paragraph{AR2.}Android providing subpar performance when handling required data\\
+		\textbf{Probability:} Moderate\\
+		\textbf{Impact:} High\\
+		\textbf{Description:} The benefits of the high-level, single application model provided by Android are such in behalf of the sacrifice of performance. In this project soft-realtime requirements are present, and the system needs to process around 250 ECG wave samples [quotation needed] (among other data) per second. Android code reutilization and class based programming suggested practices, the absence of an explicit memory management API and the employment of the Garbage Collector only complicate the achievement of such requirements.  
+		Special care will need to be put on the development and performance checks are to be conducted regularly on generated builds to ensure the avoidance of this risk.
+		If evidence is found of Android inability to provide the required perfomance (and there is no way of attributting the failure to the team's lack of ability), low-level Android development will be considered. As the probability of this last scenario to occur is quite low, no research will be conducted in low-level Android development until mandatory.\\
+		\textbf{The risk was verified to be occuring during Iteration 2 testing phase. Lack of care on memory management was found to be the problem, and was solved in Iteration 3. The risk was marked as surpassed after the review meeting for Iteration 4.}
+
+		% AR3
+		\paragraph{AR3.}Android rendering capabilities unable to handle required data\\
+		\textbf{Probability:} Low\\
+		\textbf{Impact:} High\\
+		\textbf{Description:} The Android Operating System runs on quite a wide range of devices, each with it's own technical specifications. Providing the single application development model that Android features requires many software layers, many of them of high abstaction level. The risk exists, thus, that the rendering required by the project couldn't be achieved within the involved time restrictions. The target device for the project is fixed (see Non-functional Requirements Subsection [link!]) as a Motorola Xoom. This device employs a dedicated Tegra2 GPU [quotation needed] which should suffice, so risk probability is choosen as \emph{low}. Performance tests in the display module are to be conducted, though, so as to make sure that a correct usage of the available resources is being done. 
+		If low rendering performance is detected, Android native level rendering API, Renderscript, is to be looked into as a remedy, once the code is assured to be optimized.
+		\\
+		\textbf{Risk probability was increased to \emph{Moderate} during Iteration 3 as low performance was detected but was considered not critical enough to apply the Renderscript solution. The risk was marked as surpassed in the reviewing meeting of Iteration 4.}
+
+		% MR1
+		\paragraph{MR1.}Mobile device unsuitable for target functionality\\
+		\textbf{Probability:} ???\\
+		\textbf{Impact:} ???\\
+		\textbf{Description:} Risk explanation goes here.\\
+		\textbf{Risk evolution goes here.}
+		
+		\begin{comment}
+		Remaining:
+		{MR1.} Mobile device unsuitable for target quantity of functionality
+		\end{comment}
 
 		% Conclussion:
 		\paragraph{draft} Thanks to this a schedule was developed that prioritized risk supressing and the decission was taken to plan only the first two of the five intended development iterations, leaving the other three as drafts to allow them to evolve at par with the uncancelled risks.
@@ -214,6 +284,17 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			It2. USB + Log
 			It3. Architecture rewriting
 			It4. Adding it all and finishing
+
+			For iteration description:
+				+ objectives
+				+ objectives description
+					realization, done?
+				+ Use Cases realized
+				+ expected and spent time
+				+ extra objectives
+				+ prologue to next iteration
+
+			Describe risk statuses updates in each iteration?
 		\end{comment}
 
 		First two iterations planned so as to reach iOS software functionality, next iterations only drafted because dependant on hw research.
@@ -230,18 +311,63 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			Learning of android, product disposable.
 			Architecture as a prototype to evolve to (or be substituted by) next versions.
 			By the end of the iteration, UC1 realization was complete but not final.
-			Not yet hardware development => full team at this => smaller time
-			Bluetooth module fully developed except nice user interface and overall user friendlyness
+			(Time)Not yet hardware development => full team at this => smaller time
+			(ObjD) Bluetooth module fully developed except nice user interface and overall user friendlyness
+			(Extra) Log writing v1.
 
 			Results and adaptation of pre-planned it2
 			
 		\subsection{Iteration 2}
 
-			The main objectives for this first iteration were
+			The main objectives for the second iteration were
 			\begin{itemize} 
-				\item the instruction of the team on Android development, 
-				\item the lay out of an initial version of the application architecture and
-				\item the implementation of the Bluetooth receiver module.
+				\item the development of the USB communication module and
+				\item the implementation of the Log visualization module.
 			\end{itemize}
-			As can be noted, this
+
+			Log writing improved.
+			USB module done as USB device, valid for arduino and first msp tests
+			Log reading implemented, scrolling and such. Tests results indicate low performance, huge memory requirements.
+			With the basic interface, first Prototype with (except usb host == 802.15.4) full functionality implemented. That nice and all. Shown to masters and feedback applied.
+			On time ?
+
+			Took a loong break here for hardware development
+			% Here ends electroiltes
+
+		\subsection{Iteration 3}
+			% This is microlites
+			This is the first just-drafted iteration. Starting from the fully functional prototype, architectural and performance fixes were mandatory. Also, given the positive state of the hw research scheduling was done for the rest of the iterations.
+
+			The main objectives for this third iteration were
+			\begin{itemize} 
+				\item the redesign of the application architecture, 
+				\item the achievement of required performance in data management and
+				\item the scheduling of the rest of the project time.
+			\end{itemize}
+
+			~(Scheduling seems strange as an objective)~
+
+			Architecture redesigned targeting easy adaptation and versatility inside the scope of the application. Redesigned visualization initialization flow.
+			Performance increased significantly and memory usage reduced THROUGHOUTLY in realtime view.
+			Fixes in modules according to new architecture.
+			Talk about scheduling??
+
+		\subsection{Iteration 4}
+			Final implementation iteration. Final performance increasing fixes and user interface implementation, as well as user-friendliness globally increased.
+
+			The main objectives for this third iteration were
+			\begin{itemize} 
+				\item the achievement of required performance in rendering and, 
+				\item the implementation of user-friendly interfaces.
+			\end{itemize}
+
+			This ends the implementation phase, user-friendlyness could be better but what gives. 
+			Performance left 50-50 because it was already ok (30fps not 60fps).
+			One iteration left, devoted to testing.
+
+		\subsection{Iteration 5}
+			Testing and validation with the real thing.
+
+			Hey, us of the future, I hope everything's ok up there!
+			
 	\section{Closure}
