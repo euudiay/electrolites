@@ -1,12 +1,71 @@
 \chapter{Hardware and communications}
 \label{ch:hardware}
 	
-	% USB device vs host. Bluetooth vs ZigBee.
+	\section{Tecnologies}
+	%mini introducción diciendo que para la correcta comprensión de está sección surge la necesidad de explicar en mayor o menor profundidad las siguientes tecnologías usadas en algún punto del desarollo del proyecto.
+		\subsection{Arduino}
+		\subsection{MSP430}
+		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
+		\subsection{802.15.4}
+		\subsection{FreeRTOS}
+		%Pedir información a recas y referencias a recas
+		\subsection{USB device \& USB host}
+
+	\section{Overview}
+	%Esta parte es el cuerpo de la parte de investigación del proyecto, no se sabía si se podía, no se sabía cómo hacerlo, …
+
+	%Plantea un reto porque toca todos los niveles, desde diseño de PCB a nivel componente hasta desarrollo a nivel de SO (kernel? <= investigar si kernel o SO)
+	%Las dos partes anteriores pueden colarse en el mismo parrafo.
+
+	%que necesidad cubre la parte hardware del proyecto
+
+	% USB device vs host. 
+
+	%MSP430 interacción con android
+
+	%Bluetooth vs ZigBee(NO, 802.15.4). A lo mejor es suficiente con lo de la introducción(estudiar esa sección)
+
+	%Con todo esto en mente y bla bla se plantean los siguientes hitos	
 	
-	\section{Arduino testing}
+	\section{Milestones}	
+
+		\subsection{Arduino for Android USB Device Comunication}
+		%Prototipo sencillo que sirvió para familiarizarnos con la programación de USB en android, rápido porque la parte del arduino estaba hecha, y programar USB device en Android(referencia a algúna parte del software donde se cuente como de facil se implementa eso) no supone demasiada complicación	
+
+		\subsection{MSP430 for Android USB Host Comunication}
+		%Líneas de investigación(plantear de manera lo más cronológica posible remarcando que aui estabamos totalmente a ciegas, no sabíamos como ibamos a alcanzar nuestro objetivo, solo teníamos una API USB proporcionada por TI para comunicación USB con windows: 
+			%Driver propio para linux 
+			%Driver propio para android (ambos sobre driver TI MSP430 para MAC)
+		%[Mencionar Riesgos asumidos al abandonar línea driver propio y seguir investigando]
+		%Encontramos mención a driver genérico HID en android + TI’s HID api for MSP430s
+		%Probamos y funcionó (más trabajo software, enlazar a capítulo) , comentar la importancia del hardware en esta parte de la programación android debido a que ese código es muy dependiente de como implemente el protocolo HID(que proporciona mucha libertad)el MSP lo que supuso mucha investigación y continuo acceso a manuales tanto de la API como del propio MSP(ese comentario iria aqui o en la parte de software?Hablarlo todos)
+
+
+		\subsection{MSP430 and FreeRTOS}	
+		%Adaptación de la API para hacerla funcionar en un SO basado en tareas como es el FreeRTOS
+		%Importantes riesgos de conflictos a nivel de compartición de recursos hardware, que con cuidado(más con suerte que con cuidado) pudieron ser esquivados.
+		
 	
-	\section{MSP430 and FreeRTOS}
-	
-	\section{Shimmer}
-	
-	\section{PCB design}
+		\subsection{802.15.4 in FreeRTOS}
+		%Radio probada en una placa que no proveía USB pero sí salida por puerto serie para simplificar trabajo y facilitar la depuración, se llevó luego a otra con USB pero sin soporte ni software ni hardware para la radio, obligando a mapeo manual de pines, que ahora si con más mañana que suerte se hizo bien y no dio conflicto como veremos ahora aunque si hubo que modificar algo más de código dado que la nueva placa necesitaba iniciar los pines de la radio de otra forma.
+		%FreeRTOS, parte radio en desarrollo por parte de terceros: trabajo incluyó buscar fallos, arreglarlos, terminar lo inacabado y aplicarlo al objetivo; en colaboración con el autor de FreeRTOS 
+
+		\subsection{802.15.4 \& USB coexistence under FreeRTOS}
+		%Riesgos de conflicto hardware entre Radio y USB
+		%Riesgos de conflicto software entre Radio y USB sobre FreeRTOs
+			%(Falta de tiempo para enviar y recibir)
+		%Darle mucho peso a los riesgos y ver como tratar el tema de que no hubo prácticamente ningún problema con ellos(solo al de tiempo para enviar y recibir) sin que se note que este punto no tuvo mucho peso
+
+		\subsection{MSP430 based device design}
+		%Algo en plan, finalizada la investigación y gracias a que pusimos mucho empeño en acabar con tiempo suficiente fuimos capaces(como de tener la capacidad, no de conseguir(be able to)) de diseñar un dispositivo a partir de los componentes presentes en la placa de prototipado.
+		%Identificación de componentes de placa 
+			%(pines de expansión)
+			%(cambio de componentes por otros)
+			%(eliminacion JTAG y reutilizacion Radio)
+		%Captura de esquemático
+		%Diseño PCB
+		%Rutado PCB
+
+		\section{Final Product}
+		%Descripción de que es lo que hemos conseguido(es posible que con la evolución alguien que se lea las iteraciones no consiga una clara visión de cual es el estado final del dispositivo, por lo que esta parte me parece muy importante)
+		%Tener cuidado de que no haya algo muy parecido en la parte de la introducción, aunque si debiera un miniresumen del producto, lo que de la conclusión debería incluir tambien posibles usos no contemplados de lo que hemos conseguido.
