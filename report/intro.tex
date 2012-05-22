@@ -1,30 +1,78 @@
 \chapter{Intro}
 \label{cha:intro}
+	% El orden entre la descripción del proyecto, la motivación y el estado del arte es tentativo.
+	\section{Project description}
+		As the title suggests, this projects aims for creating a system capable of receiving ECG signals from
+		patients and displaying them so that doctors or specialized staff can analyze them and possibly diagnose
+		heart-related illnesses.\\\\
+		In order to do that, we have been using a system already developed which
+		was responsible of monitoring the patient and sending the resulting data wirelessly as well. These
+		devices were able to send their information through Bluetooth or using IEEE 802.15.4 standard, which
+		is specially relevant for this project, as we will see later on in this document.\\\\
+		Once the results of ECG analysis are emitted, it will be necessary to properly receive and parse them
+		within the displaying device and, finally, show them so they will be human-readable.\\\\
+		%Sigo por aquí, que me voy a IGr
+		%As it was previously stated, the main objective for this project, seen as a whole system, consists of
+		In short, the main objective for this project, seen as a whole system, consists of
+		visually and wirelessly displaying and managing data obtained from portable, personal ECG-monitoring
+		emitter devices on an Android tablet. In order that the system can operate that way, the following 
+		issues would have to be resolved:
+		\begin{enumerate}
+			\item \emph{Communication with 802.15.4 emitters}\\\\
+				An initial research was carried out so as to study precedent projects which covered communication
+				using this standard with Android devices, though no results were obtained. Therefore, developing
+				and	incorporating this feature to the project would make it pioneer in this field.\\\\
+				However, this sort of communication is not natively supported by any existing Android device
+				--not even any other widely known portable computing device--, which leads to the following goal
+				for the project to fulfill.\\
+			\item \emph{Android accessory development}\\\\
+				As it was stated before, Android-powered devices are usually equipped with Bluetooth radio
+				modules, yet they lack the capability to communicate with devices which implements other 
+				standards. In order to achieve this feature for this sort of device, development of an
+				specifically designed accessory is both a required and mandatory task.\\\\
+				The aforementioned support Android OS provides for USB device and host modes would allow us to
+				obtain data processed by the accessory through an available interface for almost every 
+				Android device. In particular, USB host mode would be required so that the Android device 
+				*was able to power the accessory, hence the restriction of using devices running % were?, were to be?
+				Android version 3.1 or newer.\\\\
+				For this goal an USB-capable board equipped with an MSP430 microcontroller was chosen for acting
+				as the receiver accessory. More specifically, this microcontroller would be running FreeRTOS,
+				which would be accordingly modified for dealing with the USB interface and 802.15.4 
+				communication.\\\\
+				It is also noteworthy that the usage of a prototyping board and a potential miniaturisation of
+				the previously described board were included into the scope of this objective as well.\\
+			\item \emph{Android ECG application}\\\\
+				Finally, an Android application acts as system's frontend. Its most relevant requirements were
+				determined by the existing EPFL iOS application, with subtle modifications due to the different
+				platform as well as the inclusion of an extra accessory.\\\\
+				The data the application displays, in the shape of ECG waves, may be retrieved from a Bluetooth
+				or 802.15.4 streaming node or a local log file. These logs are written by the application itself
+				as it receives an incoming data transmission, so that it can replay them later --original
+				iOS application lacked this feature--.\\\\
+				Moreover, view controls shall also be offered for the user to modify display density, and move
+				forwards and backwards if a log is being displayed.\\
+		\end{enumerate}
+		Each one of these goals are deeply detailed within their respective chapters and sections, later in this
+		document.
+		
 	\section{Project driver}
-		\paragraph{}
 		The main motivation for developing this project was the fact that it meant
 		the gathering of almost every branch of this career. From its very beginning, this
 		work involved both software and hardware development, researching on unknown 
-		tools and platforms as well as high and low-level design and programming.
-		
-		\paragraph{}
+		tools and platforms as well as high and low-level design and programming.\\\\
 		Besides, if successful, it would be likely it could become a real product
 		and be useful both in a professional and particular scope, which added a practical
 		end for the work to be carried out. Something like this could be made thanks to
 		the special features --such as less power consumption and investment-- 802.15.4-compliant
-		technology provides which dominant ones lack (Bluetooth, for instance).
-		
-		\paragraph{}
+		technology provides which dominant ones lack (Bluetooth, for instance).\\\\
 		In addition, not only developing applications for portable devices but accessories
 		are mainstream nowadays; thus, getting in touch with these activities could
-		provide us with extra experience at leading edge practices.
-		
-		\paragraph{}
+		provide us with extra experience at leading edge practices.\\\\
 		However, certain areas of the project would mean working on unprecedent techniques
 		--as it will be detailed later on within this section-- and dealing with tools
 		which were unknown for us at that moment. Hitches like these could lead to the
 		unfulfillment of the project, yet they could also add extra value to it if 
-		they were overcome.		
+		they were overcome.\\
 		
 	\section{State of the art}
 		\begin{itemize}
@@ -91,48 +139,8 @@
 				restrictions as well.\\
 		\end{itemize}
 	
-	\section{Main goals}
-		As it was previously stated, the main objective for this project, seen as a whole system, consists of
-		visually and wirelessly displaying and managing data obtained from portable, personal ECG-monitoring
-		emitter devices on an Android tablet. In order that the system can operate that way, the following 
-		issues would have to be resolved:
-		\begin{enumerate}
-			\item \emph{Communication with 802.15.4 emitters}\\\\
-				An initial research was carried out so as to study precedent projects which covered communication
-				using this standard with Android devices, though no results were obtained. Therefore, developing
-				and	incorporating this feature to the project would make it pioneer in this field.\\\\
-				However, this sort of communication is not natively supported by any existing Android device
-				--not even any other widely known portable computing device--, which leads to the following goal
-				for the project to fulfill.\\
-			\item \emph{Android accessory development}\\\\
-				As it was stated before, Android-powered devices are usually equipped with Bluetooth radio
-				modules, yet they lack the capability to communicate with devices which implements other 
-				standards. In order to achieve this feature for this sort of device, development of an
-				specifically designed accessory is both a required and mandatory task.\\\\
-				The aforementioned support Android OS provides for USB device and host modes would allow us to
-				obtain data processed by the accessory through an available interface for almost every 
-				Android device. In particular, USB host mode would be required so that the Android device 
-				*was able to power the accessory, hence the restriction of using devices running % were?
-				Android version 3.1 or newer.\\\\
-				For this goal an USB-capable board equipped with an MSP430 microcontroller was chosen for acting
-				as the receiver accessory. More specifically, this microcontroller would be running FreeRTOS,
-				which would be accordingly modified for dealing with the USB interface and 802.15.4 
-				communication.\\\\
-				It is also noteworthy that the usage of a prototyping board and a potential miniaturisation of
-				the previously described board were included into the scope of this objective as well.\\
-			\item \emph{Android ECG application}\\\\
-				Finally, an Android application acts as system's frontend. Its most relevant requirements were
-				determined by the existing EPFL iOS application, with subtle modifications due to the different
-				platform as well as the inclusion of an extra accessory.\\\\
-				The data the application displays, in the shape of ECG waves, may be retrieved from a Bluetooth
-				or 802.15.4 streaming node or a local log file. These logs are written by the application itself
-				as it receives an incoming data transmission, so that it can replay them later --original
-				iOS application lacked this feature--.\\\\
-				Moreover, view controls shall also be offered for the user to modify display density, and move
-				forwards and backwards if a log is being displayed.\\
-		\end{enumerate}
-		Each one of these goals are deeply detailed within their respective chapters and sections, later in this
-		document.
+	%\section{Main goals}
+		
 	
 	\section{Document overview}
 		Over the following pages, this document will present the details about the project it refers to.
