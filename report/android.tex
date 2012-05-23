@@ -1,4 +1,5 @@
 \chapter{Software Development} % application?
+\label{ch:swdev}
 
 	% Brief description and scope for this chapter	
 
@@ -151,7 +152,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\paragraph{AR3.}Android rendering capabilities unable to handle required data\\
 		\textbf{Probability:} Low\\
 		\textbf{Impact:} High\\
-		\textbf{Description:} The Android Operating System runs on quite a wide range of devices, each with its own technical specifications. Providing the single application development model that Android features requires many software layers, many of them of high abstaction level. The risk exists, thus, that the rendering required by the project couldn't be achieved within the involved time restrictions. The target device for the project is fixed (see Non-functional Requirements Subsection [link!]) as a Motorola Xoom. This device employs a dedicated Tegra2 GPU [quotation needed] which should suffice, so risk probability is choosen as \emph{low}. Performance tests in the display module are to be conducted, though, so as to make sure that a correct usage of the available resources is being done. 
+		\textbf{Description:} The Android Operating System runs on quite a wide range of devices, each with its own technical specifications. Providing the single application development model that Android features requires many software layers, many of them of high abstaction level. The risk exists, thus, that the rendering required by the project couldn't be achieved within the involved time restrictions. The target device for the project is fixed (see Non-functional Requirements Subsection [link!]) as a Motorola Xoom. This device employs a dedicated Tegra2 GPU [quotation needed] which should suffice, so risk probability is chosen as \emph{low}. Performance tests in the display module are to be conducted, though, so as to make sure that a correct usage of the available resources is being done. 
 		If low rendering performance is detected, Android native level rendering API, Renderscript, is to be looked into as a remedy, once the code is assured to be optimized.
 		\\
 		\textbf{Risk probability was increased to \emph{Moderate} during Iteration 3 as low performance was detected but was considered not critical enough to apply the Renderscript solution. The risk was marked as surpassed in the reviewing meeting of Iteration 4.}
