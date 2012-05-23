@@ -50,9 +50,11 @@
 				which would be accordingly modified for dealing with the USB interface and 802.15.4 
 				communication.\\\\
 				It is also noteworthy that the usage of a prototyping board and a potential miniaturisation of
-				the previously described board were included into the scope of this objective as well.\\
+				the previously described board were included into the scope of this objective as well. Besides, 
+				full description and more details about this development and 802.15.4 communication can be found 
+				at \autoref{ch:hardware}, \nameref{ch:hardware}.\\
 			\item \emph{Android ECG application}\\\\
-				Finally, an Android application acts as system's frontend. Its most relevant requirements were
+				Finally, an Android application acts as the system's frontend. Its most relevant requirements were
 				determined by the existing EPFL iOS application, with subtle modifications due to the different
 				platform as well as the inclusion of an extra accessory.\\\\
 				The data the application displays, in the shape of ECG waves, may be retrieved from a Bluetooth
@@ -60,10 +62,10 @@
 				as it receives an incoming data transmission, so that it can replay them later --original
 				iOS application lacked this feature--.\\\\
 				Moreover, view controls shall also be offered for the user to modify display density, and move
-				forwards and backwards if a log is being displayed.\\
+				forwards and backwards if a log is being displayed.\\\\
+				More information about the application, such as requirements and other details, can be found
+				at \autoref{ch:swdev}, \nameref{ch:swdev}.\\
 		\end{enumerate}
-		Each one of these goals are deeply detailed within their respective chapters and sections, later in this
-		document.
 		
 	\section{Project driver}
 		The main motivation for developing this project was the fact that it meant
@@ -73,11 +75,12 @@
 		Besides, if successful, it would be likely it could become a real product
 		and be useful both in a professional and particular scope, which added a practical
 		end for the work to be carried out. Something like this could be made thanks to
-		the special features --such as less power consumption and investment-- 802.15.4-compliant
-		technology provides which dominant ones lack (Bluetooth, for instance).\\\\
+		the special features --such as less power consumption and required investment-- 802.15.4-compliant
+		technologies provide which wider spread ones lack (Bluetooth, for instance).\\\\
 		In addition, not only developing applications for portable devices but accessories
 		are mainstream nowadays; thus, getting in touch with these activities could
-		provide us with extra experience at leading edge practices.\\\\
+		provide us with extra experience at leading edge practices, what would broaden our areas of
+		expertise and, consequently, increment our chances to access the labour market.\\\\
 		However, certain areas of the project would mean working on unprecedent techniques
 		--as it will be detailed later on within this section-- and dealing with tools
 		which were unknown for us at that moment. Hitches like these could lead to the
@@ -131,17 +134,25 @@
 				its basis. Nevertheless, its advantages over Bluetooth remains the same.\\
 			\item \emph{Android Accessory Development}\\\\
 				As of May, 2011, there were no easy nor official methods to develop
-				accessories capable of communicate with Android running devices. At that
-				certain time, the release of the Android Accessory Development Kit (ADK)
+				accessories capable of communicating with Android running devices. At that
+				certain time, the release of the Android Open Accessory Development Kit (also known as ``ADK'')
 				was announced in San Francisco, within the context of Google I/O, developers
-				conferenced arranged by Google.\\\\
+				conference arranged by Google.\\\\
+				ADK consists of an USB microcontroller board based on Arduino (Arduino Mega2560 to be precise) and a
+				series of software libraries which add specific functionalities and support for other hardware add-ons,
+				tipically known as \emph{shields}, that equip the accessory with sensors or interactive elements
+				which broaden its capabilities. Shields are plugged to the board through its numerous input/output
+				pins, which also allow the connection of personally crafted hardware additions --allowing that way to
+				create tailored behaviours, following the Arduino's ``Do It Yourself'' (DIY) spirit.\\\\
 				With the release of that kit, Android project opened itself to the development
 				of all kind of new accessories which would add potential and functionalities
 				it lacked.\\\\
 				As well as this kit, the following release of Android 3.1 API version completed
 				the accessory ecosystem with the inclusion of directly supported host and device
-				USB modes --previous versions of the API did only support accessory mode in a 
-				provisional way--.\\
+				USB modes --this support was also backported to Android v2.3.4; only the device mode, though--.
+				By doing so, Google completely cleared the way for the development of Android-compatible accessories, 
+				which was previously reduced to the underlying, quite complete but not enough, Linux kernel driver 
+				support.\\
 			\item \emph{ZigBee dongles}\\\\
 				% Testing, testing
 				In spite of the fact that there were available devices which implemented the complete ZigBee stack,
