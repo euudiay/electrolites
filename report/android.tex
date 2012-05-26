@@ -44,10 +44,16 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\end{comment}
 
 	\section{Requirements}
+		% Requirement capture process explanation (also introduction to this section)
+		The requirement capture process for the project considered three main stake-holders: the project masters (¿Nombres?), the EPFL[*] and the project team members; and was done in two sessions. The first one produced the basic requirement list which described the system and was used to schedule the earlier development iterations. This was so because of the strong time restrictions this software development project had to cope with. 
+		When the critical functionality was achieved and the hardware research was in a suitable state, the second requirements capture session was conducted. By then, the +EPFL representative (Fran) [Murcia Hospital representative?] had shown the state of the development to the stakeholder party of him, and collected feedback. Thus, the requirements produced by this second session were of a more user-oriented nature.\\
 
-		% Paragraph here explaining requirement capture process
+		% ¿Explicar qué intereses tiene cada uno?
+		
+		% Y ahora, esto:
+		The functional and non-functional requirement lists are presented next.
+
 		\subsection{Functional Requirements}
-
 		\begin{itemize}
 		\item R01 - Receive raw data via Bluetooth
 		\item R02 - Receive raw data via 802.15.4
@@ -84,11 +90,11 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\item \textbf{HR1.} 802.15.4 receiver device delayed
 		\item \textbf{HR2.} 802.15.4 receiver device unfeasible
 
+		\item \textbf{MR1.} Mobile device unsuitable for target functionality
+
 		\item \textbf{AR1.} Lack of instruction on Android development delays workflow
 		\item \textbf{AR2.} Android providing subpar performance when handling required data
 		\item \textbf{AR3.} Android rendering capabilities unable to handle required data
-
-		\item \textbf{MR1.} Mobile device unsuitable for target functionality
 		\end{itemize}
 
 		% Risk anaylisis process explanation (decisions, ...)
@@ -130,6 +136,14 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		This risk can be monitored with the following markers: unsuccessful output from hardware research and failure to reach hardware development or research milestones. Being both external to this software project, no preventive measures can be applied apart from scheduling allowing smaller team sizes for the software area.\\
 		\textbf{The probability of the risk was reduced to low after the reviewing meeting for Iteration 3, when the critical hardware research had concluded with positive results. HR2 was marked as surpassed when the production of a device prototype was finished and tested [?TIME?].}
 
+		% MR1
+		\paragraph{MR1.}Mobile device unsuitable for target functionality\\
+		\textbf{Probability:} Low\\
+		\textbf{Impact:} Critical\\
+		\textbf{Description:}Even when mobile devices technical specifications have increased significantly in the previous years, specially regarding CPU power and rendering capabilities, the soft-realtime requirements of the project in terms of data manipulation and visual representation involve a low probability risk of the application being unsuitable for such devices. The risk probability is decreased by the fact that similiar featured applications exists both for iOS and Android powered devices. Even so, the 802.15.4 receiver device USB interface doesn't allow for this risk not to be reckoned.
+		Preventive measures considered: quick prototyping of critical functionality to discard  unfeasibility, conduction of performance tests, both rendering and data handling related, in the target device and testing of USB-Android communication as soon as possible in the project schedule.\\
+		\textbf{As performance tests were conducted on early builds of the application, the need of further research on this risk arised as the data handling performance in the target device was low, but not as low as the rendering performance. Thus, this risk was unfolded into risks AR2 and AR3, both related to Android performance when handling the aforemented tasks. This risk follow up was then halted, as it was no longer needed.}
+
 		% AR1
 		\paragraph{AR1.}Lack of instruction on Android development delays workflow\\
 		\textbf{Probability:} High\\
@@ -155,22 +169,13 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\textbf{Description:} The Android Operating System runs on quite a wide range of devices, each with its own technical specifications. Providing the single application development model that Android features requires many software layers, many of them of high abstaction level. The risk exists, thus, that the rendering required by the project couldn't be achieved within the involved time restrictions. The target device for the project is fixed (see Non-functional Requirements Subsection [link!]) as a Motorola Xoom. This device employs a dedicated Tegra2 GPU [quotation needed] which should suffice, so risk probability is chosen as \emph{low}. Performance tests in the display module are to be conducted, though, so as to make sure that a correct usage of the available resources is being done. 
 		If low rendering performance is detected, Android native level rendering API, Renderscript, is to be looked into as a remedy, once the code is assured to be optimized.
 		\\
-		\textbf{Risk probability was increased to \emph{Moderate} during Iteration 3 as low performance was detected but was considered not critical enough to apply the Renderscript solution. The risk was marked as surpassed in the reviewing meeting of Iteration 4.}
+		\textbf{Risk probability was increased to \emph{Moderate} during Iteration 3 as low performance was detected but was considered not critical enough to apply the Renderscript solution. The risk was marked as surpassed in the reviewing meeting of Iteration 4.}\\
 
-		% MR1
-		\paragraph{MR1.}Mobile device unsuitable for target functionality\\
-		\textbf{Probability:} ???\\
-		\textbf{Impact:} ???\\
-		\textbf{Description:} Risk explanation goes here.\\
-		\textbf{Risk evolution goes here.}
+		% Conclusion
+		Thanks to this risk analysis the project schedule was developed in such a manner that it prioritized risk suppressing and the decision was taken to plan only the first two of the five intended development iterations, leaving the other three as drafts to allow them to evolve at par with the uncancelled risks.
+		Use case realization order was also selected based on this risk analyisis, ensuring that higher risk involving features were developed (or at least prototyped) as early as possible.\\
 		
-		\begin{comment}
-		Remaining:
-		{MR1.} Mobile device unsuitable for target quantity of functionality
-		\end{comment}
-
-		% Conclussion:
-		\paragraph{draft} Thanks to this a schedule was developed that prioritized risk supressing and the decission was taken to plan only the first two of the five intended development iterations, leaving the other three as drafts to allow them to evolve at par with the uncancelled risks.
+		Use cases for the project are presented next, followed by the system architecture description, to allow a finer understanding of the software development project schedule and related decissions, which will be detailed in the next section.
 	
 % Command to auto-generate Use Case headings (NON FUNCTIONAL YET)
 \begin{comment}
@@ -182,6 +187,16 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 \end{comment}
 	
 	\section{Use Cases}
+
+		The project use cases are now presented following the \emph{use case common style} described by Martin Fowler [Fowler, 2004], as the relaxed template allows for quicker document producing than more detailed descriptions such as those presented by Cockburn [Cockburn, 2001].\\
+
+		Actor listing is omitted in all the descriptions, because of the following implicits:
+		\begin{itemize}
+			\item The main actor for the use case is the user
+			\item The only other actor is the data emitter node, when applicable. It can refer to the Bluetooth emmitter device or the USB 802.15.4 receiver device.
+		\end{itemize}
+		Please note that the 802.15.4 emitter node is not considered an actor as the communication with such device is handled by the USB 802.15.4 receiver, which actually is the considered actor.
+
 		\subsection{UC1. View data from Bluetooth}
 
 			\paragraph{Description} The user wish to receive and visualize data from a Bluetooth ECG node in real time. He will start the communication, visualize real-time received data and finish the connection once done.\\
@@ -190,13 +205,14 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\paragraph{Preconditions} The application is in the main menu screen.
 			\paragraph{Main flow}
 				\begin{enumerate}
-				\item The user indicates his will to start Bluetooth data visualization.
+				\item User indicates his will to start Bluetooth data visualization.
 				\item The system prompts for the node to connect to.
-				\item The user specifies the desired node.
+				\item User specifies the desired node.
 				\item The system manages connection to the node. If unable to establish the connection, see AF1.
+				\item The Bluetooth node sends data to the system.
 				\item The system shows processed data to the user. Received data is also logged.
 				\item The user can now adjust view parameters (See UC4)
-				\item The user chooses to finish data visualization.
+				\item User chooses to finish data visualization.
 				\item The system closes active connections and stops data visualization.
 				\item The system returns to the main menu.
 				\end{enumerate}
@@ -214,15 +230,15 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			\paragraph{Preconditions} The application is in the main menu screen.
 			\paragraph{Main flow}
-				% Aquí evitaría el uso de tanto "the", me suena mejor "User indicates..." y "System manages..."
 				\begin{enumerate}
-				\item The user indicates his will to start USB receiver data visualization.
+				\item User indicates his will to start USB receiver data visualization.
 				\item The system asks the user to connect the USB receiver.
-				\item The user connects the USB receiver.
+				\item User connects the USB receiver.
 				\item The system manages connection to the USB receiver. If unable to establish the connection, see AF1.
+				\item The USB receiver device sends data to the system.
 				\item The system shows processed data to the user. Received data is also logged.
-				\item The user can now adjust view parameters (See UC4)
-				\item The user chooses to finish data visualization.
+				\item User can now adjust view parameters (See UC4)
+				\item User chooses to finish data visualization.
 				\item The system closes active connections and stops data visualization.
 				\item The system returns to the main menu.
 				\end{enumerate}
@@ -241,16 +257,16 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\paragraph{Preconditions} The application is in the main menu screen.
 			\paragraph{Main flow}
 				\begin{enumerate}
-				\item The user indicates his will to start log data visualization.
+				\item User indicates his will to start log data visualization.
 				\item The system prompts for the log file to load.
-				\item The user specifies the desired file.
+				\item User specifies the desired file.
 				\item The system reads the selected log file.
 				\item The system shows logged data to the user.
-				\item The user can now adjust view parameters (See UC4)
-				\item The user chooses to finish data visualization.
+				\item User can now adjust view parameters (See UC4)
+				\item User chooses to finish data visualization.
 				\item The system stops data visualization.
 				\item The system returns to the file selection menu.
-				\item The user selects to return to main menu. Else follow from step 3.
+				\item User selects to return to main menu. Else follow from step 3.
 				\item The system returns to the main menu.
 				\end{enumerate}
 
@@ -262,16 +278,16 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\paragraph{Preconditions} The application is displaying ECG data.
 			\paragraph{Main flow}
 				\begin{enumerate}
-				\item The user indicates his will to change the vertical scale.
+				\item User indicates his will to change the vertical scale.
 				\item The system updates plot vertical scale.
-				\item The user indicates his will to change plot vertical scroll.
+				\item User indicates his will to change plot vertical scroll.
 				\item The system updates plot vertical scroll.
 				\item If the displayed data is read from a log file, see AF1.
 				\end{enumerate}
 			
 			\paragraph{Alternate Flow 1} The user is able to control horizontal scroll parameter.	
 				\begin{enumerate}
-				\item The user indicates his will to change the horizontal scroll.
+				\item User indicates his will to change the horizontal scroll.
 				\item The system updates plot horizontal scroll.
 				\end{enumerate}
 
@@ -298,7 +314,48 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			Describe risk statuses updates in each iteration?
 		\end{comment}
 
-		First two iterations planned so as to reach iOS software functionality, next iterations only drafted because dependant on hw research.
+		% Intro
+		In this section a detailed description of the development is presented. The evolution of the application architecture and functionality; design, architectural and implementation decisions and explanations of the circumstances in which they were made, as well as the development of the project schedule are exposed in chronological order.\\
+
+		The section is arranged following the five iterations of the project, developing each one by presenting the target objectives and expected deadlines for the iteration, detailing application evolution with emphasis on use case realization and risk suppressing achievements and demonstrating the state of the project as assessed on the reviewing meeting conducted at the end of the iteration.
+
+		% Scheduling
+		\subsection{Project Scheduling}
+			
+			Before diving into the description of the development process an overview of the project schedule % and the reasons for it to be as open as it is
+			is mandatory.\\
+
+			As was mentioned in the previous sections, an agile software development methodology has been applied to the project, even if artifacts from more ordered and structured methodologies have been employed to avoid losing focus on the critical aspects of the development.\\
+	
+			Software development project being dependant on parallel-conducted hardware research, project assets, both personal and development resources, being shared with the hardware research having the former higher priority, and team's lack of formation regarding Android development are some of the factors which lead to the adoption of such a mixed methodology. As they have been already exposed in previous sections, they won't be detailed here.\\ %Consult [X][Y][Z]... for details
+
+			In such an scenario, a fully developed, eight month covering schedule was unfeasible, at least with the imposed time restrictions which didn't allow much time to be spent on planning. The decision was then made to plan only the earlier project iterations, assuring critical functionality identified from use case development to be implemented as soon as possible as well as higher threat involving risk suppression to be realized.\\
+
+			Actual software project development begun October 15, 2011, being the final deadline set on June 15, 2012. That deadline could not be pushed any further, so an estimated deadline was set on May 31, 2012, leaving half a month for further work or recovering from delays, and seven and a half months of development time.\\
+		
+			Time was needed for the hardware research to start providing results, and no work could be done in the meantime on related application parts. Considering also that even in the most optimistic scenarios no actual work with the 802.15.4 USB receiver couldn't be done until mid February [link to hw planning or something], the schedule had to assume that the first four months of software development would need to cover the implementation of most of the features, leaving the rest of the development time for implementing hardware-related requirements, which couldn't actually be scheduled until hardware research was evaluated.\\
+
+			The adopted schedule dealt with the aforementioned facts by proposing five iterations, from October 15 to May 30, complying with the fifteen days reserved for contingencies. The first three iterations had a duration of two months, and the remaining two were of fifteen days each.\\
+
+			Having the previously developed iOS application as starting point, and being achieving at least the same feature list of that a critical target of the project, the first two iterations were planned so as to realize \textbf{UC1} and \textbf{UC3} which captured requisites expressing such feature list.\\
+
+			The next iterations were just scrapped as no accurate estimation could be done on the state of the project by those dates. Thus, the third iteration was planned to cover the implementation of the remaining features, namely, communication with the 802.15.4 receiver device, the fourth one reserved for polishing the application and the fifth one left for testing and validation. The fourth iteration was to shrink if objectives were achieved quickly to leave more time for validation.\\
+
+			The scheduled distribution of work for each iteration is as follows:\\
+
+			\begin{tabular}{| c | l | l |} % | l | para el hw
+				\hline
+				It & Dates & Activity \\ \hline
+				1 & Oct 15 - Dec 15 & Application base and Bluetooth module\\ \hline
+				2 & Dec 15 - Feb 15 & Log module and initial USB module\\ \hline
+				3 & Feb 15 - Apr 15 & Final USB implementation \\ \hline
+				4 & Apr 15 - May 15 & Polishing \\ \hline
+				5 & May 15 - May 30 & Validation \\ \hline
+				- & May 30 - Jun 15 & Reserved \\
+				\hline
+			\end{tabular}\\
+
+			Throughout the development, as was expected, this schedule had to be adapted as the hardware research advanced to assess the arise of difficulties and subsequent changes to its planning. Instead of providing a fixed snapshot of the altered schedule at the end of the project, a detailed description of each iteration is presented next, including modifications to the planning and the motivation for making them.
 
 		\subsection{Iteration 1}
 
