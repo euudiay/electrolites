@@ -1,6 +1,5 @@
 \chapter{Intro}
 \label{cha:intro}
-	% El orden entre la descripción del proyecto, la motivación y el estado del arte es tentativo.
 	\section{Project description}
 		As the title suggests, this projects aims for creating a system capable of receiving ECG signals from
 		patients and displaying them so that doctors or specialized staff can analyze them and possibly diagnose
@@ -75,7 +74,9 @@
 		and be useful both in a professional and particular scope, which added a practical
 		end for the work to be carried out. Something like this could be made thanks to
 		the special features --such as less power consumption and required investment-- 802.15.4-compliant
-		technologies provide which wider spread ones lack (Bluetooth, for instance).\\\\
+		technologies provide which wider spread ones lack (Bluetooth, for instance). It is also
+		expected that technologies based on IEEE 802.15.4 specification like ZigBee will increase their
+		importance in the medium term due to their potential applications in domotics (home automation).\\\\
 		In addition, not only developing applications for portable devices but accessories
 		are mainstream nowadays; thus, getting in touch with these activities could
 		provide us with extra experience at leading edge practices, what would broaden our areas of
@@ -130,7 +131,8 @@
 						network. 
 				\end{itemize}
 				ZigBee, though, is not employed as a whole within this project, but 802.15.4 standard as
-				its basis. Nevertheless, its advantages over Bluetooth remains the same.\\
+				its basis. Nevertheless, its advantages over Bluetooth remains the same, with the additional one
+				that it does not compromise soft real-time developments as the complete stack does.\\
 			\item \emph{Android Accessory Development}\\\\
 				As of May, 2011, there were no easy nor official methods to develop
 				accessories capable of communicating with Android running devices. At that
@@ -153,10 +155,14 @@
 				which was previously reduced to the underlying, quite complete but not enough, Linux kernel driver 
 				support.\\
 			\item \emph{ZigBee dongles}\\\\
-				% Testing, testing
-				In spite of the fact that there were available devices which implemented the complete ZigBee stack,
-				they were only designed for being connected to personal computers, some models with OS 
-				restrictions as well.\\
+				In spite of the fact that there were available devices which implemented the complete ZigBee
+				stack at the time of the start of this project, they were only designed for being connected to
+				personal computers, some models with OS restrictions as well.\\\\
+				Moreover, even if they were to be compatible with our target device, the only available dongles
+				fully implemented the ZigBee stack, which also made them unsuitable for this project due to the
+				relatively high latency that fact imposed --as it can be read at \autoref{ch:hardware},
+				\nameref{ch:hardware}, soft-realtime needs required the usage of the 802.15.4 MAC layer on
+				its own--.
 			\item \emph{Communication with Android using ZigBee}\\\\
 				One year ago, around mid-2011, there were very few projects which were working on this sort of
 				communication, between Android and 802.15.4 radio-equipped devices. Concretely, the only project
@@ -167,32 +173,30 @@
 					\item \textbf{USB communication:} Texas Instruments developed its own Android driver, namely
 						``virtual COM port'', so they could directly connect their ZigBee Network Processor (ZNP)
 						to the Android device through USB. Instead, Android USB host mode is used in this project
-						in order to establish the connection between the receiver and the device. Because of using
-						this method, USB communication between MSP430 microcontroller and the Android device has
-						to be specifically implemented.
-					\item \textbf{Android platform:} TI's project employed Android 2.2, while we are using version
-						3.1 in ours, due to the needed USB host mode support this API provides. In addition, received
-						data is used by our Android application, while TI employed ZigBee communication so as to
-						control other devices like PCs, lamps or obtain data from certain sensors.
-					\item \textbf{Wireless communication:} in order that the ECG delineation could be done in real-time
-						(soft real-time, as it will be explained later), this project does not use the complete
-						ZigBee stack, but its 802.15.4 MAC layer. This restriction requires the radio --in particular,
-						TI CC2420 radio module-- has to be programmed specifically. Meanwhile, Texas Instruments made
-						use of its TI CC2530 system on chip (SoC), which fully implemented ZigBee stack.
-					\item \textbf{USB dongle:} as it was mentioned before, TI directly plugged their ZNP to an OMAP4
-						Blaze thanks to their driver. However, so that the same result could be obtained, we had to
-						connect the radio, CC2420 module, to the MSP430 board --*nombre de la placa--, which was equipped
-						with a USB interface. Furthermore, miniaturisation of this board was designed afterwards to
-						make it an usable dongle.
-					% Y por aquí sigo.
+						in order to establish the connection between the receiver and the device. Because of
+						using this method, USB communication between MSP430 microcontroller and the Android
+						device has to be specifically implemented and tuned.
+					\item \textbf{Android platform:} TI's project employed Android 2.2, while we are using
+						version	3.1 in ours, due to the aforementioned need of USB host mode support this API
+						provides. In addition, received data is used by our Android application, while TI
+						employed ZigBee communication for less specific ends, such as controlling other devices
+						like PCs, lamps or obtaining data from certain sensors.
+					\item \textbf{Wireless communication:} in order that the ECG delineation could be done in
+						real-time (namely soft real-time, as it will be explained later), this project does not
+						use the complete ZigBee stack, but its 802.15.4 MAC layer. This restriction requires the
+						radio --in particular, TI CC2420 radio module-- has to be programmed specifically.
+						Meanwhile, Texas Instruments made use of its TI CC2530 system on chip (SoC), which fully 
+						implemented ZigBee stack.
+					\item \textbf{USB dongle:} as it was mentioned before, TI directly plugged their ZNP to an
+						OMAP4 Blaze thanks to their driver. However, so that the same result could be obtained,
+						we had to connect the radio, CC2420 module, to the MSP430 board --*nombre de la placa--,
+						which was equipped with a USB interface. Furthermore, miniaturisation of this board was
+						designed afterwards to make it an usable dongle.
 				\end{itemize}
-				%, Android 2.2
-				%was employed, instead version 3.1 which is needed in our project so as to get USB host mode support.
-				%Besides, it made use of the TI CC2530 SoC, which implements the complete ZigBee stack
+				In other words, Texas Instruments' project was actually able to build up working communications
+				of this kind by the time ours was starting; all the same, special requirements like real time
+				needs entail additional challenges for this project to overcome.
 		\end{itemize}
-	
-	%\section{Main goals}
-		
 	
 	\section{Document overview}
 		Over the following pages, this document will present the details about the project it refers to.
