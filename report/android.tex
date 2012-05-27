@@ -140,7 +140,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\paragraph{MR1.}Mobile device unsuitable for target functionality\\
 		\textbf{Probability:} Low\\
 		\textbf{Impact:} Critical\\
-		\textbf{Description:}Even when mobile devices technical specifications have increased significantly in the previous years, specially regarding CPU power and rendering capabilities, the soft-realtime requirements of the project in terms of data manipulation and visual representation involve a low probability risk of the application being unsuitable for such devices. The risk probability is decreased by the fact that similar featured applications exist both for iOS and Android powered devices. Even so, the 802.15.4 receiver device USB interface doesn't allow for this risk not to be reckoned.
+		\textbf{Description:}Even when mobile devices technical specifications have increased significantly in the previous years, specially regarding CPU power and rendering capabilities, the soft-realtime requirements of the project in terms of data manipulation and visual representation involve a low probability risk of the application being unsuitable for such devices. The risk probability is decreased by the fact that similiar featured applications exist both for iOS and Android powered devices. Even so, the 802.15.4 receiver device USB interface doesn't allow for this risk not to be reckoned.
 		Preventive measures considered: quick prototyping of critical functionality to discard  unfeasibility, conduction of performance tests, both rendering and data handling related, in the target device and testing of USB-Android communication as soon as possible in the project schedule.\\
 		\textbf{As performance tests were conducted on early builds of the application, the need of further research on this risk arised as the data handling performance in the target device was low, but not as low as the rendering performance. Thus, this risk was unfolded into risks AR2 and AR3, both related to Android performance when handling the aforementioned tasks. This risk follow up was then halted, as it was no longer needed.}
 
@@ -331,11 +331,11 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			In such an scenario, a fully developed, eight month covering schedule was unfeasible, at least with the imposed time restrictions which didn't allow much time to be spent on planning. The decision was then made to plan only the earlier project iterations, assuring critical functionality identified from use case development to be implemented as soon as possible as well as higher threat involving risk suppression to be realized.\\
 
-			Actual software project development begun October 15, 2011, being the final deadline set on June 15, 2012. That deadline could not be pushed any further, so an estimated deadline was set on May 31, 2012, leaving half a month for further work or recovering from delays, and seven months and a half of development time.\\
+			Actual software project development begun October 15, 2011, being the final deadline set on June 15, 2012. That deadline could not be pushed any further, so an estimated deadline was set on May 31, 2012, leaving half a month for further work or recovering from delays, and seven and a half months of development time.\\
 		
 			Time was needed for the hardware research to start providing results, and no work could be done in the meantime on related application parts. Considering also that even in the most optimistic scenarios no actual work with the 802.15.4 USB receiver couldn't be done until mid February [link to hw planning or something], the schedule had to assume that the first four months of software development would need to cover the implementation of most of the features, leaving the rest of the development time for implementing hardware-related requirements, which couldn't actually be scheduled until hardware research was evaluated.\\
 
-			The adopted schedule dealt with the aforementioned facts by proposing five iterations, from October 15 to May 30, complying with the fifteen days reserved for contingencies. The first three iterations had a duration of two months, and the remaining two were of fifteen days each.\\
+			The adopted schedule dealt with the aforementioned facts by proposing five iterations, from October 15 to May 30, complying with the fifteen days reserved for contingencies. The first three iterations had a duration of two months, the third one a single month, and the remaining one was fifteen days long.\\
 
 			Having the previously developed iOS application as starting point, and being achieving at least the same feature list of that a critical target of the project, the first two iterations were planned so as to realize \textbf{UC1} and \textbf{UC3} which captured requisites expressing such feature list.\\
 
@@ -353,9 +353,23 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				5 & May 15 - May 30 & Validation \\ \hline
 				- & May 30 - Jun 15 & Reserved \\
 				\hline
-			\end{tabular}\\
+			\end{tabular}\\\\
 
-			Throughout the development, as was expected, this schedule had to be adapted as the hardware research advanced to assess the arise of difficulties and subsequent changes to its planning. Instead of providing a fixed snapshot of the altered schedule at the end of the project, a detailed description of each iteration is presented next, including modifications to the planning and the motivation for making them.
+			Which can be seen as the following expected use case realization dates:\\
+
+			\begin{tabular}{| c | l | l |} % | l | para el hw
+				\hline
+				It & Dates & Realized Use Case \\ \hline
+				1 & Oct 15 - Dec 15 & UC1, UC4 (first version)\\ \hline
+				2 & Dec 15 - Feb 15 & UC3, UC2 (first version)\\ \hline
+				3 & Feb 15 - Apr 15 & UC2 (final) \\ \hline
+				4 & Apr 15 - May 15 & UC4 (final) \\ \hline
+				5 & May 15 - May 30 & Validation \\ \hline
+				- & May 30 - Jun 15 & Reserved \\
+				\hline
+			\end{tabular}\\\\
+
+			Throughout the development, as expected, this schedule had to be adapted as the hardware research advanced to assess the arise of difficulties and subsequent changes to its planning. Instead of providing a fixed snapshot of the altered schedule at the end of the project, a detailed description of each iteration is presented next, including modifications to the planning and the motivation for making them.
 
 		\subsection{Iteration 1}
 
@@ -366,14 +380,28 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\item the implementation of the Bluetooth receiver module.
 			\end{itemize}
 
-			Learning of android, product disposable.
-			Architecture as a prototype to evolve to (or be substituted by) next versions.
-			By the end of the iteration, UC1 realization was complete but not final.
-			(Time)Not yet hardware development => full team at this => smaller time
-			(ObjD) Bluetooth module fully developed except nice user interface and overall user friendlyness
-			(Extra) Log writing v1.
+			The alloted time for the iteration was of two monts, from October 15 to December 15. During this period the hardware research didn't require much resources [link to hw], so in practical terms the full team was employed in the software project.\\
 
+			In order to minimize risk AR1[quote?link?], the instruction of the team on Android development becomes the key objective for the iteration. Development starts with the implementation of the designed base architecture for the application, so it serves as a powerful learning resource. The notion of that implementation as disposable is not abandoned throughout iteration time and it is always considered as a prototype to evolve or be substituted by a more refined version once team's knowledge of Android increases.\\
+
+			Having the basic architectural framework developed, implementation of the Bluetooth receiver module begins. Special care is put both on design and implementation, as this functionality has to be ready as soon as posible, and little time will be available for reimplementation further in the development.\\
+
+			Testing of both architecture and Bluetooth module is conducted during the whole iteration, specially in the final weeks, so by the end of the iteration Bluetooth module is validated and expected to be stable until the scheduled architectural redesign.\\
+
+			As the Android formation phase takes less time than expected and hardware research doesn't allow advancing into next iteration at the time iteration objectives are achieved, an extra implementation effort is put to begin implementation of UC4. Adjust View Parameters.\\
+
+			In the review meeting for the iteration the following conclusions are obtained:
+			\begin{itemize}
+				\item Basic architecture implementation is done.
+				\item Android is confirmed to be a very comfortable development environment even if non-standard functionality is not that easiliy achieved. Instruction is planned to continue.
+				\item Realization of UC1-View data from Bluetooth is finished. Related user interface is not final, but it is functional, and is to be updated on further iterations.
+				\item Realization of UC4-Adjust view parameters is done in relation to Bluetooth visualization. As remaining modules are developed, further work is to be done in this field.
+			\end{itemize}
+
+			\begin{comment}
 			Results and adaptation of pre-planned it2
+			Risk evolution!?
+			\end{comment}
 			
 		\subsection{Iteration 2}
 
