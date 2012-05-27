@@ -21,18 +21,28 @@
 		Obviously, regarding the displaying application, there is room to enhance the system's capabilites,
 		as well as to add several useful features. However, such improvements and additions are not
 		considered as they lay out of scope for this project, which focuses in connecting and communicating
-		both devices in addition to translating and displaying the transmitted information.\\\\ 
+		both devices in addition to translating and displaying the transmitted information. In this regard,
+		it is also worth of remark that our target displaying device, Xoom tablet from Motorola, incorporates
+		the standard Bluetooth module, yet it is not equipped with a ZigBee one. Due to this lack, which is
+		more than usual among portable devices nowadays, the making of a compatible receiver accessory
+		centers a fairly important part of the projects.\\\\ 
 		In short, the main objective for this project, seen as a whole system, consists of
 		visually and wirelessly displaying and managing data obtained from portable, personal ECG-monitoring
-		emitter devices on an Android tablet. In order that the system can operate that way, the following 
-		issues would have to be resolved:
+		emitter devices on an Android tablet, paying special attention to make possible the communication
+		with Android through 802.15.4. In order that the system can operate that way, the following 
+		issues will have to be resolved:
 		\begin{enumerate}
 			\item \emph{Communication with 802.15.4 emitters}\\\\
 				Android devices are usually equipped with Bluetooth radio modules, so it is likely that they 
-				count with working Bluetooth communications out of the box.
-				However, this sort of communication is not natively supported by any existing Android device
-				--not even any other widely known portable computing device--, which leads to the following goal
-				for the project to fulfill.\\
+				count with working Bluetooth communications out of the box, which is the case of the target
+				device, a Motorola Xoom tablet.
+				However, 802.15.4-compliant communication is not natively supported by any existing Android
+				device --not even any other widely known portable computing device--, so it will be needed % which leads to the following goal for the project to fulfill. \\
+				the development of an alternative method for achieving this goal. As the next item states,
+				the solution to this problem consists of building up a receiver accessory capable of connecting
+				to the tablet through USB interface. This particular task centers most of the efforts dedicated
+				to the project, since it is both crucial for the proper operation of the system and unprecedent
+				in its field, as it will be detailed later.
 			\item \emph{Android accessory development}\\\\
 				As it was stated before, Android-powered devices are usually equipped with Bluetooth radio
 				modules, yet they lack the capability to communicate with devices which implements other 
@@ -41,12 +51,12 @@
 				The aforementioned support Android OS provides for USB device and host modes would allow us to
 				obtain data processed by the accessory through an available interface for almost every 
 				Android device. In particular, USB host mode would be required so that the Android device 
-				*was able to power the accessory, hence the restriction of using devices running % were?, were to be?
+				were to be able to power the accessory, hence the restriction of using devices running
 				Android version 3.1 or newer.\\\\
 				For this goal an USB-capable board equipped with an MSP430 microcontroller was chosen for acting
-				as the receiver accessory. More specifically, this microcontroller would be running FreeRTOS,
-				which would be accordingly modified for dealing with the USB interface and 802.15.4 
-				communication.\\\\
+				as the receiver accessory. More specifically, this microcontroller would be running FreeRTOS
+				(operating system oriented to tasks with real-time needs), which would be accordingly modified
+				for dealing with the USB interface and 802.15.4 communication.\\\\
 				It is also noteworthy that the usage of a prototyping board and a potential miniaturisation of
 				the previously described board were included into the scope of this objective as well. Besides, 
 				full description and more details about this development and 802.15.4 communication can be found 
