@@ -18,7 +18,10 @@
 	\section{Researched Tecnologies}
 	%mini introducción diciendo que para la correcta comprensión de está sección surge la necesidad de explicar en mayor o menor profundidad las siguientes tecnologías usadas en algún punto del desarollo del proyecto.
 
-	The hardware part of this project containts a lot of terms and technologies which is important to know to a correct understanding of the following section but because of it's size we can't explain it whitout a own section because it would become a very heavy doucment and probably lost the reader attencion and the section purpose.
+	% The hardware part of this project containts a lot of terms and technologies which is important to know to a correct understanding of the following section but because of it's size we can't explain it whitout a own section because it would become a very heavy doucment and probably lost the reader attencion and the section purpose.
+
+	This part of the project involves a lot of terms and references a number of technologies and concepts which are important to be acquainted with in order to achieve a full understanding of the current chapter. These explanations won't be presented interlaced with the rest of the sections due to the unmanageable size they would acquire leading to a loss of focus which can only act against full comprehension of the exposed content.
+
 		\subsection{Arduino}
 		\subsection{MSP430}
 		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
@@ -30,12 +33,23 @@
 	\section{Description}
 
 	%Esta parte es el cuerpo de la parte de investigación del proyecto, no se sabía si se podía, no se sabía cómo hacerlo, …
-	The hardware is the center section of the research in the whole project, not because there wasn't more research, but because nobody has researched this areas. At the begining we just know what we want to do but we have absolutely nor idea or clues about how we can do a very important number of our *milestones. In any cases we don't even know if our goals could be achieved, in particular a very important one, we need to connect a MSP430 to a Android where Android acts as host, and nobody achieve this before and therefore there are no information about that in forums or TI official support.\\
+
+	% The hardware is the center section of the research in the whole project, not because there wasn't more research, but because nobody has researched this areas. At the begining we just know what we want to do but we have absolutely nor idea or clues about how we can do a very important number of our *milestones. In any cases we don't even know if our goals could be achieved, in particular a very important one, we need to connect a MSP430 to a Android where Android acts as host, and nobody achieve this before and therefore there are no information about that in forums or TI official support.\\
+
+	The hardware related investigation is the main section of the research part of the project. Not that there wasn't any research involved in other areas, but some critical elements of this part had never been researched before. 
+	At the beginning of the project specific objectives were established and main milestones elected, but absolutely no clue or direction for most of those milestones was available.
+	Moreover, in some cases the feasibility of the proposed goals was unknown. Specifically the achievement of the very important objective of USB communication between an [TI's] MSP430 %(ponemos algo más de info o ya se sabe el modelo y todo?) 
+	and an Android powered device assuming the latter the role of master and acting the former as a slave was something not done before and therefore no information was available  even in the Texas Instrument support site.\\
 
 	%Plantea un reto porque toca todos los niveles, desde diseño de PCB a nivel componente hasta desarrollo a nivel de SO (kernel? <= investigar si kernel o SO)
-	The project suppose a chalenge because it involves every hardware level, form the lower levels as the PCB design of a device to higher levels as develop parts of a SO. *Aqui molaria poner algo más que dos tristes lineas. \\
+
+	% The project suppose a chalenge because it involves every hardware level, form the lower levels as the PCB design of a device to higher levels as develop parts of a SO. *Aqui molaria poner algo más que dos tristes lineas. \\
+
+	This whole development and research poses quite an interesting challenge as it involves working nearly at every abstraction layer present on device development, ranging from schematic capture and PCB design to operating system related development.
+	Extend this paragraph?\\
 	
-	Scarap zone.\\
+	Scrap zone.\\
+
 	% USB device vs host. 
 	As we explain in the subsection 3.2.5 *Como se ponen enlaces?* the host rol is assumed by who manage the connection, and device rol by the one who just use this connection to send and recive data and recive energy, for us, this minds a simpler programming in our MSP430 device, which code is harder to develop than android code.\\
 
