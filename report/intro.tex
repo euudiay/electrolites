@@ -1,15 +1,23 @@
 \chapter{Intro}
 \label{cha:intro}
 	\section{Project description}
-		As the title suggests, this projects aims for creating a system capable of receiving ECG signals from
-		patients and displaying them so that doctors or specialized staff can analyze them and possibly diagnose
-		heart-related illnesses.\\\\
+
+		This project exposes the research conducted for the development of an USB 802.15.4 receiver device for Android based systems employed in a fully functional ECG monitoring system encompassed in the field of personal healthcare, as well as the development process involved in the realization of this whole system.\\
+
+		% Tareas asumidas por el sistema para expresar el ambito del proyecto
+		The system provides the user with a visual representation of his/her ECG wave highlighting relevant points of this in order to simplify its comprehension. Information about heart-beat-rate % and arrhitmia?
+		is also displayed. All this data is stored in realtime in a transparent to the user manner for later visualization with emphasis put in easy handling of the generated files.\\
+		
+		
+		%As the title suggests, this projects aims for creating a system capable of receiving ECG signals from
+		%patients and displaying them so that doctors or specialized staff can analyze them and possibly diagnose
+		%heart-related illnesses.\\\\
 		In order to do that, we have been using a system already developed which
 		was responsible of monitoring the patient and sending the resulting data wirelessly as well. These
 		devices were able to send their information through Bluetooth or using IEEE 802.15.4 standard, which
-		is specially relevant for this project, as we will see later on in this document.\\\\
+		is specially relevant for this project, as we will see later on in this document.\\
 		Once the results of ECG analysis are emitted, it will be necessary to properly receive and parse them
-		within the displaying device and, finally, show them so they will be human-readable.\\\\
+		within the displaying device and, finally, show them so they will be human-readable.\\
 		This displaying device acts as the system's user interface, and it provides
 		functionality to visualize received data, change visualization parameters, and save and load
 		already-parsed received data also. Thus, considering a monitoring device is sending data,
@@ -17,7 +25,7 @@
 		device, then selects the monitoring device which ECG *he/she wants to analyze and the application % he/she? nada?
 		starts to show the data as it is receiving it. Meanwhile, that information is being logged to 
 		a file at the same time it is being displayed, storing it so as to allow its later, further
-		analysis.\\\\
+		analysis.\\
 		Obviously, regarding the displaying application, there is room to enhance the system's capabilites,
 		as well as to add several useful features. However, such improvements and additions are not
 		considered as they lay out of scope for this project, which focuses in connecting and communicating
@@ -25,14 +33,14 @@
 		it is also worth of remark that our target displaying device, Xoom tablet from Motorola, incorporates
 		the standard Bluetooth module, yet it is not equipped with a ZigBee one. Due to this lack, which is
 		more than usual among portable devices nowadays, the making of a compatible receiver accessory
-		centers a fairly important part of the projects.\\\\ 
+		centers a fairly important part of the projects.\\
 		In short, the main objective for this project, seen as a whole system, consists of
 		visually and wirelessly displaying and managing data obtained from portable, personal ECG-monitoring
 		emitter devices on an Android tablet, paying special attention to make possible the communication
 		with Android through 802.15.4. In order that the system can operate that way, the following 
 		issues will have to be resolved:
 		\begin{enumerate}
-			\item \emph{Communication with 802.15.4 emitters}\\\\
+			\item \emph{Communication with 802.15.4 emitters}\\
 				Android devices are usually equipped with Bluetooth radio modules, so it is likely that they 
 				count with working Bluetooth communications out of the box, which is the case of the target
 				device, a Motorola Xoom tablet.
@@ -43,34 +51,34 @@
 				to the tablet through USB interface. This particular task centers most of the efforts dedicated
 				to the project, since it is both crucial for the proper operation of the system and unprecedent
 				in its field, as it will be detailed later.
-			\item \emph{Android accessory development}\\\\
+			\item \emph{Android accessory development}\\
 				As it was stated before, Android-powered devices are usually equipped with Bluetooth radio
 				modules, yet they lack the capability to communicate with devices which implements other 
 				standards. In order to achieve this feature for this sort of device, development of an
-				specifically designed accessory is both a required and mandatory task.\\\\
+				specifically designed accessory is both a required and mandatory task.\\
 				The aforementioned support Android OS provides for USB device and host modes would allow us to
 				obtain data processed by the accessory through an available interface for almost every 
 				Android device. In particular, USB host mode would be required so that the Android device 
 				were to be able to power the accessory, hence the restriction of using devices running
-				Android version 3.1 or newer.\\\\
+				Android version 3.1 or newer.\\
 				For this goal an USB-capable board equipped with an MSP430 microcontroller was chosen for acting
 				as the receiver accessory. More specifically, this microcontroller would be running FreeRTOS
 				(operating system oriented to tasks with real-time needs), which would be accordingly modified
-				for dealing with the USB interface and 802.15.4 communication.\\\\
+				for dealing with the USB interface and 802.15.4 communication.\\
 				It is also noteworthy that the usage of a prototyping board and a potential miniaturisation of
 				the previously described board were included into the scope of this objective as well. Besides, 
 				full description and more details about this development and 802.15.4 communication can be found 
 				at \autoref{ch:hardware}, \nameref{ch:hardware}.\\
-			\item \emph{Android ECG application}\\\\
+			\item \emph{Android ECG application}\\
 				Finally, an Android application acts as the system's frontend. Its most relevant requirements were
 				determined by the existing EPFL iOS application, with subtle modifications due to the different
-				platform as well as the inclusion of an extra accessory.\\\\
+				platform as well as the inclusion of an extra accessory.\\
 				The data the application displays, in the shape of ECG waves, may be retrieved from a Bluetooth
 				or 802.15.4 streaming node or a local log file. These logs are written by the application itself
 				as it receives an incoming data transmission, so that it can replay them later --original
-				iOS application lacked this feature--.\\\\
+				iOS application lacked this feature--.\\
 				Moreover, view controls shall also be offered for the user to modify display density, and move
-				forwards and backwards if a log is being displayed.\\\\
+				forwards and backwards if a log is being displayed.\\
 				More information about the application, such as requirements and other details, can be found
 				at \autoref{ch:swdev}, \nameref{ch:swdev}.\\
 		\end{enumerate}
@@ -79,18 +87,18 @@
 		The main motivation for developing this project was the fact that it meant
 		the gathering of almost every branch of this career. From its very beginning, this
 		work involved both software and hardware development, researching on unknown 
-		tools and platforms as well as high and low-level design and programming.\\\\
+		tools and platforms as well as high and low-level design and programming.\\
 		Besides, if successful, it would be likely it could become a real product
 		and be useful both in a professional and particular scope, which added a practical
 		end for the work to be carried out. Something like this could be made thanks to
 		the special features --such as less power consumption and required investment-- 802.15.4-compliant
 		technologies provide which wider spread ones lack (Bluetooth, for instance). It is also
 		expected that technologies based on IEEE 802.15.4 specification like ZigBee will increase their
-		importance in the medium term due to their potential applications in domotics (home automation).\\\\
+		importance in the medium term due to their potential applications in domotics (home automation).\\
 		In addition, not only developing applications for portable devices but accessories
 		are mainstream nowadays; thus, getting in touch with these activities could
 		provide us with extra experience at leading edge practices, what would broaden our areas of
-		expertise and, consequently, increment our chances to access the labour market.\\\\
+		expertise and, consequently, increment our chances to access the labour market.\\
 		However, certain areas of the project would mean working on unprecedent techniques
 		--as it will be detailed later on within this section-- and dealing with tools
 		which were unknown for us at that moment. Hitches like these could lead to the
@@ -99,7 +107,10 @@
 		
 	\section{State of the art}
 		\begin{itemize}
-			\item \emph{EPFL Project}\\\\
+
+
+			%Añadir otro item de monitorizacion, onads P QRS y T etc etc. no solo EPFL si no en general, y luego ya EPFL concret
+			\item \emph{EPFL Project}\\
 				% Proyecto EPFL (pedir referencias a Fran)
 				%\item Hace un año: estado de la comunicación android-usb y android-802.15.4 (conexión de dispositivos portátiles con sensores biométricos y no biométricos, costes, consumo, acho de banda, ...)
 				% Proyecto ya existente (a nivel europeo, Lausanne, ...)
@@ -110,23 +121,23 @@
 				As a precedent of the present project, at the École Polytechnique Fédérale de Lausanne (EPFL)
 				a wireless ECG monitoring system was developed, similar to the one has been built up during
 				this project. Just as ours, this system also used *Shimmers as monitoring, transmitter devices; % No sé si es el nombre técnico adecuado, y tampoco sé exactamente de qué es lo que no podemos hablar.
-				and the obtained data could be displayed in portable computing devices.\\\\
+				and the obtained data could be displayed in portable computing devices.\\
 				Nonetheless, the list of similarities ends there. The application responsible for rendering
 				the ECG waves was meant to be used over iOS devices, particularly iPhone. This fact led to several
 				additional restrictions, such as mandatory usage of Bluetooth as wireless transmission method as
 				well as the need of ``jailbreaking'' the device itself. Jailbreak process was needed in order that
 				a explicitly installed Bluetooth stack allowed the device to receive the emitted data properly.
 				Therefore, the employment of Android in our project is partially motivated by this sort of
-				limitations other platforms usually impose.\\\\
+				limitations other platforms usually impose.\\
 				*Our project collaborates with EPFL, from whom we have received feedback as well as hardware and % No me quedó claro quién colaboraba con quién, y cómo decir que la colaboración está mediada por "Fran".
 				software requirements. In fact, the aforementioned iOS application *settled most of the
 				requirements for the Android one in our project, although there were added some extra ones --such as
 				making logs from received data so they can be read again later--.\\
-			\item \emph{IEEE 802.15.4}\\\\
+			\item \emph{IEEE 802.15.4}\\
 				This standard describes the physical and Media Access Control (MAC) layers for low-rate wireless
 				personal area networks. It is intended to be implemented into embedded devices, so as to build up
 				short-range networks --10 meters, tipically-- with narrow bandwith, up to 250kbps, among other
-				possibilites with lower transfer rates.\\\\
+				possibilites with lower transfer rates.\\
 				802.15.4 is specially suitable for this kind of project due to its low power consumption. In
 				fact, ZigBee, which uses this standard as its low-level layer, presents a series of advantages
 				over Bluetooth, underlying technology of the previously mentioned EPFL project:
@@ -143,37 +154,37 @@
 				ZigBee, though, is not employed as a whole within this project, but 802.15.4 standard as
 				its basis. Nevertheless, its advantages over Bluetooth remains the same, with the additional one
 				that it does not compromise soft real-time developments as the complete stack does.\\
-			\item \emph{Android Accessory Development}\\\\
+			\item \emph{Android Accessory Development}\\
 				As of May, 2011, there were no easy nor official methods to develop
 				accessories capable of communicating with Android running devices. At that
 				certain time, the release of the Android Open Accessory Development Kit (also known as ``ADK'')
 				was announced in San Francisco, within the context of Google I/O, developers
-				conference arranged by Google.\\\\
+				conference arranged by Google.\\
 				ADK consists of an USB microcontroller board based on Arduino (Arduino Mega2560 to be precise) and a
 				series of software libraries which add specific functionalities and support for other hardware add-ons,
 				tipically known as \emph{shields}, that equip the accessory with sensors or interactive elements
 				which broaden its capabilities. Shields are plugged to the board through its numerous input/output
 				pins, which also allow the connection of personally crafted hardware additions --allowing that way to
-				create tailored behaviours, following the Arduino's ``Do It Yourself'' (DIY) spirit.\\\\
+				create tailored behaviours, following the Arduino's ``Do It Yourself'' (DIY) spirit.\\
 				With the release of that kit, Android project opened itself to the development
 				of all kind of new accessories which would add potential and functionalities
-				it lacked.\\\\
+				it lacked.\\
 				As well as this kit, the following release of Android 3.1 API version completed
 				the accessory ecosystem with the inclusion of directly supported host and device
 				USB modes --this support was also backported to Android v2.3.4; only the device mode, though--.
 				By doing so, Google completely cleared the way for the development of Android-compatible accessories, 
 				which was previously reduced to the underlying, quite complete but not enough, Linux kernel driver 
 				support.\\
-			\item \emph{ZigBee dongles}\\\\
+			\item \emph{ZigBee dongles}\\
 				In spite of the fact that there were available devices which implemented the complete ZigBee
 				stack at the time of the start of this project, they were only designed for being connected to
-				personal computers, some models with OS restrictions as well.\\\\
+				personal computers, some models with OS restrictions as well.\\
 				Moreover, even if they were to be compatible with our target device, the only available dongles
 				fully implemented the ZigBee stack, which also made them unsuitable for this project due to the
 				relatively high latency that fact imposed --as it can be read at \autoref{ch:hardware},
 				\nameref{ch:hardware}, soft-realtime needs required the usage of the 802.15.4 MAC layer on
 				its own--.
-			\item \emph{Communication with Android using ZigBee}\\\\
+			\item \emph{Communication with Android using ZigBee}\\
 				One year ago, around mid-2011, there were very few projects which were working on this sort of
 				communication, between Android and 802.15.4 radio-equipped devices. Concretely, the only project
 				of this kind we were aware of was one from Texas Instruments, which was stated to be pioneer in 
