@@ -103,11 +103,18 @@
 
 
 		%Plantear de manera lo más cronológica posible remarcando que aui estabamos totalmente a ciegas, no sabíamos como ibamos a alcanzar nuestro objetivo, solo teníamos una API USB proporcionada por TI para comunicación USB con windows: 
-		Unlike the arduino's part where we know what we have to use and how we wil use it, now we found that we just have an Texas Instruments(TI) API to comunicate the MSP430 with windows and our goal.\\
+		Unlike the arduino's part where we know what we have to use and how we wil use it, now we found that we just have an Texas Instruments(TI) API to comunicate the MSP430 with windows and our goal. Both MSP430 microcontroller and MSP430 board was new devices because all the existing ones have no USB port, the microcontroller is a MSP430 6638 and the board is a TS430PZ100USB(link to the MSP430 section).\\
 
 		This API contains any simple aplications for windows, to comunicate by certain protocols with external devices or enumeration tools; an extense documentation about the API and about the USB characteristics of its devices; and a huge suite of examples that implements a lot of USB protocols to comunicate the MSP430 whith windows such as Communications Device Class (CDC), Personal Healthcare Device Class (PHDC), Human Interface Device (HID) in traditional and datatype implementations, Mass Storage Class (MSC) and combinations of any of them. At this point we have an inmense amount of information and we don't really know what can be usefull for us.\\
+		
+		%Introduccion y no va
+		Initialy in order to test the TI API we check some of the multiple examples, in our case was the CDC examples that be usefull to learn about basic concepts of what we try to do. Also we try to read part of the generic(not dependant of the MSP430 device nor USB protocol)documentation that TI provides. And it didn't start too good, the first test with a example provide in the API didn't work in windows, its target SO.
 
-		Initialy in order to test the TI API we check some of the multiple examples, in our case was the CDC examples that be usefull to learn about basic concepts of what we try to do. Also we try to read part of the generic(not dependant of the MSP430 device nor USB protocol)documentation that TI provides. All this tetst was carried out in a virtual machine with windows usually running over other windows, but in a casual situation when this virtual machine was running over ubuntu we discover that this examples not only don't work in ubuntu, somthing that we assume, but in addition ubuntu can't even detect our MSP430, this fact worry us because android is an UNIX based SO just like ubuntu. \\
+		%LE FALTABA UN PUTO RELOJ DE 4MHZ
+		After a good time of investigation we found that it can't initialize a certain clock, this clock don't seems to be in the board and we there are not much references about it. Finally we found a little paragraph in one API document that metion the chance of a USB needed clock was not included in any kind of boards and a recomendation of how should be this clock, when we buy a clock of this features we can check that this was the problems, the TI example finally works.
+
+		%En ubuntu no va, mal rollito
+		All this tetst was carried out in a virtual machine with windows usually running over other windows, but in a casual situation when this virtual machine was running over ubuntu we discover that this examples not only don't work in ubuntu, somthing that we assume, but in addition ubuntu can't even detect our MSP430, this fact worry us because android is an UNIX based SO just like ubuntu. \\
 
 		%Líneas de investigación
 		When we try to connect our MSP430 running one of this examples mentioned before we obvserve that, as we expect, android also can't detect it. Initialy we think our only posible solution to this important trouble was make or found a unix driver, then we investigate that way. \\
@@ -129,16 +136,25 @@
 		\subsection{USB in FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
+		\item Validate the use of FreeRTOS in the new tarject MSP430
 		\item Validate USB API utilization viability in conjunction with FreeRTOS in MSP430,
 		\item correctly integrate USB API into FreeRTOS, and
 		\item manage USB data sending in FreeRTOS.
 		% REALIZACION: port testing application to FreeRTOS task system.
 		\end{itemize}
+		%Antes de cambios o mierdas, miniintroduccion del freeRTOS y referencía a su capitulo
+
+		%Pequeños cambios en FreeRTOS para soportar la nueva plataforma 6638
+		Before to start the real objetive of this milestone we need to adapt the FreeRTOS main functionalities to the new MSP430, that been a new device was not actualy supported by. This mind the creation of a good number of new clases, most of them was excatly equal to their homonimes for the MSP430 5438A but other needs some little modifications.
 
 		%Adaptación de la API para hacerla funcionar en un SO basado en tareas como es el FreeRTOS
 		%Importantes riesgos de conflictos a nivel de compartición de recursos hardware, que con cuidado(más con suerte que con cuidado) pudieron ser esquivados.
+		The next need in the milestone was port as soon as posible the TI USB API to a task-based SO like FreeRTOS whithout taking too much care about its correction. The introduction into the FreeRTOS was prety problematic because the size of just the the API was near to the size of the FreeRTOS. Plus, there are a very important risk, USB uses a important number of resources as pines or clock that can be also used by the FreeRTOS to another task, specially risky was the clock because both need a clock, but the selected board have 2 clock spots, and taking care in the port all this themes could resolved and everything works fine.\\
+
+		%Estaba hecho pero mal, había inclusiones puestas donde no se debía y ya no se podía ejecutar ese mismo código en el shimmer o el antiguo MSP430.
+		Once it's done our preocupation was how to order all this files in a correct way, because our free RTOS was a multiplatform SO that must work in MSP430 5438A, Shimmer, and now, the new MSP430 6638 where take place this develope. In the first port where the multiplatform ability of FreeRTOS was not a problem we lost this funcionality. This separation of tasks help pretty much in focus the first steps in this milestone. This new functionality have to be included just in the supported platform, the MSP430 6638, without affect the other ones as before. Using the preciding generalization needed to cohexists Shimmer and MSP430 5438A as a guide this port was not too traumatic.
+
 		
-	
 		\subsection{802.15.4 in FreeRTOS}
 		This milestone's objectives are:
 		\begin{itemize}
@@ -147,7 +163,7 @@
 		\item port implementation of 802.15.4 to target MSP430 device, and
 		\item prepare such implementation for actual usage.
 		\end{itemize}
-		%Radio probada en una placa que no proveía USB pero sí salida por puerto serie para simplificar trabajo y facilitar la depuración, se llevó luego a otra con USB pero sin soporte ni software ni hardware para la radio, obligando a mapeo manual de pines, que ahora si con más mañana que suerte se hizo bien y no dio conflicto como veremos ahora aunque si hubo que modificar algo más de código dado que la nueva placa necesitaba iniciar los pines de la radio de otra forma.
+		%Radio probada en una placa que no proveía USB pero sí salida por puerto serie para simplificar trabajo y facilitar la depuración, se llevó luego a otra con USB pero sin soporte ni software ni hardware para la radio, obligando a mapeo manual de 				pines, que ahora si con más mañana que suerte se hizo bien y no dio conflicto como veremos ahora aunque si hubo que modificar algo más de código dado que la nueva placa necesitaba iniciar los pines de la radio de otra forma.
 		%FreeRTOS, parte radio en desarrollo por parte de terceros: trabajo incluyó buscar fallos, arreglarlos, terminar lo inacabado y aplicarlo al objetivo; en colaboración con el autor de FreeRTOS 
 
 		\subsection{802.15.4 \& USB coexistence under FreeRTOS}
@@ -161,9 +177,20 @@
 			%(Falta de tiempo para enviar y recibir)
 		%Darle mucho peso a los riesgos y ver como tratar el tema de que no hubo prácticamente ningún problema con ellos(solo al de tiempo para enviar y recibir) sin que se note que este punto no tuvo mucho peso
 
-		\subsection{HEY, que no va}
+		\subsection{Final aplication develop}
+		\begin{itemize}
+		\item Obtention of a shimmer final aplication
+		\item Obtention of a Android aplication
+		\item Test the whole system in its real use.
+		\end{itemize}
+		%Sabiamos que funcionaba con nuestros ejemplos pero faltaba comprobar si funcionaría con la aplicación objetivo del shimmer que tenía unas restricciones de envío más altas y como no podía ser de otra forma no funcionó. Nos agobiamos, rafa se temió lo peor, el shimmer enviaba mal, el tablet parseaba mal, pero nada de esto resolvía los problemas y al final tuvimos suerte y se arregló.
 
 		\subsection{MSP430 based device design}
+		\begin{itemize}
+		\item Board exhaustive analysis
+		\item Capture of the schematic
+		\item PCB design and route
+		\end{itemize}
 		%Algo en plan, finalizada la investigación y gracias a que pusimos mucho empeño en acabar con tiempo suficiente fuimos capaces(como de tener la capacidad, no de conseguir(be able to)) de diseñar un dispositivo a partir de los componentes presentes en la placa de prototipado.
 		%Identificación de componentes de placa 
 			%(pines de expansión)
@@ -174,6 +201,7 @@
 		%Rutado PCB
 
 		\subsection{Final Validation and Release Candidate Version Development}
+		%Esteeee si, mencinamos que esta milestone existía porque había que hacer las pruebas pertinentes ahora que todo estaba completo y comentamos lo que sea que vaya a pasar cuando esté todo.
 
 		\section{Final Product}
 		%Descripción de que es lo que hemos conseguido(es posible que con la evolución alguien que se lea las iteraciones no consiga una clara visión de cual es el estado final del dispositivo, por lo que esta parte me parece muy importante)
