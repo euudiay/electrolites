@@ -40,14 +40,15 @@
 		starts to show the data as it is receiving it. Meanwhile, that information is being logged to 
 		a file at the same time it is being displayed, storing it so as to allow its later, further
 		analysis.\\
-		Obviously, regarding the displaying application, there is room to enhance the system's capabilites,
-		as well as to add several useful features. However, such improvements and additions are not
-		considered as they lay out of scope for this project, which focuses in connecting and communicating
-		both devices in addition to translating and displaying the transmitted information. In this regard,
-		it is also worth of remark that our target displaying device, Xoom tablet from Motorola, incorporates
-		the standard Bluetooth module, yet it is not equipped with a ZigBee one. Due to this lack, which is
-		more than usual among portable devices nowadays, the making of a compatible receiver accessory
-		centers a fairly important part of the projects.\\
+		In spite of the fact that the displaying application is needed because it allows the development of
+		the rest of the project, it is not the main goal since key feature is represented by the 802.15.4
+		communication. In other words, most efforts are focused in connecting and communicating emmiter and
+		receiver devices, considering the development of the application as way to complete the system with 
+		an useful purpose.\\
+		Regarding the communications, it is also worth of remark that our target displaying device, Xoom tablet 
+		from Motorola, incorporates the standard Bluetooth module, yet it is not equipped with a ZigBee one.
+		Due to this lack, which is more than usual among portable devices nowadays, the making of a compatible 
+		receiver accessory centers a fairly important part of the project.\\
 		In short, the main objective for this project, seen as a whole system, consists of
 		visually and wirelessly displaying and managing data obtained from portable, personal ECG-monitoring
 		emitter devices on an Android tablet, paying special attention to make possible the communication
@@ -132,9 +133,10 @@
 				% iPhone, en plan prototipo con grandes limitaciones, poco accesible (instalar manualmente 
 				% stack bluetooth, implicando jailbreak), sólo por bluetooth, sin funcionalidad de lectura 
 				% de logs. Dispositivos iOS alto coste.
-				As a precedent of the present project, at the École Polytechnique Fédérale de Lausanne (EPFL)
-				a wireless ECG monitoring system was developed, similar to the one has been built up during
-				this project. Just as ours, this system also used *Shimmers as monitoring, transmitter devices; % No sé si es el nombre técnico adecuado, y tampoco sé exactamente de qué es lo que no podemos hablar.
+				As a precedent of the present project, the École Polytechnique Fédérale de Lausanne (EPFL),
+				along with the Complutense University of Madrid (UCM), developed a wireless ECG monitoring
+				system, similar to the one has been built up during	this project.
+				Just as ours, this system also used *Shimmers as monitoring, transmitter devices; % No sé si es el nombre técnico adecuado, y tampoco sé exactamente de qué es lo que no podemos hablar.
 				and the obtained data could be displayed in portable computing devices.\\
 				Nonetheless, the list of similarities ends there. The application responsible for rendering
 				the ECG waves was meant to be used over iOS devices, particularly iPhone. This fact led to several
@@ -156,8 +158,10 @@
 				fact, ZigBee, which uses this standard as its low-level layer, presents a series of advantages
 				over Bluetooth, underlying technology of the previously mentioned EPFL project:
 				\begin{itemize}
-					\item \textbf{Lower power consumption:} 30mA, ($3\mu A$ idle); while Bluetooth uses 40mA 
-						($200\mu A$ idle).
+					\item \textbf{Lower power consumption:} without going into detail, it can be stated that Bluetooth 
+						requires more power than ZigBee does. For example, Bluetooth is constantly emitting information,
+						consequently consuming power, while 802.15.4 allows to enable the radio only when it is needed.
+						These statements are properly justified and explained at \autoref{ch:hardware}
 					\item \textbf{Bandwidth:} Bluetooth offers much wider bandwidth, up to 3Mbps, meanwhile ZigBee 
 						only offers up to 250kbps. This, however, is not a relevant disadvantage because our needs 
 						are not so high.
