@@ -9,7 +9,7 @@
 
 		In order to maximize portability, such systems have recently started to employ the widely available smartphone devices as frontends, reducing the amount of extra devices carried by the user to just the ECG capturing node. In 2011 the École Polytechnique Fédérale de Lausanne presented a real-time personal ECG monitoring system which displayed data in an iPhone via Bluetooth.\\
 
-		Taking the aforementioned project as the base, this project seeks taking the beneficial low cost and low power aspects of that to the next level by the employment of a less energy requiring wireless personal area network protocol, namely IEEE 802.15.4, and the more accessible Android based platforms.\\
+		Taking the aforementioned project as the base, this project seeks taking the inherently good low cost and low power aspects of that to the next level by the employment of a less energy requiring wireless personal area network protocol, namely IEEE 802.15.4, and the more accessible Android based platforms.\\
 
 		% Tareas asumidas por el sistema para expresar el ambito del proyecto
 		The system provides the user with a visual representation of his/her ECG wave highlighting relevant points of this in order to simplify its comprehension. Information about heart-beat-rate % and arrhitmia?
@@ -26,15 +26,25 @@
 		Receptor: 
 
 		\end{comment}
+		% Three parts of the system, description of each one (what do they do?)
+		This functionality is provided by the three devices that are part of the system: the ECG delineation node, the USB 802.15.4 receiver and the Android device through the front-end application. The ECG delineation node is connected to the body sensor network and is responsible for capturing and analyzing the electrocardiogram wave, as well as encoding and wirelessly sending the data. The USB 802.15.4 receiver is plugged to the Android system and manages data reception following the aforemented protocol. Finally the Android based application is the real-time data decoder and acts as the frontend to the user, managing connections and storing and displaying received data.\\
+
+		% Description of the realization of each one (how do they do whatever they do?)
+		Development of the Android application, realization of the USB 802.15.4 receiver device, employment of an already-existant ECG delineation node and successful intercommunication between all these elements are the project goals.\\
+		% Android app
 		
-		
+		% Delineation node
+
+		% USB Receiver
+				
 		%As the title suggests, this projects aims for creating a system capable of receiving ECG signals from
 		%patients and displaying them so that doctors or specialized staff can analyze them and possibly diagnose
 		%heart-related illnesses.\\\\
 		In order to do that, we have been using a system already developed which
 		was responsible of monitoring the patient and sending the resulting data wirelessly as well. These
 		devices were able to send their information through Bluetooth or using IEEE 802.15.4 standard, which
-		is specially relevant for this project, as we will see later on in this document.\\
+		is specially relevant for this project, as we will see later on in this document.\\ % Shimmer
+
 		Once the results of ECG analysis are emitted, it will be necessary to properly receive and parse them
 		within the displaying device and, finally, show them so they will be human-readable.\\
 		This displaying device acts as the system's user interface, and it provides
@@ -44,16 +54,19 @@
 		device, then selects the monitoring device which ECG *he/she wants to analyze and the application % he/she? nada?
 		starts to show the data as it is receiving it. Meanwhile, that information is being logged to 
 		a file at the same time it is being displayed, storing it so as to allow its later, further
-		analysis.\\
+		analysis.\\ % Android + Use Case (?)
+
 		In spite of the fact that the displaying application is needed because it allows the development of
 		the rest of the project, it is not the main goal since key feature is represented by the 802.15.4
 		communication. In other words, most efforts are focused in connecting and communicating emmiter and
 		receiver devices, considering the development of the application as way to complete the system with 
-		an useful purpose.\\
+		an useful purpose.\\ % Project main objective: 802.15.4 communication
+
 		Regarding the communications, it is also worth of remark that our target displaying device, Xoom tablet 
 		from Motorola, incorporates the standard Bluetooth module, yet it is not equipped with a ZigBee one.
 		Due to this lack, which is more than usual among portable devices nowadays, the making of a compatible 
-		receiver accessory centers a fairly important part of the project.\\
+		receiver accessory centers a fairly important part of the project.\\ % Realization: receiver device
+
 		In short, the main objective for this project, seen as a whole system, consists of
 		visually and wirelessly displaying and managing data obtained from portable, personal ECG-monitoring
 		emitter devices on an Android tablet, paying special attention to make possible the communication
