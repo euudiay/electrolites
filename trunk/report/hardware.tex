@@ -194,7 +194,7 @@
 		%Pequeños cambios para adaptarse a nuestras actuales necesidades y conclusión
 		Finally some small changes was done in order to adapt it to our project needs. With this a fully funcitonal MAC layer working on the MSP430F6638 was achived and just the potential coexistence with the USB was on the air.\\
 
-		%Comentar que este trabajo se hizo en colaboración con el autor de FreeRTOS (jrecas)?
+		%Comentar que este trabajo se hizo en colaboración con joaquin (jrecas)?
 
 		\subsection{802.15.4 \& USB coexistence under FreeRTOS}
 		This milestone's objectives are:
@@ -202,10 +202,19 @@
 		\item Assess conflict-free coexistence of current implementation of both USB and 802.15.4 modules in MSP430, and
 		\item manage sending data received from 802.15.4 via USB.
 		\end{itemize}
+		%Intro
+		With both USB and 802.15.4 communication working separately we need to test that they can work together. There are 2 main risks; hardware, because any pines used in 802.15.4 can be used also in USB and software, because the time between a radio interruption and the next radio interruption could be too short to send the data trought USB.\\
+
 		%Riesgos de conflicto hardware entre Radio y USB
+		The hardware risk was adviced much before the begining of this milestone, and when we made de pin mapping we keep in mind this risk, thanks that, this risk was avoided.\\
+
 		%Riesgos de conflicto software entre Radio y USB sobre FreeRTOs
 			%(Falta de tiempo para enviar y recibir)
 		%Darle mucho peso a los riesgos y ver como tratar el tema de que no hubo prácticamente ningún problema con ellos(solo al de tiempo para enviar y recibir) sin que se note que este punto no tuvo mucho peso
+		However the software risk was initialy not avoided because the Shimmer send data paquets too fast and MSP430 can't manage this amount of information to send it trought USB and some packets was lost. A little adjusts was necesary, the packets sent was concentred in the start of the available time slots then, we spaced it, sending the same number of packets but with the same time between packet and packet, filling the whole aviable time slots. \\
+
+		%Este hito hacia falta aunque fuese breve para tener el sistema lo más estable posible antes de lanzarnos a probar la aplicación final
+		Now, our system was finally able to send trought USB the packets recived in radio with no losses. This achievment was very important before develop and test the final aplication with several real-time restrictions.\\
 
 		\subsection{Final aplication develop}
 		\begin{itemize}
@@ -213,6 +222,9 @@
 		\item Obtention of a Android aplication, and
 		\item Test the whole system in its real use.
 		\end{itemize}
+		
+		%Le pedimos a fran(mencionamos a fran?) que nos pasara una aplicación que enviara todo lo que era capaz de enviar el shimmer por radio, no la tenía y la tuvo que hacer, acabamos la parte sofware para parsear los datos llegados por USB y a probar.
+	
 		%Sabiamos que funcionaba con nuestros ejemplos pero faltaba comprobar si funcionaría con la aplicación objetivo del shimmer que tenía unas restricciones de envío más altas y como no podía ser de otra forma no funcionó. Nos agobiamos, rafa se temió lo peor, el shimmer enviaba mal, el tablet parseaba mal, pero nada de esto resolvía los problemas y al final tuvimos suerte y se arregló.
 
 		\subsection{MSP430 based device design}
