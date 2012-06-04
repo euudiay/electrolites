@@ -6,6 +6,8 @@ PDF=$(PRY).pdf
 
 all:
 	pdflatex $(SRC)
+	pdflatex $(SRC)
+	pdflatex $(SRC)
 	
 show: all
 	evince $(PDF)
