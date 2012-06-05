@@ -8,6 +8,7 @@
 \usepackage{fancyhdr}
 \usepackage{comment}
 \usepackage{url}
+\usepackage{todonotes}
 
 % Comandos para consultar la fecha y el título del documento
 \newcommand{\thedate}{\today}
@@ -20,13 +21,15 @@
 \author{Pablo Fernández\\Rafael de la Hoz\\Miguel Márquez}
 
 \hypersetup{backref=true, colorlinks=true, linkcolor=black, menucolor=black,
-	urlcolor=black, citecolor=black} 
+	urlcolor=black, citecolor=black}
 
 \begin{document}
 
 	\maketitle
 	\frontmatter % Para prólogos y abstracts y cosas así (numeración romana)
 	\pagestyle{fancy}
+
+	\listoftodos
 	
 	% Redefinición del estilo plain para cambiar los inicios de capítulos
 	\fancypagestyle{plain} {
