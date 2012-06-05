@@ -5,7 +5,7 @@
 		This project exposes the research conducted for the development of an USB 802.15.4 receiver device for Android based systems employed in a fully functional electrocardiogram monitoring system encompassed in the field of in-home healthcare, as well as the development process involved in the realization of this whole system.\\ % in-home healthcare personal healthcare?
 
 		% What is Personal-healthcare, what is ECG Monitoring, importance of a lowcost ecg monitoring system
-		Electrocardiogram (ECG) monitoring consists on capture and interpretation of the activity of the heart [cit.needed] during a period of time, and continuous, remote ECG monitoring has become one of the main applications of wireless body sensor networks. Great interest has arisen recently among industrial and academic research parties in production of low-power, ambulatory ECG monitoring systems.\\
+		Electrocardiogram (ECG) monitoring consists on the capture and interpretation of the activity of the heart [cit.needed] during a period of time, and continuous, remote ECG monitoring has become one of the main applications of wireless body sensor networks. Great interest has arisen recently among industrial and academic research parties in production of low-power, ambulatory ECG monitoring systems.\\
 
 		In order to maximize portability, such systems have started to employ the widely available smartphone devices as frontends, reducing the amount of extra devices carried by the user to just the ECG capturing node. In 2011 the École Polytechnique Fédérale de Lausanne presented a real-time personal ECG monitoring system which displayed data in an iPhone via Bluetooth.\\
 
@@ -42,44 +42,19 @@
 
 		And finally the comfortable, high-level development environment available for Android application production [quote] provides enough facilities for anyone interested in expanding or contributing code to Android part the project to do so in an easy way. Moreover, this environment is delivered free of charge and is of an open-source nature and multiplatform [quote], whereas iOS platform development kits usage requires at least the ownership of an specific machine and operating system [quote].\\
 
-		\begin{comment}
-		Once the results of ECG analysis are emitted, it will be necessary to properly receive and parse them
-		within the displaying device and, finally, show them so they will be human-readable.\\
-		This displaying device acts as the system's user interface, and it provides
-		functionality to visualize received data, change visualization parameters, and save and load
-		already-parsed received data also. Thus, considering a monitoring device is sending data,
-		a typical use of the system is: an user executes the developed application on the displaying
-		device, then selects the monitoring device which ECG *he/she wants to analyze and the application % he/she? nada?
-		starts to show the data as it is receiving it. Meanwhile, that information is being logged to 
-		a file at the same time it is being displayed, storing it so as to allow its later, further
-		analysis.\\ % Android + Use Case (?)
-		\end{comment}
-		
 		% Delineation node
+		Regarding the ECG delineation node, it has been mentioned that the objective of this project is the employment of an already existing one. That is so because both the delineator node and the body sensor network that captures the data are complex systems and the development of them would be the scope of a full project. Specifically the delineator node obtained in the aforementioned EPFL project [quote], with modifications from a collaboration between Complutense University of Madrid (UCM) and the EPFL [quote], was applied.\\
+
+		This node was originally developed as a ultra-lowpower ECG delineator with the ability to wirelessly send data through Bluetooth protocol [quote]. The collaboration between UCM and EPFL, among other things, provided the node with functionality to send data using IEEE 802.15.4, but only at the level required to do some measurement and estimations [quote]. Actual 802.15.4 utilization was yet to be a reality, but it was an excellent starting point towards the achievement of the current project objectives.\\
 
 		% USB Receiver
-				
-		%As the title suggests, this projects aims for creating a system capable of receiving ECG signals from
-		%patients and displaying them so that doctors or specialized staff can analyze them and possibly diagnose
-		%heart-related illnesses.\\\\
-		In order to do that, we have been using a system already developed which
-		was responsible of monitoring the patient and sending the resulting data wirelessly as well. These
-		devices were able to send their information through Bluetooth or using IEEE 802.15.4 standard, which
-		is specially relevant for this project, as we will see later on in this document.\\ % Shimmer
-		
-		% Old: android + usage sceneraio
+		The key part of the system and the most important risk involving objective of the project is the 802.15.4 USB receiver device for Android platforms. It is a necessity as generally Android devices have no support for low cost wireless communication protocols such as 802.15.4, while providing other higher-cost protocols such as Bluetooth or WiFi. Development of an Android accesory providing the required functionality is, then, a must, as the most battery and time consuming operation in the delineator node is the utilization of the Bluetooth stack, as previously mentioned researchs [1] and \todo{Correctly reference papers}[2] concluded.\\
 
-		In spite of the fact that the displaying application is needed because it allows the development of
-		the rest of the project, it is not the main goal since key feature is represented by the 802.15.4
-		communication. In other words, most efforts are focused in connecting and communicating emmiter and
-		receiver devices, considering the development of the application as way to complete the system with 
-		an useful purpose.\\ % Project main objective: 802.15.4 communication
+		Other projects exist with similar objectives in mind, even if they are not targeted at the field of biometrics and personal monitoring. The reason for not following or employing those is twofold: 
+		first, at the time of the beginning of the project those initiatives were either unfinished or stalled, furthermore they were isolated, generally single-man projects with no official backend or guarantees of conclusion.
+		Second, following the line of achieving a low cost, low sized device the Android system is to act as the host device in the USB communication, thus removing the size-increasing battery requirements for the receiver as the host role provides the power in such communications.\todo{Write a conclusion here so it is not the saddest piece of text work ever.}\\
 
-		Regarding the communications, it is also worth of remark that our target displaying device, Xoom tablet 
-		from Motorola, incorporates the standard Bluetooth module, yet it is not equipped with a ZigBee one.
-		Due to this lack, which is more than usual among portable devices nowadays, the making of a compatible 
-		receiver accessory centers a fairly important part of the project.\\ % Realization: receiver device
-
+		\begin{comment}
 		In short, the main objective for this project, seen as a whole system, consists of
 		visually and wirelessly displaying and managing data obtained from portable, personal ECG-monitoring
 		emitter devices on an Android tablet, paying special attention to make possible the communication
@@ -128,12 +103,14 @@
 				More information about the application, such as requirements and other details, can be found
 				at \autoref{ch:swdev}, \nameref{ch:swdev}.\\
 		\end{enumerate}
+		\end{comment}
 		
 	\section{Project driver}
 		The main motivation for developing this project was the fact that it meant
 		the gathering of almost every branch of this career. From its very beginning, this
 		work involved both software and hardware development, researching on unknown 
 		tools and platforms as well as high and low-level design and programming.\\
+
 		Besides, if successful, it would be likely it could become a real product
 		and be useful both in a professional and particular scope, which added a practical
 		end for the work to be carried out. Something like this could be made thanks to
@@ -141,10 +118,12 @@
 		technologies provide which wider spread ones lack (Bluetooth, for instance). It is also
 		expected that technologies based on IEEE 802.15.4 specification like ZigBee will increase their
 		importance in the medium term due to their potential applications in domotics (home automation).\\
+
 		In addition, not only developing applications for portable devices but accessories
 		are mainstream nowadays; thus, getting in touch with these activities could
 		provide us with extra experience at leading edge practices, what would broaden our areas of
 		expertise and, consequently, increment our chances to access the labour market.\\
+
 		However, certain areas of the project would mean working on unprecedent techniques
 		--as it will be detailed later on within this section-- and dealing with tools
 		which were unknown for us at that moment. Hitches like these could lead to the
