@@ -294,6 +294,29 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	\section{Design and Architecture}
 
+		Design made targeting easy expansion of the code.
+		Core, domain specific components that require realization in order to work.
+		Model involves: a Manager, a DataSource and a DataHolder (as well as a DataParser) and, if visualization is required, the ECGView and a ViewThread derivate.
+		The model needs to be realized for it to work, the Activity is just an engine running an instance of the model.
+		"It follows a factory pattern, but the factory is the Activity."
+
+		\begin{figure}
+		\includegraphics[width = \textwidth]{mlts-arch-main}
+		\caption{Architecture overview}
+		\label{fig:arch-global}
+		\end{figure}
+
+		View Package:
+		Realtime rendering required a special, non full common functionality (slide, scroll, ...) providing View derivate: SurfaceView. It provides a bitmap surface where you can draw whatever you want. Derived into AnimationView with employment of AnimationThread for obtaning a good old while(!finished) \{update(); render();\} loop.
+		That structure derivates into ECGView which is a domain specific specialization of AnimationVeiw and Dynamic- and StaticViewThread. The later two implement behaviour expected of Dynamic and Static data visualization respectively (more on this on the Data Package)
+		Programming style in this area closer to C than to an OOP language in order to maximize performance. (Talk about intolerable initial performance caused by extreme number of new each step and too much relaying on GarbageCollector?)
+		Data Management Package:
+		Data class acting as a centralized data storage. Provides app-level syncronization too.
+		Different models for static and dynamic data management.
+		Dynamic: manages its own data and implements replacemente and discard politics, data is provided by single units. This is so because of the way the data is received and then parsed in real-time.
+		Static: obtains a reference to the data location, which is where the actual data manipulation is done. This way huge ammounts of data transfering is avoided (read file can contain lots of megabytes of data which can't be passed at once to the holder). First try was passing the whole array of samples but that was unassumable in real-time.
+		
+
 	\section{Implementation Details}
 
 		\begin{comment}
