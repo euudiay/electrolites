@@ -63,25 +63,45 @@
 
 	% The project suppose a chalenge because it involves every hardware level, form the lower levels as the PCB design of a device to higher levels as develop parts of a SO. *Aqui molaria poner algo más que dos tristes lineas. \\
 
-	This whole development and research poses quite an interesting challenge as it involves working nearly at every abstraction layer present on device development, ranging from schematic capture and PCB design to operating system related development.
+	This whole development and research poses some quite interesting challenges as it involves working nearly at every abstraction layer present on device development, ranging from schematic capture and PCB design to operating system related development. The main issues to be resolved are:
+	% La idea es refactorizar un poco lo que había en la scrap zone, introducir los puntos que debe resolver
+	% el accesorio y después dar paso a los hitos, donde se relaciona cada uno con estos objetivos.
+	\begin{itemize}
+		\item \textbf{802.15.4 radio reception:}
+			data packets are emitted from the monitoring Shimmer\texttrademark and are to be received and dealt
+			by the accessory. In order to do so, FreeRTOS has to be equipped with a working implementation of
+			the radio stack, which involves implementing part of ZigBee's MAC layer, described by the IEEE 802.15.4
+			standard, as it is what the emitter nodes use. 
+		\item \textbf{MSP430 USB handling:}
+			\begin{comment}
+			% Refactor and translate this
+			The interaction between MSP430 and android was the most dangerous risk of this develop because there aren't information of any kind because it's not researched. USB is quite not as simple as everybody believes, there are many different protocols that works with USB, and each protocol can be implemented in very different ways, this implies a huge investigation process to find if any of them can be used by us. The final way to communicate both devices will be extendedly explained en section 3.4.2.\\
+			\end{comment}	
+		\item \textbf{MSP430-Android communication:}
+			% It has never been done before (it is already said, but it is worth the insistence).
+			% It is not obvious, it should not work out-of-the-box (although it did).
+			% Maybe host vs device explanation?
+	\end{itemize}
+	
+	\begin{comment}
 	Extend this paragraph?\\
 	
 	Scrap zone.\\
 
 	% Rafa: estos siguientes párrafos no los entiendo bien, son como un adelanto de las dificultades del desarrollo o...?
-	% Quizas seria bueno introducir una pequeña explicación de qué vamos a contar, o asegurarnos de que queda muy claro para que la gente como yo no se líe.
-
+	% Quizas seria bueno introducir una pequeña explicación de qué vamos a contar, o asegurarnos de que queda muy claro para que la gente como yo no se líe
 	% USB device vs host. 
 	As we explain in the subsection 2.2.5 *Como se ponen enlaces?* the host rol is assumed by who manage the connection, and device rol by the one who just use this connection to send and recive data and recive energy, for us, this minds a simpler programming in our MSP430 device, which code is harder to develop than android code.\\
 
-	%MSP430 interacción con android
-	The interaction between MSP430 and android was the most dangerous risk of this develop because there aren't information of any kind because it's not researched. USB is quite not as simple as everybody believes, there are many different protocols that works with USB, and each protocol can be implemented in very different ways, this implies a huge investigation process to find if any of them can be used by us. The final way to communicate both devices will be extendedly explained en section 3.4.2.\\
-
 	%Bluetooth vs ZigBee(NO, 802.15.4). A lo mejor es suficiente con lo de la introducción(estudiar esa sección)
 	We decided to use 802.15.4 instead of Bluetooth for many reasons, like lower consums or aviability to create networks to cover big surfaces. But the more important one is that *shimmer have a very small battery that, with bluetooth just lasts 5 or 6 hours, but with 802.15.4 it colud lasts more than a week. Talking about the delineator device that have to be carried by the patient, the difference between charge the device 3 or 4 times every day and charge it less than once every week is more than significant.\\
+	\end{comment}
 
-	%Con todo esto en mente y bla bla se plantean los siguientes hitos
-	*Parrafo para introducir los hitos en el que no tengo ni idea que decir, viva!*	
+	% Con todo esto en mente y bla bla se plantean los siguientes hitos
+	% Párrafo para introducir los hitos en el que no tengo ni idea que decir, viva!*	
+	Over the following lines within the next section, the aforementioned challenges are detailed
+	in the context of their own development stages. In addition, objectives and results of each one of
+	these stages are also presented.
 	
 	\section{Milestones}	
 	This section is presented in chronological order and with milestones view due to its research content, and also because of this was the planification that we follow, as we have no idea of what troubles can we found or how far we can ¿overtake? we have to plan the following milestones and its ¿contents?%desarrollos	
