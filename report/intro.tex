@@ -164,8 +164,10 @@
 			\item \emph{IEEE 802.15.4}\\
 				This standard describes the physical and Media Access Control (MAC) layers for low-rate wireless
 				personal area networks. It is intended to be implemented into embedded devices, so as to build up
-				short-range networks --10 meters, tipically-- with narrow bandwith, up to 250kbps, among other
-				possibilites with lower transfer rates.\\
+				short-range networks --10 meters, typically-- with narrow bandwith, up to 250kbps, among other
+				possibilites with lower transfer rates. It is a relatively new standard since its first version
+				was approved in 2003, although the following revision was employed during this development, which
+				was approved in 2006 \cite{802.15.4}\\
 				802.15.4 is specially suitable for this kind of project due to its low power consumption. In
 				fact, ZigBee, which uses this standard as its low-level layer, presents a series of advantages
 				over Bluetooth, underlying technology of the previously mentioned EPFL project:
@@ -173,7 +175,8 @@
 					\item \textbf{Lower power consumption:} without going into detail, it can be stated that Bluetooth 
 						requires more power than ZigBee does. For example, Bluetooth is constantly emitting information,
 						consequently consuming power, while 802.15.4 allows to enable the radio only when it is needed.
-						These statements are properly justified and explained at \autoref{ch:hardware}
+						These statements are properly justified and explained at \autoref{ssec:802.15.4}, 
+						\nameref{ssec:802.15.4}.
 					\item \textbf{Bandwidth:} Bluetooth offers much wider bandwidth, up to 3Mbps, meanwhile ZigBee 
 						only offers up to 250kbps. This, however, is not a relevant disadvantage because our needs 
 						are not so high.
@@ -188,11 +191,11 @@
 				As of May, 2011, there were no easy nor official methods to develop
 				accessories capable of communicating with Android running devices. At that
 				certain time, the release of the Android Open Accessory Development Kit (also known as ``ADK'')
-				was announced in San Francisco, within the context of Google I/O, developers
-				conference arranged by Google.\\
+				\cite{ADK} was announced in San Francisco, within the context of Google I/O, developers
+				conference arranged by Google \cite{GoogleIO}.\\
 				ADK consists of an USB microcontroller board based on Arduino (Arduino Mega2560 to be precise) and a
 				series of software libraries which add specific functionalities and support for other hardware add-ons,
-				tipically known as \emph{shields}, that equip the accessory with sensors or interactive elements
+				typically known as \emph{shields}, that equip the accessory with sensors or interactive elements
 				which broaden its capabilities. Shields are plugged to the board through its numerous input/output
 				pins, which also allow the connection of personally crafted hardware additions --allowing that way to
 				create tailored behaviours, following the Arduino's ``Do It Yourself'' (DIY) spirit.\\
@@ -208,11 +211,12 @@
 			\item \emph{ZigBee dongles}\\
 				In spite of the fact that there were available devices which implemented the complete ZigBee
 				stack at the time of the start of this project, they were only designed for being connected to
-				personal computers, some models with OS restrictions as well.\\
+				personal computers, some models with OS restrictions as well. A typical model of this sort is
+				presented in \cite{dongle}\\
 				Moreover, even if they were to be compatible with our target device, the only available dongles
 				fully implemented the ZigBee stack, which also made them unsuitable for this project due to the
-				relatively high latency that fact imposed --as it can be read at \autoref{ch:hardware},
-				\nameref{ch:hardware}, soft-realtime needs required the usage of the 802.15.4 MAC layer on
+				relatively high latency that fact imposed --as it can be read at \autoref{ssec:802.15.4},
+				\nameref{ssec:802.15.4}, soft-realtime needs required the usage of the 802.15.4 MAC layer on
 				its own--.
 			\item \emph{Communication with Android using ZigBee}\\
 				One year ago, around mid-2011, there were very few projects which were working on this sort of
@@ -251,10 +255,10 @@
 	
 	\section{Document overview}
 		Over the following pages, this document will present the details about the project it refers to.
-		Beginning with a deep description and analysis of the Android application's design and implementation,
-		which can be found at the ``Software Development'' chapter; next, a thorough explanation about the
-		employed hardware and the work it required; and, finally, an exposition of the obtained results,
-		potential expansions and findings.  
+		Beginning with a thorough explanation about the	employed hardware and the work it required,
+		which can be found at the ``\nameref{ch:hardware}'' chapter; next, a deep description and analysis 
+		of the Android application's design and implementation; and, finally, an exposition of the obtained 
+		results, potential expansions and findings.  
 
 		% Ideas Pool
 		% ===========
