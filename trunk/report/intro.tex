@@ -7,7 +7,7 @@
 		% What is Personal-healthcare, what is ECG Monitoring, importance of a lowcost ecg monitoring system
 		Electrocardiogram (ECG) monitoring consists on capture and interpretation of the activity of the heart [cit.needed] during a period of time, and continuous, remote ECG monitoring has become one of the main applications of wireless body sensor networks. Great interest has arisen recently among industrial and academic research parties in production of low-power, ambulatory ECG monitoring systems.\\
 
-		In order to maximize portability, such systems have recently started to employ the widely available smartphone devices as frontends, reducing the amount of extra devices carried by the user to just the ECG capturing node. In 2011 the École Polytechnique Fédérale de Lausanne presented a real-time personal ECG monitoring system which displayed data in an iPhone via Bluetooth.\\
+		In order to maximize portability, such systems have started to employ the widely available smartphone devices as frontends, reducing the amount of extra devices carried by the user to just the ECG capturing node. In 2011 the École Polytechnique Fédérale de Lausanne presented a real-time personal ECG monitoring system which displayed data in an iPhone via Bluetooth.\\
 
 		% Taking the aforementioned project as the base, this project seeks taking the inherently good low cost and low power aspects of that to the next level by the employment of a less energy requiring wireless personal area network protocol, namely IEEE 802.15.4, and the more accessible Android based platforms.\\
 		Being inspired by the results obtained by the aforementioned project, this certain  endeavour seeks taking the inherently good low cost and low power aspects of that to the next level by the employment of a less energy requiring wireless personal area network protocol, namely IEEE 802.15.4, and the more accessible Android based platforms.\\
@@ -28,11 +28,32 @@
 
 		\end{comment}
 		% Three parts of the system, description of each one (what do they do?)
-		This functionality is provided by the three devices that are part of the system: the ECG delineation node, the USB 802.15.4 receiver and the Android device through the front-end application. The ECG delineation node is connected to the body sensor network and is responsible for capturing and analyzing the electrocardiogram wave, as well as encoding and wirelessly sending the data. The USB 802.15.4 receiver is plugged to the Android system and manages data reception following the aforemented protocol. Finally the Android based application is the real-time data decoder and acts as the frontend to the user, managing connections and storing and displaying received data.\\
+		This functionality is provided by the three devices that are part of the system: the ECG delineation node, the USB 802.15.4 receiver and the Android device through the front-end application. The ECG delineation node is connected to the body sensor network and is responsible for capturing and analyzing the electrocardiogram wave, as well as encoding and wirelessly sending the data. The USB 802.15.4 receiver is plugged to the Android system and manages data reception following the aforementioned protocol. Finally the Android based application is the real-time data decoder and acts as the frontend to the user, managing connections and storing and displaying received data.\\
 
 		% Description of the realization of each one (how do they do whatever they do?)
 		Development of the Android application, realization of the USB 802.15.4 receiver device, employment of an already-existant ECG delineation node and successful intercommunication between all these elements are the project goals.\\
+		
 		% Android app
+		As stated before the Android application is the front-end with which the user interacts with the whole system. It is designed following Android common practices as the objective is for it to be of simple use with a smooth, if not nil, learning curve. The decision to develop the application for Android platforms was made according to three main reasons:\\
+
+		First, the fact that Android has been in the top three of the most used mobile operating systems rankings since 2010 [quote!] added to the recent growth of the availability of smartphone devices [quotequote] makes targeting the Android platform a must when the objective is making the system reachable for as most people as possible.\\
+
+		Second, and following the same line of reasoning, the lower cost, in general terms, of Android supporting devices, or at least the wide range of prices of these, specially when compared to other operating systems supporting devices such as Apple's line of iOS devices [average price w/quote here] is to be taken into account.\\
+
+		And finally the comfortable, high-level development environment available for Android application production [quote] provides enough facilities for anyone interested in expanding or contributing code to Android part the project to do so in an easy way. Moreover, this environment is delivered free of charge and is of an open-source nature and multiplatform [quote], whereas iOS platform development kits usage requires at least the ownership of an specific machine and operating system [quote].\\
+
+		\begin{comment}
+		Once the results of ECG analysis are emitted, it will be necessary to properly receive and parse them
+		within the displaying device and, finally, show them so they will be human-readable.\\
+		This displaying device acts as the system's user interface, and it provides
+		functionality to visualize received data, change visualization parameters, and save and load
+		already-parsed received data also. Thus, considering a monitoring device is sending data,
+		a typical use of the system is: an user executes the developed application on the displaying
+		device, then selects the monitoring device which ECG *he/she wants to analyze and the application % he/she? nada?
+		starts to show the data as it is receiving it. Meanwhile, that information is being logged to 
+		a file at the same time it is being displayed, storing it so as to allow its later, further
+		analysis.\\ % Android + Use Case (?)
+		\end{comment}
 		
 		% Delineation node
 
@@ -45,17 +66,8 @@
 		was responsible of monitoring the patient and sending the resulting data wirelessly as well. These
 		devices were able to send their information through Bluetooth or using IEEE 802.15.4 standard, which
 		is specially relevant for this project, as we will see later on in this document.\\ % Shimmer
-
-		Once the results of ECG analysis are emitted, it will be necessary to properly receive and parse them
-		within the displaying device and, finally, show them so they will be human-readable.\\
-		This displaying device acts as the system's user interface, and it provides
-		functionality to visualize received data, change visualization parameters, and save and load
-		already-parsed received data also. Thus, considering a monitoring device is sending data,
-		a typical use of the system is: an user executes the developed application on the displaying
-		device, then selects the monitoring device which ECG *he/she wants to analyze and the application % he/she? nada?
-		starts to show the data as it is receiving it. Meanwhile, that information is being logged to 
-		a file at the same time it is being displayed, storing it so as to allow its later, further
-		analysis.\\ % Android + Use Case (?)
+		
+		% Old: android + usage sceneraio
 
 		In spite of the fact that the displaying application is needed because it allows the development of
 		the rest of the project, it is not the main goal since key feature is represented by the 802.15.4
