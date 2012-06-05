@@ -40,11 +40,14 @@
 	This part of the project involves a lot of terms and references a number of technologies and concepts which are important to be acquainted with in order to achieve a full understanding of the current chapter. These explanations won't be presented interlaced with the rest of the sections due to the unmanageable size they would acquire leading to a loss of focus which can only act against full comprehension of the exposed content.
 
 		\subsection{Arduino}
+		\label{ssec:Arduino}
 		\subsection{MSP430}
+		\subsection{Shimmer}
 		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
 		\subsection{802.15.4}
 		\label{ssec:802.15.4}
 		\subsection{FreeRTOS}
+		\label{ssec:FreeRTOS}
 		%Pedir información a recas y referencias a recas
 		\subsection{USB device \& USB host}
 
@@ -106,11 +109,51 @@
 	\section{Milestones}	
 	This section is presented in chronological order and with milestones view due to its research content, and also because of this was the planification that we follow, as we have no idea of what troubles can we found or how far we can ¿overtake? we have to plan the following milestones and its ¿contents?%desarrollos	
 
-		%Meto una tabla con las fechas en que conseguimos cada logro y empezamos su investigación?
+	%Meter una descripcion bastante mas detallada del porque de las plaificaciones y tal y tal
 
-		%Meter una descripcion bastante mas detallada del porque de las plaificaciones y tal y tal
+	%A ver, primero sabiamos que queriamos conectar algo por USB que recibiera por 802.15.4(esto hacia ver 2 grandes hitos, conseguir comunicación radio y conseguir comunicación USB)
+	We have a serie of tentative milestones pretty clear since the start of the project for this reseach part, like connect the device with android via USB or be able to communicate trought 802.15.4 with a shimmer.\\
+
+	%Dado que un profesor de la facultad y director de nuestro proyecto había portado una capa MAC para un sistema operativo para MSP430F5438A decidimos que o ese o alguno de su familia sería nuestro microchip destino, para ahorrar ese trabajo
+	There are a project making a port of the necessary part of MAC layer of 802.15.4 developed over FreeRTOS by one UCM informatics faculty teacher, Joaquin Recas\begin{todo}mencionamos profesores o no?En caso de que si, referencia al paper\end{todo}, this port work in shimmer, our target delineatior device, and MSP430F5438A, the easier develop of the 802.15.4 in this kind of devices make that the MSP430 becomes the choosen develop platform.\\
+
+	\begin{todo}preguntar a recas que ha hecho exactamente el del FreeRTOS que usamos, y preguntar si podemos mentarle\end{todo}
+
+	%El micro concreto para el que estaba hecho el port no proveía USB por lo que el microchip destino fue el MSP4306638, que era el más potente de la familia MSP430F66xx, que soporta USB y por tanto nos interesaba(esto cambia conseguir USB por conseguir USB en MSP430F6638(\autoref{MSP430 for Android USB Host Comunication}) y concreta el conseguir comunicación por radio a portar la radio del MSP430F5438A al MSP430F6638(\autoref{802.15.4 in FreeRTOS}).
+	Unfortunately this concrete device, the MSP430F5438A, since now the old MSP430, have not support to USB communication, and there are no way to adapt it. Then after seek in TI, the MSP430 manufacturers, the final prptotyping platform was the MSP430F6638, the highest performance device of MSP430F66xx family wich ones provides USB suport, this device do not support the radio module, but is possible to adapt it. This decision reduces the radio work to port the 802.15.4 to a similar microchip and concreete the first tentative milestones into definitives \autoref{MSP430 for Android USB Host Comunication} and \autoref{802.15.4 in FreeRTOS}. \\
+
+	%Dado que la capa MAC del 802.15.4 está desarrollada sobre el FreeRTOS(\autoref:{FreeRTOS}) hace falta un hito para portar la comunicación USB al sistema operativo\autoref{USB in FreeRTOS}
+	This las decision trigger the need to planify a new milestone to port the USB communication, that was stand alone, into a task-based SO as FreeRTOS \autoref{USB in FreeRTOS}. Probably this milestone have not so much load as others and could be joined with the another USB milestone, but simplify as much as possible the \autoref{MSP430 for Android USB Host Comunication} was esential because USB connection with android was a pretty defficult scenario and is necessary keep it isolated.\\
+
+	%La más que imporante complicacion de estas dos comunicaciones nos hace pensar que es preferible conseguirlas por separado y luego juntarlas en otro hito( \autoref{ssec:802.15.4 \& USB coexistence under FreeRTOS}
+	This two conceptual milestones, USB and 802.15.4 communication, was decided to be develop separately instead of cumulatively to ensure that the work in one is not affected at all by the other one. In this scenario a milestone dedicated to put it together under the FreeRTOS is posed, \autoref{ssec:802.15.4 \& USB coexistence under FreeRTOS}.\\
+	%La comunicación por USB del android con el MSP430 no existe, no se había conseguido y encima la disposición de android como USB host es una caracteristica muy nueva de android. Pensamos que es necesario un hito anterior para acostumbrarnos a la comunicación con android por USB como device, para facilitar la aclimatación y no meternos al principio con un tema tan complicado, este hito consistiría en conectar un dispositivo de tipo arduino(primeramente pensamos googleADK) para los cuales la comuicacion USB con android como device está probada.(surge el hito 4 \autoref{ssec:Arduino for Android USB Device Comunication})
+	At this point is noticed that the first USB contact with android was directly try to connect an android device with the MSP430 using the android device as host. The MSP430 USB communication with Android was not already developed by nobody else and the Android USB host communication have no more that a couple of months released. A easier initial milestone, \autoref{ssec:Arduino for Android USB Device Comunication}, to familiarize the team with the USB seems very usefull at this point. Is decided to use an \autoref{Arduino}, because Arduino have been connected with android many times and was able to act as host in the connection, to make a first and not too lasting aproach to USB communication.
+
+	%Se plantea una potencial iteración posterior por si el proyecto fuera bien y diese tiempo consitente en crear el dispositivo final capturando el esquematico y diseñando el PCB para producirlo.Se presenta inicialmente como un hito tentativo dado que el tiempo que se puede tardar en realizar las anteriores hiteraciones es bastante incierto pero se prefiere tener el horizonte lo más lejos posible
+	Just because this is a mainly research section this milestones can't have a realistic estimate time, and because of that we are not able to know when this milestones can be finished, nor even if all could be finally achieved. Just in case we finish this milestones enought soon, and in order to have an horizon as far as possible, id decided to put another milestone that could make our system and project more complet, \autoref{MSP430 based device design}, where will be developed the final device capruting the schematic and designing the PCB for a finished hardware device.\\
+	
+	%Para evitar sopresas de última hora o olvidar dejar tiempo para las pruebas finales de aplicación y corrección de ultimos bugs se crea un hito final.\autoref{Final Validation and Release Candidate Version Development}
+	A last milestone was planned to do not make the mistake to develop until the last day and close the project with a product not estable enought, \autoref{Final Validation and Release Candidate Version Development}.
+
+	%Ahora que todas han sido presentadas explicar el orden de las mismas(porque USB antes que radio)(criticidad)
+	The USB related milestones was planified before the radio ones because the criticality of them. The chances of do not achieve the milestone of communicate the MSP430 via USB with android are pretty high and if this happends, is important to discover it as soon as possible in order to overhaul the project scope and replanificate the hole work.\\
+
+	%Meto una tabla con las fechas en que conseguimos cada logro y empezamos su investigación?
+	The inicial plannification is as this table shows:\\
+
+
+
+	TABLE HERE\\
+
+
+
+
+	%Y con todos ustedeeees las milestoooooooones
+	A detailed description of each milestone is presented next: 
 
 		\subsection{Arduino for Android USB Device Comunication}
+		\label{Arduino for Android USB Device Comunication}
 		This first milestone's objectives are:
 		\begin{itemize}
 		% \item Acquire a Google Android Development Kit,
@@ -119,38 +162,6 @@
 		\item develop an application emulating desired behaviour.
 		\end{itemize}
 		%Prototipo sencillo que sirvió para familiarizarnos con la programación de USB en android, rápido porque la parte del arduino estaba hecha, y programar USB device en Android(referencia a algúna parte del software donde se cuente como de facil se implementa eso) no supone demasiada complicación
-
-
-
-			\begin{comment}
-
-
-
-
-
-											PFERV
-
-																		SOY PFERV
-
-
-
-
-					PFERV EL DE LOS CORREOS!
-
-
-
-		  PFERV
-		YO SOY
-
-
-																	PFERV
-
-										EL PFERV, SOY DE LOS
-													CORREOS
-
-
-
-			\end{comment}
 
 		The process involved in the procurement of each objective is exposed next.
 
@@ -180,7 +191,7 @@
 		%Fue finalizado el 19 diciembre
 
 		\subsection{MSP430 for Android USB Host Comunication}
-
+		\label{MSP430 for Android USB Host Comunication}
 		%Se comenzó tras las vacaciones de invierno, a finales de enero
 		This milestone's objectives are:
 		\begin{itemize}
@@ -223,7 +234,8 @@
 		That was wtih no doubts the harder and more dangerous part of the research, there was a lot of chances to do not achieve our goal and the hard work of all the team was essential. This milestone suppose a very important fact not only in hardware part but in all the project because now, we can more accurately schedule all of the project. \\
 
 
-		\subsection{USB in FreeRTOS}	
+		\subsection{USB in FreeRTOS}
+		\label{USB in FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
 		\item Validate the use of FreeRTOS in the new tarject MSP430
@@ -245,6 +257,7 @@
 		Once it's done our preocupation was how to order all this files in a correct way, because our free RTOS was a multiplatform SO that must work in MSP430 5438A, Shimmer, and now, the new MSP430 6638 where take place this develope. In the first port where the multiplatform ability of FreeRTOS was not a problem we lost this funcionality. This separation of tasks help pretty much in focus the first steps in this milestone. This new functionality have to be included just in the supported platform, the MSP430 6638, without affect the other ones as before. Using the preciding generalization needed to cohexists Shimmer and MSP430 5438A as a guide this port was not too traumatic.
 
 		\subsection{802.15.4 in FreeRTOS}
+		\label{802.15.4 in FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
 		\item Validate current implementation of 802.15.4 in FreeRTOS in testing MSP430,
@@ -273,6 +286,7 @@
 		%Comentar que este trabajo se hizo en colaboración con joaquin (jrecas)?
 
 		\subsection{802.15.4 \& USB coexistence under FreeRTOS}
+		\label{802.15.4 \& USB coexistence under FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
 		\item Assess conflict-free coexistence of current implementation of both USB and 802.15.4 modules in MSP430, and
@@ -292,6 +306,7 @@
 		%Este hito hacia falta aunque fuese breve para tener el sistema lo más estable posible antes de lanzarnos a probar la aplicación final
 		Now, our system was finally able to send trought USB the packets recived in radio with no losses. This achievment was very important before develop and test the final aplication with several real-time restrictions.\\
 
+		\begin{comment}
 		\subsection{Final aplication develop}
 		\begin{itemize}
 		\item Obtention of a shimmer final aplication,
@@ -302,8 +317,9 @@
 		%Le pedimos a fran(mencionamos a fran?) que nos pasara una aplicación que enviara todo lo que era capaz de enviar el shimmer por radio, no la tenía y la tuvo que hacer, acabamos la parte sofware para parsear los datos llegados por USB y a probar.
 	
 		%Sabiamos que funcionaba con nuestros ejemplos pero faltaba comprobar si funcionaría con la aplicación objetivo del shimmer que tenía unas restricciones de envío más altas y como no podía ser de otra forma no funcionó. Nos agobiamos, rafa se temió lo peor, el shimmer enviaba mal, el tablet parseaba mal, pero nada de esto resolvía los problemas y al final tuvimos suerte y se arregló.
-
+		\end{comment}
 		\subsection{MSP430 based device design}
+		\label{MSP430 based device design}	
 		\begin{itemize}
 		\item Board exhaustive analysis,
 		\item Capture of the schematic, and
@@ -319,6 +335,12 @@
 		%Rutado PCB
 
 		\subsection{Final Validation and Release Candidate Version Development}
+		\label{Final Validation and Release Candidate Version Development}	
+		\begin {itemize}
+		\item Final validation of final aplications with prototyping hardware
+		\item Final validation of final aplications with final hardware
+		
+		
 		%Esteeee si, mencinamos que esta milestone existía porque había que hacer las pruebas pertinentes ahora que todo estaba completo y comentamos lo que sea que vaya a pasar cuando esté todo.
 
 		\section{Final Product}
