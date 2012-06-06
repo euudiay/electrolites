@@ -17,7 +17,7 @@
 	%In that scenario devices that disturb regular working conditions are not valid at all;
 	In that scenario unobtrusive operation is a main need, and usual life style activity modification is to be minimized. And it has to be low-powered, because were the power cost of application higher than that of the Bluetooth technology, a main adventage of 802.15.4 is lost.\\ 
 
-	The ability to communicate through USB is required because, at the time, its is the most low battery consuming method to interact with Android powered platforms for any external device[quote here wlan and bt costs].\\
+	The ability to communicate through USB is required because, at the time, it is the most low battery consuming method to interact with Android powered platforms for any external device[quote here wlan and bt costs].\\
 
 	And finally it should be able to act as the slave in the USB connection to avoid the need of an extra power source for the device that would increase the cost and size of the product.\\
 
@@ -32,15 +32,37 @@
 
 	Then a description of the hardware research and development process is given, followed by detailed explanation of each projected milestone, including objectives pursued, lines of research developed, results of each one and conclusions obtained. Estimation based decision making being crucial for the correct outcome of the project, special care will be put to explain the motivations for each decision made. The chapter concludes with an exposition of the results of the research and subsequent development.
 
-	\section{Researched Technologies}
+	%\section{Researched Technologies}
+	\section{Technology Research}
 	%mini introducción diciendo que para la correcta comprensión de está sección surge la necesidad de explicar en mayor o menor profundidad las siguientes tecnologías usadas en algún punto del desarollo del proyecto.
 
 	% The hardware part of this project containts a lot of terms and technologies which is important to know to a correct understanding of the following section but because of it's size we can't explain it whitout a own section because it would become a very heavy doucment and probably lost the reader attencion and the section purpose.
 
-	This part of the project involves a lot of terms and references a number of technologies and concepts which are important to be acquainted with in order to achieve a full understanding of the current chapter. These explanations won't be presented interlaced with the rest of the sections due to the unmanageable size they would acquire leading to a loss of focus which can only act against full comprehension of the exposed content.
+	This part of the project involves a lot of terms and references a number of technologies and concepts which are important to be acquainted with in order to achieve a full understanding of the current chapter. These explanations will not be presented interlaced with the rest of the sections due to the unmanageable size they would acquire leading to a loss of focus which can only act against full comprehension of the exposed content.
 
-		\subsection{Arduino}
+		\subsection{Google ADK \& Arduino}
 		\label{ssec:Arduino}
+			Android Open Accessory Development Kit, referred as ``Google ADK'' or ``ADK'' for now on,
+			is a tool set which allows the development of accessories capable of interacting with 
+			Android-running devices. It consists of an Arduino board (particularly MegaADK, which is based
+			on the ATmega2560 board) and a series of libraries for interacting with an optional set of
+			hardware add-ons (``shields''). There are other compatible kits with different boards, like
+			NXP-based mbed \cite{mbed}, yet Arduino MegaADK is the one used here.\\
+			
+			The Google ADK functioning is actually very simple. Regarding the software, it needs of 
+			the developing of both an Android application with accessory communication and the board's
+			firmware, which models the behaviour of the accessory. Once the board is flashed with its
+			firmware, it has to be connected to a power source (through a dedicated wire or *USB) \todo{¿Cómo se llama el usb de las impresoras?}
+			and the Android device. If everything is correct, the latter detects the former and, therefore, 
+			the accessory starts its operation.\\
+			
+			Typically, the capabilities of the Arduino board are broaden with the addition of extra shields,
+			so that way it can make use of external sensors and agents. The board has multiple input and
+			output pins at the developer's disposal as well, so unforeseen behaviours can be made.\\
+			
+			Although Google refers its ADK as an accessory developing platform, it is used in this project
+			as a prototyping tool, as it is explained at \autoref{ssec:Arduino.USB}, \nameref{ssec:Arduino.USB}.
+			
 		\subsection{MSP430}
 		\subsection{Shimmer}
 		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
@@ -73,35 +95,28 @@
 		\item \textbf{802.15.4 radio reception:}
 			data packets are emitted from the monitoring Shimmer\texttrademark and are to be received and dealt
 			by the accessory. In order to do so, FreeRTOS has to be equipped with a working implementation of
-			the radio stack, which involves implementing part of ZigBee's MAC layer, described by the IEEE 802.15.4
-			standard, as it is what the emitter nodes use. 
+			the radio stack, which involves implementing part of ZigBee's MAC layer, described by IEEE 802.15.4, 
+			as it is the underlying standard which the emitter nodes are based on. 
 		\item \textbf{MSP430 USB handling:}
-			\begin{comment}
-			% Refactor and translate this
-			The interaction between MSP430 and android was the most dangerous risk of this develop because there aren't information of any kind because it's not researched. USB is quite not as simple as everybody believes, there are many different protocols that works with USB, and each protocol can be implemented in very different ways, this implies a huge investigation process to find if any of them can be used by us. The final way to communicate both devices will be extendedly explained en section 3.4.2.\\
-			\end{comment}	
+			just as the radio stack, FreeRTOS is not prepared to make use of the USB interface with which the MSP430
+			board --namely TS430PZ100USB-- is equipped. Thus, it is necessary to add the essential code in order to 
+			incorporate this functionality to the OS. This issue, in the same way as the previous one, is a critical 
+			part for the system to work properly since it may likely be a source of errors unless it is perfectly 
+			made --for instance, it could add transmission lags, packet corruption or loss--. 
 		\item \textbf{MSP430-Android communication:}
-			% It has never been done before (it is already said, but it is worth the insistence).
-			% It is not obvious, it should not work out-of-the-box (although it did).
-			% Maybe host vs device explanation?
+			this issue is particularly relevant as no project has ever claimed to feature this kind of
+			connection before. Hence, it means an additional challenge to be overcome since it will involve
+			the modification or complete development of an specific driver for the MSP430-equipped device.
+			This challenge is imposed by choosing the USB host alternative so that the Android device powers
+			the accessory. On the other hand, USB device may ease this issue due to the already resolved 
+			communication system with accessories made by Google, yet it implies the accessory will need
+			an additional power source.
+			Fortunately, it finally turned out not to be so tough as it was expected and the goals related
+			to this issue were successfully fulfilled, as it can be read at \autoref{ssec:Android.USB}, 
+			\nameref{ssec:Android.USB}.
 	\end{itemize}
 	
-	\begin{comment}
-	Extend this paragraph?\\
-	
-	Scrap zone.\\
-
-	% Rafa: estos siguientes párrafos no los entiendo bien, son como un adelanto de las dificultades del desarrollo o...?
-	% Quizas seria bueno introducir una pequeña explicación de qué vamos a contar, o asegurarnos de que queda muy claro para que la gente como yo no se líe
-	% USB device vs host. 
-	As we explain in the subsection 2.2.5 *Como se ponen enlaces?* the host rol is assumed by who manage the connection, and device rol by the one who just use this connection to send and recive data and recive energy, for us, this minds a simpler programming in our MSP430 device, which code is harder to develop than android code.\\
-
-	%Bluetooth vs ZigBee(NO, 802.15.4). A lo mejor es suficiente con lo de la introducción(estudiar esa sección)
-	We decided to use 802.15.4 instead of Bluetooth for many reasons, like lower consums or aviability to create networks to cover big surfaces. But the more important one is that *shimmer have a very small battery that, with bluetooth just lasts 5 or 6 hours, but with 802.15.4 it colud lasts more than a week. Talking about the delineator device that have to be carried by the patient, the difference between charge the device 3 or 4 times every day and charge it less than once every week is more than significant.\\
-	\end{comment}
-
-	% Con todo esto en mente y bla bla se plantean los siguientes hitos
-	% Párrafo para introducir los hitos en el que no tengo ni idea que decir, viva!*	
+	% Let us present the following section...
 	Over the following lines within the next section, the aforementioned challenges are detailed
 	in the context of their own development stages. In addition, objectives and results of each one of
 	these stages are also presented.
