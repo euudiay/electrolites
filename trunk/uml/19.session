@@ -1,13 +1,15 @@
-window_sizes 1916 1028 450 1350 720 82
+window_sizes 1920 1028 450 1350 720 82
 diagrams
-  active  classdiagram_ref 128019 // Main
+  classdiagram_ref 128019 // Main
     1167 696 100 4 0 0
+  active  classdiagram_ref 134547 // Model
+    864 697 100 4 0 0
 end
 show_stereotypes
-selected classdiagram_ref 128019 // Main
+selected class_ref 128531 // DynamicViewThread
 open
-  classview_ref 128019 // Main
+  class_ref 128659 // StaticViewThread
   
-package_ref 134675 // Data
+  package_ref 134675 // Data
 end
 end

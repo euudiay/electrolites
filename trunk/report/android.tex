@@ -296,26 +296,54 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		Design made targeting easy expansion of the code.
 		Core, domain specific components that require realization in order to work.
-		Model involves: a Manager, a DataSource and a DataHolder (as well as a DataParser) and, if visualization is required, the ECGView and a ViewThread derivate.
-		The model needs to be realized for it to work, the Activity is just an engine running an instance of the model.
-		"It follows a factory pattern, but the factory is the Activity."
 
-		\begin{figure}
-		\includegraphics[width = \textwidth]{mlts-arch-main}
+		\begin{figure}[h]
+		\includegraphics[scale=0.5]{mlts-arch-main}
+		\centering
 		\caption{Architecture overview}
 		\label{fig:arch-global}
 		\end{figure}
 
-		View Package:
+		Model involves: a Manager, a DataSource and a DataHolder (as well as a DataParser) and, if visualization is required, the ECGView and a ViewThread derivate.
+		The model needs to be realized for it to work, the Activity is just an engine running an instance of the model.
+		"It follows a factory pattern, but the factory is the Activity."
+
+		\begin{figure}[h]
+		\includegraphics[scale = 0.5]{mlts-arch-model}
+		\centering
+		\caption{Data-flow model realization}
+		\label{fig:arch-model}
+		\end{figure}
+
+		\subsection{View Package}
 		Realtime rendering required a special, non full common functionality (slide, scroll, ...) providing View derivate: SurfaceView. It provides a bitmap surface where you can draw whatever you want. Derived into AnimationView with employment of AnimationThread for obtaning a good old while(!finished) \{update(); render();\} loop.
 		That structure derivates into ECGView which is a domain specific specialization of AnimationVeiw and Dynamic- and StaticViewThread. The later two implement behaviour expected of Dynamic and Static data visualization respectively (more on this on the Data Package)
 		Programming style in this area closer to C than to an OOP language in order to maximize performance. (Talk about intolerable initial performance caused by extreme number of new each step and too much relaying on GarbageCollector?)
-		Data Management Package:
+		
+		\subsection{Data Management Package:}
 		Data class acting as a centralized data storage. Provides app-level syncronization too.
 		Different models for static and dynamic data management.
 		Dynamic: manages its own data and implements replacemente and discard politics, data is provided by single units. This is so because of the way the data is received and then parsed in real-time.
 		Static: obtains a reference to the data location, which is where the actual data manipulation is done. This way huge ammounts of data transfering is avoided (read file can contain lots of megabytes of data which can't be passed at once to the holder). First try was passing the whole array of samples but that was unassumable in real-time.
+		DataSourceThread is a receiver by concept, but concrete implementations might require actual communication, that is, data reception \emph{and} data sending. As a developer facility, any DataSourceThread must provide an implementation of a method for writing data into the actual raw data source, expected to act in a similar manner to the one the DataSourceThread does in the inside.
+
+		\subsection{Utilities Package:}
+		Contains application level reusable components as two different DataParsers (one for realtime, on for static data which doesn't store what it reads). Also contains the Viewport entity employed as a container of the view parameters. An unused color picker is there (not mention!)
 		
+		\subsection{Realization of the Model 1: Bluetooth}
+			BluetoothManager handles bluetooth connection, launches two different threads one of them being the DataSourceThread implementation, the former being a non-blocking connection starting thread.
+			Employs a DynamicViewThread which implements DataHolder interface and receives data from Bluetooth's ConnectedThread.
+			This ConnectedThread holds the DataParser and provides de data directly to DVT.
+
+		\subsection{Realization of the Model 2: FileReader}
+			FileManager handles the selection of a file by the user (previous presentation of available ones), creates file reading thread providing the chosen file and connects this with the viewthread.
+			FileDataSourceThread is at the same time a DataSource and a DataHolder. Because of that, it doesn't realize the DataSource interface. This is an example of the flexibility sought by the design: were mandatory to have implemented the DataSource interface, another stage in the data flow would have been added, slowing things up (even if only because of synchronization mechanisms)
+			Employs an StaticViewThread which doesn't hold data and gets references to the actual data location in FileDataSourceThread when needed. 
+			FileDataSourceThread, thus, manages data reading and holding, and manipulation. Explanation follows: data is read from files with the aid of a FileConverter entity (explain?). This files can be of big size, so they shouldn't be fully load onto memory. A partial load is mandatory in such cases, and the next chunk of data is to be read when the "visualization window" approaches. All that management is done by the FileDataSourceThread. When the view is controlled (scroll horizontal) the event is passed directly into this thread from the ViewThread (which receives the input from Activity). FileDataSourceThread updates the pointers to the visualized data start and end (can do because it works on time rather than on pixel units [3 seconds to be seen onscreen == 750 data samples]) and passes them to viewthread as well as the rest of the data. That way, if more file reading is required, it can be done in a transparent-to view manner.
+
+		\subsection{Realization of the Model 3: USB}
+			DeviceManager handles device enumeration and selection. As there's only as much as one available usb device (at the time) no selection is needed, when the device is detected, connection is done, but it can easily be implemented.
+			USBComThread is the DataSourceThread realization, which, given the endpoints of the usb connection to a device, handles data reception from the read endpoint, parses it and sends to its DataHolder, which is a DynamicViewThread. As cannon as it gets, baby.
 
 	\section{Implementation Details}
 
