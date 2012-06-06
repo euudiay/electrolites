@@ -294,8 +294,20 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	\section{Design and Architecture}
 
+		\begin{comment}
 		Design made targeting easy expansion of the code.
-		Core, domain specific components that require realization in order to work.
+		Android development framework imposes the utilization of a derivate of the Activity class as the entry point for the application. The idea is that an application is composed of various Activities, providing each of them "a screen with which users can interact in order to do something" \todo{Cite Android Dev Guide}. 
+		\end{comment}
+
+		The design of the software application is done targeting easy extension of the functionality which allows an incremental realization of the identified use cases and quick, isolated prototyping of new features in a manner in which already developed ones are not afected.\\
+
+		The Android Software Development Kit being the base technology employed in the development, the Android Application Framework conditions the basic architecture of the system. Particularly this framework imposes the utilization of a derivate of the Activity class as the entry point for the application. The idea is that an application is composed of various Activities, providing each of them "a screen with which users can interact in order to do something" \todo{Cite Android Dev Guide}.\\
+
+		The correct usage of the activities model in the Android framework includes declaration of them in the application manifest (see X \todo{Actually reference something} for reference) and a number of other steps which are excessively formal for the target comfort and speed-of-operation levels regarding development of extensions. Specifically the application gives support for a number of data sources, namely Bluetooth, log file and USB device, each one with it's own needs in terms of user interfaces and interaction. Moreover, new data sources would possibly require different interfaces than those already developed.\\
+
+		In such an scenario the decision is made for the architecture of the application to override Android activities model, employing only a single Activity which will implement a stack of user interfaces each with its own logic and behaviour, in the same manner Android does with the activities but allowing more flexible development. The inclusion of a new interface or set of interfaces is, thus, simplified, and every application entity is given the ability to present it's own menu to the user. This is specially useful when including new data sources with special interface requirements to the application.\\
+
+		An overview of the application architecture is presented in \autoref{fig:arch-global}.\todo{Explain here the package division (Activity + View + Data + Model Realizations) and place image?}
 
 		\begin{figure}[h]
 		\includegraphics[scale=0.5]{mlts-arch-main}
@@ -304,9 +316,18 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\label{fig:arch-global}
 		\end{figure}
 
-		Model involves: a Manager, a DataSource and a DataHolder (as well as a DataParser) and, if visualization is required, the ECGView and a ViewThread derivate.
-		The model needs to be realized for it to work, the Activity is just an engine running an instance of the model.
-		"It follows a factory pattern, but the factory is the Activity."
+		At the core level the main Activity, the View package and the Data package are present, as well as three packages (Bluetooth, Filereader, USB) which will be dealt with later. These components provide the basic elements which compose the model over which actual functionality is built, and are to be seen as the tools available for the overlaying software layer which is addressed next.\\
+
+		The main Activity of the application assumes the role of the central coordinator and is responsible for creation and management of area specific managers, application level data and handling of the aforementioned user interfaces stack. It is also responsible, as the application's entry point, of the presentation and behaviour management of the main application menu which gives access to actual functionality, delegating in the specific managers.\\
+		
+		Of all those tasks, the most important are the initialization and eventual finalization of data visualization flows in collaboration with the appropiate area specific manager. Throughout the process, mainly controlled by the activity, components required for the visualization process are initialized, delegating area specific tasks to the manager. Eventually, the manager assumes the control of the application flow, leaving the activity as a dispatcher of input events.\\
+
+		% Model: Core, domain specific components that require realization in order to work.
+		% Model involves: a Manager, a DataSource and a DataHolder (as well as a DataParser) and, if visualization is required, the ECGView and a ViewThread derivate.
+		% The model needs to be realized for it to work, the Activity is just an engine running an instance of the model.
+		% "It follows a factory pattern, but the factory is the Activity."
+
+		These managers are part of the so-called, in the project terminology, a model; and the activity can be portrayed as the model manager. Conceptually a model is a set of software entities which live in the application and handle the data flow from a given data source towards a data holder, including or not, the visualization of such data. A model contains a Manager which is the entity responsible of the handling of the rest of the model entities. Please note that this model scheme is  specific to the domain of the project and is not a general one\todo{Remove this note? Leave this note?}.
 
 		\begin{figure}[h]
 		\includegraphics[scale = 0.5]{mlts-arch-model}
@@ -314,6 +335,12 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\caption{Data-flow model realization}
 		\label{fig:arch-model}
 		\end{figure}
+
+		This conceptual model \todo{Rename model to FlowModel?} scheme is provided by a subset of the classes and interfaces shown in \autoref{fig:arch-global}. For actual functionality building a realization of the model is to be developed, giving actual meaning to the scheme. In the scope of the project four model realizations have been implemented and will be detailed later.\\
+
+		A model realization is composed of implementations of the following elements from the core level exposed before: 1) a Manager, which handles user interaction and required preparations; 2) a DataSource that manages raw data obtention from the actual source, and processing and sending of such data to a 3) DataHolder, which stores and handles the data in any required way and, if data visualization is required 4) an implementation of a view thread.\\
+
+		More detailed approaches to all the concepts exposed in this introduction are built throughout the following subsections.
 
 		\subsection{View Package}
 		Realtime rendering required a special, non full common functionality (slide, scroll, ...) providing View derivate: SurfaceView. It provides a bitmap surface where you can draw whatever you want. Derived into AnimationView with employment of AnimationThread for obtaning a good old while(!finished) \{update(); render();\} loop.
@@ -344,6 +371,12 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\subsection{Realization of the Model 3: USB}
 			DeviceManager handles device enumeration and selection. As there's only as much as one available usb device (at the time) no selection is needed, when the device is detected, connection is done, but it can easily be implemented.
 			USBComThread is the DataSourceThread realization, which, given the endpoints of the usb connection to a device, handles data reception from the read endpoint, parses it and sends to its DataHolder, which is a DynamicViewThread. As cannon as it gets, baby.
+
+		\subsection{More things (which I don't know where to include}
+			
+			\texttt{(These with sequence diagrams and all)}
+			Explanation of the visualization initialization procedure, as well as the finalization one.
+			Example of a full data flow (e.g. bluetooth)
 
 	\section{Implementation Details}
 
