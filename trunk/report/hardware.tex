@@ -122,8 +122,57 @@
 	these stages are also presented.
 	
 	\section{Milestones}	
-	This section is presented in chronological order and with milestones view due to its research content, and also because of this was the planification that we follow, as we have no idea of what troubles can we found or how far we can ¿overtake? we have to plan the following milestones and its ¿contents?%desarrollos	
-
+	%This section is presented in chronological order and with milestones view due to its research content, and also because of this was the planification that we follow, as we have no idea of what troubles can we found or how far we can ¿overtake? we have to plan the following milestones and its ¿contents?%desarrollos
+	
+	Due to the fair amount of time a essentially researching work like this hardware development will
+	require, the foreseen schedule is subject to changes which may completely alter it regardless of 
+	how irrelevant they may seem, and thus avoid the success of the project.\\
+	
+	Keeping this risk in mind, the hardware development was planned as a sequence of milestones,
+	ordered by increasing complexity. Every milestone introduces a new technology, each one of them
+	capable of covering the needs of the project in a more complete way. In other words, the previously
+	presented issues are to be resolved as these stages are overcome.\\
+	
+	The schedule, then, starts with the usage of the Google Open Accessory Development Kit, based on Arduino,
+	in order to make a prototype as first approach and, in this way, be able to parallelize software and
+	hardware development --note that both of them depend on each other--. This choice is made because of
+	the well-known soft learning curve Arduino presents as well as the already prepared connection
+	the Google ADK provides between accessories and Android devices.\\
+	
+	The next step in the development, once the application has been proven to work with a data-providing
+	accessory, consists of making Android capable of detecting and communicate with an MSP430-equipped
+	device. This stage can be qualified as very critical, since almost every part of the development
+	depends on it.\\
+	
+	The following milestone arises as a consequence of the FreeRTOS port which was specified before: its
+	target device, namely MSP430F5438A, does not support USB communication, and by extension the port itself.
+	Thus, the work for this stage consists of providing FreeRTOS with USB support, which is to be employed
+	with the new target device, MSP430F6638, which is member of the MSP430F66xx with highest performance,
+	along with USB support.\\
+	
+	Next, the planning set the development of the communication between the emitter nodes and the device.
+	The previously existing FreeRTOS port already supports the IEEE 802.15.4 standard MAC layer, so the
+	work in this milestone involves needed modifications in order to get the port work properly with
+	the new platform MSP430F6638. Although the first versions of the schedule considered this next step 
+	at the same time of the previous one, in later revisions it was decided to keep them separated for 
+	the sake of stability, derived from isolating both developments.\\
+	
+	Due to the division between the two previous stages, both developments, USB and radio stacks, are
+	to be done separately. In order to resolve the likely communication problems this decision can cause,
+	the next iteration the planning considers is reserved for validating and fixing their coexistence
+	may provoke.\\
+	
+	Finally, the schedule adds two extra stages: the first, which may be dropped due to eventualities,
+	considers the design of a miniaturized version of the receiver device so as to dispense with the
+	TS430PZ100USB board, which is rather big and little portable. The second one is essential as it
+	is reserved for possible needed fixings and refinements.\\
+	
+	All these stages are now detailed over the following subsections.\\
+	
+	% Aquí lo que había antes. He separado lo que era más de planificación para dejarlo en este apartado,
+	% las partes con más detalle creo que sería mejor meterlas en sus correspondientes hitos.
+	
+	\begin{comment}
 	%Meter una descripcion bastante mas detallada del porque de las plaificaciones y tal y tal
 
 	%A ver, primero sabiamos que queriamos conectar algo por USB que recibiera por 802.15.4(esto hacia ver 2 grandes hitos, conseguir comunicación radio y conseguir comunicación USB)
@@ -161,11 +210,10 @@
 
 	TABLE HERE\\
 
-
-
+	\end{comment}
 
 	%Y con todos ustedeeees las milestoooooooones
-	A detailed description of each milestone is presented next: 
+	% A detailed description of each milestone is presented next: 
 
 		\subsection{Arduino for Android USB Device Comunication}
 		\label{ssec:Arduino.USB}
