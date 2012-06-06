@@ -385,14 +385,21 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		There are two different specifications for the data holders: DataHolder and StaticDataHolder. This is so because of the two modes of operation\todo{Is it clear that there are two modes of operation?} of the application. One is real-time data visualization and the other is log file visualization. The former is called dynamic visualization and the latter static visualization, and the behaviour of their DataHolders is not the same.\\
 
-		Dynamic visualization represents data received in realtime by the DataSourceThread. The DataSourceThread obtains the data from an external entity, processes it and sends it to the DataHolder. This data usually arrives in groups of variable size, and is provided to the DataHolder in single units once processed. In this scenario the DataHolder is the view thread, and handles data however considers optimal. In the implementations developed in this project a fixed ammount of data is held and older information is replaced by the new one as it arrives.\\
+		Dynamic visualization represents data received in realtime by the DataSourceThread. The DataSourceThread obtains the data from an external entity, processes it and sends it to the DataHolder. This data usually arrives in groups of variable size, and is provided to the DataHolder in single units once processed. In this scenario the DataHolder is the view thread, and handles data however considers is the optimal way. In the implementations developed in this project a fixed ammount of data is held and older information is replaced by the new one as it arrives.\\
 
 		Static visualization, on the other hand, involves reading a file, usually megabyte sized. The receiving of big quantities of data in single units by the data holder, as would occur if  the original DataSource specification was employed, could lead to severe slow-downs and application performance would be affected. To avoid such issues, the StaticDataHolder specification is developed.\\
 
-		An StaticDataHolder doesn't actually hold the data: it delegates that task to it's DataSourceThread. The data source will provide the StaticDataHolder with a reference to the actual data. This way big ammounts of data transferring is avoided. The inheritance relation between DataHolder and StaticDataHolder is imposed by the architecture, which require a DataHolder to be passed to a DataSourceThread.\\
+		A StaticDataHolder doesn't actually hold the data: it delegates that task to it's DataSourceThread. The data source will provide the StaticDataHolder with a reference to the actual data. This way big ammounts of data transferring is avoided. The inheritance relation between DataHolder and StaticDataHolder is imposed by the architecture, which require a DataHolder to be passed to a DataSourceThread.\\
 
 		\subsection{Utilities Package}
+		\begin{comment}
 		Contains application level reusable components as two different DataParsers (one for realtime, on for static data which doesn't store what it reads). Also contains the Viewport entity employed as a container of the view parameters. An unused color picker is there (not mention!)
+		\end{comment}
+		This package contains reusable components providing very specific functionality so they are considered utilities: RealTimeDataParser, StaticDataParser and Viewport.\\
+
+		A data parser is the entity responsible of the processing of the raw data obtained by a DataSource into the domain specific data that the application manages. There are two implementations, one for real-time data reception, RealTimeDataParser, and the other for static data reading, i.e. a log file. The real-time data parser is also responsible of storing the received raw data the a log file.\\
+
+		A data parser is intended to be contained in a DataSourceThread. It receives the bytes of raw data and, upon successful identification of a valid data element, notifies the corresponding DataHolder entity of the arrival. In a theoric, performance-independant model, this behaviour would be incorrect: the data parser would leave the processed data \emph{in} the DataSourceThread, which would then make the transfer of information to the data holder. This kind of implementation is not valid with the soft realtime requirements of the project, as the data source - data parser - data source - data holder flow would be a severe bottle-neck.\\
 		
 		\subsection{Realization of the Model 1: Bluetooth}
 			BluetoothManager handles bluetooth connection, launches two different threads one of them being the DataSourceThread implementation, the former being a non-blocking connection starting thread.
