@@ -176,7 +176,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		Thanks to this risk analysis the project schedule was developed in such a manner that it prioritized risk suppressing and the decision was taken to plan only the first two of the five intended development iterations, leaving the other three as drafts to allow them to evolve at par with the uncancelled risks.
 		Use case realization order was also selected based on this risk analyisis, ensuring that higher risk involving features were developed (or at least prototyped) as early as possible.\\
 		
-		Use cases for the project are presented next, followed by the system architecture description, to allow a finer understanding of the software development project schedule and related decissions, which will be detailed in the next section.
+		Use cases for the project are presented next, followed by the system architecture description, to allow a finer understanding of the software development project schedule and related decisions, which will be detailed in the next section.
 	
 % Command to auto-generate Use Case headings (NON FUNCTIONAL YET)
 \begin{comment}
@@ -293,6 +293,8 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\end{enumerate}
 
 	\section{Design and Architecture}
+	\label{sec:sw-arch}
+	
 
 		\begin{comment}
 		Design made targeting easy expansion of the code.
@@ -616,17 +618,37 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\item the implementation of the Log visualization module.
 			\end{itemize}
 
+			The hardware reserarch having provided successful results regarding the initial prototypes of the USB accessory, the scheduled USB module implementation for this iteration is mantained, but delayed until further testing can be done in the hardware area. In that scenario this iteration begins by the addressing of the implementation of the log visualization module.\\
+
+			Module design and implementation are to change little in following iterations to allow the scheduled architecture rewriting to be realized and trying to minimize the posibility of risk PR1. This situation and the fact that a lot of resources are required in the hardware area makes the consecution of this objective fill most part of the iteration time.\\
+
+			Full expected functionality is implemented, including the remaining features from UC4-Adjust view parameters, but validation testing indicates low performance in log visualization caused by big memory requirements. Effort needs to be put into the other iteration objective, so log visualization is halted at this point, scheduling the development of required optimizations for the next iteration.\\
+
+			Having the USB accessory prototype in an usable state, development of the USB communication module begins. At this point the USB accessory could only operate assuming the role of host in the connection, so the disposability of the module is acknowledged. Nevertheless this implementation is a must if the project goals are to be achieved, as it serves as first-hand instruction regarding USB development in Android. Moreover, if the hardware project is unable to produce an USB slave accessory, with the developed module the project would not have fully failed. Eventually this development has proven being key for the first tests with the actual target hardware platform.\\
+
+			During the implementation of the USB communication module the log writing is improved, so, except for the aforementioned performance optimizations, the log part of the application is finalized.\\
+
+			With the basic interface, disposable architecture and fully functional data flow modules, full application functionality is implemented by the end of the iteration, and in the review meeting the following conclusions are obtained:
+			\begin{itemize}
+				\item Full functionality has been implemented in the application and the product of this iteration is, as expected, the first prototype of the application.
+				\item Realization of UC2-View data from USB Receiver is realized until hardware research advances. Current implementation can act as the actual version of the use case realization if hardware research is not fulfilled.
+				\item Realization of UC4-Adjust view parameters is now finished. All required view controls are implemented.
+			\end{itemize}
+
+			\begin{comment}
 			Log writing improved.
 			USB module done as USB device, valid for arduino and first msp tests
 			Log reading implemented, scrolling and such. Tests results indicate low performance, huge memory requirements.
 			With the basic interface, first Prototype with (except usb host == 802.15.4) full functionality implemented. That nice and all. Shown to masters and feedback applied.
 			On time ?
-
+			
 			Took a loong break here for hardware development
 			% Here ends electroiltes
+			\end{comment}
 
 		\subsection{Iteration 3}
 			% This is microlites
+			\begin{comment}
 			This is the first just-drafted iteration. Starting from the fully functional prototype, architectural and performance fixes were mandatory. Also, given the positive state of the hw research scheduling was done for the rest of the iterations.
 
 			The main objectives for this third iteration were
@@ -642,8 +664,36 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			Performance increased significantly and memory usage reduced THROUGHOUTLY in realtime view.
 			Fixes in modules according to new architecture.
 			Talk about scheduling??
+			\end{comment}
+
+			This is the first just-drafted iteration of the original scheduling. Taking the prototype obtained in the previous iteration, architectural redesign and performance optimizations are mandatory. Performance optimizations are  identified to be required in two areas: data management and data rendering. Only data management related optimizations are addressed in this iteration.\\
+
+			Iteration objectives are as follow:
+			\begin{itemize} 
+				\item the redesign of the application architecture, 
+				\item the achievement of required performance on data management, and
+				\item the scheduling of the rest of the project time.
+			\end{itemize}
+
+			The main lack of the basic architecture of the protoype is that it was implemented to serve as a quick prototyping base for the data flow modules. The instruction and knowledge about the platform and the way of operation obtained in the previous iterations are applied in the new architecture design.\\
+
+			This design is done targeting easy inclusion of new data flow modules allowing them to employ their own user interfaces, while providing core level software entities for building those modules. This process produces the architecture as exposed in \autoref{sec:sw-arch}.\\
+
+			A detailed analysis is conducted on the data management related operations in the application, identifying the ubiquitous application of the object oriented model proposed by Java added to the subpar efficiency of the Garbage Collector \todo{Reference something?} as the main cause of performance loss. The alteration of the programming paradigm and the employment of as basic software entities as possible, substituting classes used to, e.g. contain the four parameters of a wave delineation point, by more basic structures, like the same four numbers stored independently, proved to be the most effective methods of avoiding low performance.\\
+
+			Following such lines of operation, performance regarding data management is utterly improved on spite of a less developer-friendly programming environment. During this process the data flow modules (Bluetooth, USB and Log Viewer) are also tweaked.\\
+
+			The positive results obtained both in the software and hardware areas allow a solid review of the project schedule. The decision is made to keep the division of the remaining project time in two iterations, leaving the last, fifteen days period for unforseen difficulties. Of the two iterations, the first is to be devoted to implementation of the USB host communication as hardware project estimates completion of a first prototype halfway the iteration; and the second, and last, iteration is planned to be employed in final testing and validation of the application against hardware prototype.\\
+
+			The following conclusions are obtained from this iteration's reviewing meeting:
+			\begin{itemize}
+				\item The architecture of the application is finished and validated.
+				\item User interface is yet to be final and is to be addressed at the following iteration.
+				\item Identified solutions for performance issues are to be applied in the rendering area.
+			\end{itemize}
 
 		\subsection{Iteration 4}
+			\begin{comment}
 			Final implementation iteration. Final performance increasing fixes and user interface implementation, as well as user-friendliness globally increased.
 
 			USB Host here!
@@ -658,6 +708,30 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			This ends the implementation phase, user-friendlyness could be better but what gives. 
 			Performance left 50-50 because it was already ok (30fps not 60fps).
 			One iteration left, devoted to testing.
+			\end{comment}
+
+			This iteration is scheduled to be the last implementation iteration, and it's objectives are:
+			\begin{itemize} 
+				\item the implementation of USB host communication,
+				\item the achievement of required performance in rendering and, 
+				\item the implementation of actual user interfaces.
+			\end{itemize}
+
+			The USB slave accessory prototype is produced on time by the hardware project, and implementation of the actual USB communication assuming the Android device the host role is done in very short time, leaving room for consecution of the rest of the iteration objectives and following validation.\\
+
+			Employment of the identified working solutions for performance issues in the rendering area doesn't provide the expected results, and further research is required. The bottle-neck in the rendering process is indentified to be the context change required by the rendering tools provided by Android. Meticulous research on Android developer resources provides no other solution than minimizing the number of calls to the rendering methods each step. Emphasis is put to the realization of this task, but to no avail.\\
+
+			The problem is the big amount of data required to be drawn each rendering step. A mechanism is developed to minimize the number of lines drawn by joining similar valued wave points, and the performance is improved, but not at the desired level. Nevertheless further work in this area is postponed as the achieved performance lies in the range required by the non-functional requirements of the project.\\
+
+			Implementation of the actual user interfaces to be employed in the application is addressed next. The design of these has been done throughout the last two iterations. The implementation process takes more time than expected as	Android user interface framework is quite specific, and requires adequation to certain rules that have to be studied beforehand.\\
+
+			The remaining time of the iteration is devoted to testing and validation of the application, which has reached a near final state. Conclussions from the review meeting follow:
+			\begin{itemize}
+				\item The Android application is finished and pending validation with the actual USB receiver device.
+				\item The application's user interface is in a final state, but were changes required they could be easily implemented as the UI is isolated from the data flow part.
+				\item Performance regarding rendering is not optimal, but it is in the range defined by the requisites.
+				\item Until validation can begin, the full team can be employed in the hardware project.
+			\end{itemize}
 
 		\subsection{Iteration 5}
 			Testing and validation with the real thing.
