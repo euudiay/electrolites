@@ -1,14 +1,13 @@
 window_sizes 1920 1028 450 1350 720 82
 diagrams
-  classdiagram_ref 128019 // Main
+  active  classdiagram_ref 128019 // Main
     1167 696 100 4 0 0
-  active  classdiagram_ref 134547 // Model
-    864 697 100 4 0 0
 end
 show_stereotypes
-selected class_ref 128531 // DynamicViewThread
+selected class_ref 129171 // DataSourceThread
 open
-  class_ref 128659 // StaticViewThread
+  class_ref 129043 // DataManager
+  class_ref 129171 // DataSourceThread
   
   package_ref 134675 // Data
 end
