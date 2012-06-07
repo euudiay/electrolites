@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Bouml (http://bouml.free.fr/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="397"
+   height="364"
+   version="1.1"
+   id="svg3466"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="mlts-arch-bt.svg">
+  <metadata
+     id="metadata3662">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3660" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1028"
+     id="namedview3658"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.7212224"
+     inkscape:cx="295.40118"
+     inkscape:cy="196.33858"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3466" />
+  <g
+     id="g3468"
+     transform="translate(-21.5,-24.5)">
+    <polygon
+       points="128,237 22,237 22,217 22,217 138,217 138,227 "
+       id="polygon3470"
+       style="fill:#ffffff;stroke:#000000;stroke-opacity:1" />
+    <rect
+       x="22"
+       y="217"
+       width="396"
+       height="171"
+       id="rect3472"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="75"
+       y="233"
+       id="text3474"
+       style="font-size:10px;text-anchor:middle;fill:#000000;font-family:Helvetica">Bluetooth Realization</text>
+    <line
+       x1="22"
+       y1="237"
+       x2="128"
+       y2="237"
+       id="line3476"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="128"
+       y1="237"
+       x2="138"
+       y2="227"
+       id="line3478"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="138"
+       y1="227"
+       x2="138"
+       y2="217"
+       id="line3480"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3482"
+     transform="translate(-21.5,-24.5)">
+    <polygon
+       points="56,45 22,45 22,25 22,25 66,25 66,35 "
+       id="polygon3484"
+       style="fill:#ffffff;stroke:#000000;stroke-opacity:1" />
+    <rect
+       x="22"
+       y="25"
+       width="396"
+       height="164"
+       id="rect3486"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="39"
+       y="41"
+       id="text3488"
+       style="font-size:10px;text-anchor:middle;fill:#000000;font-family:Helvetica">Model</text>
+    <line
+       x1="22"
+       y1="45"
+       x2="56"
+       y2="45"
+       id="line3490"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="56"
+       y1="45"
+       x2="66"
+       y2="35"
+       id="line3492"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="66"
+       y1="35"
+       x2="66"
+       y2="25"
+       id="line3494"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3496"
+     transform="translate(-21.5,-24.5)">
+    <rect
+       x="139"
+       y="340"
+       width="3"
+       height="33"
+       id="rect3498"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="51"
+       y="370"
+       width="91"
+       height="3"
+       id="rect3500"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="47"
+       y="336"
+       width="92"
+       height="34"
+       id="rect3502"
+       style="fill:#ffffc0;stroke:#000000;stroke-width:1;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       font-weight="bold"
+       x="93"
+       y="349"
+       id="text3504"
+       style="font-size:10px;font-weight:bold;text-anchor:middle;fill:#000000;font-family:Helvetica">ConnectThread</text>
+    <line
+       x1="47"
+       y1="354"
+       x2="139"
+       y2="354"
+       id="line3506"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="47"
+       y1="362"
+       x2="139"
+       y2="362"
+       id="line3508"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3510"
+     transform="translate(-21.5,-24.5)">
+    <ellipse
+       cx="347"
+       cy="69"
+       rx="10"
+       ry="10"
+       id="ellipse3512"
+       sodipodi:cx="347"
+       sodipodi:cy="69"
+       sodipodi:rx="10"
+       sodipodi:ry="10"
+       style="fill:#ffffc0;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 357,69 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       font-weight="bold"
+       x="347"
+       y="92"
+       id="text3514"
+       style="font-size:10px;font-weight:bold;text-anchor:middle;fill:#000000;font-family:Helvetica">DataHolder</text>
+    <line
+       x1="306"
+       y1="97"
+       x2="388"
+       y2="97"
+       id="line3516"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="306"
+       y1="105"
+       x2="388"
+       y2="105"
+       id="line3518"
+       style="stroke:#000000;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="310"
+       y="118"
+       id="text3520"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">handleSample()</text>
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="310"
+       y="134"
+       id="text3522"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">handleDPoint()</text>
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="310"
+       y="150"
+       id="text3524"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">handleHBR()</text>
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="310"
+       y="166"
+       id="text3526"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">handleOffset()</text>
+  </g>
+  <g
+     id="g3528"
+     transform="translate(-21.5,-24.5)">
+    <rect
+       x="278"
+       y="340"
+       width="3"
+       height="33"
+       id="rect3530"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="176"
+       y="370"
+       width="105"
+       height="3"
+       id="rect3532"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="172"
+       y="336"
+       width="106"
+       height="34"
+       id="rect3534"
+       style="fill:#ffffc0;stroke:#000000;stroke-width:1;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       font-weight="bold"
+       x="225"
+       y="349"
+       id="text3536"
+       style="font-size:10px;font-weight:bold;text-anchor:middle;fill:#000000;font-family:Helvetica">ConnectedThread</text>
+    <line
+       x1="172"
+       y1="354"
+       x2="278"
+       y2="354"
+       id="line3538"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="172"
+       y1="362"
+       x2="278"
+       y2="362"
+       id="line3540"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3542"
+     transform="translate(-21.5,-24.5)">
+    <rect
+       x="279"
+       y="61"
+       width="3"
+       height="91"
+       id="rect3544"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="175"
+       y="149"
+       width="107"
+       height="3"
+       id="rect3546"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="171"
+       y="57"
+       width="108"
+       height="92"
+       id="rect3548"
+       style="fill:#ffffc0;stroke:#000000;stroke-width:1;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       font-weight="bold"
+       x="225"
+       y="70"
+       id="text3550"
+       style="font-size:10px;font-weight:bold;text-anchor:middle;fill:#000000;font-family:Helvetica">DataSourceThread</text>
+    <line
+       x1="171"
+       y1="75"
+       x2="279"
+       y2="75"
+       id="line3552"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="171"
+       y1="83"
+       x2="279"
+       y2="83"
+       id="line3554"
+       style="stroke:#000000;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="175"
+       y="96"
+       id="text3556"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">start()</text>
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="175"
+       y="112"
+       id="text3558"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">stopSending()</text>
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="175"
+       y="128"
+       id="text3560"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">stop()</text>
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="175"
+       y="144"
+       id="text3562"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">write()</text>
+  </g>
+  <g
+     id="g3564"
+     transform="translate(-21.5,-24.5)">
+    <rect
+       x="147"
+       y="250"
+       width="3"
+       height="33"
+       id="rect3566"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="43"
+       y="280"
+       width="107"
+       height="3"
+       id="rect3568"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="39"
+       y="246"
+       width="108"
+       height="34"
+       id="rect3570"
+       style="fill:#ffffc0;stroke:#000000;stroke-width:1;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       font-weight="bold"
+       x="93"
+       y="259"
+       id="text3572"
+       style="font-size:10px;font-weight:bold;text-anchor:middle;fill:#000000;font-family:Helvetica">BluetoothManager</text>
+    <line
+       x1="39"
+       y1="264"
+       x2="147"
+       y2="264"
+       id="line3574"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="39"
+       y1="272"
+       x2="147"
+       y2="272"
+       id="line3576"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3578"
+     transform="translate(-21.5,-24.5)">
+    <ellipse
+       cx="96"
+       cy="65"
+       rx="10"
+       ry="10"
+       id="ellipse3580"
+       sodipodi:cx="96"
+       sodipodi:cy="65"
+       sodipodi:rx="10"
+       sodipodi:ry="10"
+       style="fill:#ffffc0;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 106,65 c 0,5.522847 -4.47715,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.52285,0 10,4.477153 10,10 z" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       font-weight="bold"
+       x="96"
+       y="88"
+       id="text3582"
+       style="font-size:10px;font-weight:bold;text-anchor:middle;fill:#000000;font-family:Helvetica">DataManager</text>
+    <line
+       x1="57"
+       y1="93"
+       x2="135"
+       y2="93"
+       id="line3584"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="57"
+       y1="101"
+       x2="135"
+       y2="101"
+       id="line3586"
+       style="stroke:#000000;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="61"
+       y="114"
+       id="text3588"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">start()</text>
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="61"
+       y="130"
+       id="text3590"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">stop()</text>
+    <text
+       font-size="10"
+       xml:space="preserve"
+       x="61"
+       y="146"
+       id="text3592"
+       style="font-size:10px;fill:#000000;font-family:Helvetica">configure()</text>
+  </g>
+  <g
+     id="g3594"
+     transform="translate(-21.5,-24.5)">
+    <line
+       x1="95"
+       y1="245"
+       x2="95"
+       y2="157"
+       id="line3596"
+       style="stroke:#000000;stroke-opacity:1;stroke-dasharray:4, 4" />
+    <line
+       x1="95"
+       y1="151"
+       x2="89"
+       y2="157"
+       id="line3598"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="95"
+       y1="151"
+       x2="101"
+       y2="157"
+       id="line3600"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="89"
+       y1="157"
+       x2="101"
+       y2="157"
+       id="line3602"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3604"
+     transform="translate(-21.5,-24.5)">
+    <line
+       x1="95"
+       y1="284"
+       x2="95"
+       y2="335"
+       id="line3606"
+       style="stroke:#000000;stroke-opacity:1" />
+    <polygon
+       points="89,290 95,284 101,290 95,296 "
+       id="polygon3608"
+       style="fill:#ffffff;stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3610"
+     transform="translate(-21.5,-24.5)">
+    <line
+       x1="124"
+       y1="284"
+       x2="199"
+       y2="335"
+       id="line3612"
+       style="stroke:#000000;stroke-opacity:1" />
+    <polygon
+       points="125,292 124,284 132,282 133,290 "
+       id="polygon3614"
+       style="fill:#ffffff;stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3616"
+     transform="translate(-21.5,-24.5)">
+    <line
+       x1="227"
+       y1="335"
+       x2="227"
+       y2="159"
+       id="line3618"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="227"
+       y1="153"
+       x2="221"
+       y2="159"
+       id="line3620"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="227"
+       y1="153"
+       x2="233"
+       y2="159"
+       id="line3622"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="221"
+       y1="159"
+       x2="233"
+       y2="159"
+       id="line3624"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3626"
+     transform="translate(-21.5,-24.5)">
+    <rect
+       x="404"
+       y="265"
+       width="3"
+       height="33"
+       id="rect3628"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="288"
+       y="295"
+       width="119"
+       height="3"
+       id="rect3630"
+       style="fill:#808080;stroke:none" />
+    <rect
+       x="284"
+       y="261"
+       width="120"
+       height="34"
+       id="rect3632"
+       style="fill:#ffffc0;stroke:#000000;stroke-width:1;stroke-opacity:1" />
+    <text
+       font-size="10"
+       xml:space="preserve"
+       font-weight="bold"
+       x="344"
+       y="274"
+       id="text3634"
+       style="font-size:10px;font-weight:bold;text-anchor:middle;fill:#000000;font-family:Helvetica">DynamicViewThread</text>
+    <line
+       x1="284"
+       y1="279"
+       x2="404"
+       y2="279"
+       id="line3636"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="284"
+       y1="287"
+       x2="404"
+       y2="287"
+       id="line3638"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3640"
+     transform="translate(-21.5,-24.5)">
+    <line
+       x1="256"
+       y1="335"
+       x2="312"
+       y2="299"
+       id="line3642"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3644"
+     transform="translate(-21.5,-24.5)">
+    <line
+       x1="346"
+       y1="260"
+       x2="346"
+       y2="177"
+       id="line3646"
+       style="stroke:#000000;stroke-opacity:1;stroke-dasharray:4, 4" />
+    <line
+       x1="346"
+       y1="171"
+       x2="340"
+       y2="177"
+       id="line3648"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="346"
+       y1="171"
+       x2="352"
+       y2="177"
+       id="line3650"
+       style="stroke:#000000;stroke-opacity:1" />
+    <line
+       x1="340"
+       y1="177"
+       x2="352"
+       y2="177"
+       id="line3652"
+       style="stroke:#000000;stroke-opacity:1" />
+  </g>
+  <g
+     id="g3654"
+     transform="translate(-21.5,-24.5)">
+    <text
+       font-size="10"
+       xml:space="preserve"
+       font-style="italic"
+       x="261"
+       y="314"
+       id="text3656"
+       style="font-size:10px;font-style:italic;fill:#000000;font-family:Helvetica">data flow</text>
+  </g>
+</svg>

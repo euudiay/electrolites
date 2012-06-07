@@ -351,7 +351,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		The set of classes encompassed in the View package (see \autoref{fig:arch-global}) provides both a base rendering architecture in an update-render loop style not initally present in the Android framework and the specialization of such architecture for the specific project domain, i.e. plotting of the electrocardiogram wave and its relevant points.\\
 
-		The soft real-time rendering imposed by the project restrictions requires a special, non common functionality providing Android View \todo{reference to View in andev?} class derivate: the SurfaceView. This kind of View provides a bitmap surface where pixel-level rendering is allowed. A set of rendering tools is also provided by Android. The architecture developed on top of that view extends the SurfaceView to an AnimationView and delegates the rendering to an AnimationThread. This last entity is the one providing the update-render loop employed for the real-time rendering.\\
+		Regarding rendering Android provides a set of common employed visual elements. These implementations try to simplify the developer's work by giving customizable solutions to common scenarios, such as rendering a list of elements or a drop-down selection object, in a visually pleasing way. All this elements are part of the hierarchy of Android's View class, and implement a composite pattern for rich menu-building.
+
+		The soft real-time rendering imposed by the project restrictions requires a specific View \todo{reference to View in andev?} class derivate: the SurfaceView. This kind of View provides a bitmap surface where pixel-level rendering is allowed. A set of rendering tools is also provided by Android. The architecture developed on top of that view extends the SurfaceView to an AnimationView and delegates the rendering to an AnimationThread. This last entity is the one providing the update-render loop employed for the real-time rendering. The drawback of employing a SurfaceView as the base is that such element doesn't provide common employed functionality as scrolling or zooming.\\
 
 		The actual, domain specific rendering functionality providing threads are implemented employing the aforementioned layer as a base. The precise entities are DynamicViewThread and StaticViewThread, and are referred in this document as implementations of the view thread, even if such class does not exist in the project. This two classes implement the required behaviour for dynamic and static data visualization respectively, and obtain the data to be shown from a data source entity. Such entity is dealt with in the following section. The reason for different entities to exist for static and dynamic rendering is also detailed there.\\
 
@@ -370,13 +372,41 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		The rest of the entities of the Data package are employed in the aforementioned model scheme, and specify the expected behaviour of each element involved in a data flow. As indicated before, specialization of this entities is required for the realization of the model.\\
 
+		%\begin{wrapfigure}{l}{0.35\textwidth}
+		\begin{figure}[h]
+		\begin{center}
+	    	\includegraphics[width=0.20\textwidth]{mlts-ent-datamanager}
+  		\end{center}
+  		\caption{DataManager interface}
+		\end{figure}
+		%\end{wrapfigure}
+
+
 		DataManager is the interface to be implemented by the model controller. It is responsible for the configuring, starting and halting the data flow provided by its controlled entities. It also participates in the process of initialization of the visualization \todo{Link to this process} of a data flow by communicating a DataHolder with the respective DataSourceThread.\\
 
 		A DataSourceThread is a thread which provides data to other entities in the system, generally to a DataHolder. It is a specialization of Thread with functionality to start and stop the flow of data. This data is usually received from an external entity, such as a USB device or a file, and concrete implementations  might require an actual communication between the two, forcing the DataSourceThread to send data to the other end of the connection. Because of that, any specialization of this class must also listen to petitions of writing to its data provider when available.\\
 
+		%\begin{wrapfigure}{l}{0.35\textwidth}
+		\begin{figure}[h]
+		\begin{center}
+	    	\includegraphics[width=0.3\textwidth]{mlts-ent-datasource}
+  		\end{center}
+  		\caption{DataSourceThread class}
+		\end{figure}
+		%\end{wrapfigure}
+
 		The processing of raw data sent by the data providers to the DataSourceThreads is expected to be done in the latter, so the data transfered throughout the application is of a processed nature. To this end the DataParser entity is available\todo{Reference DataParser}.\\
 
 		The expected receiver of the data sent by a DataSourceThread is a DataHolder. This interface provides domain-specific data handling abstract methods and definitions. An implementation of a DataHolder must handle the reception of ECG wave samples, delineation points, synchronization points and heart-beat-rate values.\\
+
+		%\begin{wrapfigure}{l}{0.35\textwidth}
+		\begin{figure}[h]
+		\begin{center}
+	    	\includegraphics[width=0.20\textwidth]{mlts-ent-dataholder}
+  		\end{center}
+  		\caption{DataHolder interface}
+		\end{figure}
+		%\end{wrapfigure}
 
 		The actual way in which that data is employed depends on the concretion of the interface, and might or might not involve visual representation. When visual representation is required, the view thread implementation should also implement the DataHolder interface.\\
 
@@ -400,27 +430,73 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		A data parser is the entity responsible of the processing of the raw data obtained by a DataSource into the domain specific data that the application manages. There are two implementations, one for real-time data reception, RealTimeDataParser, and the other for static data reading, i.e. a log file. The real-time data parser is also responsible of storing the received raw data the a log file.\\
 
 		A data parser is intended to be contained in a DataSourceThread. It receives the bytes of raw data and, upon successful identification of a valid data element, notifies the corresponding DataHolder entity of the arrival. In a theoric, performance-independant model, this behaviour would be incorrect: the data parser would leave the processed data \emph{in} the DataSourceThread, which would then make the transfer of information to the data holder. This kind of implementation is not valid with the soft realtime requirements of the project, as the data source - data parser - data source - data holder flow would be a severe bottle-neck.\\
+
+		The Viewport entity is a container for the visualization area settings. It represents the window in which the data plotting is done, and holds information about size and position of it. It also contains data about the horizontal and vertical scale of the rendering and handles modification of all these parameters. It is employed by the view thread hierarchy.
 		
-		\subsection{Realization of the Model 1: Bluetooth}
-			BluetoothManager handles bluetooth connection, launches two different threads one of them being the DataSourceThread implementation, the former being a non-blocking connection starting thread.
-			Employs a DynamicViewThread which implements DataHolder interface and receives data from Bluetooth's ConnectedThread.
-			This ConnectedThread holds the DataParser and provides de data directly to DVT.
+		\subsection{Data Flow Model Realizations}
 
-		\subsection{Realization of the Model 2: FileReader}
-			FileManager handles the selection of a file by the user (previous presentation of available ones), creates file reading thread providing the chosen file and connects this with the viewthread.
-			FileDataSourceThread is at the same time a DataSource and a DataHolder. Because of that, it doesn't realize the DataSource interface. This is an example of the flexibility sought by the design: were mandatory to have implemented the DataSource interface, another stage in the data flow would have been added, slowing things up (even if only because of synchronization mechanisms)
-			Employs an StaticViewThread which doesn't hold data and gets references to the actual data location in FileDataSourceThread when needed. 
-			FileDataSourceThread, thus, manages data reading and holding, and manipulation. Explanation follows: data is read from files with the aid of a FileConverter entity (explain?). This files can be of big size, so they shouldn't be fully load onto memory. A partial load is mandatory in such cases, and the next chunk of data is to be read when the "visualization window" approaches. All that management is done by the FileDataSourceThread. When the view is controlled (scroll horizontal) the event is passed directly into this thread from the ViewThread (which receives the input from Activity). FileDataSourceThread updates the pointers to the visualized data start and end (can do because it works on time rather than on pixel units [3 seconds to be seen onscreen == 750 data samples]) and passes them to viewthread as well as the rest of the data. That way, if more file reading is required, it can be done in a transparent-to view manner.
+		Having explained the data flow model scheme and the core level architectural elements employed in its construction, model realizations implemented are detailed next. For each realization, the concretion of each model element will be exposed including particular details of such implementation.
 
-		\subsection{Realization of the Model 3: USB}
-			DeviceManager handles device enumeration and selection. As there's only as much as one available usb device (at the time) no selection is needed, when the device is detected, connection is done, but it can easily be implemented.
-			USBComThread is the DataSourceThread realization, which, given the endpoints of the usb connection to a device, handles data reception from the read endpoint, parses it and sends to its DataHolder, which is a DynamicViewThread. As cannon as it gets, baby.
+		\subsubsection{Bluetooth Model}
+			The Bluetooth \todo{Bluetooth (TM)?} model is a real-time visualization targeted data flow where the actual data provider is a Bluetooth node. As visualization is an objective, this model realization employs a DataManager, a DataSource, a DataHolder and a DynamicViewThread; the latter two being implemented in the same entity. An overview of the realization is shown in \autoref{fig:arch-bt}.\\
 
+			\begin{figure}[h]
+			\centering
+		    	\includegraphics{mlts-arch-bt}
+	  		\caption{Bluetooth Model Realization}
+			\label{fig:arch-bt}
+			\end{figure}
+
+			The specialization of the DataManager is the BluetoothManager. It prompts the user for the device to connect to and handles connection by employing two threads: ConnectThread and ConnectedThread. After discovering the available nodes, it locates the node indicated by the user and launches the ConnectionThread.\\
+
+			This ConnectThread is the thread which actually manages the connection by obtaining it's endpoints in the form of a socket. If successful, passes the socket to the manager and finishes it's execution. The manager then launches the ConnectedThread, which receives the socket and data flow starts. The reason for employing a thread for establishing the connection is to avoid blocking the application while connecting.\\
+
+			ConnectedThread is the DataSourceThread implementation and contains an entity of DataParser. It receives data sent by the Bluetooth device through the socket, parses it and notifies the DataHolder implementation, which is the DynamicViewThread. The DataParser in DataSourceThread is a RealTimeDataParser and stores the data in a log file while processing.
+
+		\subsubsection{File Reader Model}
+			This model realization implements visual representation of ECG data stored in a log file. It is a static view model, in which the user controls what section of the temporal log is shown on-screen, an thus employs an StaticViewThread instead of a dynamic one.\\
+
+			\begin{figure}[h]
+			\centering
+		    	\includegraphics{mlts-arch-log}
+	  		\caption{File Reader Model Realization}
+			\label{fig:arch-log}
+			\end{figure}
+		
+			The manager in the file reader model is the FileManager class. It presents available log files to the user, handles the seleccion of one, instantiates the file reading thread and connects this with the view thread. When the user finalizes the visualization of the selected log, the FileManager returns to the log selection menu instead of going directly to the main menu. This is an example of the versatility of the aforementioned view stack scheme, which lets specific managers present as many menus to the user as necessary.\\
+
+			FileDataSourceThread is the thread that reads the chosen file and processes its data. It implements both the DataSource and the DataHolder interfaces, so it acts as the emitter an the receiver of the processed data. The view thread obtains a reference to this same data, thus avoiding big amounts of data transfering in the static view model as explained before. This is an example of the flexibility sought by the architecture design.\\
+
+			The FileDataSourceThread, thus, manages data reading, storage and manipulation. The data is read from files with the aid of this package's FileConverter entity. This files can be of big size, so they shouldn't be fully load onto memory. A partial load is mandatory in such cases, and the next chunk of data is to be read when the "visualization window" approaches. All this management is done by the FileDataSourceThread.\\
+
+			When the view is controlled by the user, i.e. horizontal scroll, the event is passed directly into this thread from the StaticViewThread. FileDataSourceThread then updates the portion of the data to be shown. The updated information is consulted by the view thread in the next rendering step. That way, were further file reading required, it could be done in a transparent-to-view manner.\\
+
+			Data processing is done employing an instance of StaticDataParser in the FileDataSourceThread.\\
+
+			The FileConverter entity provides functionality to transform a given file to a Stream, ArrayList or array of bytes, the latter being the expected input format for the available data parsers.
+
+		\subsubsection{USB Model}
+			The USB model manages data reception from an USB device and eventual visual representation for the user. It is a real-time data flow, and thus employs a dynamic view thread. An overview of the model is shown in \autoref{fig:arch-usb}.\\
+
+			\begin{figure}[h]
+			\centering
+		    	\includegraphics{mlts-arch-usb}
+	  		\caption{USB Model Realization}
+			\label{fig:arch-usb}
+			\end{figure}
+
+			DeviceManager is the realization of the model's Manager. This entity handles connected USB devices enumeration and selection by the user. If only one device is available, connection is directly stablished with it. Differing from the Bluetooth realization implementation, the actual connection to the device is handled by the DeviceManager in a blocking manner. It is so because USB connection resolution takes very little time and the delay is virtually imperceptible for the user.\\
+
+			Once the connection is stablished, the DeviceManager launches a UsbComThread. This thread is the specialization of DataSourceThread and obtains the raw data from the USB device, processes it employing an instance of DynamicDataParser and sends the results to the view thread. This is a DynamicViewThread entity.
+
+		\todo{Extra things here? (see source file)}
+		\begin{comment}
 		\subsection{More things (which I don't know where to include}
 			
 			\texttt{(These with sequence diagrams and all)}
 			Explanation of the visualization initialization procedure, as well as the finalization one.
 			Example of a full data flow (e.g. bluetooth)
+		\end{comment}
 
 	\section{Implementation Details}
 
