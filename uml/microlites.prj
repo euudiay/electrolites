@@ -1,6 +1,6 @@
 format 76
 "microlites"
-  revision 3
+  revision 4
   modified_by 19 "Rafa"
 
 
@@ -170,6 +170,14 @@ ${members}}
 	    classrelation_ref 134931 // <realization>
 	  b parent class_ref 128915 // DataHolder
       end
+
+      classrelation 142995 // (data flow)
+	relation_ref 142611 // data flow
+      end
+
+      classrelation 144787 // <association>
+	relation_ref 144019 // <association>
+      end
     end
 
     class 128659 "StaticViewThread"
@@ -197,6 +205,10 @@ ${members}}
 	    java "${type}"
 	    classrelation_ref 128403 // <realization>
 	  b parent class_ref 129299 // StaticDataHolder
+      end
+
+      classrelation 143635 // <association>
+	relation_ref 143123 // <association>
       end
     end
 
@@ -228,6 +240,53 @@ ${members}};
 "
       explicit_switch_type ""
       
+      operation 128403 "handleSample"
+	public explicit_return_type ""
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 128531 "handleDPoint"
+	public explicit_return_type ""
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 128659 "handleHBR"
+	public explicit_return_type ""
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 128787 "handleOffset"
+	public explicit_return_type ""
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 129043 "DataManager"
@@ -245,6 +304,39 @@ ${members}};
 "
       explicit_switch_type ""
       
+      operation 128019 "start"
+	public explicit_return_type ""
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 128147 "stop"
+	public explicit_return_type ""
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 128275 "configure"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
     end
 
     class 129171 "DataSourceThread"
@@ -258,6 +350,52 @@ ${members}}
       idl_decl ""
       explicit_switch_type ""
       
+      operation 128915 "start"
+	public explicit_return_type ""
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 129043 "stopSending"
+	public explicit_return_type ""
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 129171 "stop"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 129299 "write"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "data" explicit_type "byte[]"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 129299 "StaticDataHolder"
@@ -284,12 +422,12 @@ ${members}};
       end
     end
 
-    classdiagram 134547 "Model"
+    classdiagram 134547 "Entities"
       draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       size A4
     end
 
-    class 135827 "ViewThread"
+    class 135827 "DataParser"
       visibility package 
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
@@ -300,52 +438,14 @@ ${members}}
       idl_decl ""
       explicit_switch_type ""
       
-      classrelation 142483 // <association>
-	relation 142483 ----
-	  a role_name "" private
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	    classrelation_ref 142483 // <association>
-	  b role_name "" private
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	    classrelation_ref 142611 // <association>
-      end
     end
 
-    class 135955 "SpecificManager"
-      visibility package 
-      cpp_decl ""
-      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      classrelation 142227 // <realization>
-	relation 142227 -_-|>
-	  a public
-	    java "${type}"
-	    classrelation_ref 142227 // <realization>
-	  b parent class_ref 129043 // DataManager
-      end
-
-      classrelation 142739 // <association>
-	relation 142611 ----
-	  a role_name "" private
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	    classrelation_ref 142739 // <association>
-	  b role_name "" private
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	    classrelation_ref 142867 // <association>
-      end
+    classdiagram 141075 "BluetoothRealization"
+      draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+      size A4
     end
 
-    class 136083 "SpecificDataHolder"
+    class 142355 "BluetoothManager"
       visibility package 
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
@@ -361,19 +461,35 @@ ${members}}
 	  a public
 	    java "${type}"
 	    classrelation_ref 142099 // <realization>
-	  b parent class_ref 128915 // DataHolder
+	  b parent class_ref 129043 // DataManager
       end
 
-      classrelation 142611 // <association>
-	relation_ref 142483 // <association>
+      classrelation 142227 // <aggregation>
+	relation 142227 o---
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 142227 // <aggregation>
+	  b role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 142355 // <aggregation>
       end
 
-      classrelation 143123 // <association>
-	relation_ref 142739 // <association>
+      classrelation 142483 // <aggregation>
+	relation 142355 o---
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 142483 // <aggregation>
+	  b role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 142611 // <aggregation>
       end
     end
 
-    class 136211 "SpecificDataSource"
+    class 142483 "ConnectedThread"
       visibility package 
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
@@ -384,28 +500,246 @@ ${members}}
       idl_decl ""
       explicit_switch_type ""
       
-      classrelation 142355 // <generalisation>
-	relation 142355 ---|>
+      classrelation 142611 // <aggregation>
+	relation_ref 142355 // <aggregation>
+      end
+
+      classrelation 142739 // <generalisation>
+	relation 142483 ---|>
 	  a public
 	    java "${type}"
-	    classrelation_ref 142355 // <generalisation>
+	    classrelation_ref 142739 // <generalisation>
 	  b parent class_ref 129171 // DataSourceThread
       end
 
-      classrelation 142867 // <association>
-	relation_ref 142611 // <association>
-      end
-
-      classrelation 142995 // <association>
-	relation 142739 ----
+      classrelation 142867 // (data flow)
+	relation 142611 ---- name "data flow"
 	  a role_name "" private
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 142995 // <association>
+	    classrelation_ref 142867 // (data flow)
 	  b role_name "" private
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 143123 // <association>
+	    classrelation_ref 142995 // (data flow)
+      end
+    end
+
+    class 142611 "ConnectThread"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 142355 // <aggregation>
+	relation_ref 142227 // <aggregation>
+      end
+    end
+
+    classdiagram 141203 "FileReaderRealization"
+      draw_all_relations no hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 142739 "FileManager"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 143123 // <realization>
+	relation 142739 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 143123 // <realization>
+	  b parent class_ref 129043 // DataManager
+      end
+
+      classrelation 143763 // <aggregation>
+	relation 143251 o---
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 143763 // <aggregation>
+	  b role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 143891 // <aggregation>
+      end
+
+      classrelation 143891 // <aggregation>
+	relation_ref 143251 // <aggregation>
+      end
+
+      classrelation 144019 // <directional aggregation>
+	relation 143379 o-->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 144019 // <directional aggregation>
+	  b parent class_ref 142867 // FileDataSourceThread
+      end
+    end
+
+    class 142867 "FileDataSourceThread"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 143251 // <realization>
+	relation 142867 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 143251 // <realization>
+	  b parent class_ref 128915 // DataHolder
+      end
+
+      classrelation 143379 // <generalisation>
+	relation 142995 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 143379 // <generalisation>
+	  b parent class_ref 129171 // DataSourceThread
+      end
+
+      classrelation 143507 // <association>
+	relation 143123 ----
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 143507 // <association>
+	  b role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 143635 // <association>
+      end
+
+      classrelation 144275 // <directional aggregation>
+	relation 143635 o-->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 144275 // <directional aggregation>
+	  b parent class_ref 142995 // FileConverter
+      end
+    end
+
+    class 142995 "FileConverter"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 144147 // <directional aggregation>
+	relation 143507 o-->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 144147 // <directional aggregation>
+	  b parent class_ref 142995 // FileConverter
+      end
+    end
+
+    classdiagram 141459 "Usb Realization"
+      draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 143123 "DeviceManager"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 144403 // <realization>
+	relation 143763 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144403 // <realization>
+	  b parent class_ref 129043 // DataManager
+      end
+
+      classrelation 144915 // <directional aggregation>
+	relation 144147 o-->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 144915 // <directional aggregation>
+	  b parent class_ref 143123 // DeviceManager
+      end
+
+      classrelation 145043 // <aggregation>
+	relation 144275 o---
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 145043 // <aggregation>
+	  b role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 145171 // <aggregation>
+      end
+    end
+
+    class 143251 "UsbComThread"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 144531 // <generalisation>
+	relation 143891 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144531 // <generalisation>
+	  b parent class_ref 129171 // DataSourceThread
+      end
+
+      classrelation 144659 // <association>
+	relation 144019 ----
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 144659 // <association>
+	  b role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 144787 // <association>
+      end
+
+      classrelation 145171 // <aggregation>
+	relation_ref 144275 // <aggregation>
       end
     end
   end
