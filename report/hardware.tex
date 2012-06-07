@@ -60,10 +60,6 @@
 			so that way it can make use of external sensors and agents. The board has multiple input and
 			output pins at the developer's disposal as well, so unforeseen behaviours can be achieved.\\
 			
-			\todo{Mover este párrafo (o similar) a su correspondiente hito}
-			Although Google refers its ADK as an accessory developing platform, it is used in this project
-			as a prototyping tool, as it is explained at \autoref{ssec:Arduino.USB}, \nameref{ssec:Arduino.USB}.
-			
 		\subsection{MSP430}
 		\label{ssec:msp430}
 			MSP430 refers to an entire family of 16-bit CPU microcontrollers from Texas Instruments \cite{msp430}.
@@ -122,6 +118,8 @@
 					USB-capable MSP430F6638 microcontroller.
 			\end{itemize}
 			
+			
+			% Here lies Pfervoland
 			\begin{comment}
 			
 			\subsubsection{MSP-EXP430F5438:}
@@ -169,11 +167,6 @@
 				\item \textbf{JTAG header for real-time, in-system programming}
 			\end{itemize}
 			The interesting part of this platform is that, being designed to be used with \nameref{it:MSP430F6638}, the USB port is directly connected with a USB controller in microchip, and as a board very targeted to prototyping it have 100 expansion pins, very usefull for hardware expansions. \\
-			
-			
-			
-			
-			
 			
 			\subsubsection{MSP430F5438A}
 			\label{it:MSP430F5438A}
@@ -331,7 +324,13 @@
 	%La más que imporante complicacion de estas dos comunicaciones nos hace pensar que es preferible conseguirlas por separado y luego juntarlas en otro hito( \autoref{802.15.4.USB.FreeRTOS}
 	This two conceptual milestones, USB and 802.15.4 communication, was decided to be develop separately instead of cumulatively to ensure that the work in one is not affected at all by the other one. In this scenario a milestone dedicated to put it together under the FreeRTOS is posed, \autoref{802.15.4.USB.FreeRTOS}.\\
 	%La comunicación por USB del android con el MSP430 no existe, no se había conseguido y encima la disposición de android como USB host es una caracteristica muy nueva de android. Pensamos que es necesario un hito anterior para acostumbrarnos a la comunicación con android por USB como device, para facilitar la aclimatación y no meternos al principio con un tema tan complicado, este hito consistiría en conectar un dispositivo de tipo arduino(primeramente pensamos googleADK) para los cuales la comuicacion USB con android como device está probada.(surge el hito 4 \autoref{ssec:Arduino for Android USB Device Comunication})
-	At this point is noticed that the first USB contact with android was directly try to connect an android device with the MSP430 using the android device as host. The MSP430 USB communication with Android was not already developed by nobody else and the Android USB host communication have no more that a couple of months released. A easier initial milestone, \autoref{ssec:Arduino.USB}, to familiarize the team with the USB seems very usefull at this point. Is decided to use an \autoref{Arduino}, because Arduino have been connected with android many times and was able to act as host in the connection, to make a first and not too lasting aproach to USB communication.
+	At this point is noticed that the first USB contact with android was directly try to connect 
+	an android device with the MSP430 using the android device as host. The MSP430 USB communication 
+	with Android was not already developed by nobody else and the Android USB host communication 
+	have no more that a couple of months released. A easier initial milestone, \autoref{ssec:Arduino.USB},
+	to familiarize the team with the USB seems very usefull at this point. Is decided to use an
+	\autoref{Arduino}, because Arduino have been connected with android many times and was able to act as
+	host in the connection, to make a first and not too lasting aproach to USB communication.
 
 	%Se plantea una potencial iteración posterior por si el proyecto fuera bien y diese tiempo consitente en crear el dispositivo final capturando el esquematico y diseñando el PCB para producirlo.Se presenta inicialmente como un hito tentativo dado que el tiempo que se puede tardar en realizar las anteriores hiteraciones es bastante incierto pero se prefiere tener el horizonte lo más lejos posible
 	Just because this is a mainly research section this milestones can't have a realistic estimate time, and because of that we are not able to know when this milestones can be finished, nor even if all could be finally achieved. Just in case we finish this milestones enought soon, and in order to have an horizon as far as possible, id decided to put another milestone that could make our system and project more complet, \autoref{MSP430.design}, where will be developed the final device capruting the schematic and designing the PCB for a finished hardware device.\\
@@ -356,41 +355,89 @@
 
 		\subsection{Arduino for Android USB Device Comunication}
 		\label{ssec:Arduino.USB}
-		This first milestone's objectives are:
-		\begin{itemize}
-		% \item Acquire a Google Android Development Kit,
-		\item Acquire a suitable Android device prototyping environment, 
-		\item manage correct communication between Android and a prototype device, and
-		\item develop an application emulating desired behaviour.
-		\end{itemize}
-		%Prototipo sencillo que sirvió para familiarizarnos con la programación de USB en android, rápido porque la parte del arduino estaba hecha, y programar USB device en Android(referencia a algúna parte del software donde se cuente como de facil se implementa eso) no supone demasiada complicación
-
-		The process involved in the procurement of each objective is exposed next.
-
-		\begin{enumerate}
-
-		\item Acquire a suitable Android device prototyping environment
-		Initial research on the subject of Android device prototyping 
-
-
-		When we decide to develop a usb device the first step is look for a device tha provide the USB host libraries to connect to android, because the USB host device is which implements most of comunication, thanks to this we can focus our efforts in just try a comunication with android with not so much worries, the device selected to this end was the goole ADK, that is based on arduino(link).ADK is a device developed by google to help android developers to make his first prototypes of USB connected devices. The google ADK is an Arduino with all the facilities that a developer can expect such as libraries, some shields, examples and a good documentation, in our case we are specialy interested in the USB host comunication libraries.\\
-
-		\item Manage correct communication between Android and a prototype device
-
-		%Tuvimos el arduino 16 de Noviembre pero no empezamos a trabajar con el el día que nos llegó(de hecho pasó lo menos una semana o 2) asi que o mencionamos eso o ponemos que nos llegó mas tarde de lo que nos llegó de verdad
-		
-		 When we reciebe our google ADK(link to an image?) we investigate documentacion and we start to develop a small arduino aplication based on the expamples, paraelly we develop the android USB device part(link) that we be needed to test this part of  communication. The initial develop, just to make the first test was a little long, because even been the main parts of the implementation os USB comunication made we need to learn how to use it. Our first attempts was no very productives because arduino was a new develop platform but especially because this was our first try with android USB comunication. \\
-
-		\item Develop an application emulating desired behaviour
-
-		Several days later we achieve to Andorid and ADK view each other, but in our definitive test we discover that the communication was not correct because what anyones send was not recibed equally by the other one. But finally we discover what was going wrong and fix it to view how our first milestone has been ahieved.\\
-
-		\end{enumerate}
-
-		%Conclusion
-		Once finished we discover the huge importance of plan this first milestone, that will not be used in then final device, but it was very usefull to train the team about USB comunication in android. Conidering than this milestone was not as easy as we expect, if we had start the research in the second milestone which investigation is actualy used in the device, we probably found a lot of troubles that wasn't trully related with the investigation and it would be higly sealed.\\
-
-		%Fue finalizado el 19 diciembre
+			The objectives for this first milestone objectives are:
+			\begin{itemize}
+				\item Acquire a suitable Android device prototyping environment, 
+				\item manage correct communication between Android and a prototype device, and
+				\item develop an application emulating desired behaviour.
+			\end{itemize}
+			%Prototipo sencillo que sirvió para familiarizarnos con la programación de USB en android, rápido porque la parte del arduino estaba hecha, y programar USB device en Android(referencia a algúna parte del software donde se cuente como de facil se implementa eso) no supone demasiada complicación
+			
+			% Milestone justification
+			This milestone is set upon the consideration that it is a good approach in order to familiarize
+			the team with communications between Android and USB devices. It also comes motivated by the
+			previously supposed effort the connection between Android and a MSP430-equipped device involves,
+			since it has not been done before as well as Android USB host mode support has been out for only
+			two months.\\
+	
+			The process involved in the procurement of each objective is exposed next.
+	
+			\begin{enumerate}
+				\item \emph{Acquire a suitable Android device prototyping environment}\\
+					% Initial research on the subject of Android device prototyping 
+					\begin{comment}
+					When we decide to develop a usb device the first step is look for a device tha provide
+					the USB host libraries to connect to android, because the USB host device is which implements 
+					most of comunication, thanks to this we can focus our efforts in just try a comunication with
+					android with not so much worries, the device selected to this end was the goole ADK, that is 
+					based on arduino(link).ADK is a device developed by google to help android developers to make 
+					his first prototypes of USB connected devices. The google ADK is an Arduino with all the 
+					facilities that a developer can expect such as libraries, some shields, examples and a good
+					documentation, in our case we are specialy interested in the USB host comunication libraries.\\
+					\end{comment}
+					The first step in order to develop this USB device consists of looking for a platform which
+					is able to provide the needed components and libraries so as to make the connection with
+					Android feasible. Although several devices are available to serve as Android accessories (as
+					it is explained at \autoref{ssec:Arduino}),	Google ADK is the chose one since it is based on
+					Arduino: a considerable amount of libraries and documentation is to be expected. Particularly,
+					USB host mode library is the main reason for choosing it.
+	
+				\item \emph{Manage correct communication between Android and a prototype device}\\
+					\begin{comment}
+					% Tuvimos el arduino 16 de Noviembre pero no empezamos a trabajar con el el día que nos llegó
+					% (de hecho pasó lo menos una semana o 2) asi que o mencionamos eso o ponemos que nos llegó 
+					% mas tarde de lo que nos llegó de verdad
+					When we reciebe our google ADK(link to an image?) we investigate documentacion and we start 
+					to develop a small arduino aplication based on the expamples, paraelly we develop the android 
+					USB device part(link) that we be needed to test this part of  communication. The initial develop, 
+					just to make the first test was a little long, because even been the main parts of the 
+					implementation os USB comunication made we need to learn how to use it. Our first attempts was 
+					no very productives because arduino was a new develop platform but especially because this was 
+					our first try with android USB comunication.
+					\end{comment}
+					Once the target platform is chosen, the next step to be done consists of developing some
+					test firmware for the Arduino as well as modifying consistently the Android application
+					so that a proper communication between both devices can be established and proven. A period 
+					of learning and adaptation is required for the team to achieve this.
+	
+				\item \emph{Develop an application emulating desired behaviour}\\
+					\begin{comment}
+					Several days later we achieve to Andorid and ADK view each other, but in our definitive test we
+					discover that the communication was not correct because what anyones send was not recibed equally
+					by the other one. But finally we discover what was going wrong and fix it to view how our first 
+					milestone has been ahieved.\\
+					\end{comment}
+					For this milestone to be fulfilled, it is required that the firmware developed for the
+					Arduino can emulate the behaviour of an actual sample-receiving device. Thus, the
+					microcontroller board is programmed in order that it sends formatted data as the Android
+					application is expecting to receive. In this way, it is visually verifiable that the
+					data transmission is performing properly.
+			\end{enumerate}
+	
+			% Conclusion
+			\begin{comment}
+			Once finished we discover the huge importance of plan this first milestone, that will not be used in 
+			then final device, but it was very usefull to train the team about USB comunication in android. 
+			Conidering than this milestone was not as easy as we expect, if we had start the research in the second
+			milestone which investigation is actualy used in the device, we probably found a lot of troubles that 
+			wasn't trully related with the investigation and it would be higly sealed.\\
+			\end{comment}
+			Although Google refers its ADK as an accessory developing platform, it is noticeable that it is
+			in fact used as a prototyping tool, and hence this development is not to be employed as a part
+			of the final state of the system. As opposed to this, this stage of the project is considered as
+			training transition to more technical developments to be engaged later.
+	
+			%Fue finalizado el 19 diciembre
 
 		\subsection{MSP430 for Android USB Host Comunication}
 		\label{ssec:Android.USB}
