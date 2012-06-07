@@ -52,7 +52,7 @@
 			The Google ADK functioning is actually very simple. Regarding the software, it needs of 
 			the developing of both an Android application with accessory communication and the board's
 			firmware, which models the behaviour of the accessory. Once the board is flashed with its
-			firmware, it has to be connected to a power source (through a dedicated wire or *USB) \todo{¿Cómo se llama el usb de las impresoras?}
+			firmware, it has to be connected to a power source (through a dedicated wire or Type-B USB)
 			and the Android device. If everything is correct, the latter detects the former and, therefore, 
 			the accessory starts its operation.\\
 			
@@ -60,10 +60,36 @@
 			so that way it can make use of external sensors and agents. The board has multiple input and
 			output pins at the developer's disposal as well, so unforeseen behaviours can be achieved.\\
 			
+			\todo{Mover este párrafo (o similar) a su correspondiente hito}
 			Although Google refers its ADK as an accessory developing platform, it is used in this project
 			as a prototyping tool, as it is explained at \autoref{ssec:Arduino.USB}, \nameref{ssec:Arduino.USB}.
 			
 		\subsection{MSP430}
+		\label{ssec:msp430}
+			MSP430 refers to an entire family of 16-bit CPU microcontrollers from Texas Instruments \cite{msp430}.
+			Its most relevant features are:
+			\begin{itemize}
+				\item \textbf{Very low power consumption:} its several low-power modes make the MSP430 
+					family specially suitable for developing embedded systems. Moreover, its brief wakeup 
+					transitions from this operating modes are also noteworthy, since these lapses stay 
+					below the $\mu s$ barrier.
+				\item \textbf{RISC-based Architecture:} its instruction set is particularly narrow \cite{msp430iss}, 
+					and thus simple. Reduced instruction sets ease programming when compared to complex ones,
+					yet this advantage is not too decisive because of the reason presented next.
+				\item \textbf{Simple programming:} Most family members are programmable trough JTAG, which
+					makes the debugging process less difficult along with the possibility of swapping
+					assembly for C.
+				\item \textbf{Wide support and resources:} Texas Instruments provides code examples, software 
+					IDEs and thorough documentation as well as it offers extra developing tools like training 
+					boards.
+			\end{itemize}
+			However, it also suffers from some lacks. For instance, MSP430 devices are not equipped with
+			external memory bus, what makes flash memory and RAM extensions impossible. In particular, the
+			MSP430F66xx family, which the device used within this project belongs to, is provided with only 
+			128-256KB of flash storage and 16KB	of RAM --with an extra of 2KB whenever it is not using USB 
+			\cite[p. 2]{msp430f6638ds}--. This amount of RAM may be too limited for certain usages (not for 
+			this project's particular requirements, though).
+		
 		\subsection{Shimmer}
 		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
 		\subsection{802.15.4}
