@@ -89,7 +89,81 @@
 			128-256KB of flash storage and 16KB	of RAM --with an extra of 2KB whenever it is not using USB 
 			\cite[p. 2]{msp430f6638ds}--. This amount of RAM may be too limited for certain usages (not for 
 			this project's particular requirements, though).
-		
+		\label{ssec:MSP430}
+		%Que es un MSP, lo hace texas instruments, no son caros tanto el micro como la placa y tienen documentación muy extensa por ser dispositivos creados para el prototipado y su ganancia está en que la gente haga sus dispositivos con los microchips
+		%Varios microchips y placas son importantes y tienen relevancia en el desarrollo del proyecto 
+		MSP430 is a 16-bit microcontroller platform created and developed by TI who describes it as: \emph{The MSP430 16-bit microcontroller platform of ultra-low power RISC mixed-signal microprocessors from TI provides the ultimate solution for a wide range of low power and portable applications}. The concrete microcontrollers and boards used in project was:
+
+
+		\subsubsection{MSP430F5438A:}
+		\label{it:MSP430F5438A}
+		The MSP430F5438A is a very complet microcontroller that provides a lot of usefull specifications \cite{5438a}, as:
+		\begin{itemize}
+			\item \textbf{Low Supply Voltage Range: 1.8 V to 3.6 V}
+			\item \textbf{Ultralow Power Consumption}
+			\item \textbf{Wake-Up From Standby Mode in Less Than 5 $\mu$s}
+			\item \textbf{16-Bit RISC Architecture, Extended Memory, up to 25-MHz System Clock}
+			\item \textbf{Flexible Power Management System}
+			\item \textbf{Unified Clock System}
+			\item \textbf{16-Bit Timer}\\
+		\end{itemize}
+		\subsubsection{MSP-EXP430F5438:}
+		\label{it:MSP-EXP430F5438}
+		The MSP-EXPF5438 is a prototyping board designed to be used under MSP430F5438 or similar microcontrollers, it's a very complet board with a clear design, having the following specs \cite{5438aboard}:
+		\begin{itemize}
+			\item \textbf{100-pin socket for MSP430F5438}
+			\item \textbf{Power Supply sources: USB, FET, 2x AA batteries}
+			\item \textbf{Digital I/O Pins: 34}
+			\item \textbf{Accessible analog inputs (12-bit ADC): 5}
+			\item \textbf{PWM outputs: 12}
+			\item \textbf{Flash Memory (MSP430F5438): 256KB}
+			\item \textbf{RAM (MSP430F5438): 16KB}
+			\item \textbf{Clock Speed (MSP430F5438): 18MHz}
+			\item \textbf{Communication (MSP430F5438):}
+			\item \textbf{4x UART/LIN/IrDA/SPI}
+			\item \textbf{4x I2C/SPI}
+			\item \textbf{5-position joystick (up, down, left, right, push down)}
+			\item \textbf{2 push buttons}
+			\item \textbf{2 LEDs}
+			\item \textbf{138x110 grayscale, dot-matrix LCD}
+			\item \textbf{3-Axis Accelerometer (ADXL330)}
+			\item \textbf{Microphone (Amplified by TLV2760)}
+			\item \textbf{3.5mm audio output jack (Features TPA301, 350mW Mono Audio Power Amplifier)}
+			\item \textbf{Support for TI Low Power RF Wireless Evaluation Modules and eZ430-RF2500T. Currently supported modules:}
+			\item \textbf{CC1100/CC1101EMK – Sub-1GHz radio}
+			\item \textbf{CC2500EMK – 2.4 GHz radio}
+			\item \textbf{CC2420/CC2430EMK – 2.4 GHz 802.15.4 radio}
+			\item \textbf{CC2520/CC2530EMK – 2.4 GHz 802.15.4 radio}
+			\item \textbf{USB connectivity for data transfer}
+			\item \textbf{JTAG header for real-time, in-system programming}
+		\end{itemize}
+		Specially interseting in our case was the \textbf{CC2420/CC2430EMK – 2.4 GHz 802.15.4 radio} that directly connect with the microchip and allow the comunication between this and the radio module trought SPI, and the \textbf{USB connectivity for data transfer} that was connected with the serial port of the microchip and provides a serial output very usefull for depuration.\\
+
+		\subsubsection{MSP430F6638:}	
+		\label{it:MSP430F6638}
+		The MSP430F638 is the highest representant of the 663x series, a serie of microcontroler wich characterised by have USB support, it's principal characteristics are \cite{6638}:
+		\begin{itemize}
+			\item \textbf{Low Supply Voltage Range: 1.8 V to 3.6 V}
+			\item \textbf{Ultralow Power Consumption}
+			\item \textbf{Wake-Up From Standby Mode in Less Than 3 $\mu$s}
+			\item \textbf{16-Bit RISC Architecture, Extended Memory, up to 20-MHz System Clock}
+			\item \textbf{Flexible Power Management System}
+			\item \textbf{Unified Clock System}
+			\item \textbf{16-Bit Timer}
+			\item \textbf{Two Universal Serial Communication Interfaces}\\
+		\end{itemize}
+		\subsubsection{MSP-TS430PZ100USB:}	
+		\label{it:MSP-TS430PZ100USB}
+		The MSP-TS430USB100 is a prototyping board designed to be used under MSP430F663x family of microcontrollers, this board is very much simpler that \nameref{it:MSP-EXP430F5438}, its main features are\cite{6638board}:
+		\begin{itemize}
+			\item \textbf{100-pin socket for MSP430F663x}
+			\item \textbf{Power Supply sources: USB, FET}
+			\item \textbf{Digital I/O Pins: 100}
+			\item \textbf{1 LEDs}
+			\item \textbf{USB connectivity for data transfer}
+			\item \textbf{JTAG header for real-time, in-system programming}
+		\end{itemize}
+		The interesting part of this platform is that, being designed to be used with \nameref{it:MSP430F6638}, the USB port is directly connected with a USB controller in microchip, and as a board very targeted to prototyping it have 100 expansion pins, very usefull for hardware expansions. \\
 		\subsection{Shimmer}
 		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
 		\subsection{802.15.4}
