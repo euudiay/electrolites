@@ -119,84 +119,6 @@
 					Nonetheless, despite the wide possibilities the previous board offers, the MSP-TS430PZ100USB is selected. This board lacks serial port output and CC2420 compatible sockets, so the connection is to be done by hand and nor any of the other aforementioned artifacts available in the MSP-EXP430F5438 is present. But it provides the key feature required by the project: the ability to communicate the microprocessor with the board's USB connector.
 			\end{itemize}
 			
-			
-			% Here lies Pfervoland
-			\begin{comment}
-			
-			\subsubsection{MSP-EXP430F5438:}
-			\label{it:MSP-EXP430F5438}
-			The MSP-EXPF5438 is a prototyping board designed to be used under MSP430F5438 or similar microcontrollers, it's a very complet board with a clear design, having the following specs \cite{5438aboard}:
-			\begin{itemize}
-				\item \textbf{100-pin socket for MSP430F5438}
-				\item \textbf{Power Supply sources: USB, FET, 2x AA batteries}
-				\item \textbf{Digital I/O Pins: 34}
-				\item \textbf{Accessible analog inputs (12-bit ADC): 5}
-				\item \textbf{PWM outputs: 12}
-				\item \textbf{Flash Memory (MSP430F5438): 256KB}
-				\item \textbf{RAM (MSP430F5438): 16KB}
-				\item \textbf{Clock Speed (MSP430F5438): 18MHz}
-				\item \textbf{Communication (MSP430F5438):}
-				\item \textbf{4x UART/LIN/IrDA/SPI}
-				\item \textbf{4x I2C/SPI}
-				\item \textbf{5-position joystick (up, down, left, right, push down)}
-				\item \textbf{2 push buttons}
-				\item \textbf{2 LEDs}
-				\item \textbf{138x110 grayscale, dot-matrix LCD}
-				\item \textbf{3-Axis Accelerometer (ADXL330)}
-				\item \textbf{Microphone (Amplified by TLV2760)}
-				\item \textbf{3.5mm audio output jack (Features TPA301, 350mW Mono Audio Power Amplifier)}
-				\item \textbf{Support for TI Low Power RF Wireless Evaluation Modules and eZ430-RF2500T. Currently supported modules:}
-				\item \textbf{CC1100/CC1101EMK – Sub-1GHz radio}
-				\item \textbf{CC2500EMK – 2.4 GHz radio}
-				\item \textbf{CC2420/CC2430EMK – 2.4 GHz 802.15.4 radio}
-				\item \textbf{CC2520/CC2530EMK – 2.4 GHz 802.15.4 radio}
-				\item \textbf{USB connectivity for data transfer}
-				\item \textbf{JTAG header for real-time, in-system programming}
-			\end{itemize}
-			Specially interseting in our case was the \textbf{CC2420/CC2430EMK – 2.4 GHz 802.15.4 radio} that directly connect with the microchip and allow the comunication between this and the radio module trought SPI, and the \textbf{USB connectivity for data transfer} that was connected with the serial port of the microchip and provides a serial output very usefull for depuration.\\
-	
-			
-			\subsubsection{MSP-TS430PZ100USB:}	
-			\label{it:MSP-TS430PZ100USB}
-			The MSP-TS430USB100 is a prototyping board designed to be used under MSP430F663x family of microcontrollers, this board is very much simpler that \nameref{it:MSP-EXP430F5438}, its main features are\cite{6638board}:
-			\begin{itemize}
-				\item \textbf{100-pin socket for MSP430F663x}
-				\item \textbf{Power Supply sources: USB, FET}
-				\item \textbf{Digital I/O Pins: 100}
-				\item \textbf{1 LEDs}
-				\item \textbf{USB connectivity for data transfer}
-				\item \textbf{JTAG header for real-time, in-system programming}
-			\end{itemize}
-			The interesting part of this platform is that, being designed to be used with \nameref{it:MSP430F6638}, the USB port is directly connected with a USB controller in microchip, and as a board very targeted to prototyping it have 100 expansion pins, very usefull for hardware expansions. \\
-			
-			\subsubsection{MSP430F5438A}
-			\label{it:MSP430F5438A}
-				The MSP430F5438A is a very complet microcontroller that provides a lot of usefull specifications \cite{5438a}, as:
-			\begin{itemize}
-				\item \textbf{Low Supply Voltage Range: 1.8 V to 3.6 V}
-				\item \textbf{Ultralow Power Consumption}
-				\item \textbf{Wake-Up From Standby Mode in Less Than 5 $\mu$s}
-				\item \textbf{16-Bit RISC Architecture, Extended Memory, up to 25-MHz System Clock}
-				\item \textbf{Flexible Power Management System}
-				\item \textbf{Unified Clock System}
-				\item \textbf{16-Bit Timer}\\
-			\end{itemize}
-			
-			\subsubsection{MSP430F6638:}	
-			\label{it:MSP430F6638}
-			The MSP430F638 is the highest representant of the 663x series, a serie of microcontroler wich characterised by have USB support, it's principal characteristics are \cite{6638}:
-			\begin{itemize}
-				\item \textbf{Low Supply Voltage Range: 1.8 V to 3.6 V}
-				\item \textbf{Ultralow Power Consumption}
-				\item \textbf{Wake-Up From Standby Mode in Less Than 3 $\mu$s}
-				\item \textbf{16-Bit RISC Architecture, Extended Memory, up to 20-MHz System Clock}
-				\item \textbf{Flexible Power Management System}
-				\item \textbf{Unified Clock System}
-				\item \textbf{16-Bit Timer}
-				\item \textbf{Two Universal Serial Communication Interfaces}\\
-			\end{itemize}
-			
-			\end{comment}
 		\subsection{Shimmer}
 		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
 		\subsection{802.15.4}
@@ -255,8 +177,6 @@
 	these stages are also presented.
 	
 	\section{Milestones}	
-	%This section is presented in chronological order and with milestones view due to its research content, and also because of this was the planification that we follow, as we have no idea of what troubles can we found or how far we can ¿overtake? we have to plan the following milestones and its ¿contents?%desarrollos
-	
 	Due to the fair amount of time a essentially researching work like this hardware development will
 	require, the foreseen schedule is subject to changes which may completely alter it regardless of 
 	how irrelevant they may seem, and thus avoid the success of the project.\\
@@ -301,187 +221,216 @@
 	is reserved for possible needed fixings and refinements.\\
 	
 	All these stages are now detailed over the following subsections.\\
-	
-	% Aquí lo que había antes. He separado lo que era más de planificación para dejarlo en este apartado,
-	% las partes con más detalle creo que sería mejor meterlas en sus correspondientes hitos.
-	
-	\begin{comment}
-	%Meter una descripcion bastante mas detallada del porque de las plaificaciones y tal y tal
 
-	%A ver, primero sabiamos que queriamos conectar algo por USB que recibiera por 802.15.4(esto hacia ver 2 grandes hitos, conseguir comunicación radio y conseguir comunicación USB)
-	We have a serie of tentative milestones pretty clear since the start of the project for this reseach part, like connect the device with android via USB or be able to communicate trought 802.15.4 with a shimmer.\\
-
-	%Dado que un profesor de la facultad y director de nuestro proyecto había portado una capa MAC para un sistema operativo para MSP430F5438A decidimos que o ese o alguno de su familia sería nuestro microchip destino, para ahorrar ese trabajo
-	There are a project making a port of the necessary part of MAC layer of 802.15.4 developed over FreeRTOS by one UCM informatics faculty teacher, Joaquin Recas\todo{tmencionamos profesores o no?En caso de que si, referencia al paper}, this port work in shimmer, our target delineatior device, and MSP430F5438A, the easier develop of the 802.15.4 in this kind of devices make that the MSP430 becomes the choosen develop platform.\\
-
-	\todo{preguntar a joaquin que ha hecho exactamente el del FreeRTOS que usamos, y preguntar si podemos mentarle}
-
-	%El micro concreto para el que estaba hecho el port no proveía USB por lo que el microchip destino fue el MSP4306638, que era el más potente de la familia MSP430F66xx, que soporta USB y por tanto nos interesaba(esto cambia conseguir USB por conseguir USB en MSP430F6638(\autoref{Android.USB}) y concreta el conseguir comunicación por radio a portar la radio del MSP430F5438A al MSP430F6638(\autoref{802.15.4.FreeRTOS}).
-	Unfortunately this concrete device, the MSP430F5438A, since now the old MSP430, have not support to USB communication, and there are no way to adapt it. Then after seek in TI, the MSP430 manufacturers, the final prptotyping platform was the MSP430F6638, the highest performance device of MSP430F66xx family wich ones provides USB suport, this device do not support the radio module, but is possible to adapt it. This decision reduces the radio work to port the 802.15.4 to a similar microchip and concreete the first tentative milestones into definitives \autoref{Android.USB} and \autoref{802.15.4.FreeRTOS}. \\
-
-	%Dado que la capa MAC del 802.15.4 está desarrollada sobre el FreeRTOS(\autoref:{FreeRTOS}) hace falta un hito para portar la comunicación USB al sistema operativo\autoref{USB.FreeRTOS}
-	This las decision trigger the need to planify a new milestone to port the USB communication, that was stand alone, into a task-based SO as FreeRTOS \autoref{USB.FreeRTOS}. Probably this milestone have not so much load as others and could be joined with the another USB milestone, but simplify as much as possible the \autoref{Android.USB} was esential because USB connection with android was a pretty defficult scenario and is necessary keep it isolated.\\
-
-	%La más que imporante complicacion de estas dos comunicaciones nos hace pensar que es preferible conseguirlas por separado y luego juntarlas en otro hito( \autoref{802.15.4.USB.FreeRTOS}
-	This two conceptual milestones, USB and 802.15.4 communication, was decided to be develop separately instead of cumulatively to ensure that the work in one is not affected at all by the other one. In this scenario a milestone dedicated to put it together under the FreeRTOS is posed, \autoref{802.15.4.USB.FreeRTOS}.\\
-	%La comunicación por USB del android con el MSP430 no existe, no se había conseguido y encima la disposición de android como USB host es una caracteristica muy nueva de android. Pensamos que es necesario un hito anterior para acostumbrarnos a la comunicación con android por USB como device, para facilitar la aclimatación y no meternos al principio con un tema tan complicado, este hito consistiría en conectar un dispositivo de tipo arduino(primeramente pensamos googleADK) para los cuales la comuicacion USB con android como device está probada.(surge el hito 4 \autoref{ssec:Arduino for Android USB Device Comunication})
-	At this point is noticed that the first USB contact with android was directly try to connect 
-	an android device with the MSP430 using the android device as host. The MSP430 USB communication 
-	with Android was not already developed by nobody else and the Android USB host communication 
-	have no more that a couple of months released. A easier initial milestone, \autoref{ssec:Arduino.USB},
-	to familiarize the team with the USB seems very usefull at this point. Is decided to use an
-	\autoref{Arduino}, because Arduino have been connected with android many times and was able to act as
-	host in the connection, to make a first and not too lasting aproach to USB communication.
-
-	%Se plantea una potencial iteración posterior por si el proyecto fuera bien y diese tiempo consitente en crear el dispositivo final capturando el esquematico y diseñando el PCB para producirlo.Se presenta inicialmente como un hito tentativo dado que el tiempo que se puede tardar en realizar las anteriores hiteraciones es bastante incierto pero se prefiere tener el horizonte lo más lejos posible
-	Just because this is a mainly research section this milestones can't have a realistic estimate time, and because of that we are not able to know when this milestones can be finished, nor even if all could be finally achieved. Just in case we finish this milestones enought soon, and in order to have an horizon as far as possible, id decided to put another milestone that could make our system and project more complet, \autoref{MSP430.design}, where will be developed the final device capruting the schematic and designing the PCB for a finished hardware device.\\
-	
-	%Para evitar sopresas de última hora o olvidar dejar tiempo para las pruebas finales de aplicación y corrección de ultimos bugs se crea un hito final.\autoref{Final Validation and Release Candidate Version Development}
-	A last milestone was planned to do not make the mistake to develop until the last day and close the project with a product not estable enought, \autoref{Final.Validation}.
-
-	%Ahora que todas han sido presentadas explicar el orden de las mismas(porque USB antes que radio)(criticidad)
-	The USB related milestones was planified before the radio ones because the criticality of them. The chances of do not achieve the milestone of communicate the MSP430 via USB with android are pretty high and if this happends, is important to discover it as soon as possible in order to overhaul the project scope and replanificate the hole work.\\
-
-	%Meto una tabla con las fechas en que conseguimos cada logro y empezamos su investigación?
-	The inicial plannification is as this table shows:\\
-
-
-
-	TABLE HERE\\
-
-	\end{comment}
-
-	%Y con todos ustedeeees las milestoooooooones
-	% A detailed description of each milestone is presented next: 
-
-		\subsection{Arduino for Android USB Device Comunication}
-		\label{ssec:Arduino.USB}
-			The objectives for this first milestone objectives are:
-			\begin{itemize}
-				\item Acquire a suitable Android device prototyping environment, 
-				\item manage correct communication between Android and a prototype device, and
-				\item develop an application emulating desired behaviour.
-			\end{itemize}
-			%Prototipo sencillo que sirvió para familiarizarnos con la programación de USB en android, rápido porque la parte del arduino estaba hecha, y programar USB device en Android(referencia a algúna parte del software donde se cuente como de facil se implementa eso) no supone demasiada complicación
-			
-			% Milestone justification
-			This milestone is set upon the consideration that it is a good approach in order to familiarize
-			the team with communications between Android and USB devices. It also comes motivated by the
-			previously supposed effort the connection between Android and a MSP430-equipped device involves,
-			since it has not been done before as well as Android USB host mode support has been out for only
-			two months.\\
-	
-			The process involved in the procurement of each objective is exposed next.
-	
-			\begin{enumerate}
-				\item \emph{Acquire a suitable Android device prototyping environment}\\
-					% Initial research on the subject of Android device prototyping 
-					\begin{comment}
-					When we decide to develop a usb device the first step is look for a device tha provide
-					the USB host libraries to connect to android, because the USB host device is which implements 
-					most of comunication, thanks to this we can focus our efforts in just try a comunication with
-					android with not so much worries, the device selected to this end was the goole ADK, that is 
-					based on arduino(link).ADK is a device developed by google to help android developers to make 
-					his first prototypes of USB connected devices. The google ADK is an Arduino with all the 
-					facilities that a developer can expect such as libraries, some shields, examples and a good
-					documentation, in our case we are specialy interested in the USB host comunication libraries.\\
-					\end{comment}
-					The first step in order to develop this USB device consists of looking for a platform which
-					is able to provide the needed components and libraries so as to make the connection with
-					Android feasible. Although several devices are available to serve as Android accessories (as
-					it is explained at \autoref{ssec:Arduino}),	Google ADK is the chose one since it is based on
-					Arduino: a considerable amount of libraries and documentation is to be expected. Particularly,
-					USB host mode library is the main reason for choosing it.
-	
-				\item \emph{Manage correct communication between Android and a prototype device}\\
-					\begin{comment}
-					% Tuvimos el arduino 16 de Noviembre pero no empezamos a trabajar con el el día que nos llegó
-					% (de hecho pasó lo menos una semana o 2) asi que o mencionamos eso o ponemos que nos llegó 
-					% mas tarde de lo que nos llegó de verdad
-					When we reciebe our google ADK(link to an image?) we investigate documentacion and we start 
-					to develop a small arduino aplication based on the expamples, paraelly we develop the android 
-					USB device part(link) that we be needed to test this part of  communication. The initial develop, 
-					just to make the first test was a little long, because even been the main parts of the 
-					implementation os USB comunication made we need to learn how to use it. Our first attempts was 
-					no very productives because arduino was a new develop platform but especially because this was 
-					our first try with android USB comunication.
-					\end{comment}
-					Once the target platform is chosen, the next step to be done consists of developing some
-					test firmware for the Arduino as well as modifying consistently the Android application
-					so that a proper communication between both devices can be established and proven. A period 
-					of learning and adaptation is required for the team to achieve this.
-	
-				\item \emph{Develop an application emulating desired behaviour}\\
-					\begin{comment}
-					Several days later we achieve to Andorid and ADK view each other, but in our definitive test we
-					discover that the communication was not correct because what anyones send was not recibed equally
-					by the other one. But finally we discover what was going wrong and fix it to view how our first 
-					milestone has been ahieved.\\
-					\end{comment}
-					For this milestone to be fulfilled, it is required that the firmware developed for the
-					Arduino can emulate the behaviour of an actual sample-receiving device. Thus, the
-					microcontroller board is programmed in order that it sends formatted data as the Android
-					application is expecting to receive. In this way, it is visually verifiable that the
-					data transmission is performing properly.
-			\end{enumerate}
-	
-			% Conclusion
-			\begin{comment}
-			Once finished we discover the huge importance of plan this first milestone, that will not be used in 
-			then final device, but it was very usefull to train the team about USB comunication in android. 
-			Conidering than this milestone was not as easy as we expect, if we had start the research in the second
-			milestone which investigation is actualy used in the device, we probably found a lot of troubles that 
-			wasn't trully related with the investigation and it would be higly sealed.\\
-			\end{comment}
-			Although Google refers its ADK as an accessory developing platform, it is noticeable that it is
-			in fact used as a prototyping tool, and hence this development is not to be employed as a part
-			of the final state of the system. As opposed to this, this stage of the project is considered as
-			training transition to more technical developments to be engaged later.
-	
-			%Fue finalizado el 19 diciembre
-
-		\subsection{MSP430 for Android USB Host Comunication}
-		\label{ssec:Android.USB}
-		%Se comenzó tras las vacaciones de invierno, a finales de enero
-		This milestone's objectives are:
+	\subsection{Arduino for Android USB Device Comunication}
+	\label{ssec:Arduino.USB}
+		The objectives for this first milestone objectives are:
 		\begin{itemize}
-		\item Supply MSP430 with USB protocol application functionality,
-		\item research Android USB protocol related functionality,
-		\item get Android system to recognize MSP430 as a plugged device, and
-		\item manage communication between Android and MSP430 via USB.
+			\item Acquire a suitable Android device prototyping environment, 
+			\item manage correct communication between Android and a prototype device, and
+			\item develop an application emulating desired behaviour.
+		\end{itemize}
+			
+		% Milestone justification
+		This milestone is set upon the consideration that it is a good approach in order to familiarize
+		the team with communications between Android and USB devices. It also comes motivated by the
+		previously supposed effort the connection between Android and a MSP430-equipped device involves,
+		since it has not been done before as well as Android USB host mode support has been out for only
+		two months.\\
+
+		The process involved in the procurement of each objective is exposed next.
+
+		\begin{enumerate}
+			\item \emph{Acquire a suitable Android device prototyping environment}\\
+				The first step in order to develop this USB device consists of looking for a platform which
+				is able to provide the needed components and libraries so as to make the connection with
+				Android feasible. Although several devices are available to serve as Android accessories (as
+				it is explained at \autoref{ssec:Arduino}),	Google ADK is the chose one since it is based on
+				Arduino: a considerable amount of libraries and documentation is to be expected. Particularly,
+				USB host mode library is the main reason for choosing it.
+
+			\item \emph{Manage correct communication between Android and a prototype device}\\
+				Once the target platform is chosen, the next step to be done consists of developing some
+				test firmware for the Arduino as well as modifying consistently the Android application
+				so that a proper communication between both devices can be established and proven. A period 
+				of learning and adaptation is required for the team to achieve this.
+
+			\item \emph{Develop an application emulating desired behaviour}\\
+				For this milestone to be fulfilled, it is required that the firmware developed for the
+				Arduino can emulate the behaviour of an actual sample-receiving device. Thus, the
+				microcontroller board is programmed in order that it sends formatted data as the Android
+				application is expecting to receive. In this way, it is visually verifiable that the
+				data transmission is performing properly.
+		\end{enumerate}
+
+		Although Google refers its ADK as an accessory developing platform, it is noticeable that it is
+		in fact used as a prototyping tool, and hence this development is not to be employed as a part
+		of the final state of the system. As opposed to this, this stage of the project is considered as
+		training transition to more technical developments to be engaged later.
+
+	\subsection{MSP430 for Android USB Host Comunication}
+	\label{ssec:Android.USB}
+		Objectives for this stage are:
+		\begin{itemize}
+			\item Supply MSP430 with USB protocol application functionality,
+			\item research Android USB protocol related functionality,
+			\item make Android OS recognize MSP430 when plugged, and
+			\item manage communication between Android and MSP430 via USB.
 		\end{itemize}
 
-
+		\begin{comment}
 		%Plantear de manera lo más cronológica posible remarcando que aui estabamos totalmente a ciegas, no sabíamos como ibamos a alcanzar nuestro objetivo, solo teníamos una API USB proporcionada por TI para comunicación USB con windows: 
-		Unlike the arduino's part where we know what we have to use and how we wil use it, now we found that we just have an Texas Instruments(TI) API to comunicate the MSP430 with windows and our goal. Both MSP430 microcontroller and MSP430 board was new devices because all the existing ones have no USB port, the microcontroller is a MSP430 6638 and the board is a TS430PZ100USB(link to the MSP430 section).\\
-
-		This API contains any simple aplications for windows, to comunicate by certain protocols with external devices or enumeration tools; an extense documentation about the API and about the USB characteristics of its devices; and a huge suite of examples that implements a lot of USB protocols to comunicate the MSP430 whith windows such as Communications Device Class (CDC), Personal Healthcare Device Class (PHDC), Human Interface Device (HID) in traditional and datatype implementations, Mass Storage Class (MSC) and combinations of any of them. At this point we have an inmense amount of information and we don't really know what can be usefull for us.\\
+		Unlike the arduino's part where we know what we have to use and how we wil use it, now we found 
+		that we just have an Texas Instruments(TI) API to comunicate the MSP430 with windows and our goal. 
+		Both MSP430 microcontroller and MSP430 board was new devices because all the existing ones have no 
+		USB port, the microcontroller is a MSP430 6638 and the board is a TS430PZ100USB(link to the MSP430 section).\\
+		\end{comment}
 		
-		%Introduccion y no va
-		Initialy in order to test the TI API we check some of the multiple examples, in our case was the CDC examples that be usefull to learn about basic concepts of what we try to do. Also we try to read part of the generic(not dependant of the MSP430 device nor USB protocol)documentation that TI provides. And it didn't start too good, the first test with a example provide in the API didn't work in windows, its target SO.
+		Due to the need of USB support, both the microcontroller and its board models are required to be
+		as new as possible, since older models lack this feature. Therefore, the MSP430F6638 microcontroller
+		as well as the MSP-TS430PZ100USB board are selected for this development, as it is explained at
+		\autoref{ssec:msp430}, \nameref{ssec:msp430}.\\
+		
+		Prototyping with Arduino during the previous milestone constitutes the preparation for the development
+		to be done in the present one. Yet, whereas Android and Google ADK are designed to interact with
+		one another, Android is not prepared for supporting a device like a MSP430 out of the box. So, in order to
+		communicate both devices, an API from Texas Instruments \cite{TIUSB} is the only available tool, though
+		it is designed for Windows OS.\\
+		
+		\begin{comment}
+		%Introduccion y no va (android usb protocol)
+		Initialy in order to test the TI API we check some of the multiple examples, in our case was the 
+		CDC examples that be usefull to learn about basic concepts of what we try to do. Also we try to 
+		read part of the generic(not dependant of the MSP430 device nor USB protocol)documentation that 
+		TI provides. And it didn't start too good, the first test with a example provide in the API didn't 
+		work in windows, its target SO.
+		\end{comment}
+		
+		Among all the contents the TI API includes, its examples result particularly useful for the project
+		requirements. Concretely, examples about CDC (Communications Device Class) protocol set the needed
+		basis to fulfill the objectives for this milestone. Nonetheless, several examples does not seem to
+		function, not even in Windows, its target operating system. Thus, the next step consists of studying
+		both the examples and documentation from TI so as to fulfill the objectives.
+		
+		\begin{enumerate}
+			\item \emph{Supply MSP430 with USB protocol application functionality}\\
+				\begin{comment}
+				% MSP (1)
+				This API contains any simple aplications for windows, to comunicate by certain protocols with 
+				external devices or enumeration tools; an extense documentation about the API and about the USB 
+				characteristics of its devices; and a huge suite of examples that implements a lot of USB protocols 
+				to comunicate the MSP430 whith windows such as Communications Device Class (CDC), Personal Healthcare 
+				Device Class (PHDC), Human Interface Device (HID) in traditional and datatype implementations, Mass 
+				Storage Class (MSC) and combinations of any of them. At this point we have an inmense amount of information 
+				and we don't really know what can be usefull for us.\\
+				
+				%LE FALTABA UN PUTO RELOJ DE 4MHZ, MSP (2)
+				After a good time of investigation we found that it can't initialize a certain clock, this clock 
+				don't seems to be in the board and we there are not much references about it. Finally we found a 
+				little paragraph in one API document that metion the chance of a USB needed clock was not included 
+				in any kind of boards and a recomendation of how should be this clock, when we buy a clock of this 
+				features we can check that this was the problems, the TI example finally works.
 
-		%LE FALTABA UN PUTO RELOJ DE 4MHZ
-		After a good time of investigation we found that it can't initialize a certain clock, this clock don't seems to be in the board and we there are not much references about it. Finally we found a little paragraph in one API document that metion the chance of a USB needed clock was not included in any kind of boards and a recomendation of how should be this clock, when we buy a clock of this features we can check that this was the problems, the TI example finally works.
+				%En ubuntu no va, mal rollito, MSP (3)
+				All this tetst was carried out in a virtual machine with windows usually running over other windows, 
+				but in a casual situation when this virtual machine was running over ubuntu we discover that this examples 
+				not only don't work in ubuntu, somthing that we assume, but in addition ubuntu can't even detect our MSP430, 
+				this fact worry us because android is an UNIX based SO just like ubuntu. \\
+				\end{comment}
+				
+				As it was previously said, TI API contains a huge amount of information in the shape of:
+				\begin{itemize}
+					\item \textbf{Extense documentation:} about the API itself and features of TI devices. 
+					\item \textbf{Sample Windows Applications:} made to communicate Windows PCs with external devices or
+						enumeration tools.
+					\item \textbf{Suite of examples:} each of them implements a combination or one of the following
+						USB protocols: Communications Device Class (CDC), Human Interface Device (HID) or Mass Storage Class (MSC).
+				\end{itemize}
+				
+				The same problems, though, keep these examples from working with the target MSP430 device. As a result of
+				an intense investigation the trouble is found to lie within one of the device's clocks which, according to 
+				the API documentation, may need an specific tuning --particularly, 4MHz--. Moreover, in spite of the fact 
+				that the board seems functional, it actually lacks that certain clock. As expected, TI example properly
+				works with the addition of the 4MHz clock.\\
+				
+				In addition to the previous hitch, another one arises upon changing the current workstation. Every work
+				during this development is carried out within a Windows virtual machine running over Windows, yet
+				the examples stops working when the host machine is changed for another one running GNU/Linux, 
+				particularly Ubuntu. Despite having achieved the present objective, this fact reduces the expectations
+				for the next one since Android, the target OS, is also based on Linux kernel.
+				
+			\item \emph{Research Android USB protocol related functionality}\\
+				\begin{comment}
+				% USB Android
+				%Líneas de investigación
+				When we try to connect our MSP430 running one of this examples mentioned before we obvserve that, 
+				as we expect, android also can't detect it. Initialy we think our only posible solution to this 
+				important trouble was make or found a unix driver, then we investigate that way. \\
 
-		%En ubuntu no va, mal rollito
-		All this tetst was carried out in a virtual machine with windows usually running over other windows, but in a casual situation when this virtual machine was running over ubuntu we discover that this examples not only don't work in ubuntu, somthing that we assume, but in addition ubuntu can't even detect our MSP430, this fact worry us because android is an UNIX based SO just like ubuntu. \\
+				%Driver propio para linux
+				%Driver propio para android (ambos sobre driver TI MSP430 para MAC)
+				%[Mencionar Riesgos asumidos al abandonar línea driver propio y seguir investigando]
+				After much searching we see that there are no drivers for unix made by anyone, the closest driver 
+				we find was a MAC driver(that we are not sure that it going to work) and assuming that we will 
+				need to do a driver based on it, we consult some cualified personal in this area that said us 
+				to forget the idea of a generic UNIX driver and focus in an android driver, but also recommend 
+				that keep researching other ways to communicate android and MSP in order to avoid the develop a 
+				driver for MSP430 wich can be a very difficult work. This advice and the fact that there are no 
+				warraties of the develop of a driver was succesfull, we decide to leave the driver idea and follow 
+				investigating. That was a very risky decision because we have spended a lot of time in this way and 
+				we don't know if we will find other idea to ahieve this hard milestone.\\
 
-		%Líneas de investigación
-		When we try to connect our MSP430 running one of this examples mentioned before we obvserve that, as we expect, android also can't detect it. Initialy we think our only posible solution to this important trouble was make or found a unix driver, then we investigate that way. \\
+				%Encontramos mención a driver genérico HID en android + TI’s HID api for MSP430s
+				After a few days of unsuccesfull days of investigation, we find in a forum a small mention in a 
+				comment about android actually implements HID protocol. This protocol was also suported by the 
+				MSP430 API, and although the information was found in a not very condiable place, we find it 
+				enought to put the full team to work in this, ones made the android USB host(link) and others 
+				find a HID aplication into the API to load into the MSP430. The second objetive was attenpted 
+				first, with this we can check that our android device finally detect our MSP430. \\ % Lo conectas y va
+				\end{comment}
+				
+				As it is expected because of its performance with Ubuntu, Android is not able to recognize the
+				target device, and hence the example cannot be tested. In order to solve this inconvenience, two
+				solutions are considered: search for the proper driver, if any, modify an existing one or develop
+				it from scratch.\\
+				
+				Nevertheless, the search concludes with no results, so it is assumed that this particular driver does
+				not exist. The most similar resource found consists of a driver for MAC OS X, which would have to 
+				be consistently modified in order to make it work. However, this idea is dropped due to the advice
+				obtained from a qualified source that suggests exploring other methods to make the communication
+				feasible apart from developing a driver, which may be too harsh and spend too much time.
+				A quite considerable risk is assumed by doing so as there are no warranties of finding a proper solution.\\
+				
+				Fortunately, further research drives to a successful alternative: it is found that Android actually
+				implements HID protocol, which is also supported by MSP430 through the Texas Instruments API. Finally,
+				upon loading the proper HID application into the MSP430 from the TI API this objective reaches its fulfillment.
+			\item \emph{Make Android OS recognize MSP430 when plugged}\\
+				Once both two first objectives of this milestone are achieved, MSP430 recognition by Android is
+				inmediate when the connection is set since all the needed work is already done.
+			\item \emph{Manage communication between Android and MSP430 via USB}
+				\begin{comment}
+				%Probamos y funcionó (más trabajo software, enlazar a capítulo) , comentar la importancia del hardware en esta parte de la programación android debido a que ese código es muy dependiente de como implemente el protocolo HID(que proporciona mucha libertad)el MSP lo que supuso mucha investigación y continuo acceso a manuales tanto de la API como del propio MSP(ese comentario iria aqui o en la parte de software?Hablarlo todos)
+				That great news helps the android development team, than in this moment becomes the full team, 
+				to succesfully imlements the android USB host communication in our aplication in just a weekend. 
+				Android USB host comunication was higly dependant of what device was in the other side of the 
+				communication, thus everybody was needed in this hard and delicated part of the develop to 
+				investigate the high cuantity of manuals contained in the API in orther to find and implement 
+				all this particularities. Finally we luckily discover that now, our android and MSP430 can 
+				also comunicate each other trought our aplication. \\
+				\end{comment}
+				At this point, the work still to be done consist of modifying the Android application in order
+				that it can read data from the receiver device. However, this is not a trivial work as Android
+				USB host communication is highly dependant on the device which it has to read from. Thorough
+				investigation over the API manuals is required to discover every detail and make it work.
+		\end{enumerate}
 
-		%Driver propio para linux
-		%Driver propio para android (ambos sobre driver TI MSP430 para MAC)
-		%[Mencionar Riesgos asumidos al abandonar línea driver propio y seguir investigando]
-		After much searching we see that there are no drivers for unix made by anyone, the closest driver we find was a MAC driver(that we are not sure that it going to work) and assuming that we will need to do a driver based on it, we consult some cualified personal in this area that said us to forget the idea of a generic UNIX driver and focus in an android driver, but also recommend that keep researching other ways to communicate android and MSP in order to avoid the develop a driver for MSP430 wich can be a very difficult work. This advice and the fact that there are no warraties of the develop of a driver was succesfull, we decide to leave the driver idea and follow investigating. That was a very risky decision because we have spended a lot of time in this way and we don't know if we will find other idea to ahieve this hard milestone.\\
-
-		%Encontramos mención a driver genérico HID en android + TI’s HID api for MSP430s
-		After a few days of unsuccesfull days of investigation, we find in a forum a small mention in a comment about android actually implements HID protocol. This protocol was also suported by the MSP430 API, and although the information was found in a not very condiable place, we find it enought to put the full team to work in this, ones made the android USB host(link) and others find a HID aplication into the API to load into the MSP430. The second objetive was attenpted first, with this we can check that our android device finally detect our MSP430. \\
-
-		%Probamos y funcionó (más trabajo software, enlazar a capítulo) , comentar la importancia del hardware en esta parte de la programación android debido a que ese código es muy dependiente de como implemente el protocolo HID(que proporciona mucha libertad)el MSP lo que supuso mucha investigación y continuo acceso a manuales tanto de la API como del propio MSP(ese comentario iria aqui o en la parte de software?Hablarlo todos)
-		That great news helps the android development team, than in this moment becomes the full team, to succesfully imlements the android USB host communication in our aplication in just a weekend. Android USB host comunication was higly dependant of what device was in the other side of the communication, thus everybody was needed in this hard and delicated part of the develop to investigate the high cuantity of manuals contained in the API in orther to find and implement all this particularities. Finally we luckily discover that now, our android and MSP430 can also comunicate each other trought our aplication. \\
-
+		
 		%Conclusion
-		That was wtih no doubts the harder and more dangerous part of the research, there was a lot of chances to do not achieve our goal and the hard work of all the team was essential. This milestone suppose a very important fact not only in hardware part but in all the project because now, we can more accurately schedule all of the project. \\
+		\todo{de-draft this conclusion}
+		That was wtih no doubts the harder and more dangerous part of the research, there was a lot of 
+		chances to do not achieve our goal and the hard work of all the team was essential. This milestone 
+		suppose a very important fact not only in hardware part but in all the project because now, we can 
+		more accurately schedule all of the project. \\
 
 
 		\subsection{USB in FreeRTOS}
@@ -576,6 +525,7 @@ that it's been recived in the other side. This test was satisfactory and the mil
 		%Darle mucho peso a los riesgos y ver como tratar el tema de que no hubo prácticamente ningún problema con ellos(solo al de tiempo para enviar y recibir) sin que se note que este punto no tuvo mucho peso
 		\item\emph{manage sending data received from 802.15.4 via USB.}
 		After develop an aplication to send data recived trought USB is noticed that, however the software risk was initialy not avoided because the Shimmer send data paquets too fast and MSP430 can't manage this amount of information to send it trought USB and some packets was lost. A little adjusts was necesary, the packets sent was concentred in the start of the available time slots then, we spaced it, sending the same number of packets but with the same time between packet and packet, filling the whole aviable time slots. \\
+		\end{enumerate}
 	
 		%Conclusion
 		%Este hito hacia falta aunque fuese breve para tener el sistema lo más estable posible antes de lanzarnos a probar la aplicación final
