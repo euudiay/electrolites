@@ -429,7 +429,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\end{comment}
 		This package contains reusable components providing very specific functionality so they are considered utilities: RealTimeDataParser, StaticDataParser and Viewport.\\
 
-		A data parser is the entity responsible of the processing of the raw data obtained by a DataSource into the domain specific data that the application manages. There are two implementations, one for real-time data reception, RealTimeDataParser, and the other for static data reading, i.e. a log file. The real-time data parser is also responsible of storing the received raw data the a log file.\\
+		A data parser is the entity responsible of the processing of the raw data obtained by a DataSource into the domain specific data that the application manages. There are two implementations, one for real-time data reception, RealTimeDataParser, and the other for static data reading, i.e. a log file. The real-time data parser is also responsible of storing the received raw data to a log file.\\
 
 		A data parser is intended to be contained in a DataSourceThread. It receives the bytes of raw data and, upon successful identification of a valid data element, notifies the corresponding DataHolder entity of the arrival. In a theoric, performance-independant model, this behaviour would be incorrect: the data parser would leave the processed data \emph{in} the DataSourceThread, which would then make the transfer of information to the data holder. This kind of implementation is not valid with the soft realtime requirements of the project, as the data source - data parser - data source - data holder flow would be a severe bottle-neck.\\
 
@@ -451,7 +451,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			The specialization of the DataManager is the BluetoothManager. It prompts the user for the device to connect to and handles connection by employing two threads: ConnectThread and ConnectedThread. After discovering the available nodes, it locates the node indicated by the user and launches the ConnectionThread.\\
 
-			This ConnectThread is the thread which actually manages the connection by obtaining it's endpoints in the form of a socket. If successful, passes the socket to the manager and finishes it's execution. The manager then launches the ConnectedThread, which receives the socket and data flow starts. The reason for employing a thread for establishing the connection is to avoid blocking the application while connecting.\\
+			This ConnectThread is the thread which actually manages the connection by obtaining its endpoints in the form of a socket. If successful, passes the socket to the manager and finishes its execution. The manager then launches the ConnectedThread, which receives the socket and data flow starts. The reason for employing a thread for establishing the connection is to avoid blocking the application while connecting.\\
 
 			ConnectedThread is the DataSourceThread implementation and contains an entity of DataParser. It receives data sent by the Bluetooth device through the socket, parses it and notifies the DataHolder implementation, which is the DynamicViewThread. The DataParser in DataSourceThread is a RealTimeDataParser and stores the data in a log file while processing.
 
@@ -467,9 +467,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		
 			The manager in the file reader model is the FileManager class. It presents available log files to the user, handles the seleccion of one, instantiates the file reading thread and connects this with the view thread. When the user finalizes the visualization of the selected log, the FileManager returns to the log selection menu instead of going directly to the main menu. This is an example of the versatility of the aforementioned view stack scheme, which lets specific managers present as many menus to the user as necessary.\\
 
-			FileDataSourceThread is the thread that reads the chosen file and processes its data. It implements both the DataSource and the DataHolder interfaces, so it acts as the emitter an the receiver of the processed data. The view thread obtains a reference to this same data, thus avoiding big amounts of data transfering in the static view model as explained before. This is an example of the flexibility sought by the architecture design.\\
+			FileDataSourceThread is the thread that reads the chosen file and processes its data. It implements both the DataSource and the DataHolder interfaces, so it acts as the emitter and the receiver of the processed data. The view thread obtains a reference to this same data, thus avoiding big amounts of data transferring in the static view model as explained before. This is an example of the flexibility sought by the architecture design.\\
 
-			The FileDataSourceThread, thus, manages data reading, storage and manipulation. The data is read from files with the aid of this package's FileConverter entity. This files can be of big size, so they shouldn't be fully load onto memory. A partial load is mandatory in such cases, and the next chunk of data is to be read when the "visualization window" approaches. All this management is done by the FileDataSourceThread.\\
+			The FileDataSourceThread, thus, manages data reading, storage and manipulation. The data is read from files with the aid of this package's FileConverter entity. This files can be of big size, so they should not be fully loaded onto memory. A partial load is mandatory in such cases, and the next chunk of data is to be read when the ``visualization window'' approaches. All this management is done by the FileDataSourceThread.\\
 
 			When the view is controlled by the user, i.e. horizontal scroll, the event is passed directly into this thread from the StaticViewThread. FileDataSourceThread then updates the portion of the data to be shown. The updated information is consulted by the view thread in the next rendering step. That way, were further file reading required, it could be done in a transparent-to-view manner.\\
 
@@ -491,7 +491,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			Once the connection is stablished, the DeviceManager launches a UsbComThread. This thread is the specialization of DataSourceThread and obtains the raw data from the USB device, processes it employing an instance of DynamicDataParser and sends the results to the view thread. This is a DynamicViewThread entity.
 
-		\todo{Extra things here? (see source file)}
+		\todo{Extra things here? (see source file) || Diagrams like these would rather be an appendix, could be cited from here}
 		\begin{comment}
 		\subsection{More things (which I don't know where to include}
 			
@@ -618,15 +618,16 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\item the implementation of the Log visualization module.
 			\end{itemize}
 
-			The hardware reserarch having provided successful results regarding the initial prototypes of the USB accessory, the scheduled USB module implementation for this iteration is mantained, but delayed until further testing can be done in the hardware area. In that scenario this iteration begins by the addressing of the implementation of the log visualization module.\\
+			The hardware reserarch having provided successful results regarding the initial prototypes of the USB accessory, the scheduled USB module implementation for this iteration is mantained, but delayed until further testing can be done in the hardware area.
+			In that scenario this iteration begins by the addressing of the implementation of the log visualization module. \todo{This sentence sounds odd, to be fair/kind.}\\
 
-			Module design and implementation are to change little in following iterations to allow the scheduled architecture rewriting to be realized and trying to minimize the posibility of risk PR1. This situation and the fact that a lot of resources are required in the hardware area makes the consecution of this objective fill most part of the iteration time.\\
+			Module design and implementation are to change little in following iterations to allow the scheduled architecture rewriting to be realized and trying to minimize the possibility of risk PR1. This situation and the fact that a lot of resources are required in the hardware area makes the consecution of this objective fill most part of the iteration time.\\
 
 			Full expected functionality is implemented, including the remaining features from UC4-Adjust view parameters, but validation testing indicates low performance in log visualization caused by big memory requirements. Effort needs to be put into the other iteration objective, so log visualization is halted at this point, scheduling the development of required optimizations for the next iteration.\\
 
-			Having the USB accessory prototype in an usable state, development of the USB communication module begins. At this point the USB accessory could only operate assuming the role of host in the connection, so the disposability of the module is acknowledged. Nevertheless this implementation is a must if the project goals are to be achieved, as it serves as first-hand instruction regarding USB development in Android. Moreover, if the hardware project is unable to produce an USB slave accessory, with the developed module the project would not have fully failed. Eventually this development has proven being key for the first tests with the actual target hardware platform.\\
+			Having the USB accessory prototype in an usable state, development of the USB communication module begins. At this point the USB accessory could only operate assuming the role of host in the connection, so the disposability of the module is acknowledged. Nevertheless, this implementation is a must if the project goals are to be achieved, as it serves as first-hand instruction regarding USB development in Android. Moreover, if the hardware project is unable to produce an USB slave accessory, with the developed module the project would not have fully failed. Eventually this development has proven being key for the first tests with the actual target hardware platform.\\
 
-			During the implementation of the USB communication module the log writing is improved, so, except for the aforementioned performance optimizations, the log part of the application is finalized.\\
+			During the implementation of the USB communication module the log writing is improved, so, except for the aforementioned performance optimizations, the log part of the application is finished.\\
 
 			With the basic interface, disposable architecture and fully functional data flow modules, full application functionality is implemented by the end of the iteration, and in the review meeting the following conclusions are obtained:
 			\begin{itemize}
@@ -653,6 +654,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			The main objectives for this third iteration were
 			\begin{itemize} 
+				\todo{Remove leading ``the's'' to improve readability?}
 				\item the redesign of the application architecture, 
 				\item the achievement of required performance in data management and
 				\item the scheduling of the rest of the project time.
@@ -679,7 +681,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			This design is done targeting easy inclusion of new data flow modules allowing them to employ their own user interfaces, while providing core level software entities for building those modules. This process produces the architecture as exposed in \autoref{sec:sw-arch}.\\
 
-			A detailed analysis is conducted on the data management related operations in the application, identifying the ubiquitous application of the object oriented model proposed by Java added to the subpar efficiency of the Garbage Collector \todo{Reference something?} as the main cause of performance loss. The alteration of the programming paradigm and the employment of as basic software entities as possible, substituting classes used to, e.g. contain the four parameters of a wave delineation point, by more basic structures, like the same four numbers stored independently, proved to be the most effective methods of avoiding low performance.\\
+			A detailed analysis is conducted on the data management related operations in the application, identifying the ubiquitous application of the object oriented model proposed by Java added to the subpar efficiency of the Garbage Collector \todo{Reference something? Could be added a screenshot from that Eclipse performance analysis tool?} as the main cause of performance loss. The alteration of the programming paradigm and the employment of as basic software entities as possible, substituting classes\todo{Perhaps ``avoiding continuous object instantiation'' better?} used to, e.g. contain the four parameters of a wave delineation point, by more basic structures, like the same four numbers stored independently, proved to be the most effective methods of avoiding low performance.\\
 
 			Following such lines of operation, performance regarding data management is utterly improved on spite of a less developer-friendly programming environment. During this process the data flow modules (Bluetooth, USB and Log Viewer) are also tweaked.\\
 
