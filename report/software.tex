@@ -309,7 +309,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		In such an scenario the decision is made for the architecture of the application to override Android activities model, employing only a single Activity which will implement a stack of user interfaces each with its own logic and behaviour, in the same manner Android does with the activities but allowing more flexible development. The inclusion of a new interface or set of interfaces is, thus, simplified, and every application entity is given the ability to present it's own menu to the user. This is specially useful when including new data sources with special interface requirements to the application.\\
 
-		An overview of the application architecture is presented in \autoref{fig:arch-global}.\todo{Explain here the package division (Activity + View + Data + Model Realizations) and place image?}
+		An overview of the application architecture is presented in \autoref{fig:arch-global}.
 
 		\begin{figure}[h]
 		\includegraphics[scale=0.75]{mlts-arch-main}
@@ -763,3 +763,4 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\end{itemize}
 			
 	\section{Closure}
+		% App espera recepción de datos por USB, sea lo que sea que haya al otro lado (no es necesario un 802.15.4 receiver ni na)

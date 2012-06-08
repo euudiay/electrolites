@@ -52,7 +52,7 @@
 
 		Other projects exist with similar objectives in mind, even if they are not targeted at the field of biometrics and personal monitoring. The reason for not following or employing those is twofold: 
 		first, at the time of the beginning of the project those initiatives were either unfinished or stalled, furthermore they were isolated, generally single-man projects with no official backend or guarantees of conclusion.
-		Second, following the line of achieving a low cost, low sized device the Android system is to act as the host device in the USB communication, thus removing the size-increasing battery requirements for the receiver as the host role provides the power in such communications.\todo{Write a NON GAY conclusion here so it is not the saddest piece of text work ever.}\\
+		Second, following the line of achieving a low cost, low sized device the Android system is to act as the host device in the USB communication, thus removing the size-increasing battery requirements for the receiver as the host role provides the power in such communications.\\
 
 		In short, this project tries to advance a step further the availability of wireless body sensor networks applied to personal electrocardiogram monitorization, by employing actual, already available, not-so-expensive technologies in an effective manner. That is necessarily good by nature, and the main motivation for braving with the project, aside from those, more pragmatic, exposed in the next section, is the wish for it to be useful, some day, for someone.
 
@@ -108,6 +108,23 @@
 		\end{comment}
 		
 	\section{Project driver}
+		
+		\begin{comment}
+		The motivation for the realization of this project comes from two different areas.
+
+		From a professional\todo{Professional sounds wrong} point of view, 
+
+		CardioVascular Diseases (CVD) as high risk, expanded cause of death (citamos a la OMS)
+		WBSN as a cheap, efficient method of monitoring, particularly ECG monitoring for CVD preventing.
+		Smartphones as ubiquous monitoring window.
+		EPFL's shimmer + iPhone bluetooth monitoring system.
+		Bluetooth battery requirements don't suffice for expected device usage time.
+		802.15.4 as a more efficient alternative.
+		Smartphones not equipped with 802.15.4 -> Development of a receiver device.
+		Android as more open, flexible, expanded platform than iOS.
+		.·. Android + 802.15.4 (through a receiver device) + shimmer for continous ECG monitoring.
+		\end{comment}
+
 		The main motivation for developing this project was the fact that it meant
 		the gathering of almost every branch of this career. From its very beginning, this
 		work involved both software and hardware development, researching on unknown 
@@ -149,6 +166,7 @@
 				represented by its Embedded Systems Laboratory (ESL)--, along with the Complutense University 
 				of Madrid (UCM), developed a wireless ECG monitoring system \cite{ESL}, similar to the one has been built 
 				up during this project.\\
+
 				Just as ours, this system also used Shimmer\texttrademark as monitoring, transmitter platform;
 				and the obtained data could be displayed in portable computing devices.
 				Nonetheless, the list of similarities ends there. The application responsible for rendering
@@ -159,6 +177,7 @@
 				receive the emitted data properly. However, according to the manufacturer \cite{AppleJB}, jailbreaking 
 				the device nulls its warranty. Therefore, the employment of Android in our project is partially motivated 
 				by this sort of limitations other platforms usually impose.\\
+
 				*Our project collaborates with EPFL, from whom we have received feedback as well as hardware and % No me quedó claro quién colaboraba con quién, y cómo decir que la colaboración está mediada por "Fran".
 				software requirements. In fact, the aforementioned iOS application *settled most of the
 				requirements for the Android one in our project, although there were added some extra ones --such as
@@ -170,6 +189,7 @@
 				possibilites with lower transfer rates. It is a relatively new standard since its first version
 				was approved in 2003, although the following revision was employed during this development, which
 				was approved in 2006 \cite{802.15.4}\\
+
 				802.15.4 is specially suitable for this kind of project due to its low power consumption. In
 				fact, ZigBee, which uses this standard as its low-level layer, presents a series of advantages
 				over Bluetooth, underlying technology of the previously mentioned EPFL project:
@@ -195,15 +215,18 @@
 				certain time, the release of the Android Open Accessory Development Kit (also known as ``ADK'')
 				\cite{ADK} was announced in San Francisco, within the context of Google I/O, developers
 				conference arranged by Google \cite{GoogleIO}.\\
+
 				ADK consists of an USB microcontroller board based on Arduino (Arduino Mega2560 to be precise) and a
 				series of software libraries which add specific functionalities and support for other hardware add-ons,
 				typically known as \emph{shields}, that equip the accessory with sensors or interactive elements
 				which broaden its capabilities. Shields are plugged to the board through its numerous input/output
 				pins, which also allow the connection of personally crafted hardware additions --allowing that way to
 				create tailored behaviours, following the Arduino's ``Do It Yourself'' (DIY) spirit.\\
+
 				With the release of that kit, Android project opened itself to the development
 				of all kind of new accessories which would add potential and functionalities
 				it lacked.\\
+
 				As well as this kit, the following release of Android 3.1 API version completed
 				the accessory ecosystem with the inclusion of directly supported host and device
 				USB modes --this support was also backported to Android v2.3.4; only the device mode, though--.
