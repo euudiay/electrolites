@@ -91,7 +91,7 @@
 				\item \textbf{Microcontrollers:} \emph{MSP430F5438A} vs. \emph{MSP430F6638}\\
 					Both of them are characterized by their low power consumption as well as their voltage 
 					range, from 1.8V to 3.6V. Although they share most of their specs, there are some points
-					where they differ:\\
+					where they differ:
 					\begin{enumerate}
 						\item \textbf{System Clock Frequency:} in the case of the MSP430F5438A microcontroller
 							it is up to 25MHz, whereas MSP430F6638's clock only reaches 20MHz.
@@ -107,15 +107,16 @@
 					microcontrollers from the family of MSP430F5438 and stands out for featuring the following 
 					sensors and input/output elements: USB, JTAG, 5-position joystick, 2 push-buttons, 
 					dot-matrix LCD display, accelerometer... (full list of features in \cite{5438aboard}). 
-					Furthermore, it also equips the \emph{CC2420/CC2430EMK}, 2.4 GHz 802.15.4 radio module, 
-					which make	\todo{¿Cuál de los dos módulos?}
+					Furthermore, it also equips the \emph{CC2420}, 2.4 GHz 802.15.4 radio module, 
+					which make	
 					this board specially convenient for this project's requirements. This module is directly 
 					connected to the microcontroller allowing their communication through SPI. In addition, its
 					USB connectivity provides a very useful serial output for debugging.\\
 					
-					Nonetheless, despite the wide possibilities the previous board offers, the chosen one is
-					the MSP-TS430PZ100USB \cite{6638board}, which is quite simpler, due to its support for the
-					USB-capable MSP430F6638 microcontroller.
+					% Nonetheless, despite the wide possibilities the previous board offers, the chosen one is
+					% the MSP-TS430PZ100USB \cite{6638board}, which is quite simpler, due to its support for the
+					% USB-capable MSP430F6638 microcontroller.
+					Nonetheless, despite the wide possibilities the previous board offers, the MSP-TS430PZ100USB is selected. This board lacks serial port output and CC2420 compatible sockets, so the connection is to be done by hand and nor any of the other aforementioned artifacts available in the MSP-EXP430F5438 is present. But it provides the key feature required by the project: the ability to communicate the microprocessor with the board's USB connector.
 			\end{itemize}
 			
 			
