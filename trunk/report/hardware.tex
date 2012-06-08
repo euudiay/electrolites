@@ -202,7 +202,7 @@
 		\label{ssec:802.15.4}
 		\subsection{FreeRTOS}
 		\label{ssec:FreeRTOS}
-		%Pedir información a recas y referencias a recas
+		\todo{Pedir información y referencias a joaquin}
 		\subsection{USB device \& USB host}
 
 	\section{Description}
@@ -313,7 +313,7 @@
 	%Dado que un profesor de la facultad y director de nuestro proyecto había portado una capa MAC para un sistema operativo para MSP430F5438A decidimos que o ese o alguno de su familia sería nuestro microchip destino, para ahorrar ese trabajo
 	There are a project making a port of the necessary part of MAC layer of 802.15.4 developed over FreeRTOS by one UCM informatics faculty teacher, Joaquin Recas\todo{tmencionamos profesores o no?En caso de que si, referencia al paper}, this port work in shimmer, our target delineatior device, and MSP430F5438A, the easier develop of the 802.15.4 in this kind of devices make that the MSP430 becomes the choosen develop platform.\\
 
-	\todo{preguntar a recas que ha hecho exactamente el del FreeRTOS que usamos, y preguntar si podemos mentarle}
+	\todo{preguntar a joaquin que ha hecho exactamente el del FreeRTOS que usamos, y preguntar si podemos mentarle}
 
 	%El micro concreto para el que estaba hecho el port no proveía USB por lo que el microchip destino fue el MSP4306638, que era el más potente de la familia MSP430F66xx, que soporta USB y por tanto nos interesaba(esto cambia conseguir USB por conseguir USB en MSP430F6638(\autoref{Android.USB}) y concreta el conseguir comunicación por radio a portar la radio del MSP430F5438A al MSP430F6638(\autoref{802.15.4.FreeRTOS}).
 	Unfortunately this concrete device, the MSP430F5438A, since now the old MSP430, have not support to USB communication, and there are no way to adapt it. Then after seek in TI, the MSP430 manufacturers, the final prptotyping platform was the MSP430F6638, the highest performance device of MSP430F66xx family wich ones provides USB suport, this device do not support the radio module, but is possible to adapt it. This decision reduces the radio work to port the 802.15.4 to a similar microchip and concreete the first tentative milestones into definitives \autoref{Android.USB} and \autoref{802.15.4.FreeRTOS}. \\
@@ -488,51 +488,72 @@
 		This milestone's objectives are:
 		\begin{itemize}
 		\item Validate the use of FreeRTOS in the new tarject MSP430
-		\item Validate USB API utilization viability in conjunction with FreeRTOS in MSP430,
+		\item validate USB API utilization viability in conjunction with FreeRTOS in MSP430,
 		\item correctly integrate USB API into FreeRTOS, and
 		\item manage USB data sending in FreeRTOS.
 		% REALIZACION: port testing application to FreeRTOS task system.
 		\end{itemize}
-		%Antes de cambios o mierdas, miniintroduccion del freeRTOS y referencía a su capitulo?(jrecas)
+		\todo{Antes de cambios o mierdas, miniintroduccion del freeRTOS y referencía a su capitulo?}
+		
 
+		\begin{enumerate}
+		\item \emph{Validate the use of FreeRTOS in the new tarject MSP430}\\
 		%Pequeños cambios en FreeRTOS para soportar la nueva plataforma 6638
-		Before to start the real objetive of this milestone we need to adapt the FreeRTOS main functionalities to the new MSP430, that been a new device was not actualy supported by. This mind the creation of a good number of new clases, most of them was excatly equal to their homonimes for the MSP430 5438A but other needs some little modifications.\\
+			Before to start the real objetive of this milestone we need to adapt the FreeRTOS main functionalities to the new MSP430, that been a new device was not actualy supported by. This mind the creation of a good number of new clases, most of them was excatly equal to their homonimes for the MSP430 5438A but other needs some little modifications.\\
 
+		\item\emph{Validate USB API utilization viability in conjunction with FreeRTOS in MSP430}
 		%Adaptación de la API para hacerla funcionar en un SO basado en tareas como es el FreeRTOS
 		%Importantes riesgos de conflictos a nivel de compartición de recursos hardware, que con cuidado(más con suerte que con cuidado) pudieron ser esquivados.
-		The next need in the milestone was port as soon as posible the TI USB API to a task-based SO like FreeRTOS whithout taking too much care about its correction. The introduction into the FreeRTOS was prety problematic because the size of just the the API was near to the size of the FreeRTOS. Plus, there are a very important risk, USB uses a important number of resources as pines or clock that can be also used by the FreeRTOS to another task, specially risky was the clock because both need a clock, but the selected board have 2 clock spots, and taking care in the port all this themes could resolved and everything works fine.\\
+			The next need in the milestone was port as soon as posible the TI USB API to a task-based SO like FreeRTOS whithout taking too much care about its correction. The introduction into the FreeRTOS was prety problematic because the size of just the the API was near to the size of the FreeRTOS. Plus, there are a very important risk, USB uses a important number of resources as pines or clock that can be also used by the FreeRTOS to another task, specially risky was the clock because both need a clock, but the selected board have 2 clock spots, and taking care in the port all this themes could resolved and everything works fine.\\
 
+		\item\emph{Correctly integrate USB API into FreeRTOS}
 		%Estaba hecho pero mal, había inclusiones puestas donde no se debía y ya no se podía ejecutar ese mismo código en el shimmer o el antiguo MSP430.
 		Once it's done our preocupation was how to order all this files in a correct way, because our free RTOS was a multiplatform SO that must work in MSP430 5438A, Shimmer, and now, the new MSP430 6638 where take place this develope. In the first port where the multiplatform ability of FreeRTOS was not a problem we lost this funcionality. This separation of tasks help pretty much in focus the first steps in this milestone. This new functionality have to be included just in the supported platform, the MSP430 6638, without affect the other ones as before. Using the preciding generalization needed to cohexists Shimmer and MSP430 5438A as a guide this port was not too traumatic.
 
+		\item\emph{Manage USB data sending in FreeRTOS}
+		%Aplicacion de prueba que manda el abecedario y en el otro lado vemos que llega perfectamente
+		Finally with the USB API correctly integrate and its functionality validated, the implementacion of a closer program to the expected funcitionality of the device was attempted, sending a already know character secuence of 1 byte long, and checking
+that it's been recived in the other side. This test was satisfactory and the milestone was finally achieved.
+
+
+		\end{enumerate}
 		\subsection{802.15.4 in FreeRTOS}
 		\label{ssec:802.15.4.FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
-		\item Validate current implementation of 802.15.4 in FreeRTOS in testing MSP430,
+		\item Validate current implementation of 802.15.4 in FreeRTOS in old MSP430,
 		\item manage connection to the CC2420 radio module to target MSP430 device,
 		\item port implementation of 802.15.4 to target MSP430 device, and
 		\item prepare such implementation for actual usage.
 		\end{itemize}
+
 		%Estado de la capa MAC
 		At the beginining of this milestone there are a port of the needed part of the MAC layer of the 802.15.4, that have been tested in just certain conditions, like send of medium lenght packets.\\
 
+		\begin{enumerate}
+		\item \emph{Validate current implementation of 802.15.4 in FreeRTOS in testing MSP430}\\
 		%Radio probada en una placa que no proveía USB pero sí salida por puerto serie para simplificar trabajo y facilitar la depuración,		
 		As we are not sure of the right working of MAC layer in our system we decide to test it with the old board and microchip that provides serial port output that is extreamly usefull in the debug of a real-time system like this. This result to not works for a certain problems as although it's able to recibe 802.15.4 packets it's not programmed to it, and the max size packets wasn't recived correctly.\\
 
 		%se llevó luego a otra con USB pero sin soporte ni software ni hardware para la radio, obligando a mapeo manual de pines,
-		Once the right working of the MAC layer is tested, it's time to port it to the new board and microchip, that implies a lot of troubles because the TS430PZ100USB have no conection to a CC2420 radio module. This mean that a full study of the 100 aviable pins to discover which ones are actually unused by both the SO and USB comunication. The radio modlule alse need a particular kind of pins in some cases that there are no very abundant. With this study and the mapping of pins made(mencionamos a carlos?) board and radio module is sent to be weld.\\
+		\item\emph{Manage connection to the CC2420 radio module to target MSP430 device,}
+		Once the right working of the MAC layer is tested, it's time to port it to the new board and microchip, that implies a lot of troubles because the TS430PZ100USB have no conection to a CC2420 radio module. This mean that a full study of the 100 aviable pins to discover which ones are actually unused by both the SO and USB comunication. The radio modlule alse need a particular kind of pins in some cases that there are no very abundant. With this study and the mapping of pins made\todo{(mencionamos a carlos aqui?)} board and radio module is sent to be weld.\\
 
+		\item\emph{Port implementation of 802.15.4 to target MSP430 device}
 		%que ahora si con más mañana que suerte se hizo bien y no dio conflicto como veremos ahora aunque si hubo que modificar algo más de código dado que la nueva placa necesitaba iniciar los pines de la radio de otra forma.
 		While the board is available, we addressed the programming the pin mapping for de MSP430F6638 into it's class in the FreeRTOS using as base the MSP430F5438A pin mapping class. This is a particulary delicated code and was carefully developed, because if just one thing is not perfect the radio simply didn't work at all and the potencial error will be hard to discover. \\
 
+		\item\emph{Prepare such implementation for actual usage.}
 		% No va, había que cambiar un par de cosas en la inicialización, lo descubrimos en un ejemplo de TI
 		With both, board and codding finished the radio was tested and it didn't even trun on. The answer to this trouble was found in a code examples provided by TI for the MSP430F6638, specifically in the \textit{Universal Asyncronous Reciver/Transmiter(USART) initialization code} that reslut to differ slightly of the old MSP430 USART initialization.\\
 
+		%Conclusion
 		%Pequeños cambios para adaptarse a nuestras actuales necesidades y conclusión
 		Finally some small changes was done in order to adapt it to our project needs. With this a fully funcitonal MAC layer working on the MSP430F6638 was achived and just the potential coexistence with the USB was on the air.\\
 
-		%Comentar que este trabajo se hizo en colaboración con joaquin (jrecas)?
+		\todo{Comentar que este trabajo se hizo en colaboración con joaquin?}
+		\end{enumerate}
+
 
 		\subsection{802.15.4 \& USB coexistence under FreeRTOS}
 		\label{ssec:802.15.4.USB.FreeRTOS}	
@@ -544,14 +565,18 @@
 		%Intro
 		With both USB and 802.15.4 communication working separately we need to test that they can work together. There are 2 main risks; hardware, because any pines used in 802.15.4 can be used also in USB and software, because the time between a radio interruption and the next radio interruption could be too short to send the data trought USB.\\
 
+		\begin{enumerate}
+		\item\emph{Assess conflict-free coexistence of current implementation of both USB and 802.15.4 modules in MSP430}
 		%Riesgos de conflicto hardware entre Radio y USB
 		The hardware risk was adviced much before the begining of this milestone, and when we made de pin mapping we keep in mind this risk, thanks that, this risk was avoided.\\
 
 		%Riesgos de conflicto software entre Radio y USB sobre FreeRTOs
 			%(Falta de tiempo para enviar y recibir)
 		%Darle mucho peso a los riesgos y ver como tratar el tema de que no hubo prácticamente ningún problema con ellos(solo al de tiempo para enviar y recibir) sin que se note que este punto no tuvo mucho peso
-		However the software risk was initialy not avoided because the Shimmer send data paquets too fast and MSP430 can't manage this amount of information to send it trought USB and some packets was lost. A little adjusts was necesary, the packets sent was concentred in the start of the available time slots then, we spaced it, sending the same number of packets but with the same time between packet and packet, filling the whole aviable time slots. \\
-
+		\item\emph{manage sending data received from 802.15.4 via USB.}
+		After develop an aplication to send data recived trought USB is noticed that, however the software risk was initialy not avoided because the Shimmer send data paquets too fast and MSP430 can't manage this amount of information to send it trought USB and some packets was lost. A little adjusts was necesary, the packets sent was concentred in the start of the available time slots then, we spaced it, sending the same number of packets but with the same time between packet and packet, filling the whole aviable time slots. \\
+	
+		%Conclusion
 		%Este hito hacia falta aunque fuese breve para tener el sistema lo más estable posible antes de lanzarnos a probar la aplicación final
 		Now, our system was finally able to send trought USB the packets recived in radio with no losses. This achievment was very important before develop and test the final aplication with several real-time restrictions.\\
 
@@ -594,7 +619,7 @@
 		%Esteeee si, mencinamos que esta milestone existía porque había que hacer las pruebas pertinentes ahora que todo estaba completo y comentamos lo que sea que vaya a pasar cuando esté todo.
 
 		\section{Final Product}
-		Descripción de que es lo que hemos conseguido(es posible que con la evolución alguien que se lea las iteraciones no consiga una clara visión de cual es el estado final del dispositivo, por lo que esta parte me parece muy importante)
+		%Descripción de que es lo que hemos conseguido(es posible que con la evolución alguien que se lea las iteraciones no consiga una clara visión de cual es el estado final del dispositivo, por lo que esta parte me parece muy importante)
 		
 		Primer parrafo, finalmente, despues de toda esta investigación podemos afirmar que es lo que tenemos, un dispositivo totalmente diseñado por nosotros, de un tamaño reducido y comodo de usar, y que es capaz de comunicarse tanto con un android(a partir de la 3.1)(moviles y tablets) como con widows y es capaz de recibir paquetes por la radio siguiendo el estandar 802.15.4. 
 
