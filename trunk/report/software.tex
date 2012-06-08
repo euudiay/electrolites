@@ -312,7 +312,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		An overview of the application architecture is presented in \autoref{fig:arch-global}.\todo{Explain here the package division (Activity + View + Data + Model Realizations) and place image?}
 
 		\begin{figure}[h]
-		\includegraphics[scale=0.5]{mlts-arch-main}
+		\includegraphics[scale=0.75]{mlts-arch-main}
 		\centering
 		\caption{Architecture overview}
 		\label{fig:arch-global}
@@ -332,7 +332,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		These managers are part of the so-called, in the project terminology, a model; and the activity can be portrayed as the model manager. Conceptually a model is a set of software entities which live in the application and handle the data flow from a given data source towards a data holder, including or not, the visualization of such data. A model contains a Manager which is the entity responsible of the handling of the rest of the model entities. Please note that this model scheme is  specific to the domain of the project and is not a general one\todo{Remove this note? Leave this note?}.
 
 		\begin{figure}[h]
-		\includegraphics[scale = 0.5]{mlts-arch-model}
+		\includegraphics[scale=0.75]{mlts-arch-model}
 		\centering
 		\caption{Data-flow model realization}
 		\label{fig:arch-model}
@@ -601,8 +601,8 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\begin{itemize}
 				\item Basic architecture implementation is done.
 				\item Android is confirmed to be a very comfortable development environment even if non-standard functionality is not that easily achieved. Instruction is planned to continue.
-				\item Realization of UC1-View data from Bluetooth is finished. Related user interface is not final, but it is functional, and is to be updated on further iterations.
-				\item Realization of UC4-Adjust view parameters is done in relation to Bluetooth visualization. As remaining modules are developed, further work is to be done in this field.
+				\item Realization of UC1-\emph{View data from Bluetooth} is finished. Related user interface is not final, but it is functional, and is to be updated on further iterations.
+				\item Realization of UC4-\emph{Adjust view parameters} is done in relation to Bluetooth visualization. As remaining modules are developed, further work is to be done in this field.
 			\end{itemize}
 
 			\begin{comment}
@@ -612,7 +612,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			
 		\subsection{Iteration 2}
 
-			The main objectives for the second iteration were
+			The main objectives for the second iteration are
 			\begin{itemize} 
 				\item the development of the USB communication module and
 				\item the implementation of the Log visualization module.
@@ -632,8 +632,11 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			With the basic interface, disposable architecture and fully functional data flow modules, full application functionality is implemented by the end of the iteration, and in the review meeting the following conclusions are obtained:
 			\begin{itemize}
 				\item Full functionality has been implemented in the application and the product of this iteration is, as expected, the first prototype of the application.
-				\item Realization of UC2-View data from USB Receiver is realized until hardware research advances. Current implementation can act as the actual version of the use case realization if hardware research is not fulfilled.
-				\item Realization of UC4-Adjust view parameters is now finished. All required view controls are implemented.
+				\item Realization of UC2-\emph{View data from USB Receiver} is realized until hardware research advances. Current implementation can act as the actual version of the use case realization if hardware research is not fulfilled.
+				\item Realization of UC4-\emph{Adjust view parameters} is now finished. All required view controls are implemented.
+				\item Risk PR1-\emph{Application functionality inferior to that featured by existing iOS application} is marked as surpassed, as key functionality is implemented.
+				\item Risk MR1-\emph{Mobile device unsuitable for target functionality} is identified to require further monitorization and is unfolded into risks AR2 and AR3.
+				\item Risk AR2-\emph{Android providing subpar performance when handling required data} is confirmed to occur and is to be solved in the next iteration.
 			\end{itemize}
 
 			\begin{comment}
@@ -652,7 +655,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\begin{comment}
 			This is the first just-drafted iteration. Starting from the fully functional prototype, architectural and performance fixes were mandatory. Also, given the positive state of the hw research scheduling was done for the rest of the iterations.
 
-			The main objectives for this third iteration were
+			The main objectives for this third iteration are
 			\begin{itemize} 
 				\todo{Remove leading ``the's'' to improve readability?}
 				\item the redesign of the application architecture, 
@@ -672,9 +675,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			Iteration objectives are as follow:
 			\begin{itemize} 
-				\item the redesign of the application architecture, 
-				\item the achievement of required performance on data management, and
-				\item the scheduling of the rest of the project time.
+				\item redesign of the application architecture, 
+				\item achievement of required performance on data management, and
+				\item scheduling of the rest of the project time.
 			\end{itemize}
 
 			The main lack of the basic architecture of the protoype is that it was implemented to serve as a quick prototyping base for the data flow modules. The instruction and knowledge about the platform and the way of operation obtained in the previous iterations are applied in the new architecture design.\\
@@ -692,6 +695,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\item The architecture of the application is finished and validated.
 				\item User interface is yet to be final and is to be addressed at the following iteration.
 				\item Identified solutions for performance issues are to be applied in the rendering area.
+				\item Risk AR1-\emph{Lack of instruction on Android development delays workflow} is marked as surpassed as the team feels comfortable enough with Android development.
+				\item Risk AR3-\emph{Android rendering capabilities unable to handle required data} probability is increased to Moderate and is to be addressed in the next iteration.
+				\item Risk HR2-\emph{802.15.4 receiver device unfeasibe} probability is reduced to Low as hardware research is providing positive results.
 			\end{itemize}
 
 		\subsection{Iteration 4}
@@ -733,11 +739,27 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\item The application's user interface is in a final state, but were changes required they could be easily implemented as the UI is isolated from the data flow part.
 				\item Performance regarding rendering is not optimal, but it is in the range defined by the requisites.
 				\item Until validation can begin, the full team can be employed in the hardware project.
+				\item Risk HR2-\emph{802.15.4 receiver device unfeasible} is marked as surpassed as the viability of the receiver has been proved by the hardware research.
 			\end{itemize}
 
-		\subsection{Iteration 5}
-			Testing and validation with the real thing.
+		\subsection{Final Validation}
+			The final effort in this software project extends over the allotted time for both the fifth iteration and the reserved final period. It is fully devoted to testing and validation of both the application and the receiver device. Even if the initial schedule assigned only the fifth iteration to this process, delays on the hardware project \todo{reference hw chapter} force the elongation of the testing phase.
 
-			Hey, us of the future, I hope everything's ok up there!
+			The objectives for this period are:
+			\begin{itemize}
+				\item exhaustive testing of the Android application,
+				\item validation of the application, the receiver and the delineator node acting as a whole, and
+				\item the obtention of the final version of the system by implementing the required amendments identified by the testing procedure.
+			\end{itemize}
+
+			Software related testing is conducted throughout all this final step causing minor fixes to be done to the application. No relevant software related issues arise during the testing or the validation phases.\\
+
+			Risk HR1-\emph{802.15.4 receiver device delayed} occurrence is the cause of the elongation of the validation iteration, but has no actual effect on the software project. Even when the receiver is completed \todo{Maybe in a prototype stage, still unknown at Jun, 8} the risk tracking is continued until validation concludes, were hardware complications to arise during the process.\\
+
+			The final, review meeting conclusions are as follow:
+			\begin{itemize}
+				\item Risk HR1 is marked as surpassed.
+				\item The Android application is successfully validated and, thus, completed.
+			\end{itemize}
 			
 	\section{Closure}
