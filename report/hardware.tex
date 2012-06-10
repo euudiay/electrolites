@@ -424,46 +424,82 @@
 				investigation over the API manuals is required to discover every detail and make it work.
 		\end{enumerate}
 
-		
-		%Conclusion
-		\todo{de-draft this conclusion}
+		\begin{comment}
 		That was wtih no doubts the harder and more dangerous part of the research, there was a lot of 
 		chances to do not achieve our goal and the hard work of all the team was essential. This milestone 
 		suppose a very important fact not only in hardware part but in all the project because now, we can 
 		more accurately schedule all of the project. \\
-
+		\end{comment}
+		Therefore, as it can be deduced from the previously explained happenings, this stage draws a great amount 
+		of risk to the hardware development due to several critical points it involves which further required
+		tasks are to be based on. In other words, part of this project's probabilities of success greatly depends
+		on the feasibily of the present objectives, so this milestone completely conditions the planning. Once 
+		it is finished, it will certainly allow to tune the schedule with better accuracy.
 
 		\subsection{USB in FreeRTOS}
 		\label{ssec:USB.FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
-		\item Validate the use of FreeRTOS in the new tarject MSP430
-		\item validate USB API utilization viability in conjunction with FreeRTOS in MSP430,
+		\item Check the proper working of FreeRTOS with the new microcontroller,
+		\item validate the feasibility of the usage of USB API along with FreeRTOS in MSP430,
 		\item correctly integrate USB API into FreeRTOS, and
 		\item manage USB data sending in FreeRTOS.
 		% REALIZACION: port testing application to FreeRTOS task system.
 		\end{itemize}
-		\todo{Antes de cambios o mierdas, miniintroduccion del freeRTOS y referencía a su capitulo?}
-		
+
+		\todo{Introducción para esta milestone}
 
 		\begin{enumerate}
-		\item \emph{Validate the use of FreeRTOS in the new tarject MSP430}\\
-		%Pequeños cambios en FreeRTOS para soportar la nueva plataforma 6638
-			Before to start the real objetive of this milestone we need to adapt the FreeRTOS main functionalities to the new MSP430, that been a new device was not actualy supported by. This mind the creation of a good number of new clases, most of them was excatly equal to their homonimes for the MSP430 5438A but other needs some little modifications.\\
+			\item \emph{Check the proper working of FreeRTOS with the new microcontroller}\\
+				%Pequeños cambios en FreeRTOS para soportar la nueva plataforma 6638
+				\begin{comment}
+				Before to start the real objetive of this milestone we need to adapt the FreeRTOS main
+				functionalities to the new MSP430, that been a new device was not actualy supported by. This mind
+				the creation of a good number of new clases, most of them was excatly equal to their homonimes
+				for the MSP430 5438A but other needs some little modifications.\\
+				\end{comment}
+				Prior to starting with this milestone's core objective, FreeRTOS needs to be adapted in order to
+				make it work with the new microcontroller, namely MSP430F6638, since it is addressed to a
+				different model, the MSP430F5438A. This change implies the modification at several points of the
+				code of the operating system so that its proper working can be assured. 
 
-		\item\emph{Validate USB API utilization viability in conjunction with FreeRTOS in MSP430}
-		%Adaptación de la API para hacerla funcionar en un SO basado en tareas como es el FreeRTOS
-		%Importantes riesgos de conflictos a nivel de compartición de recursos hardware, que con cuidado(más con suerte que con cuidado) pudieron ser esquivados.
-			The next need in the milestone was port as soon as posible the TI USB API to a task-based SO like FreeRTOS whithout taking too much care about its correction. The introduction into the FreeRTOS was prety problematic because the size of just the the API was near to the size of the FreeRTOS. Plus, there are a very important risk, USB uses a important number of resources as pines or clock that can be also used by the FreeRTOS to another task, specially risky was the clock because both need a clock, but the selected board have 2 clock spots, and taking care in the port all this themes could resolved and everything works fine.\\
+			\item\emph{Validate the feasibility of the usage of USB API along with FreeRTOS in MSP430}\\
+				%Adaptación de la API para hacerla funcionar en un SO basado en tareas como es el FreeRTOS
+				%Importantes riesgos de conflictos a nivel de compartición de recursos hardware, que con cuidado(más con suerte que con cuidado) pudieron ser esquivados.
+				\begin{comment}
+				The next need in the milestone was port as soon as posible the TI USB API to a task-based SO like
+				FreeRTOS whithout taking too much care about its correction. The introduction into the FreeRTOS
+				was prety problematic because the size of just the the API was near to the size of the FreeRTOS.
+				Plus, there are a very important risk, USB uses a important number of resources as pines or clock
+				that can be also used by the FreeRTOS to another task, specially risky was the clock because both
+				need a clock, but the selected board have 2 clock spots, and taking care in the port all this
+				themes could resolved and everything works fine.\\
+				\end{comment}
+				The following objective to be achieved consists on incorporating the TI USB API to FreeRTOS,
+				focusing in its completion rather than its perfect working. This is not a trivial task since, for
+				instance, the length of the API is about the same size as the code of FreeRTOS. \todo{Remove this last sentence?}
+				The most relevant inconvenience that endangers this work is the considerable amount of resources,
+				\todo{Question Pferv about this}, which FreeRTOS may need for performing its tasks. However, this
+				is a matter of properly balancing the distribution of these resorces, and thus it can be achieved
+				by paying special attention and care to it.
 
-		\item\emph{Correctly integrate USB API into FreeRTOS}
-		%Estaba hecho pero mal, había inclusiones puestas donde no se debía y ya no se podía ejecutar ese mismo código en el shimmer o el antiguo MSP430.
-		Once it's done our preocupation was how to order all this files in a correct way, because our free RTOS was a multiplatform SO that must work in MSP430 5438A, Shimmer, and now, the new MSP430 6638 where take place this develope. In the first port where the multiplatform ability of FreeRTOS was not a problem we lost this funcionality. This separation of tasks help pretty much in focus the first steps in this milestone. This new functionality have to be included just in the supported platform, the MSP430 6638, without affect the other ones as before. Using the preciding generalization needed to cohexists Shimmer and MSP430 5438A as a guide this port was not too traumatic.
+			\item\emph{Correctly integrate USB API into FreeRTOS}
+				%Estaba hecho pero mal, había inclusiones puestas donde no se debía y ya no se podía ejecutar ese mismo código en el shimmer o el antiguo MSP430.
+				Once it's done our preocupation was how to order all this files in a correct way, because our
+				free RTOS was a multiplatform SO that must work in MSP430 5438A, Shimmer, and now, the new MSP430
+				6638 where take place this develope. In the first port where the multiplatform ability of
+				FreeRTOS was not a problem we lost this funcionality. This separation of tasks help pretty much
+				in focus the first steps in this milestone. This new functionality have to be included just in
+				the supported platform, the MSP430 6638, without affect the other ones as before. Using the
+				preciding generalization needed to cohexists Shimmer and MSP430 5438A as a guide this port was
+				not too traumatic.
 
-		\item\emph{Manage USB data sending in FreeRTOS}
-		%Aplicacion de prueba que manda el abecedario y en el otro lado vemos que llega perfectamente
-		Finally with the USB API correctly integrate and its functionality validated, the implementacion of a closer program to the expected funcitionality of the device was attempted, sending a already know character secuence of 1 byte long, and checking
-that it's been recived in the other side. This test was satisfactory and the milestone was finally achieved.
+			\item\emph{Manage USB data sending in FreeRTOS}
+				%Aplicacion de prueba que manda el abecedario y en el otro lado vemos que llega perfectamente
+				Finally with the USB API correctly integrate and its functionality validated, the implementacion
+				of a closer program to the expected funcitionality of the device was attempted, sending a already
+				know character secuence of 1 byte long, and checking that it's been recived in the other side.
+				This test was satisfactory and the milestone was finally achieved.
 
 
 		\end{enumerate}
