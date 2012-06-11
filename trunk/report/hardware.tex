@@ -108,15 +108,19 @@
 					sensors and input/output elements: USB, JTAG, 5-position joystick, 2 push-buttons, 
 					dot-matrix LCD display, accelerometer... (full list of features in \cite{5438aboard}). 
 					Furthermore, it also equips the \emph{CC2420}, 2.4 GHz 802.15.4 radio module, 
-					which make	
-					this board specially convenient for this project's requirements. This module is directly 
-					connected to the microcontroller allowing their communication through SPI. In addition, its
-					USB connectivity provides a very useful serial output for debugging.\\
+					which make this board specially convenient for this project's requirements. This module is
+					directly connected to the microcontroller allowing their communication through SPI. In
+					addition, its USB connectivity provides a very useful serial output for debugging.\\
 					
 					% Nonetheless, despite the wide possibilities the previous board offers, the chosen one is
 					% the MSP-TS430PZ100USB \cite{6638board}, which is quite simpler, due to its support for the
 					% USB-capable MSP430F6638 microcontroller.
-					Nonetheless, despite the wide possibilities the previous board offers, the MSP-TS430PZ100USB is selected. This board lacks serial port output and CC2420 compatible sockets, so the connection is to be done by hand and nor any of the other aforementioned artifacts available in the MSP-EXP430F5438 is present. But it provides the key feature required by the project: the ability to communicate the microprocessor with the board's USB connector.
+					Nonetheless, despite the wide possibilities the previous board offers, the MSP-TS430PZ100USB
+					\cite{6638board} is selected. This board lacks serial port output and CC2420 compatible
+					sockets, so the connection is to be done by hand and nor any of the other aforementioned
+					artifacts available in the MSP-EXP430F5438 is present. But it provides the key feature
+					required by the project: the ability to communicate the microprocessor with the board's USB
+					connector.
 			\end{itemize}
 			
 		\subsection{Shimmer}
@@ -127,6 +131,30 @@
 		\label{ssec:FreeRTOS}
 		\todo{Pedir información y referencias a joaquin}
 		\subsection{USB device \& USB host}
+			USB host \cite{usbhost}, as oppose to USB accessory, is an operation mode which determines how a
+			USB-equipped device interacts with another one. The two connected devices are differently named
+			according to the role they assume in a host or accessory mode connection, namely USB host and USB
+			device. This designation is based on the role each device is playing rather than the sort it belongs
+			to. In particular, one end is named USB host if its apparatus is responsible of supplying power to
+			the one at the other end.\\
+
+			The main difference between both modes lies within the direction the power supply follows or, more
+			specifically, the role the Android running device adopts: Android device acts as host in USB host
+			mode, whereas it acts as device in accessory mode. However, there is no difference in data transfer
+			between them, as it remains bidirectional in both modes. It is typical that the device with larger
+			power consumption (usually the Android device) is the USB host since it probably has a power source
+			of any kind, although this is no always this way.\\
+
+			Regarding this project, this matter applies in the way both the Android and the receiver devices are
+			connected and which one assumes the USB host role. It would result particularly desirable that the
+			Android device acted as host so that the receiver could be fed from its battery --which would make the
+			collection really portable, non-dependent on the accessory power source--. However, it depends on
+			the platform that this arrangement can be possible.\\
+
+			Although certain Android devices running version 2.3 were capable of offering USB host support, this
+			version only officially supports USB accessory mode; whereas USB host mode is only available by
+			default since version 3.1. Thus, in order to get the required behaviour the usage of one of this
+			special devices or, preferably, a device running a 3.1 Android version or newer.
 
 	\section{Description}
 
@@ -522,12 +550,12 @@
 				fulfilled.
 		\end{enumerate}
 
-		% Conclusión
-		\todo{Conclusión de esta milestone}
+		With the work carried out during this stage, communication between the receiver and the Android device is
+		completed, fact that limits the work that is left to to the management of the wireless reception through
+		802.15.4. Wireless communication will be dealt over the following two milestones. 
 
-
-		\subsection{802.15.4 in FreeRTOS}
-		\label{ssec:802.15.4.FreeRTOS}	
+	\subsection{802.15.4 in FreeRTOS}
+	\label{ssec:802.15.4.FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
 		\item Validate current implementation of 802.15.4 in FreeRTOS in old MSP430,
