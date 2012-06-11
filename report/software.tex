@@ -38,7 +38,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	\section{Overview}
 	% Conclusion and chapter presentation
-	In the following sections a complete view of the software development project will be presented, beginning with the requirements captured for the project. The use case scenarios identified from those requisites will be detailed next, followed by an explanation of the system architecture ?via 4+1 view model?. Then implementation details will be exposed and the chapter will finish with a short conclusion.
+	In the following sections a complete view of the software development project will be presented, beginning with the requirements captured for the project. The use case scenarios identified from those requisites will be detailed next, followed by an explanation of the system design and architecture. Then implementation details will be exposed and the chapter will finish with a short conclusion.
 
 	\begin{comment}
 	Full implementation, architectural and yadda yadda are presented in Annex X
@@ -47,7 +47,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\section{Requirements}
 		% Requirement capture process explanation (also introduction to this section)
 		The requirement capture process for the project considered three main stake-holders: the project masters (¿Nombres?), the EPFL[*] and the project team members; and was done in two sessions. The first one produced the basic requirement list which described the system and was used to schedule the earlier development iterations. This was so because of the strong time restrictions this software development project had to cope with. 
-		When the critical functionality was achieved and the hardware research was in a suitable state, the second requirements capture session was conducted. By then, the +EPFL representative (Fran) [Murcia Hospital representative?] had shown the state of the development to the stakeholder party of him, and collected feedback. Thus, the requirements produced by this second session were of a more user-oriented nature.\\
+		When the critical functionality was achieved and the hardware research was in a suitable state, the second requirements capture session was conducted. By then, the EPFL representative \todo{Leave this? Did we got actual feedback?} had shown the state of the development to the stakeholder party of him, and collected feedback. Thus, the requirements produced by this second session were of a more user-oriented nature.\\
 
 		% ¿Explicar qué intereses tiene cada uno?
 		
@@ -491,7 +491,8 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			Once the connection is stablished, the DeviceManager launches a UsbComThread. This thread is the specialization of DataSourceThread and obtains the raw data from the USB device, processes it employing an instance of DynamicDataParser and sends the results to the view thread. This is a DynamicViewThread entity.
 
-		\todo{Extra things here? (see source file) || Diagrams like these would rather be an appendix, could be cited from here}
+		\todo{USER INTERFACES! New subsection with diagrams and all? as an Appendix?}
+
 		\begin{comment}
 		\subsection{More things (which I don't know where to include}
 			
@@ -763,4 +764,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\end{itemize}
 			
 	\section{Closure}
-		% App espera recepción de datos por USB, sea lo que sea que haya al otro lado (no es necesario un 802.15.4 receiver ni na)
+
+		The software development part of the project has been able to produce the required Android application, with all planned functionality implemented and including user friendly interfaces. It is a rather general purpose application inside of the domain to which it is restricted, and at it's final state it would need some specialization in order to be actually useful. This is so because the requisite analysis process wasn't developed focusing an immediate professional employment of the application, but a replacement for that of the EPFL project which inspired this one. \\
+
+		Anyhow, during the architecture design and subsequent implementation phases great emphasis is put for the application to provide the tools to act as a framework over which more specific ECG montoring application development can be realized.\todo{Something from Marian feature list here?} An interesting example of this is that, at the current state, the application implements visualization of data received from an USB device. In this project, the USB device has been the 802.15.4 USB receiver, but any other device capable of encoding the data in the expected way is valid as well.\\
+
+		Long story short, the software development finished providing successful results in form of a general purpose ECG monitoring application for Android devices which can serve as the base for more specific developments, which was exactly the target objective for the software project.
