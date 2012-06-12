@@ -513,9 +513,9 @@
 				\end{comment}
 				The following objective to be achieved consists on incorporating the TI USB API to FreeRTOS,
 				focusing in its completion rather than its perfect working. This is not a trivial task since, for
-				instance, the length of the API is about the same size as the code of FreeRTOS. \todo{Remove this last sentence?}
+				instance, the length of the API is about the same size as the code of FreeRTOS. \todo{Change this sentence}
 				The most relevant inconvenience that endangers this work is the considerable amount of resources,
-				\todo{Question Pferv about this}, which FreeRTOS may need for performing its tasks. However, this
+				\todo{Modify as Pferv said}, which FreeRTOS may need for performing its tasks. However, this
 				is a matter of properly balancing the distribution of these resorces, and thus it can be achieved
 				by paying special attention and care to it.
 
@@ -585,7 +585,7 @@
 
 		The testing of the MAC layer provides negative results, as although 802.15.4 receiving functionality is present in the port, the OS is not actually notified about it and the received data is lost. Moreover, problems in the receiving of packages of maximum size, which are the ones sent by the 802.15.4 emissor, are also detected.\\
 
-		The amendment of the aforementioned problems takes no longer that expected, and the porting of the 802.14.4 support to the target MSP430 device begins. The original developer of both the FreeRTOS and the MAC layer is notified about the detected problems, and the fixes are also implemented on the 802.15.4 emissor.\todo{this would be jrecas}\\
+		The amendment of the aforementioned problems takes no longer that expected, and the porting of the 802.14.4 support to the target MSP430 device begins. The original developer of both the FreeRTOS port and the MAC layer is notified about the detected problems, and the fixes are also implemented on the 802.15.4 emissor.\todo{this would be jrecas}\\
 
 		%se llevó luego a otra con USB pero sin soporte ni software ni hardware para la radio, obligando a mapeo manual de pines,
 		\item\emph{Manage connection to the CC2420 radio module to target MSP430 device}\\
@@ -640,6 +640,8 @@
 		%Riesgos de conflicto hardware entre Radio y USB
 		\todo{Rafa left here}
 		The hardware risk was adviced much before the begining of this milestone, and when we made de pin mapping we keep in mind this risk, thanks that, this risk was avoided.\\
+
+		% La resolución SW se realiza directamente en el siguiente objetivo (R.12/06)
 
 		%Riesgos de conflicto software entre Radio y USB sobre FreeRTOs
 			%(Falta de tiempo para enviar y recibir)
