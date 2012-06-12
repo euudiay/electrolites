@@ -254,7 +254,7 @@
 	\label{ssec:Arduino.USB}
 		The objectives for this first milestone objectives are:
 		\begin{itemize}
-			\item Acquire a suitable Android device prototyping environment, 
+			\item acquire a suitable Android device prototyping environment, 
 			\item manage correct communication between Android and a prototype device, and
 			\item develop an application emulating desired behaviour.
 		\end{itemize}
@@ -300,7 +300,7 @@
 	\label{ssec:Android.USB}
 		Objectives for this stage are:
 		\begin{itemize}
-			\item Supply MSP430 with USB protocol application functionality,
+			\item supply MSP430 with USB protocol application functionality,
 			\item research Android USB protocol related functionality,
 			\item make Android OS recognize MSP430 when plugged, and
 			\item manage communication between Android and MSP430 via USB.
@@ -470,7 +470,7 @@
 	\label{ssec:USB.FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
-			\item Check the proper working of FreeRTOS with the new microcontroller,
+			\item check the proper working of FreeRTOS with the new microcontroller,
 			\item validate the feasibility of the usage of USB API along with FreeRTOS in MSP430,
 			\item correctly integrate USB API into FreeRTOS, and
 			\item manage USB data sending in FreeRTOS.
@@ -565,7 +565,7 @@
 	\label{ssec:802.15.4.FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
-		\item Validate current implementation of 802.15.4 in FreeRTOS in MSP430 testing board,
+		\item validate current implementation of 802.15.4 in FreeRTOS in MSP430 testing board,
 		\item manage connection to the CC2420 radio module to target MSP430 device,
 		\item port implementation of 802.15.4 to target MSP430 device, and
 		\item prepare such implementation for actual usage.
@@ -626,7 +626,7 @@
 		\label{ssec:802.15.4.USB.FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
-		\item Assess conflict-free coexistence of current implementation of both USB and 802.15.4 modules in MSP430, and
+		\item assess conflict-free coexistence of current implementation of both USB and 802.15.4 modules in MSP430, and
 		\item manage sending data received from 802.15.4 via USB.
 		\end{itemize}
 		
@@ -636,23 +636,34 @@
 		Having both the USB communication and the 802.15.4 receiving working over FreeRTOS when isolated, the next task assumed is the testing of them both working together. While they should theoretically coexist without conflicts, the manual mapping of the processor pins performed in the last milestone involves a risk this won't happen. Once such hardware validation has concluded, software validation is also to be conducted by the development of a first version of the USB sending program.
 
 		\begin{enumerate}
-		\item\emph{Assess conflict-free coexistence of current implementation of both USB and 802.15.4 modules in MSP430}
+		\item\emph{Assess conflict-free coexistence of current implementation of both USB and 802.15.4 modules in MSP430}\\
 		%Riesgos de conflicto hardware entre Radio y USB
-		\todo{Rafa left here}
-		The hardware risk was adviced much before the begining of this milestone, and when we made de pin mapping we keep in mind this risk, thanks that, this risk was avoided.\\
+
+		% The hardware risk was adviced much before the begining of this milestone, and when we made de pin mapping we keep in mind this risk, thanks that, this risk was avoided.\\
+		As said, resource sharing conflicts are bound to occur when joining the radio and the USB modules. The posibility of hardware related conflicts being known when developing each module, special care is put in the selection of resources for them both. The testing conducted in this phase confirms the successful outcome of these task, as no real hardware conflicts arise.\\
+
+		For software conflict testing the decision is made to validate directly against an actual application featuring part of the functionality required in the final receiver. That testing process is, then, merged with the work required for the next milestone objective.\\
 
 		% La resolución SW se realiza directamente en el siguiente objetivo (R.12/06)
 
 		%Riesgos de conflicto software entre Radio y USB sobre FreeRTOs
 			%(Falta de tiempo para enviar y recibir)
 		%Darle mucho peso a los riesgos y ver como tratar el tema de que no hubo prácticamente ningún problema con ellos(solo al de tiempo para enviar y recibir) sin que se note que este punto no tuvo mucho peso
-		\item\emph{Manage sending data received from 802.15.4 via USB}
-		After develop an aplication to send data recived trought USB is noticed that, however the software risk was initialy not avoided because the Shimmer send data paquets too fast and MSP430 can't manage this amount of information to send it trought USB and some packets was lost. A little adjusts was necesary, the packets sent was concentred in the start of the available time slots then, we spaced it, sending the same number of packets but with the same time between packet and packet, filling the whole aviable time slots. \\
-		\end{enumerate}
+		\item\emph{Manage sending data received from 802.15.4 via USB}\\
+		% After develop an aplication to send data recived trought USB is noticed that, however the software risk was initialy not avoided because the Shimmer send data paquets too fast and MSP430 can't manage this amount of information to send it trought USB and some packets was lost. A little adjusts was necesary, the packets sent was concentred in the start of the available time slots then, we spaced it, sending the same number of packets but with the same time between packet and packet, filling the whole aviable time slots. \\
+
+			For the achievement of this objective, an application is developed with functionality to send the byte sequences received from the CC2420 radio module via USB employing the HID protocol. Software resources sharing between both modules is confirmed to be conflict-free, concluding the validation of the correct coexistence of them both, yet a specific problem is found to occur.\\
+
+			The real-time sending speed of the 802.15.4 emissor and the limited storage capacity of the CC2420 radio module, as well as delays caused in the processing involved in USB data sending, are found to be causing the loss of data packages. The solution is twofold: on one hand, and regarding the 802.15.4 emissor device, the package emission is stretched to employ the whole available time slot, instead of sending all the data as fast as possible at the beginning. On the other hand, a buffering system is implemented in the receiver device to allow the continuum processing of arrived data when a package is currently being sent via USB.\\
+
+			The described solution removes the problem and the objective is, thus, accomplished. Moreover, full required functionality for the receiver device is implemented.\\
+
+			\end{enumerate}
 	
 		%Conclusion
 		%Este hito hacia falta aunque fuese breve para tener el sistema lo más estable posible antes de lanzarnos a probar la aplicación final
-		Now, our system was finally able to send trought USB the packets recived in radio with no losses. This achievment was very important before develop and test the final aplication with several real-time restrictions.\\
+		% Now, our system was finally able to send trought USB the packets recived in radio with no losses. This achievment was very important before develop and test the final aplication with several real-time restrictions.\\
+		Before the finalization of the milestone some final testing is conducted with positive results. The 802.15.4 receiver device is capable of sending data received form the radio following the 802.15.4 standard through the USB connection. This allows the beginning of actual accessory development with the objective of obtaining a small PCB, closer to an actual product than the MSP430 equipped board.\\
 
 		\begin{comment}
 		\subsection{Final aplication develop}
@@ -669,19 +680,36 @@
 
 		\subsection{MSP430 based device design}
 		\label{ssec:device.design}	
+		The objectives for this milestone are:
 		\begin{itemize}
-		\item Board exhaustive analysis,
-		\item Capture of the schematic, and
-		\item PCB design and route.
+		\item exhaustive analysis of the reference board,
+		\item capture of the board schematic, and
+		\item design and routing of the actual PCB.
 		\end{itemize}
 		%Algo en plan, finalizada la investigación y gracias a que pusimos mucho empeño en acabar con tiempo suficiente fuimos capaces(como de tener la capacidad, no de conseguir(be able to)) de diseñar un dispositivo a partir de los componentes presentes en la placa de prototipado.
+
+		At this point the objective of the hardware research part of the project has already been achieved. An MSP430 based 802.15.4 USB receiver has been developed and tested. It is able to connect to an Android device and draw power from it, and little power\todo{confirm this} is required. Low power requirements achieved, the next step is the miniaturization of the board so as to minimize the size of the system. Production of a small device which can be attached to the Android system is the objective of this milestone.\\
+
+		\begin{enumerate}
+		\item \emph{Exhaustive analysis of the reference board}\\
 		%Identificación de componentes de placa 
 			%(pines de expansión)
 			%(cambio de componentes por otros)
 			%(eliminacion JTAG y reutilizacion Radio)
+
+			The device board design is to be made taking the MSP-TS430PZ100USB board as a base, as it provides all the components required by the target device and the schematics are available as part of the official Texas Intruments provided documentation.\\
+
+			The first step towards the achievement of the low sized device is the correct identification of the minimum set of components required by the target functionality, as not every component present in the base board is actually used. Some specific components gave much war blah blah blah\todo{Rafa left here}.
+
+		\item \emph{Capture of the board schematic}\\
 		%Captura de esquemático
+		\item \emph{Design and routing of the actual PCB}
 		%Diseño PCB
 		%Rutado PCB
+		\end{enumerate}
+
+		% Conclusión: por ahora no va nada :(
+		This is the future for now :|
 
 		\subsection{Final Validation and Release Candidate Version Developmentn}
 		\label{ssec:Final.Validation}	
