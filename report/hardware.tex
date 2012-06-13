@@ -10,7 +10,7 @@
 
 	% OLD: The hardware in our project cover a main need, an external device to be able to communicate our android device with a *shimmer through 802.15.4. Than device have to be a little and low powered device that can be conected as device through USB in an android device. Little, because a device that disturb a regular work is not valid at all. Low powered, because if the cost of power the divece is higher than use the stack bluetooth we lose an important advantage of use 802.15.4. Able to be coneced throught USB in our android device because this is the only way to interact with android for a external device. And finally able to be connected as device to elimminate the needed of an extra batery that would have incresed the cost and size of our device. \\
 
-	The hardware research and development part of the project objective is covering a main need: production of an external device that enables communication between an Android system and a *shimmer through 802.15.4. Such a device should be a portable and low-powered device that can be plugged via the widely used USB On-The-Go (USB OTG) to a host Android system, acting the device as a slave.\\
+	The hardware research and development part of the project objective is covering a main need: production of an external device that enables communication between an Android system and a Shimmer through 802.15.4. Such a device should be a portable and low-powered device that can be plugged via the widely used USB On-The-Go (USB OTG) to a host Android system, acting the device as a slave.\\
 
 	It has to be small sized because of the target application environment: a particular who requires constant, in-home, ambulatory monitorization. 
 	%In that scenario devices that disturb regular working conditions are not valid at all;
@@ -60,6 +60,7 @@
 			output pins at the developer's disposal as well, so unforeseen behaviours can be achieved.\\
 			
 		\subsection{MSP430}
+		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
 		\label{ssec:msp430}
 			MSP430 refers to an entire family of 16-bit CPU microcontrollers from Texas Instruments \cite{msp430}.
 			Its most relevant features are:
@@ -122,8 +123,35 @@
 					connector.
 			\end{itemize}
 			
-		\subsection{Shimmer}
-		\todo{hardware subsection: Shimmer technology}
+		\subsection{Shimmer\texttrademark}
+			Shimmer \cite{Shimmer} is a trade name which refers to a wireless sensor platform designed to
+			obtain, deal and wirelessly transmit human biological metrics and several ambient and
+			kinematic measures. The whole system consists of the Shimmer platform itself and a series of
+			extensible sensor modules as its hardware part, an open source firmware library and software
+			development tools.\\
+
+			After its proper firmware programming, the platform is capable of retrieving the aforementioned data
+			thanks to its expansion modules \cite{ShimmerExp} so that the user can manage it as considers. Once
+			the data is appropriately dealt, the Shimmer is able to wirelessly send it via Bluetooth or 802.15.4
+			to other receiver nodes, which can be also Shimmers or another compatible device.\\
+
+			In order to carry out its tasks, the baseboard of the Shimmer is powered with a MSP430F1611
+			microprocessor as CPU, which belongs to the MSP430 microcontroller family previously detailed.
+			Additionally, the Shimmer is also equipped with Bluetooth and 802.15.4 radio modules which perform
+			the data sending as well as several input/output devices and sensors --three LEDs, one push button,
+			accelerometer and a microSD socket, among others--.\\
+
+			Its usage is typically focused on healthcare or remote patient monitoring applications due to its
+			small size and weight and its relatively low power consumption (which strongly depends on the
+			employment its resources are given). In fact, the manufacturer itself refers to the Shimmer as 
+			``wearable wireless sensor platform''. In addition, its multiple sensors allow many other
+			applications like athlete performance monitoring or ambient sensing solutions.\\
+
+			This sort of platform is employed at the ECG monitoring project \cite{ESL} developed by the EPFL and
+			UCM which, conveniently adapted, performs as the emitter part of the present project. In particular,
+			the system described within this document makes use of the 802.15.4 communication capabilities the
+			Shimmer platform provides, which mean a key feature of this project.\\
+
 		\subsection{802.15.4}
 		\label{ssec:802.15.4}
 		\todo{hardware subsection: 802.15.4 technology}
