@@ -6,7 +6,6 @@
 	% ¡FALTA COMENTAR EN ALGUN SITIO QUE EL DESARROLLO SW SE REALIZA EN PARALELO! %
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 	%que necesidad cubre la parte hardware del proyecto
 
 	% OLD: The hardware in our project cover a main need, an external device to be able to communicate our android device with a *shimmer through 802.15.4. Than device have to be a little and low powered device that can be conected as device through USB in an android device. Little, because a device that disturb a regular work is not valid at all. Low powered, because if the cost of power the divece is higher than use the stack bluetooth we lose an important advantage of use 802.15.4. Able to be coneced throught USB in our android device because this is the only way to interact with android for a external device. And finally able to be connected as device to elimminate the needed of an extra batery that would have incresed the cost and size of our device. \\
@@ -124,11 +123,13 @@
 			\end{itemize}
 			
 		\subsection{Shimmer}
-		%Posibilidad de tras la epxlicación inicial meter dos secciones más que expliquen las diferencias entre los dos chips y las dos placas usadas(hablarlo todos)
+		\todo{hardware subsection: Shimmer technology}
 		\subsection{802.15.4}
 		\label{ssec:802.15.4}
+		\todo{hardware subsection: 802.15.4 technology}
 		\subsection{FreeRTOS}
 		\label{ssec:FreeRTOS}
+		\todo{hardware subsection: FreeRTOS technology}
 		\todo{Pedir información y referencias a joaquin}
 		\subsection{USB device \& USB host}
 			USB host \cite{usbhost}, as oppose to USB accessory, is an operation mode which determines how a
@@ -253,6 +254,7 @@
 	considers the design of a miniaturized version of the receiver device so as to dispense with the
 	TS430PZ100USB board, which is rather big and little portable. The second one is essential as it
 	is reserved for possible needed fixings and refinements.\\
+	\todo{¿Tabla con las fechas de inicio y fin de las milestones?}
 	
 	All these stages are now detailed over the following subsections.\\
 
@@ -613,11 +615,15 @@
 		\item Final validation of final aplications with final hardware
 		\end{itemize}
 		
+		\todo{Hardware subsection final milestone}
+	
 		%Esteeee si, mencinamos que esta milestone existía porque había que hacer las pruebas pertinentes ahora que todo estaba completo y comentamos lo que sea que vaya a pasar cuando esté todo.
 
 		\section{Final Product}
 		%Descripción de que es lo que hemos conseguido(es posible que con la evolución alguien que se lea las iteraciones no consiga una clara visión de cual es el estado final del dispositivo, por lo que esta parte me parece muy importante)
-		
+
+		\todo{Hardware section Final Product}
+
 		Primer parrafo, finalmente, despues de toda esta investigación podemos afirmar que es lo que tenemos, un dispositivo totalmente diseñado por nosotros, de un tamaño reducido y comodo de usar, y que es capaz de comunicarse tanto con un android(a partir de la 3.1)(moviles y tablets) como con widows y es capaz de recibir paquetes por la radio siguiendo el estandar 802.15.4. 
 
 		De hecho el hardware que lleva lo hace potencialmente usable para cualquiera que requiera un modulo USB que reciba señales de radio por 802.15.4 y las mande por USB por lo que su potencial es mucho mayor que el que se le da en el ambito concreto del proyecto y podría tener muchos más usos que el dado.
