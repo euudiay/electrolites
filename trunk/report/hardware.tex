@@ -145,6 +145,12 @@
 			power consumption (usually the Android device) is the USB host since it probably has a power source
 			of any kind, although this is no always this way.\\
 
+			In addition, when in USB host mode, creating the connection, that is, instatiating and initializing
+			the proper sockets, between both ends is responsibility of the host, along with notifying the other
+			end about the establishment of the communication. On the other hand, the process the end acting as
+			device has to carry out is quite simpler, as it just consists of checking the availability of the
+			previously created communication.\\
+
 			Regarding this project, this matter applies in the way both the Android and the receiver devices are
 			connected and which one assumes the USB host role. It would result particularly desirable that the
 			Android device acted as host so that the receiver could be fed from its battery --which would make the
@@ -306,14 +312,6 @@
 			\item manage communication between Android and MSP430 via USB.
 		\end{itemize}
 
-		\begin{comment}
-		%Plantear de manera lo más cronológica posible remarcando que aui estabamos totalmente a ciegas, no sabíamos como ibamos a alcanzar nuestro objetivo, solo teníamos una API USB proporcionada por TI para comunicación USB con windows: 
-		Unlike the arduino's part where we know what we have to use and how we wil use it, now we found 
-		that we just have an Texas Instruments(TI) API to comunicate the MSP430 with windows and our goal. 
-		Both MSP430 microcontroller and MSP430 board was new devices because all the existing ones have no 
-		USB port, the microcontroller is an MSP430 6638 and the board is a TS430PZ100USB(link to the MSP430 section).\\
-		\end{comment}
-		
 		Due to the need of USB support, both the microcontroller and its board models are required to be
 		as new as possible, since older models lack this feature. Therefore, the MSP430F6638 microcontroller
 		as well as the MSP-TS430PZ100USB board are selected for this development, as it is explained at
@@ -321,150 +319,76 @@
 		
 		Prototyping with Arduino during the previous milestone constitutes the preparation for the development
 		to be done in the present one. Yet, whereas Android and Google ADK are designed to interact with
-		one another, Android is not prepared for supporting a device like an MSP430 out of the box. So, in order to
-		communicate both devices, an API from Texas Instruments \cite{TIUSB} is the only available tool, though
+		one another, Android is not prepared for supporting a device like an MSP430 out of the box. So, in order
+		to communicate both devices, an API from Texas Instruments \cite{TIUSB} is the only available tool, though
 		it is designed for Windows OS.\\
-		
-		\begin{comment}
-		%Introduccion y no va (android usb protocol)
-		Initialy in order to test the TI API we check some of the multiple examples, in our case was the 
-		CDC examples that be usefull to learn about basic concepts of what we try to do. Also we try to 
-		read part of the generic(not dependant of the MSP430 device nor USB protocol)documentation that 
-		TI provides. And it didn't start too good, the first test with a example provide in the API didn't 
-		work in windows, its target SO.
-		\end{comment}
 		
 		Among all the contents the TI API includes, its examples result particularly useful for the project
 		requirements. Concretely, examples about CDC (Communications Device Class) protocol set the needed
 		basis to fulfill the objectives for this milestone. Nonetheless, several examples does not seem to
 		function, not even in Windows, its target operating system. Thus, the next step consists of studying
-		both the examples and documentation from TI so as to fulfill the objectives.
+		both the examples and documentation from TI so as to fulfill the objectives.\\
 		
 		\begin{enumerate}
 			\item \emph{Supply MSP430 with USB protocol application functionality}\\
-				\begin{comment}
-				% MSP (1)
-				This API contains any simple aplications for windows, to comunicate by certain protocols with 
-				external devices or enumeration tools; an extense documentation about the API and about the USB 
-				characteristics of its devices; and a huge suite of examples that implements a lot of USB protocols 
-				to comunicate the MSP430 whith windows such as Communications Device Class (CDC), Personal Healthcare 
-				Device Class (PHDC), Human Interface Device (HID) in traditional and datatype implementations, Mass 
-				Storage Class (MSC) and combinations of any of them. At this point we have an inmense amount of information 
-				and we don't really know what can be usefull for us.\\
-				
-				%LE FALTABA UN PUTO RELOJ DE 4MHZ, MSP (2)
-				After a good time of investigation we found that it can't initialize a certain clock, this clock 
-				don't seems to be in the board and we there are not much references about it. Finally we found a 
-				little paragraph in one API document that metion the chance of a USB needed clock was not included 
-				in any kind of boards and a recomendation of how should be this clock, when we buy a clock of this 
-				features we can check that this was the problems, the TI example finally works.
-
-				%En ubuntu no va, mal rollito, MSP (3)
-				All this tetst was carried out in a virtual machine with windows usually running over other windows, 
-				but in a casual situation when this virtual machine was running over ubuntu we discover that this examples 
-				not only don't work in ubuntu, somthing that we assume, but in addition ubuntu can't even detect our MSP430, 
-				this fact worry us because android is an UNIX based SO just like ubuntu. \\
-				\end{comment}
-				
 				As it was previously said, TI API contains a huge amount of information in the shape of:
 				\begin{itemize}
 					\item \textbf{Extense documentation:} about the API itself and features of TI devices. 
-					\item \textbf{Sample Windows Applications:} made to communicate Windows PCs with external devices or
-						enumeration tools.
-					\item \textbf{Suite of examples:} each of them implements a combination or one of the following
-						USB protocols: Communications Device Class (CDC), Human Interface Device (HID) or Mass Storage Class (MSC).
+					\item \textbf{Sample Windows Applications:} made to communicate Windows PCs with external
+						devices or enumeration tools.
+					\item \textbf{Suite of examples:} each of them implements a combination or one of the
+						following USB protocols: Communications Device Class (CDC), Human Interface Device (HID)
+						or Mass Storage Class (MSC).
 				\end{itemize}
 				
-				The same problems, though, keep these examples from working with the target MSP430 device. As a result of
-				an intense investigation the trouble is found to lie within one of the device's clocks which, according to 
-				the API documentation, may need an specific tuning --particularly, 4MHz--. Moreover, in spite of the fact 
-				that the board seems functional, it actually lacks that certain clock. As expected, TI example properly
-				works with the addition of the 4MHz clock.\\
+				The same problems, though, keep these examples from working with the target MSP430 device. As a
+				result of an intense investigation the trouble is found to lie within one of the device's clocks
+				which, according to the API documentation, may need an specific tuning --particularly, 4MHz--.
+				Moreover, in spite of the fact that the board seems functional, it actually lacks that certain
+				clock. As expected, TI example properly works with the addition of the 4MHz clock.\\
 				
-				In addition to the previous hitch, another one arises upon changing the current workstation. Every work
-				during this development is carried out within a Windows virtual machine running over Windows, yet
-				the examples stops working when the host machine is changed for another one running GNU/Linux, 
-				particularly Ubuntu. Despite having achieved the present objective, this fact reduces the expectations
-				for the next one since Android, the target OS, is also based on Linux kernel.
+				In addition to the previous hitch, another one arises upon changing the current workstation.
+				Every work during this development is carried out within a Windows virtual machine running over
+				Windows, yet the examples stops working when the host machine is changed for another one running
+				GNU/Linux, particularly Ubuntu. Despite having achieved the present objective, this fact reduces
+				the expectations for the next one since Android, the target OS, is also based on Linux kernel.\\
 				
 			\item \emph{Research Android USB protocol related functionality}\\
-				\begin{comment}
-				% USB Android
-				%Líneas de investigación
-				When we try to connect our MSP430 running one of this examples mentioned before we obvserve that, 
-				as we expect, android also can't detect it. Initialy we think our only posible solution to this 
-				important trouble was make or found a unix driver, then we investigate that way. \\
-
-				%Driver propio para linux
-				%Driver propio para android (ambos sobre driver TI MSP430 para MAC)
-				%[Mencionar Riesgos asumidos al abandonar línea driver propio y seguir investigando]
-				After much searching we see that there are no drivers for unix made by anyone, the closest driver 
-				we find was a MAC driver(that we are not sure that it going to work) and assuming that we will 
-				need to do a driver based on it, we consult some cualified personal in this area that said us 
-				to forget the idea of a generic UNIX driver and focus in an android driver, but also recommend 
-				that keep researching other ways to communicate android and MSP in order to avoid the develop a 
-				driver for MSP430 wich can be a very difficult work. This advice and the fact that there are no 
-				warraties of the develop of a driver was succesfull, we decide to leave the driver idea and follow 
-				investigating. That was a very risky decision because we have spended a lot of time in this way and 
-				we don't know if we will find other idea to ahieve this hard milestone.\\
-
-				%Encontramos mención a driver genérico HID en android + TI’s HID api for MSP430s
-				After a few days of unsuccesfull days of investigation, we find in a forum a small mention in a 
-				comment about android actually implements HID protocol. This protocol was also suported by the 
-				MSP430 API, and although the information was found in a not very condiable place, we find it 
-				enought to put the full team to work in this, ones made the android USB host(link) and others 
-				find a HID aplication into the API to load into the MSP430. The second objetive was attenpted 
-				first, with this we can check that our android device finally detect our MSP430. \\ % Lo conectas y va
-				\end{comment}
-				
 				As it is expected because of its performance with Ubuntu, Android is not able to recognize the
 				target device, and hence the example cannot be tested. In order to solve this inconvenience, two
 				solutions are considered: search for the proper driver, if any, and modify it or develop
 				it from scratch.\\
 				
-				Nevertheless, the search concludes with no results, so it is assumed that this particular driver does
-				not exist. The most similar resource found consists of a driver for MAC OS X, which would have to 
-				be consistently modified in order to make it work. However, this idea is dropped due to the advice
-				obtained from a qualified source that suggests exploring other methods to make the communication
-				feasible apart from developing a driver, which may be too harsh and spend too much time.
-				A quite considerable risk is assumed by doing so as there are no warranties of finding a proper solution.\\
+				Nevertheless, the search concludes with no results, so it is assumed that this particular driver
+				does not exist. The most similar resource found consists of a driver for MAC OS X, which would
+				have to be consistently modified in order to make it work. However, this idea is dropped due to
+				the advice obtained from a qualified source that suggests exploring other methods to make the
+				communication feasible apart from developing a driver, which may be too harsh and spend too much
+				time. A quite considerable risk is assumed by doing so as there are no warranties of finding a
+				proper solution.\\
 				
-				Fortunately, further research drives to a successful alternative: it is found that Android actually
-				implements HID protocol, which is also supported by MSP430 through the Texas Instruments API. Finally,
-				upon loading the proper HID application into the MSP430 from the TI API this objective reaches its fulfillment.
+				Fortunately, further research drives to a successful alternative: it is found that Android
+				actually implements HID protocol, which is also supported by MSP430 through the Texas Instruments
+				API. Finally, upon loading the proper HID application into the MSP430 from the TI API this
+				objective reaches its fulfillment.\\
+
 			\item \emph{Make Android OS recognize MSP430 when plugged}\\
-
 				Once both two first objectives of this milestone are achieved, MSP430 recognition by Android is
-				inmediate when the connection is set since all the needed work is already done.
-			\item \emph{Manage communication between Android and MSP430 via USB}\\
+				inmediate when the connection is set since all the needed work is already done.\\
 
-				\begin{comment}
-				%Probamos y funcionó (más trabajo software, enlazar a capítulo) , comentar la importancia del hardware en esta parte de la programación android debido a que ese código es muy dependiente de como implemente el protocolo HID(que proporciona mucha libertad)el MSP lo que supuso mucha investigación y continuo acceso a manuales tanto de la API como del propio MSP(ese comentario iria aqui o en la parte de software?Hablarlo todos)
-				That great news helps the android development team, than in this moment becomes the full team, 
-				to succesfully imlements the android USB host communication in our aplication in just a weekend. 
-				Android USB host comunication was higly dependant of what device was in the other side of the 
-				communication, thus everybody was needed in this hard and delicated part of the develop to 
-				investigate the high cuantity of manuals contained in the API in orther to find and implement 
-				all this particularities. Finally we luckily discover that now, our android and MSP430 can 
-				also comunicate each other trought our aplication. \\
-				\end{comment}
+			\item \emph{Manage communication between Android and MSP430 via USB}\\
 				At this point, the work still to be done consist of modifying the Android application in order
 				that it can read data from the receiver device. However, this is not a trivial work as Android
 				USB host communication is highly dependant on the device which it has to read from. Thorough
-				investigation over the API manuals is required to discover every detail and make it work.
+				investigation over the API manuals is required to discover every detail and make it work.\\
+
 		\end{enumerate}
 
-		\begin{comment}
-		That was wtih no doubts the harder and more dangerous part of the research, there was a lot of 
-		chances to do not achieve our goal and the hard work of all the team was essential. This milestone 
-		suppose a very important fact not only in hardware part but in all the project because now, we can 
-		more accurately schedule all of the project. \\
-		\end{comment}
 		Therefore, as it can be deduced from the previously explained happenings, this stage draws a great amount 
 		of risk to the hardware development due to several critical points it involves which further required
 		tasks are to be based on. In other words, part of this project's probabilities of success greatly depends
 		on the feasibily of the present objectives, so this milestone completely conditions the planning. Once 
-		it is finished, it will certainly allow to tune the schedule with better accuracy.
+		it is finished, it will certainly allow to tune the schedule with better accuracy.\\
 
 	\subsection{USB in FreeRTOS}
 	\label{ssec:USB.FreeRTOS}	
@@ -485,81 +409,41 @@
 
 		\begin{enumerate}
 			\item \emph{Check the proper working of FreeRTOS with the new microcontroller}\\
-
-				%Pequeños cambios en FreeRTOS para soportar la nueva plataforma 6638
-				\begin{comment}
-				Before to start the real objetive of this milestone we need to adapt the FreeRTOS main
-				functionalities to the new MSP430, that been a new device was not actualy supported by. This mind
-				the creation of a good number of new clases, most of them was excatly equal to their homonimes
-				for the MSP430 5438A but other needs some little modifications.\\
-				\end{comment}
 				Prior to starting with this milestone's core objective, FreeRTOS needs to be adapted in order to
 				make it work with the new microcontroller, namely MSP430F6638, since it is addressed to a
 				different model, the MSP430F5438A. This change implies the modification at several points of the
-				code of the operating system so that its proper working can be assured. 
+				code of the operating system so that its proper working can be assured.\\
 
 			\item \emph{Validate the feasibility of the usage of USB API along with FreeRTOS in MSP430}\\
-
-				%Adaptación de la API para hacerla funcionar en un SO basado en tareas como es el FreeRTOS
-				%Importantes riesgos de conflictos a nivel de compartición de recursos hardware, que con cuidado(más con suerte que con cuidado) pudieron ser esquivados.
-				\begin{comment}
-				The next need in the milestone was port as soon as posible the TI USB API to a task-based SO like
-				FreeRTOS whithout taking too much care about its correction. The introduction into the FreeRTOS
-				was prety problematic because the size of just the the API was near to the size of the FreeRTOS.
-				Plus, there are a very important risk, USB uses a important number of resources as pines or clock
-				that can be also used by the FreeRTOS to another task, specially risky was the clock because both
-				need a clock, but the selected board have 2 clock spots, and taking care in the port all this
-				themes could resolved and everything works fine.\\
-				\end{comment}
 				The following objective to be achieved consists on incorporating the TI USB API to FreeRTOS,
-				focusing in its completion rather than its perfect working. This is not a trivial task since, for
-				instance, the length of the API is about the same size as the code of FreeRTOS. \todo{Change this sentence}
-				The most relevant inconvenience that endangers this work is the considerable amount of resources,
-				\todo{Modify as Pferv said}, which FreeRTOS may need for performing its tasks. However, this
-				is a matter of properly balancing the distribution of these resorces, and thus it can be achieved
-				by paying special attention and care to it.
+				focusing in its completion rather than its perfect working. This is not a trivial task due to the
+				large extension of API's code. Furthermore, The most relevant inconvenience that endangers this
+				work is the considerable amount of resources which are found to be in mutually exclusive
+				condition, such as microcontroller pins and clocks. However, this is a matter of properly
+				balancing the distribution of these resources over time, and thus it can be achieved by paying
+				special attention and care to it.\\
 
 			\item \emph{Correctly integrate USB API into FreeRTOS}\\
-
-				%Estaba hecho pero mal, había inclusiones puestas donde no se debía y ya no se podía ejecutar ese mismo código en el shimmer o el antiguo MSP430.
-				\begin{comment}
-				Once it's done our preocupation was how to order all this files in a correct way, because our
-				free RTOS was a multiplatform SO that must work in MSP430 5438A, Shimmer, and now, the new MSP430
-				6638 where take place this develope. In the first port where the multiplatform ability of
-				FreeRTOS was not a problem we lost this funcionality. This separation of tasks help pretty much
-				in focus the first steps in this milestone. This new functionality have to be included just in
-				the supported platform, the MSP430 6638, without affect the other ones as before. Using the
-				preciding generalization needed to cohexists Shimmer and MSP430 5438A as a guide this port was
-				not too traumatic.
-				\end{comment}
 				Although the USB API is already functional and integrated into FreeRTOS, this integration is made
 				without caring about keeping the compatibility with already supported microcontrollers, and hence
 				losing this feature. Therefore, the next step consists of restoring its support for other devices
 				like MSP430F5438A. Nonetheless, as the original FreeRTOS port already supported different devices
 				such as the one mentioned and Shimmer\texttrademark, this work is not as hard as it should be if
-				carried out analogously.
+				carried out analogously.\\
 
 			\item \emph{Manage USB data sending in FreeRTOS}\\
-
-				%Aplicacion de prueba que manda el abecedario y en el otro lado vemos que llega perfectamente
-				\begin{comment}
-				Finally with the USB API correctly integrate and its functionality validated, the implementacion
-				of a closer program to the expected funcitionality of the device was attempted, sending a already
-				know character secuence of 1 byte long, and checking that it's been recived in the other side.
-				This test was satisfactory and the milestone was finally achieved.
-				\end{comment}
-
 				Once the USB functionality is properly integrated into FreeRTOS, it is required to check whether
 				the communication it provides correctly stablishes and the trasmitted data does not suffer from
 				corruption or loss. The method used to test this consists of running a special program on FreeRTOS
 				which sends a known character sequence so the input and output sequence can be checked as equal.
 				As they are, in fact, the same sequence, this objetive along with the entire milestone are
-				fulfilled.
+				fulfilled.\\
+
 		\end{enumerate}
 
 		With the work carried out during this stage, communication between the receiver and the Android device is
 		completed, fact that limits the work that is left to to the management of the wireless reception through
-		802.15.4. Wireless communication will be dealt over the following two milestones. 
+		802.15.4. Wireless communication will be dealt over the following two milestones.\\
 
 	\subsection{802.15.4 in FreeRTOS}
 	\label{ssec:802.15.4.FreeRTOS}	
@@ -640,9 +524,9 @@
 		%Riesgos de conflicto hardware entre Radio y USB
 
 		% The hardware risk was adviced much before the begining of this milestone, and when we made de pin mapping we keep in mind this risk, thanks that, this risk was avoided.\\
-		As said, resource sharing conflicts are bound to occur when joining the radio and the USB modules. The posibility of hardware related conflicts being known when developing each module, special care is put in the selection of resources for them both. The testing conducted in this phase confirms the successful outcome of these task, as no real hardware conflicts arise.\\
+		As said, resource sharing conflicts are bound to occur when joining the radio and the USB modules. The possibility of hardware related conflicts being known when developing each module, special care is put in the selection of resources for them both. The testing conducted in this phase confirms the successful outcome of these task, as no real hardware conflicts arise.\\
 
-		For software conflict testing the decision is made to validate directly against an actual application featuring part of the functionality required in the final receiver. That testing process is, then, merged with the work required for the next milestone objective.\\
+		For software conflict testing the decision is made to validate directly against an actual application featuring part of the functionality required in the final receiver. That testing process is then merged with the work required for the next milestone objective.\\
 
 		% La resolución SW se realiza directamente en el siguiente objetivo (R.12/06)
 
@@ -654,7 +538,7 @@
 
 			For the achievement of this objective, an application is developed with functionality to send the byte sequences received from the CC2420 radio module via USB employing the HID protocol. Software resources sharing between both modules is confirmed to be conflict-free, concluding the validation of the correct coexistence of them both, yet a specific problem is found to occur.\\
 
-			The real-time sending speed of the 802.15.4 emissor and the limited storage capacity of the CC2420 radio module, as well as delays caused in the processing involved in USB data sending, are found to be causing the loss of data packages. The solution is twofold: on one hand, and regarding the 802.15.4 emissor device, the package emission is stretched to employ the whole available time slot, instead of sending all the data as fast as possible at the beginning. On the other hand, a buffering system is implemented in the receiver device to allow the continuum processing of arrived data when a package is currently being sent via USB.\\
+			The real-time sending speed of the 802.15.4 emissor and the limited storage capacity of the CC2420 radio module, as well as delays caused in the processing involved in USB data sending, are found to be causing the loss of data packages. The solution is twofold: on one hand, and regarding the 802.15.4 emissor device, the package emission is stretched to employ the whole available time slot, instead of sending all the data as fast as possible at the beginning. On the other hand, a buffering system is implemented in the receiver device to allow the constant processing of arrived data when a package is currently being sent via USB.\\
 
 			The described solution removes the problem and the objective is, thus, accomplished. Moreover, full required functionality for the receiver device is implemented.\\
 
