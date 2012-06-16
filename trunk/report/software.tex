@@ -2,8 +2,8 @@
 \label{ch:swdev}
 
 	% Brief description and scope for this chapter	
-
 	\section{Introduction}
+	\label{sec:sw-intro}
 
 	\begin{comment}
 		Microestado del arte:
@@ -37,6 +37,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	These factors lead to the adoption of an agile software development process focusing on functionality building while prototyping more high risk involving features. To avoid typical drawbacks of such methodologies, great emphasis was put on the application of characteristics found in \textit{Iterative and Incremental processes}, namely, use case driven and risk focused development. That way, project scheduling was done addressing higher risks first while assuring expected functionality to be implemented on time thanks to the use case model.\\
 
 	\section{Overview}
+	\label{sec:sw-oview}
 	% Conclusion and chapter presentation
 	In the following sections a complete view of the software development project will be presented, beginning with the requirements captured for the project. The use case scenarios identified from those requisites will be detailed next, followed by an explanation of the system design and architecture. Then implementation details will be exposed and the chapter will finish with a short conclusion.
 
@@ -45,6 +46,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\end{comment}
 
 	\section{Requirements}
+	\label{sec:sw-reqs}
 		% Requirement capture process explanation (also introduction to this section)
 		The requirement capture process for the project considered three main stake-holders: the project masters (¿Nombres?), the EPFL[*] and the project team members; and was done in two sessions. The first one produced the basic requirement list which described the system and was used to schedule the earlier development iterations. This was so because of the strong time restrictions this software development project had to cope with. 
 		When the critical functionality was achieved and the hardware research was in a suitable state, the second requirements capture session was conducted. By then, the EPFL representative \todo{Leave this? Did we got actual feedback?} had shown the state of the development to the stakeholder party of him, and collected feedback. Thus, the requirements produced by this second session were of a more user-oriented nature.\\
@@ -81,6 +83,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\end{itemize}
 
 	\section{Risk Analysis}
+	\label{sec:sw-risks}
 
 		Being the project mainly a hardware research project, and considering the software development part of it useless without successful results on the hardware part, a detailed process of risk analysis was mandatory to be conducted since the earlier stages of planning and development so as to avoid wasting manpower on futile work.\\
 
@@ -178,18 +181,10 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		
 		Use cases for the project are presented next, followed by the system architecture description, to allow a finer understanding of the software development project schedule and related decisions, which will be detailed in the next section.
 	
-% Command to auto-generate Use Case headings (NON FUNCTIONAL YET)
-\begin{comment}
-\newcounter{uccounter}
-\newcommand{\addUC}[1]{
-	\stepcounter{uccounter}
-	\bf{UC\arabic{uccounter} #1}
-	}
-\end{comment}
-	
 	\section{Use Cases}
+	\label{sec:sw-ucases}
 
-		The project use cases are now presented following the \emph{use case common style} described by Martin Fowler [Fowler, 2004], as the relaxed template allows for quicker document producing than more detailed descriptions such as those presented by Cockburn [Cockburn, 2001].\\
+		The project use cases are now presented following the \emph{use case common style} described by Martin Fowler [Fowler, 2004], as the relaxed template allows for quicker document producing than more detailed descriptions such as those presented by Cockburn [Cockburn, 2001]\todo{Reference These!}.\\
 
 		Actor listing is omitted in all the descriptions, because of the following implicits:
 		\begin{itemize}
@@ -501,7 +496,8 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			Example of a full data flow (e.g. bluetooth)
 		\end{comment}
 
-	\section{Implementation Details}
+	\section{Development Process}
+	\label{sec:sw-process}
 
 		\begin{comment}
 			Potential iterations
@@ -764,8 +760,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\end{itemize}
 			
 	\section{Closure}
+	\label{sec:sw-ending}
 
-		The software development part of the project has been able to produce the required Android application, with all planned functionality implemented and including user friendly interfaces. It is a rather general purpose application inside of the domain to which it is restricted, and at it's final state it would need some specialization in order to be actually useful. This is so because the requisite analysis process wasn't developed focusing an immediate professional employment of the application, but a replacement for that of the EPFL project which inspired this one. \\
+		The software development part of the project has been able to produce the required Android application, with all planned functionality implemented and including user friendly interfaces. It is a rather general purpose application inside of the domain to which it is restricted, and at it's final state it would need some specialization in order to be actually useful. This is so because the requisite analysis process wasn't developed focusing an immediate professional employment of the application, but a replacement for that of the UCM and EPFL project which inspired this one. \\
 
 		Anyhow, during the architecture design and subsequent implementation phases great emphasis is put for the application to provide the tools to act as a framework over which more specific ECG montoring application development can be realized.\todo{Something from Marian feature list here?} An interesting example of this is that, at the current state, the application implements visualization of data received from an USB device. In this project, the USB device has been the 802.15.4 USB receiver, but any other device capable of encoding the data in the expected way is valid as well.\\
 
