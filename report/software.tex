@@ -17,29 +17,29 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\end{comment}
 
 	% Introduction: app + feedback medical staff (hey, it's an important project!)
-	The development of a software application targeted at Android Operating System for mobile devices is the counter-part to the hardware research part of the project.
-	This application was to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained from actual medical staff [!]Fran and EPFL[!]. The software must provide functionality to visualize ECG data from Bluetooth or 802.15.4 sources (the latter obtained via [!]our receiver node[!]) in realtime, as well as to save that data into file logs for afterwards reading.\\
+	The development of a software ECG display application targeted at Android Operating System for mobile devices is the counter-part to the hardware research part of the project.
+	This application is to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained for that and including extra features which couldn't be implemented in it. The software must provide functionality to visualize ECG data from Bluetooth or 802.15.4 sources (the latter obtained via the 802.15.4 USB receiver developed in the hardware part of this project) in realtime, as well as to save that data into file logs for afterwards reading.\\
 
 	% Android general
 	Android as a development platform provides a wide set of high abstraction level tools to emphasize robust and reusable design for low resource based, quick development cycles. Such benefits require the adequation of the software design and architecture to the constrains imposed by the Android development framework.\\
 
 	% None android formation + android peculiarities
-	Given that none of the project team members had received any instruction on this framework, engaging the development of an Android application implied an important risk. Moreover, after the research and training steps concluded, follow up of that risk was not halted, as the quick, robust software development is only assured when building an standard Android application; dynamic, soft real-time functionality implementation is not discouraged, but also not guaranteed to work.
-	Mobile devices development restrictions and common practices were also unkown to the team.\\
+	Given that none of the project team members had received any instruction on this framework, engaging the development of an Android application implies an important risk. Moreover, after the research and training steps concluded, follow up of such risk can not be halted, as the quick, robust software development is only assured when building an standard Android application; dynamic, soft real-time functionality implementation is not discouraged, but also not guaranteed to work.
+	Mobile devices development restrictions and common practices are also unkown to the team at the beginning of the project.\\
 
 	% Android limitations
 	Even when the aforementioned eased development features are applicable, mobile devices are harsh software environments due to, amongst others, memory and battery constrains, where processes have to handle being suspended by an incoming call or similar external events. This factors are specially critical for an application as the one developed in this project, which needs to continually parse and log data.\\
 
 	% App linked to hw development and a useful tool
-	The application was also intended to act as a quick testing front-end for the prototypes produced by the parallel-conducted hardware research. By providing fully-functional application modules since early stages of development, hardware prototypes could be best-case and worst-case checked by directly connecting them to the Android device for data visualization. Visual verification proved to be a very effective method when working with large quantities of data which were more easily checked against their visual representation than value-by-value reading.\\
+	The application is also intended to act as a quick testing front-end for the prototypes produced by the parallel-conducted hardware research. By providing fully-functional application modules since early stages of development, hardware prototypes could be best-case and worst-case checked by directly connecting them to the Android device for data visualization. Throughout the project process, visual verification has proven to be a very effective method when working with large quantities of data which were more easily checked against their visual representation than value-by-value reading.\\
 
 	% Development process
-	These factors lead to the adoption of an agile software development process focusing on functionality building while prototyping more high risk involving features. To avoid typical drawbacks of such methodologies, great emphasis was put on the application of characteristics found in \textit{Iterative and Incremental processes}, namely, use case driven and risk focused development. That way, project scheduling was done addressing higher risks first while assuring expected functionality to be implemented on time thanks to the use case model.\\
+	These factors lead to the adoption of an agile software development process focusing on functionality building while prototyping more high risk involving features. To avoid typical drawbacks of such methodologies, great emphasis is put on the application of characteristics found in \textit{Iterative and Incremental processes}, namely, use case driven and risk focused development. That way, project scheduling is done addressing higher risks first while assuring expected functionality to be implemented on time thanks to the use case model.\\
 
 	\section{Overview}
 	\label{sec:sw-oview}
 	% Conclusion and chapter presentation
-	In the following sections a complete view of the software development project will be presented, beginning with the requirements captured for the project. The use case scenarios identified from those requisites will be detailed next, followed by an explanation of the system design and architecture. Then implementation details will be exposed and the chapter will finish with a short conclusion.
+	In the following sections a complete view of the software development project is presented, beginning with the requirements captured for the project and a comprehensive description of the risk analysis process. The use case scenarios identified from the requisites will be detailed next, followed by an explanation of the system design and architecture. Then, the development process will be exposed in an exhaustive manner, and the chapter will finish with a review of the software development project.
 
 	\begin{comment}
 	Full implementation, architectural and yadda yadda are presented in Annex X
@@ -48,8 +48,8 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\section{Requirements}
 	\label{sec:sw-reqs}
 		% Requirement capture process explanation (also introduction to this section)
-		The requirement capture process for the project considered three main stake-holders: the project masters (¿Nombres?), the EPFL[*] and the project team members; and was done in two sessions. The first one produced the basic requirement list which described the system and was used to schedule the earlier development iterations. This was so because of the strong time restrictions this software development project had to cope with. 
-		When the critical functionality was achieved and the hardware research was in a suitable state, the second requirements capture session was conducted. By then, the EPFL representative \todo{Leave this? Did we got actual feedback?} had shown the state of the development to the stakeholder party of him, and collected feedback. Thus, the requirements produced by this second session were of a more user-oriented nature.\\
+		The requirement capture process for the project considers three main stake-holders: the project directors, the EPFL and the UCM as the base project developer parties and the project team members; and is done in two sessions. The first one produces the basic requirement list which describes the system and is used to schedule the earlier development iterations. This is so because of the strong time restrictions this software development project had to cope with. 
+		When the critical functionality is achieved and the hardware research reaches a suitable state, the second requirements capture session is conducted. By then, the EPFL and UCM representative had shown the state of the development to the stakeholder party of him, and collected feedback. Thus, the requirements produced by this second session are of a more user-oriented nature.\\
 
 		% ¿Explicar qué intereses tiene cada uno?
 		
@@ -85,7 +85,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\section{Risk Analysis}
 	\label{sec:sw-risks}
 
-		Being the project mainly a hardware research project, and considering the software development part of it useless without successful results on the hardware part, a detailed process of risk analysis was mandatory to be conducted since the earlier stages of planning and development so as to avoid wasting manpower on futile work.\\
+		Being the project mainly a hardware research project, and considering the software development part of it useless without successful results on the hardware part, a detailed process of risk analysis is mandatory to be conducted since the earlier stages of planning and development so as to avoid wasting manpower on futile work.\\
 
 		The risk list at the end of the project is as follows:
 		\begin{itemize}
@@ -102,13 +102,13 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\end{itemize}
 
 		% Risk anaylisis process explanation (decisions, ...)
-		This risk anaylisis focused on two main risk sources: the parallel-conducted hardware research, and Android as a development platform. Project definition and team related risks were also considered.\\
+		This risk anaylisis focuses on two main risk sources: the parallel-conducted hardware research, and Android as a development platform. Project definition and team related risks are also considered.\\
 
-		The hardware research part of the project delivered the highest probability and impact rated risks. It was so because those risks were external to the software development project scope and thus could not be handled by any of the tools provided by any development methodology. At the same time, should such risks come to be, the impact on the software product would be, in most of cases, as cathastrophic as turning the whole development useless thus causing it's cancellation.\\
+		The hardware research part of the project delivers the highest probability and impact rated risks. It is so because those risks are external to the software development project scope and thus can not be handled by any of the tools provided by any development methodology. At the same time, should such risks come to be, the impact on the software product would be, in most of cases, as cathastrophic as turning the whole development useless thus causing it's cancellation.\\
 		
-		Regarding Android development only a subset of the final set of risks was assessed at first. Every risk in this subset dealt with the team lack of knowledge about the Android platform and was scheduled to be addressed foremost. A last risk was added to this group after the first research on mobile devices limitations regarding potential unfitness of such devices for near real-time display and handling of not-so-small data packages, and that risk handling plan proved to be key to the successful outcome of the project as the remaining subset of Android-related risks were linked to Android applications display performance.\\ % Further explanation on this last set?
+		Regarding Android development only a subset of the final set of risks is assessed at first. Every risk in this subset dealt with the team lack of knowledge about the Android platform and was scheduled to be addressed foremost. A last risk is added to this group after the first research on mobile devices limitations regarding potential unfitness of such devices for near real-time display and handling of not-so-small data packages. That risk handling plan proves to be key to the successful outcome of the project as the remaining subset of Android-related risks are linked to Android applications display performance.\\ % Further explanation on this last set?
 
-		The usual project definition and personal risks such as incorrect deadline scheduling or unability to reach critical milestones on time were pondered, increasing their impact rates as the application would be needed by the hardware device to secure a successful outcome for the project.\\
+		The usual project definition and personal risks such as incorrect deadline scheduling or unability to reach critical milestones on time are also pondered, increasing their impact rates as the application would be needed by the hardware device to secure a successful outcome for the project.\\
 		
 		% Risk Table including evolution
 		A detailed view of each assessed risk is provided next, including risk evolution throughout the project lifetime.\\
@@ -119,8 +119,8 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\textbf{Impact:} Very High\\
 		\textbf{Description:} Failure to provide an expanded set of features in the Android application when compared with the iOS application renders the software part of the project invalid on its own. It could, then, only be valid as demo software for USB receiver device showcasing. If the device is nor finished, then the whole software development project will have been futile.
 		The key marker for this risk is unability to generate valid software modules throughout the development that provide required functionality. Failure to reach milestones and use case realizations on time is other important marker.
-		Preventive measures were taken to avoid the occurence of this risk since the beginning of the development by a functionality building focused project scheduling for the first development phases.\\
-		\textbf{This risk was marked as surpassed at the reviewing metting of Iteration 2 as all key functionality had been implemented, as planned.}
+		Preventive measures are taken to avoid the occurence of this risk since the beginning of the development by a functionality building focused project scheduling for the first development phases.\\
+		\textbf{This risk is marked as surpassed at the reviewing metting of Iteration 2 as all key functionality has been implemented, as planned.}
 
 		% HR1
 		\paragraph{HR1.}802.15.4 receiver device delayed\\
@@ -130,7 +130,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		To prevent the rising of further problems derived from those potential delays, the software development process must always work with non-solid, ready-to-change deadlines and milestones. Application functionality is to be ranked in order of importance of implementation to be prepared, in case of an unexpectedly big delay, to leave less important functionality out of the scope of the project.
 		Markers to be followed up are: unsuccessful output from hardware research (a new branch of the potential technologies tree has to be explored), failure to reach hardware development or research milestones and delays in the acquisition of tools or devices needed for the hardware project.
 		Preventive measures considered are: detailed follow up of the hardware research development, reducing the software development team if manpower is needed in the hardware area, and planning asuming delays on component acquisition.\\
-		\textbf{HR1 was monitored throughout the whole software development project, and marked as surpassed at the reviewing meeting of Iteration 5.}
+		\textbf{HR1 is monitored throughout the whole software development project, and marked as surpassed at the reviewing meeting of Iteration 5.}
 
 		% HR2
 		\paragraph{HR2.}802.15.4 receiver device unfeasibe\\
@@ -138,7 +138,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\textbf{Impact:} Critical\\
 		\textbf{Description:} Until hardware research results are successfully delivered there is no guarantee of the viability of the 802.15.4 receiver device. This software development project loses most of its value if such device is not developed, as the iOS application already exists. Developing an Android application with an equal feature set is also a valid objective, so this risk does not render the development invalid: the full team will then work on software development, and requirements will be restated to include more final-user oriented functionality and/or features from the \emph{future} set.
 		This risk can be monitored with the following markers: unsuccessful output from hardware research and failure to reach hardware development or research milestones. Being both external to this software project, no preventive measures can be applied apart from scheduling allowing smaller team sizes for the software area.\\
-		\textbf{The probability of the risk was reduced to low after the reviewing meeting for Iteration 3, when the critical hardware research had concluded with positive results. HR2 was marked as surpassed when the production of a device prototype was finished and tested [?TIME?].}
+		\textbf{The probability of the risk is reduced to low after the reviewing meeting for Iteration 3, when the critical hardware research has concluded with positive results. HR2 is marked as surpassed when the production of a device prototype is finished and tested.}
 
 		% MR1
 		\paragraph{MR1.}Mobile device unsuitable for target functionality\\
@@ -146,7 +146,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\textbf{Impact:} Critical\\
 		\textbf{Description:}Even when mobile devices technical specifications have increased significantly in the previous years, specially regarding CPU power and rendering capabilities, the soft-realtime requirements of the project in terms of data manipulation and visual representation involve a low probability risk of the application being unsuitable for such devices. The risk probability is decreased by the fact that similar featured applications exist both for iOS and Android powered devices. Even so, the 802.15.4 receiver device USB interface doesn't allow for this risk not to be reckoned.
 		Preventive measures considered: quick prototyping of critical functionality to discard  unfeasibility, conduction of performance tests, both rendering and data handling related, in the target device and testing of USB-Android communication as soon as possible in the project schedule.\\
-		\textbf{As performance tests were conducted on early builds of the application, the need of further research on this risk arised as the data handling performance in the target device was low, but not as low as the rendering performance. Thus, this risk was unfolded into risks AR2 and AR3, both related to Android performance when handling the aforementioned tasks. This risk follow up was then halted, as it was no longer needed.}
+		\textbf{As performance tests are conducted on early builds of the application, the need of further research on this risk arises as the data handling performance in the target device is low, but not as low as the rendering performance. Thus, this risk is unfolded into risks AR2 and AR3, both related to Android performance when handling the aforementioned tasks. This risk follow up is then halted, as it is no longer needed.}
 
 		% AR1
 		\paragraph{AR1.}Lack of instruction on Android development delays workflow\\
@@ -155,7 +155,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\textbf{Description:} None of the team members has received any instruction on Android development and throughout research is not viable because of time restrictions. It is reasonable to foresee potential delays in the development because of the parallel instruction-development flow, as well as the need to rewrite parts of the system rendered obsolete when further knowledge is acquired.
 		Application malfunctioning, unexpected behaviours and low performance are markers to be tracked.
 		As a preventive measure a short instruction time will be scheduled at the beginning of the project, but every team member is responsible to continue his instruction throughout the whole project. Application builds are to be checked for big differences against canon Android applications behaviour.\\
-		\textbf{The risk was marked as surpassed after Iteration 3, as critical functionality had already been implemented and tested, though Android instruction was not halted.}
+		\textbf{The risk is marked as surpassed after Iteration 3, as critical functionality has already been implemented and tested, though Android instruction is not halted.}
 
 		% AR2
 		\paragraph{AR2.}Android providing subpar performance when handling required data\\
@@ -164,20 +164,20 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\textbf{Description:} The benefits of the high-level, single application model provided by Android are such in behalf of the sacrifice of performance. In this project soft-realtime requirements are present, and the system needs to process around 250 ECG wave samples [quotation needed] (among other data) per second. Android code reutilization and class based programming suggested practices, the absence of an explicit memory management API and the employment of the Garbage Collector only complicate the achievement of such requirements.  
 		Special care will need to be put on the development and performance checks are to be conducted regularly on generated builds to ensure the avoidance of this risk.
 		If evidence is found of Android inability to provide the required perfomance (and there is no way of attributting the failure to the team's lack of ability), low-level Android development will be considered. As the probability of this last scenario to occur is quite low, no research will be conducted in low-level Android development until mandatory.\\
-		\textbf{The risk was verified to be occuring during Iteration 2 testing phase. Lack of care on memory management was found to be the problem, and was solved in Iteration 3. The risk was marked as surpassed after the review meeting for Iteration 4.}
+		\textbf{The risk is verified to be occuring during Iteration 2 testing phase. Lack of care on memory management is found to be the problem, and is solved in Iteration 3. The risk is marked as surpassed after the review meeting for Iteration 4.}
 
 		% AR3
 		\paragraph{AR3.}Android rendering capabilities unable to handle required data\\
 		\textbf{Probability:} Low\\
 		\textbf{Impact:} High\\
-		\textbf{Description:} The Android Operating System runs on quite a wide range of devices, each with its own technical specifications. Providing the single application development model that Android features requires many software layers, many of them of high abstaction level. The risk exists, thus, that the rendering required by the project couldn't be achieved within the involved time restrictions. The target device for the project is fixed (see Non-functional Requirements Subsection [link!]) as a Motorola Xoom. This device employs a dedicated Tegra2 GPU [quotation needed] which should suffice, so risk probability is chosen as \emph{low}. Performance tests in the display module are to be conducted, though, so as to make sure that a correct usage of the available resources is being done. 
+		\textbf{Description:} The Android Operating System runs on quite a wide range of devices, each with its own technical specifications. Providing the single application development model that Android features requires many software layers, many of them of high abstaction level. The risk exists, thus, that the rendering required by the project couldn't be achieved within the involved time restrictions. The target device for the project is fixed (see \autoref{sec:sw-recs} Non-functional Requirements Subsection) as a Motorola Xoom. This device employs a dedicated Tegra2 GPU \todo{[quotation needed]} which should suffice, so risk probability is chosen as \emph{low}. Performance tests in the display module are to be conducted, though, so as to make sure that a correct usage of the available resources is being done. 
 		If low rendering performance is detected, Android native level rendering API, Renderscript, is to be looked into as a remedy, once the code is assured to be optimized.
 		\\
-		\textbf{Risk probability was increased to \emph{Moderate} during Iteration 3 as low performance was detected but was considered not critical enough to apply the Renderscript solution. The risk was marked as surpassed in the reviewing meeting of Iteration 4.}\\
+		\textbf{Risk probability is increased to \emph{Moderate} during Iteration 3 as low performance is detected but is considered not critical enough to apply the Renderscript solution. The risk is marked as surpassed in the reviewing meeting of Iteration 4.}\\
 
 		% Conclusion
-		Thanks to this risk analysis the project schedule was developed in such a manner that it prioritized risk suppressing and the decision was taken to plan only the first two of the five intended development iterations, leaving the other three as drafts to allow them to evolve at par with the uncancelled risks.
-		Use case realization order was also selected based on this risk analyisis, ensuring that higher risk involving features were developed (or at least prototyped) as early as possible.\\
+		Thanks to this risk analysis the project schedule is developed in such a manner that it prioritizes risk suppressing and the decision is made to plan only the first two of the five intended development iterations, leaving the other three as drafts to allow them to evolve at par with the uncancelled risks.
+		Use case realization order is also selected based on this risk analysis, ensuring that higher risk involving features are developed (or at least prototyped) as early as possible.\\
 		
 		Use cases for the project are presented next, followed by the system architecture description, to allow a finer understanding of the software development project schedule and related decisions, which will be detailed in the next section.
 	
@@ -324,7 +324,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		% The model needs to be realized for it to work, the Activity is just an engine running an instance of the model.
 		% "It follows a factory pattern, but the factory is the Activity."
 
-		These managers are part of the so-called, in the project terminology, a model; and the activity can be portrayed as the model manager. Conceptually a model is a set of software entities which live in the application and handle the data flow from a given data source towards a data holder, including or not, the visualization of such data. A model contains a Manager which is the entity responsible of the handling of the rest of the model entities. Please note that this model scheme is  specific to the domain of the project and is not a general one\todo{Remove this note? Leave this note?}.
+		These managers are part of the so-called, in the project terminology, a model; and the activity can be portrayed as the model manager. Conceptually a model is a set of software entities which live in the application and handle the data flow from a given data source towards a data holder, including or not, the visualization of such data. A model contains a Manager which is the entity responsible of the handling of the rest of the model entities. Please note that this model scheme is  specific to the domain of the project and is not a general one.
 
 		\begin{figure}[h]
 		\includegraphics[scale=0.75]{mlts-arch-model}
@@ -333,7 +333,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\label{fig:arch-model}
 		\end{figure}
 
-		This conceptual model \todo{Rename model to FlowModel?} scheme is provided by a subset of the classes and interfaces shown in \autoref{fig:arch-global}. For actual functionality building a realization of the model is to be developed, giving actual meaning to the scheme. In the scope of the project four model realizations have been implemented and will be detailed later.\\
+		This conceptual model scheme is provided by a subset of the classes and interfaces shown in \autoref{fig:arch-global}. For actual functionality building a realization of the model is to be developed, giving actual meaning to the scheme. In the scope of the project four model realizations have been implemented and will be detailed later.\\
 
 		A model realization is composed of implementations of the following elements from the core level exposed before: 1) a Manager, which handles user interaction and required preparations; 2) a DataSource that manages raw data obtention from the actual source, and processing and sending of such data to a 3) DataHolder, which stores and handles the data in any required way and, if data visualization is required 4) an implementation of a view thread.\\
 
@@ -392,7 +392,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\end{figure}
 		%\end{wrapfigure}
 
-		The processing of raw data sent by the data providers to the DataSourceThreads is expected to be done in the latter, so the data transfered throughout the application is of a processed nature. To this end the DataParser entity is available\todo{Reference DataParser}.\\
+		The processing of raw data sent by the data providers to the DataSourceThreads is expected to be done in the latter, so the data transfered throughout the application is of a processed nature. To this end the DataParser entity is available from the Utilities package is available.\\
 
 		The expected receiver of the data sent by a DataSourceThread is a DataHolder. This interface provides domain-specific data handling abstract methods and definitions. An implementation of a DataHolder must handle the reception of ECG wave samples, delineation points, synchronization points and heart-beat-rate values.\\
 
@@ -410,7 +410,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		%Dynamic: manages its own data and implements replacemente and discard politics, data is provided by single units. This is so because of the way the data is received and then parsed in real-time.
 		%Static: obtains a reference to the data location, which is where the actual data manipulation is done. This way huge ammounts of data transfering is avoided (read file can contain lots of megabytes of data which can't be passed at once to the holder). First try was passing the whole array of samples but that was unassumable in real-time.
 
-		There are two different specifications for the data holders: DataHolder and StaticDataHolder. This is so because of the two modes of operation\todo{Is it clear that there are two modes of operation?} of the application. One is real-time data visualization and the other is log file visualization. The former is called dynamic visualization and the latter static visualization, and the behaviour of their DataHolders is not the same.\\
+		There are two different specifications for the data holders: DataHolder and StaticDataHolder. This is so because of the two modes of operation of the application. One is real-time data visualization and the other is log file visualization. The former is called dynamic visualization and the latter static visualization, and the behaviour of their DataHolders is not the same.\\
 
 		Dynamic visualization represents data received in realtime by the DataSourceThread. The DataSourceThread obtains the data from an external entity, processes it and sends it to the DataHolder. This data usually arrives in groups of variable size, and is provided to the DataHolder in single units once processed. In this scenario the DataHolder is the view thread, and handles data however considers optimal. In the implementations developed in this project a fixed amount of data is held and older information is replaced by the new one as it arrives.\\
 
@@ -435,7 +435,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		Having explained the data flow model scheme and the core level architectural elements employed in its construction, model realizations implemented are detailed next. For each realization, the concretion of each model element will be exposed including particular details of such implementation.
 
 		\subsubsection{Bluetooth Model}
-			The Bluetooth \todo{Bluetooth (TM)?} model is a real-time visualization targeted data flow where the actual data provider is a Bluetooth node. As visualization is an objective, this model realization employs a DataManager, a DataSource, a DataHolder and a DynamicViewThread; the latter two being implemented in the same entity. An overview of the realization is shown in \autoref{fig:arch-bt}.\\
+			The Bluetooth model is a real-time visualization targeted data flow where the actual data provider is a Bluetooth node. As visualization is an objective, this model realization employs a DataManager, a DataSource, a DataHolder and a DynamicViewThread; the latter two being implemented in the same entity. An overview of the realization is shown in \autoref{fig:arch-bt}.\\
 
 			\begin{figure}[h]
 			\centering
@@ -533,17 +533,17 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	
 			Software development project being dependant on parallel-conducted hardware research, project assets, both personal and development resources, being shared with the hardware research having the former higher priority, and team's lack of formation regarding Android development are some of the factors which lead to the adoption of such a mixed methodology. As they have been already exposed in previous sections, they won't be detailed here.\\ %Consult [X][Y][Z]... for details
 
-			In such an scenario, a fully developed, eight month covering schedule was unfeasible, at least with the imposed time restrictions which didn't allow much time to be spent on planning. The decision was then made to plan only the earlier project iterations, assuring critical functionality identified from use case development to be implemented as soon as possible as well as higher threat involving risk suppression to be realized.\\
+			In such an scenario, a fully developed, eight month covering schedule is unfeasible, at least with the imposed time restrictions which does npot allow much time to be spent on planning. The decision is then made to plan only the earlier project iterations, assuring critical functionality identified from use case development to be implemented as soon as possible as well as higher threat involving risk suppression to be realized.\\
 
-			Actual software project development begun October 15, 2011, being the final deadline set on June 15, 2012. That deadline could not be pushed any further, so an estimated deadline was set on May 31, 2012, leaving half a month for further work or recovering from delays, and seven and a half months of development time.\\
+			Actual software project development begins October 15, 2011, being the final deadline set on June 15, 2012. That deadline can not be pushed any further, so an estimated deadline is set on May 31, 2012, leaving half a month for further work or recovering from delays, and seven and a half months of development time.\\
 		
-			Time was needed for the hardware research to start providing results, and no work could be done in the meantime on related application parts. Considering also that even in the most optimistic scenarios no actual work with the 802.15.4 USB receiver couldn't be done until mid February [link to hw planning or something], the schedule had to assume that the first four months of software development would need to cover the implementation of most of the features, leaving the rest of the development time for implementing hardware-related requirements, which couldn't actually be scheduled until hardware research was evaluated.\\
+			Time is needed for the hardware research to start providing results, and no work can be done in the meantime on related application parts. Considering also that even in the most optimistic scenarios no actual work with the 802.15.4 USB receiver couldn't be done until mid February, the schedule has to assume that the first four months of software development will need to cover the implementation of most of the features, leaving the rest of the development time for implementing hardware-related requirements, which couldn't actually be scheduled until hardware research was evaluated.\\
 
-			The adopted schedule dealt with the aforementioned facts by proposing five iterations, from October 15 to May 30, complying with the fifteen days reserved for contingencies. The first three iterations had a duration of two months, the third one a single month, and the remaining one was fifteen days long.\\
+			The adopted schedule deals with the aforementioned facts by proposing five iterations, from October 15 to May 30, complying with the fifteen days reserved for contingencies. The first three iterations have a duration of two months, the third one, of a single month, and the remaining one is fifteen days long.\\
 
-			Having the previously developed iOS application as starting point, and being achieving at least the same feature list of that a critical target of the project, the first two iterations were planned so as to realize \textbf{UC1} and \textbf{UC3} which captured requisites expressing such feature list.\\
+			Having the previously developed iOS application as starting point, and being achieving at least the same feature list of that a critical target of the project, the first two iterations are planned so as to realize \textbf{UC1} and \textbf{UC3} which capture requisites expressing such feature list.\\
 
-			The next iterations were just scrapped as no accurate estimation could be done on the state of the project by those dates. Thus, the third iteration was planned to cover the implementation of the remaining features, namely, communication with the 802.15.4 receiver device, the fourth one reserved for polishing the application and the fifth one left for testing and validation. The fourth iteration was to shrink if objectives were achieved quickly to leave more time for validation.\\
+			The next iterations are just scrapped as no accurate estimation can be done on the state of the project by those dates. Thus, the third iteration is planned to cover the implementation of the remaining features, namely, communication with the 802.15.4 receiver device, the fourth one reserved for polishing the application and the fifth one left for testing and validation. The fourth iteration is to shrink if objectives are achieved quickly to leave more time for validation.\\
 
 			The scheduled distribution of work for each iteration is as follows:\\
 
@@ -573,20 +573,20 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\hline
 			\end{tabular}\\\\
 
-			Throughout the development, as expected, this schedule had to be adapted as the hardware research advanced to assess the arise of difficulties and subsequent changes to its planning. Instead of providing a fixed snapshot of the altered schedule at the end of the project, a detailed description of each iteration is presented next, including modifications to the planning and the motivation for making them.
+			Throughout the development, as expected, this schedule has to be adapted as the hardware research advances to assess the arise of difficulties and subsequent changes to its planning. Instead of providing a fixed snapshot of the altered schedule at the end of the project, a detailed description of each iteration is presented next, including modifications to the planning and the motivation for making them.
 
 		\subsection{Iteration 1}
 
-			The main objectives for this first iteration were
+			The main objectives for this first iteration are
 			\begin{itemize} 
 				\item the instruction of the team on Android development, 
 				\item the lay out of an initial version of the application architecture and
 				\item the implementation of the Bluetooth receiver module.
 			\end{itemize}
 
-			The alloted time for the iteration was of two monts, from October 15 to December 15. During this period the hardware research didn't require much resources [link to hw], so in practical terms the full team was employed in the software project.\\
+			The alloted time for the iteration is of two monts, from October 15 to December 15. During this period the hardware research does not require much resources, so in practical terms the full team is employed in the software project.\\
 
-			In order to minimize risk AR1[quote?link?], the instruction of the team on Android development becomes the key objective for the iteration. Development starts with the implementation of the designed base architecture for the application, so it serves as a powerful learning resource. The notion of that implementation as disposable is not abandoned throughout iteration time and it is always considered as a prototype to evolve or be substituted by a more refined version once team's knowledge of Android increases.\\
+			In order to minimize risk AR1, the instruction of the team on Android development becomes the key objective for the iteration. Development starts with the implementation of the designed base architecture for the application, so it serves as a powerful learning resource. The notion of that implementation as disposable is not abandoned throughout iteration time and it is always considered as a prototype to evolve or be substituted by a more refined version once team's knowledge of Android increases.\\
 
 			Having the basic architectural framework developed, implementation of the Bluetooth receiver module begins. Special care is put both on design and implementation, as this functionality has to be ready as soon as posible, and little time will be available for reimplementation further in the development.\\
 
@@ -616,7 +616,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\end{itemize}
 
 			The hardware reserarch having provided successful results regarding the initial prototypes of the USB accessory, the scheduled USB module implementation for this iteration is mantained, but delayed until further testing can be done in the hardware area.
-			In that scenario this iteration begins by the addressing of the implementation of the log visualization module. \todo{This sentence sounds odd, to be fair/kind.}\\
+			In that scenario this iteration begins with the implementation of the log visualization module.\\
 
 			Module design and implementation are to change little in following iterations to allow the scheduled architecture rewriting to be realized and trying to minimize the possibility of risk PR1. This situation and the fact that a lot of resources are required in the hardware area makes the consecution of this objective fill most part of the iteration time.\\
 
@@ -653,11 +653,10 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			This is the first just-drafted iteration. Starting from the fully functional prototype, architectural and performance fixes were mandatory. Also, given the positive state of the hw research scheduling was done for the rest of the iterations.
 
 			The main objectives for this third iteration are
-			\begin{itemize} 
-				\todo{Remove leading ``the's'' to improve readability?}
+			\begin{itemize}
 				\item the redesign of the application architecture, 
-				\item the achievement of required performance in data management and
-				\item the scheduling of the rest of the project time.
+				\item achievement of required performance in data management and
+				\item scheduling of the rest of the project time.
 			\end{itemize}
 
 			~(Scheduling seems strange as an objective)~
@@ -681,7 +680,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			This design is done targeting easy inclusion of new data flow modules allowing them to employ their own user interfaces, while providing core level software entities for building those modules. This process produces the architecture as exposed in \autoref{sec:sw-arch}.\\
 
-			A detailed analysis is conducted on the data management related operations in the application, identifying the ubiquitous application of the object oriented model proposed by Java added to the subpar efficiency of the Garbage Collector \todo{Reference something? Could be added a screenshot from that Eclipse performance analysis tool?} as the main cause of performance loss. The alteration of the programming paradigm and the employment of as basic software entities as possible, substituting classes\todo{Perhaps ``avoiding continuous object instantiation'' better?} used to, e.g. contain the four parameters of a wave delineation point, by more basic structures, like the same four numbers stored independently, proved to be the most effective methods of avoiding low performance.\\
+			A detailed analysis is conducted on the data management related operations in the application, identifying the ubiquitous application of the object oriented model proposed by Java added to the subpar efficiency of the Garbage Collector \todo{Reference something? Could be added a screenshot from that Eclipse performance analysis tool?} as the main cause of performance loss. The alteration of the programming paradigm and the employment of as basic software entities as possible, avoiding continuous object instantiation, e.g. substitute an object containing the four parameters of a wave delineation point, by a more basic structure, like the same four numbers stored independently, prove to be the most effective methods of avoiding low performance.\\
 
 			Following such lines of operation, performance regarding data management is utterly improved on spite of a less developer-friendly programming environment. During this process the data flow modules (Bluetooth, USB and Log Viewer) are also tweaked.\\
 
@@ -740,7 +739,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\end{itemize}
 
 		\subsection{Final Validation}
-			The final effort in this software project extends over the allotted time for both the fifth iteration and the reserved final period. It is fully devoted to testing and validation of both the application and the receiver device. Even if the initial schedule assigned only the fifth iteration to this process, delays on the hardware project \todo{reference hw chapter} force the elongation of the testing phase.
+			The final effort in this software project extends over the allotted time for both the fifth iteration and the reserved final period. It is fully devoted to testing and validation of both the application and the receiver device. Even if the initial schedule assigned only the fifth iteration to this process, delays on the hardware project force the elongation of the testing phase.
 
 			The objectives for this period are:
 			\begin{itemize}
@@ -751,7 +750,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			Software related testing is conducted throughout all this final step causing minor fixes to be done to the application. No relevant software related issues arise during the testing or the validation phases.\\
 
-			Risk HR1-\emph{802.15.4 receiver device delayed} occurrence is the cause of the elongation of the validation iteration, but has no actual effect on the software project. Even when the receiver is completed \todo{Maybe in a prototype stage, still unknown at Jun, 8} the risk tracking is continued until validation concludes, were hardware complications to arise during the process.\\
+			Risk HR1-\emph{802.15.4 receiver device delayed} occurrence is the cause of the elongation of the validation iteration, but has no actual effect on the software project. Even when the receiver is completed the risk tracking is continued until validation concludes, were hardware complications to arise during the process.\\
 
 			The final, review meeting conclusions are as follow:
 			\begin{itemize}
