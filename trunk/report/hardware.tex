@@ -764,40 +764,33 @@
 	
 		%Esteeee si, mencinamos que esta milestone existía porque había que hacer las pruebas pertinentes ahora que todo estaba completo y comentamos lo que sea que vaya a pasar cuando esté todo.
 
-		\section{Final Product}
+		\section{Closure}
 		\label{sec:hw-final}
 		%Descripción de que es lo que hemos conseguido(es posible que con la evolución alguien que se lea las iteraciones no consiga una clara visión de cual es el estado final del dispositivo, por lo que esta parte me parece muy importante)
 
 		\todo{Hardware section Final Product}
 
-		Primer parrafo, finalmente, despues de toda esta investigación podemos afirmar que es lo que tenemos, un dispositivo totalmente diseñado por nosotros, de un tamaño reducido y comodo de usar, y que es capaz de comunicarse tanto con un android(a partir de la 3.1)(moviles y tablets) como con widows y es capaz de recibir paquetes por la radio siguiendo el estandar 802.15.4. 
+		% Primer parrafo, finalmente, despues de toda esta investigación podemos afirmar que es lo que tenemos, un dispositivo totalmente diseñado por nosotros, de un tamaño reducido y comodo de usar, y que es capaz de comunicarse tanto con un android(a partir de la 3.1)(moviles y tablets) como con widows y es capaz de recibir paquetes por la radio siguiendo el estandar 802.15.4. 
+		The hardware part of the project has successfuly achieved the objective of the production of an 802.15.4 USB receiver. This device provides all expected functionality, specifically the transfering of data received from the 802.15.4 radio module via USB acting as the slave device in the USB connection drawing it's power from the master device. This master device can be any system with an implementation of the HID protocol, and has been tested as an 802.15.4 receiver both for an Android device and a Windows based computer. Moreover, taking an evaluation board as the starting point, the device has been custom designed and produced, and miniaturization has been conducted so as to be built into a printed circuit board, even if actual production of such PCB has not been conducted\todo{Change this if PCB is done}.\\
 
-		De hecho el hardware que lleva lo hace potencialmente usable para cualquiera que requiera un modulo USB que reciba señales de radio por 802.15.4 y las mande por USB por lo que su potencial es mucho mayor que el que se le da en el ambito concreto del proyecto y podría tener muchos más usos que el dado.
+		% De hecho el hardware que lleva lo hace potencialmente usable para cualquiera que requiera un modulo USB que reciba señales de radio por 802.15.4 y las mande por USB por lo que su potencial es mucho mayor que el que se le da en el ambito concreto del proyecto y podría tener muchos más usos que el dado.
+		The fact that the 802.15.4 USB receiver is independant to the domain of the project, i.e. it only assumes the task of sending through an USB connection the data received through the radio, it does not analyize or processes the data, makes it a fully functional general purpose 802.15.4 receiver. \todo{Extra, unrequired, but interesting info}Functionality for data sending through 802.15.4 is present in the device, both in the software and hardware layers, but it lacks the code to send data received from USB to the radio. Nevertheless, this functionality can be implemented with ease, thus turning the device in a full fledged 802.15.4 USB emmiter/receiver.\\
 
-		En el ambito concreto del proyecto, el producto nos sirve como medio para que el android pueda recibir la onda ECG capturada y enviada por el shimmer, es interesante por tanto que el tamaño del dispositivo diseñado es realmente pequeño por lo que será comodo para llevar para las personas que por tener un problema necesiten monitorizarse, además gracias a su bajo consumo la vida util de nuestro dispositivo android no se verá muy reducida con su uso, y más importante aún  gracias a esto el shimmer no necesita el bluetooth y puede enviar las señales por radio de manera que consume mucho menos y ve alargado su tiempo entre recargas de 5 o 6 horas a 5 o 6 dias. Especialmente interesante de este dato es el hecho de que con la radio el shimmer supera el umbral del día de funcionamiento por lo que cargando el dispositivo por la noche(sin necesidad de desconectarlo de los sensores, para no interrumpir la monitorización) el paciente podría estar monitorizado indefinidamente, en nuestro caso nuestro paciente podría incluso irse de fin de semana sin preocuparse de llevar el cargador de la batería.
+		% En el ambito concreto del proyecto, el producto nos sirve como medio para que el android pueda recibir la onda ECG capturada y enviada por el shimmer, es interesante por tanto que el tamaño del dispositivo diseñado es realmente pequeño por lo que será comodo para llevar para las personas que por tener un problema necesiten monitorizarse, además gracias a su bajo consumo la vida util de nuestro dispositivo android no se verá muy reducida con su uso, y más importante aún  gracias a esto el shimmer no necesita el bluetooth y puede enviar las señales por radio de manera que consume mucho menos y ve alargado su tiempo entre recargas de 5 o 6 horas a 5 o 6 dias. Especialmente interesante de este dato es el hecho de que con la radio el shimmer supera el umbral del día de funcionamiento por lo que cargando el dispositivo por la noche(sin necesidad de desconectarlo de los sensores, para no interrumpir la monitorización) el paciente podría estar monitorizado indefinidamente, en nuestro caso nuestro paciente podría incluso irse de fin de semana sin preocuparse de llevar el cargador de la batería.
+		In the specific scope of the project, the application of the device for the receiving of the ECG wave data, due to it's small size and low battery requirements, lead to a more comfortable employment of the monitoring system. Even if the necessity to employ an Android accessory decreases the portability of the system when compared to the utilization of the Bluetooth module, which is embedded in the Android device, the order of magnitude lower battery requirements compensate throughoutly, as the lifetime of the battery of the ECG delineator node when using 802.15.4 is increased from hours to days.\\
 
-		Fuera del ambito del proycto, este dispositivo podría convertirse en un estandar ya que permite recibir cualquier onda 802.15.4 y pasarsela tanto a android como a windows, además con unas sencillisimas modificaciones en el código el dispositivo puede asumir el rol de ser él el que manda los datos que recibe por USB por lo que disponiendo de dos de ellos, podríamos comunicar dos aparatos cualquiera(android o windows) por 802.15.4, como por ejemplo hacer unos walkies de bajo consumo para android o..(aqui más chorradas)
+		% R: los siguientes párrafos son poco relevantes en una breve conclusión HW. irían mejor al final.
 
-		Finalizar con las conclusiones sobre el desarrollo:
+		% Fuera del ambito del proycto, este dispositivo podría convertirse en un estandar ya que permite recibir cualquier onda 802.15.4 y pasarsela tanto a android como a windows, además con unas sencillisimas modificaciones en el código el dispositivo puede asumir el rol de ser él el que manda los datos que recibe por USB por lo que disponiendo de dos de ellos, podríamos comunicar dos aparatos cualquiera(android o windows) por 802.15.4, como por ejemplo hacer unos walkies de bajo consumo para android o..(aqui más chorradas)
 
-		La investigacion es muchas veces imprevisible y lo que llevas semanas sin conseguir progresos queda resuelto en un buen día, por lo que los desarrollos en este campo no tienen sentido sin planificaciones flexibles como la que planteamos. 
+		% Finalizar con las conclusiones sobre el desarrollo:
 
-		Trabajo futuro en esto, sería como mucho hacer el código que he comentado antes que haga el paso inverso y reciba por USB y mande por radio pero si de verdad interesa se puede hacer antes de la presentación, pero poco más
+		% La investigacion es muchas veces imprevisible y lo que llevas semanas sin conseguir progresos queda resuelto en un buen día, por lo que los desarrollos en este campo no tienen sentido sin planificaciones flexibles como la que planteamos. 
 
-		Como dificultades cabría mencionar que la documentación de TI no es todo lo clara que merece su tamaño, por lo que a veces resultaba complicado, o inlcuso podemos decir que una dificultad era soldar piezas diminutas a la hora de hacer el prototipo pero que eso se resolvió gracias a que lo hizo carlos.
+		% Trabajo futuro en esto, sería como mucho hacer el código que he comentado antes que haga el paso inverso y reciba por USB y mande por radio pero si de verdad interesa se puede hacer antes de la presentación, pero poco más
 
+		% Como dificultades cabría mencionar que la documentación de TI no es todo lo clara que merece su tamaño, por lo que a veces resultaba complicado, o inlcuso podemos decir que una dificultad era soldar piezas diminutas a la hora de hacer el prototipo pero que eso se resolvió gracias a que lo hizo carlos.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		In conclusion, all the objectives of the hardware research and production has been achieved in the deadlines set for the project, even when coping with the uncertainty inherent to any research and sharing resources with the parallel-conducted software development. Moreover, additional objectives has been pursued and also realized, like the development and miniaturization of the custom board, making this hardware project a success\todo{¿Queda mal lo de success?}.
+		
+		
