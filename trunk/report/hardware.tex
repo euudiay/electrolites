@@ -174,7 +174,7 @@
 			\begin{itemize}
 				\item 868-868.6MHz in Europe.
 				\item 902-928MHz in North America.
-				\item 2400-2483.5MHz can be emplyed worldwide.
+				\item 2400-2483.5MHz can be employed worldwide.
 			\end{itemize}
 
 			Two kind of devices are considered within the standard: full-function (FFD) and reduced-function
@@ -203,15 +203,15 @@
 			\end{figure}
 
 			Further information and thorough details about the MAC layer and its frames and superframes
-			possibilities can be found at \cite[p. 67]{802.15.4}.\\
+			possibilities and formats can be found at \cite[p. 67]{802.15.4}.\\
 
 			Depending on the direction of the data flow and the usage of beacons or their absence, there
-			are four modes of data transferring, with additional variants according to the possible requirement
-			of transfer	acknowledgement. In the case of this project, whenever a emitter device has data to
-			transfer, it listens the network waiting for a beacon and, once found, it synchronizes with the
-			superframe, sending its information in its corresponding GTS. This process is illustrated in
-			\autoref{fig:trans-process} (notice that, in this particular case, acknowledgment is not required).
-			\todo{Check this.}
+			are three modes of data transferring \cite[p. 18]{802.15.4}, with additional variants according to
+			the possible requirement of transfer acknowledgement. In the case of this project, whenever a emitter
+			device has data to transfer, it listens the network waiting for a beacon and, once found, it
+			synchronizes with the superframe, sending its information in its corresponding GTS. This process is
+			illustrated in \autoref{fig:trans-process} (notice that, in this particular case, acknowledgment is
+			not required). \todo{Check this.}
 
 			\begin{figure}[h]
 				\includegraphics[scale=.4]{trans-process}
@@ -220,7 +220,54 @@
 				\label{fig:trans-process}
 			\end{figure}
 
-			% Thorough details about its physical and MAC layers can be found at \cite[p. 27]{802.15.4} (PHY) and .\\ \todo{Anything else relevant about this?}
+			Due to the possibility of *[shutting down/entering low-power mode] this standard provides during the
+			lapse of CAP, it allows significant power saving. In \autoref{fig:bcn-recp} and 
+			\autoref{fig:bcn-gts-recp} it can be seen that the Shimmer's power consumption significantly drops
+			after the reception of the beacon. Two and three clearly different phases, respectively, can be
+			observed in both figures:
+
+			\todo{Argue this.}
+			\begin{enumerate}
+				\item \textbf{Beacon Reception:} first part, which lasts 1.39ms and averages 72.39mW, corresponds
+					to the radio entering reception mode when the beacon is expected. Second part consists of
+					the beacon reception itself, and it lasts 0.97ms and averages 82.59mW.
+				\item \textbf{Low-power mode:} the radio keeps its power consumption to a minimum until its GTS,
+					if any packet is to be sent, or till the following beacon.
+				\item \textbf{Packet transmission:} (only in \autoref{fig:bcn-gts-recp}) first part is due to the
+					sending of the package from the microcontroller to the radio chip, which is still idle 
+					(16.8mW, 2.85ms). Second part corresponds to the actual transmission of the packet, which
+					averages 51.92mW for 4.51ms.
+			\end{enumerate}
+
+			These results were obtained by measuring the voltage at a resistor which was specifically placed
+			in the emitter node's power path, as it is detailed in \cite{ecg.del.paper}.
+
+			%(from 0 to 5ms), almost reaching zero mW as base value (peaks are
+			%due to ...\todo{Informarse de esto}); keeps at its lowest value till its GTS activates (from 16 to
+			%24ms), when it raises again to \todo{Add specific values} during the transmission.
+
+			\begin{figure}[h]
+				\includegraphics[scale=.4]{bcn-recp}
+				\centering
+				\caption{Shimmer power consumption analysis, beacon reception}
+				\label{fig:bcn-recp}
+			\end{figure}
+
+			\begin{figure}[h]
+				\includegraphics[scale=.4]{bcn-gts-recp}
+				\centering
+				\caption{Shimmer power consumption analysis, beacon reception and data transmission}
+				\label{fig:bcn-gts-recp}
+			\end{figure}
+
+			\todo{Compare with Bluetooth power values?}
+			These low-power periods grant a much better battery life when compared to the one Bluetooh, as the
+			wireless alternative Shimmer provides, allows because of the constant user and protocol data flow
+			that it causes, fact that is aggravated by its much broader bandwitdth. Thus, it provokes that the
+			average Shimmer battery life employing 802.15.4 is up to two orders of magnitude higher than employing
+			Bluetooth. \todo{Assure this.} For instance, a fully loaded battery would increase its life from
+			several hours to several days, which would be particularly interesting as it would let its
+			replacement not to be a constant nuisance. \todo{Substitute with accurate values.}
 
 
 		\subsection{FreeRTOS}
