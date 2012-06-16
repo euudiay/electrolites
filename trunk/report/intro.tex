@@ -1,13 +1,16 @@
+\newcommand{\refer}[1]{\autoref{#1} \emph{\nameref{#1}}}
+
 \chapter{Introduction}
 \label{cha:intro}
 	\section{Project description}
+	\label{sec:prj-descr}
 
 		This project exposes the research conducted for the development of an USB 802.15.4 receiver device for Android based systems employed in a fully functional electrocardiogram monitoring system encompassed in the field of in-home healthcare, as well as the development process involved in the realization of this whole system.\\ % in-home healthcare personal healthcare?
 
 		% What is Personal-healthcare, what is ECG Monitoring, importance of a lowcost ecg monitoring system
-		Electrocardiogram (ECG) monitoring consists on the capture and interpretation of the activity of the heart [cit.needed] during a period of time, and continuous, remote ECG monitoring has become one of the main applications of wireless body sensor networks. Great interest has arisen recently among industrial and academic research parties in production of low-power, ambulatory ECG monitoring systems.\\
+		Electrocardiogram (ECG) monitoring consists on the capture and interpretation of the activity of the heart [cit.needed] during a period of time, and continuous, remote ECG monitoring has become one of the main applications of wireless body sensor networks\todo{Explain WBSN, reference somewhere?}. Great interest has arisen recently among industrial and academic research parties in production of low-power, ambulatory ECG monitoring systems.\\
 
-		In order to maximize portability, such systems have started to employ the widely available smartphone devices as frontends, reducing the amount of extra devices carried by the user to just the ECG capturing node. In 2011 the École Polytechnique Fédérale de Lausanne presented a real-time personal ECG monitoring system which displayed data in an iPhone via Bluetooth.\\
+		In order to maximize portability, such systems have started to employ the widely available smartphone devices as frontends, reducing the amount of extra devices carried by the user to just the ECG capturing node. In 2011 the Complutense University of Madrid (UCM) in collaboration with the École Polytechnique Fédérale de Lausanne (EPFL) presented a real-time personal ECG monitoring system which displayed data in an iPhone via Bluetooth\todo{Now this references esl.epfl.ch/ cms/lang/ en/pid/46016}.\\
 
 		% Taking the aforementioned project as the base, this project seeks taking the inherently good low cost and low power aspects of that to the next level by the employment of a less energy requiring wireless personal area network protocol, namely IEEE 802.15.4, and the more accessible Android based platforms.\\
 		Being inspired by the results obtained by the aforementioned project, this certain  endeavour seeks taking the inherently good low cost and low power aspects of that to the next level by the employment of a less energy requiring wireless personal area network protocol, namely IEEE 802.15.4, and the more accessible Android based platforms.\\
@@ -31,30 +34,34 @@
 		This functionality is provided by the three devices that are part of the system: the ECG delineation node, the USB 802.15.4 receiver and the Android device through the front-end application. The ECG delineation node is connected to the body sensor network and is responsible for capturing and analyzing the electrocardiogram wave, as well as encoding and wirelessly sending the data. The USB 802.15.4 receiver is plugged to the Android system and manages data reception following the aforementioned protocol. Finally the Android based application is the real-time data decoder and acts as the frontend to the user, managing connections and storing and displaying received data.\\
 
 		% Description of the realization of each one (how do they do whatever they do?)
-		Development of the Android application, realization of the USB 802.15.4 receiver device, employment of an already-existant ECG delineation node and successful intercommunication between all these elements are the project goals.\\
+		Development of the Android application, realization of the real-time USB 802.15.4 receiver device, employment of an already-existant ECG delineation node and successful intercommunication between all these elements are the project goals.\\
 		
 		% Android app
 		As stated before the Android application is the front-end with which the user interacts with the whole system. It is designed following Android common practices as the objective is for it to be of simple use with a smooth, if not nil, learning curve. The decision to develop the application for Android platforms was made according to three main reasons:\\
 
-		First, the fact that Android has been in the top three of the most used mobile operating systems rankings since 2010 [quote!] added to the recent growth of the availability of smartphone devices [quotequote] makes targeting the Android platform a must when the objective is making the system reachable for as most people as possible.\\
+		First, the fact that Android has been in the top three of the most used mobile operating systems rankings since 2010 \todo{quote rankings} added to the recent growth of the availability of smartphone devices \todo{phone study} makes targeting the Android platform a must when the objective is making the system reachable for as most people as possible.\\
 
 		Second, and following the same line of reasoning, the lower cost, in general terms, of Android supporting devices, or at least the wide range of prices of these, specially when compared to other operating systems supporting devices such as Apple's line of iOS devices [average price w/quote here] is to be taken into account.\\
 
-		And finally the comfortable, high-level development environment available for Android application production [quote] provides enough facilities for anyone interested in expanding or contributing code to Android part the project to do so in an easy way. Moreover, this environment is delivered free of charge and is of an open-source nature and multiplatform [quote], whereas iOS platform development kits usage requires at least the ownership of an specific machine and operating system [quote].\\
+		And finally the comfortable, high-level development environment available for Android application production \todo{quote andev} provides enough facilities for anyone interested in expanding or contributing code to Android part the project to do so in an easy way. Moreover, this environment is delivered free of charge and is of an open-source nature and multiplatform \todo{quote andev}, whereas iOS platform development kits usage requires at least the ownership of an specific machine and operating system todo{quote iosdev}.\\
 
 		% Delineation node
-		Regarding the ECG delineation node, it has been mentioned that the objective of this project is the employment of an already existing one. That is so because both the delineator node and the body sensor network that captures the data are complex systems and the development of them would be the scope of a full project. Specifically the delineator node obtained in the aforementioned EPFL project [quote], with modifications from a collaboration between Complutense University of Madrid (UCM) and the EPFL [quote], was applied.\\
+		Regarding the ECG delineation node, it has been mentioned that the objective of this project is the employment of an already existing one. That is so because both the delineator node and the body sensor network that captures the data are complex systems and the development of them would be the scope of a full project. Specifically the delineator node obtained in the aforementioned project \todo{quote EPFLUCM1}, with modifications from another collaboration between the UCM and the EPFL \todo{quote EPFLUCM2}, was applied.\\
 
-		This node was originally developed as a ultra-lowpower ECG delineator with the ability to wirelessly send data through Bluetooth protocol [quote]. The collaboration between UCM and EPFL, among other things, provided the node with functionality to send data using IEEE 802.15.4, but only at the level required to do some measurement and estimations [quote]. Actual 802.15.4 utilization was yet to be a reality, but it was an excellent starting point towards the achievement of the current project objectives.\\
+		This node was originally developed as a ultra-lowpower real-time ECG delineator with the ability to wirelessly send data through Bluetooth protocol \todo{quote EPFLUCM1}. The collaboration between UCM and EPFL, among other things, provided the node with functionality to send data using IEEE 802.15.4, but only at the level required to do some measurement and estimations \todo{quote EPFLUCM2}. Actual 802.15.4 utilization was yet to be a reality, but it was an excellent starting point towards the achievement of the current project objectives.\\
 
 		% USB Receiver
-		The key part of the system and the most important risk involving objective of the project is the 802.15.4 USB receiver device for Android platforms. It is a necessity as generally Android devices have no support for low cost wireless communication protocols such as 802.15.4, while providing other higher-cost protocols such as Bluetooth or WiFi. Development of an Android accesory providing the required functionality is, then, a must, as the most battery and time consuming operation in the delineator node is the utilization of the Bluetooth stack, as previously mentioned researchs [1] and \todo{Correctly reference papers}[2] concluded.\\
+		The key part of the system and the most important risk involving objective of the project is the real-time 802.15.4 USB receiver device for Android platforms. It is a necessity as generally Android devices have no support for low cost wireless communication protocols such as 802.15.4, while providing other higher-cost protocols such as Bluetooth or WiFi. Development of an Android accesory providing the required functionality is, then, a must, as the most battery and time consuming operation in the delineator node is the utilization of the Bluetooth stack, as previously mentioned researchs [1] and \todo{Correctly reference papers}[2] concluded.\\
 
-		Other projects exist with similar objectives in mind, even if they are not targeted at the field of biometrics and personal monitoring. The reason for not following or employing those is twofold: 
+		Other projects exist with the objective of achieveing 802.15.4 receiving for Android devices \todo{former "similar objectives in mind"}, even if they are not targeted at the field of biometrics and personal monitoring. The reason for not following or employing those is twofold: 
 		first, at the time of the beginning of the project those initiatives were either unfinished or stalled, furthermore they were isolated, generally single-man projects with no official backend or guarantees of conclusion.
-		Second, following the line of achieving a low cost, low sized device the Android system is to act as the host device in the USB communication, thus removing the size-increasing battery requirements for the receiver as the host role provides the power in such communications.\\
+		Second, following the line of achieving a low energy, low sized device the Android system of this project is to act as the host device in the USB communication, thus removing the size-increasing battery requirements for the receiver as the host role provides the power in such communications. None of these projects employed the host capability of Android devices, so they were of no use for the pursued objectives.\\
 
-		In short, this project tries to advance a step further the availability of wireless body sensor networks applied to personal electrocardiogram monitorization, by employing actual, already available, not-so-expensive technologies in an effective manner. That is necessarily good by nature, and the main motivation for braving with the project, aside from those, more pragmatic, exposed in the next section, is the wish for it to be useful, some day, for someone.
+		% Unexplored land of testing!
+		\todo{Objectives here?, note they are exposed before}
+		% End of the UlT
+
+		In short, this project tries to advance a step further the availability of wireless body sensor networks applied to personal electrocardiogram monitorization, by employing actual, already available, not-so-expensive technologies in an effective manner. That is necessarily good by nature, and the main motivation for braving with the project, aside from those, more pragmatic, exposed in the next section, is the wish for it to be useful, some day, for someone\todo{It already IS, but we could save that for the conclusions or...?}.
 
 		\begin{comment}
 		In short, the main objective for this project, seen as a whole system, consists of
@@ -108,49 +115,61 @@
 		\end{comment}
 		
 	\section{Project driver}
-		
-		\todo{review Project Driver}
+	\label{sec:prj-driver}
+
+		The motivation for the realization of this project comes from two different areas: the further potential utility of the project and the academic interest it involves.\\
+
+		The potential utility of the project point of view is developed first.\\
+
 		\begin{comment}
-		The motivation for the realization of this project comes from two different areas.
-
-		From a professional\todo{Professional sounds wrong} point of view, 
-
-		CardioVascular Diseases (CVD) as high risk, expanded cause of death (citamos a la OMS)
-		WBSN as a cheap, efficient method of monitoring, particularly ECG monitoring for CVD preventing.
-		Smartphones as ubiquous monitoring window.
-		EPFL's shimmer + iPhone bluetooth monitoring system.
-		Bluetooth battery requirements don't suffice for expected device usage time.
-		802.15.4 as a more efficient alternative.
-		Smartphones not equipped with 802.15.4 -> Development of a receiver device.
-		Android as more open, flexible, expanded platform than iOS.
-		.·. Android + 802.15.4 (through a receiver device) + shimmer for continous ECG monitoring.
+		x CardioVascular Diseases (CVD) as high risk, expanded cause of death (citamos a la OMS)
+		x WBSN as a cheap, efficient method of monitoring, particularly ECG monitoring for CVD preventing.
+		x Smartphones as ubiquous monitoring window.
+		x EPFL's shimmer + iPhone bluetooth monitoring system.
+		x Bluetooth battery requirements don't suffice for expected device usage time.
+		x 802.15.4 as a more efficient alternative.
+		x Smartphones not equipped with 802.15.4 -> Development of a receiver device.
+		x Android as more open, flexible, expanded platform than iOS.
+		x .·. Android + 802.15.4 (through a receiver device) + shimmer for continous ECG monitoring.
 		\end{comment}
 
-		The main motivation for developing this project was the fact that it meant
-		the gathering of almost every branch of this career. From its very beginning, this
-		work involved both software and hardware development, researching on unknown 
+		Cardiovascular diseases are the number one cause of death globally, according to the World Health Organization\todo{Quote www.who.int/ mediacentre/ factsheets/fs317 /en/index.html}. The level of supervision required by affected people is usually not assumible by traditional health care institutions, and constant, in home monitorization is an objective yet to fulfill which can be of great help for affected inviduals.\\
+
+		In such an scenario wireless body sensor networks (WBSN) prove to be inexpensive, efficient monitoring tools. Specifically electrocardiogram monitoring applied WBSN are of great utility for constant tracking of cardiovascular diseases, and projects as the aforementioned UCM and EPFL collaboration pursue the realization of a wide employment of these systems.\\
+
+		The employment of smartphone devices as the monitoring display of the system targets the wide spreading of the application of this systems, and reduces the amount of devices to be carried by the user. The selection of Android as the base platform for the display part this project, as explained before, is made attending to two factors: the higher expansion of the Android operating system when compared to others, and the flexible, open-source nature of it. These are key for the further expansion and application of the system.\\
+
+		Reducing battery and size requirements also targets a higher employment of the system by simplifying the usage procedure: lower battery requirements involve less monitoring interruptions due to the charging of the system and lower sized devices allow higher portabilty and more constant monitorization. The employment of the 802.15.4 wireless protocol seeks the fulfillment of this objectives.\\
+
+		In conclusion, the employment of an 802.15.4 receiving enabled Android device in a real-time, continous ECG monitoring system reduces the battery and size requirements for the system, maximizing portability and lessening the restrictions on the applicability of it.\\
+
+		From an academic point of view, the main motivation for the development of this project is the fact that it means
+		the gathering of almost every branch of the Computer Science Engineering career. From its very beginning, the
+		project involves both software and hardware development, researching on out of the scope of the career 
 		tools and platforms as well as high and low-level design and programming.\\
 
-		Besides, if successful, it would be likely it could become a real product
-		and be useful both in a professional and particular scope, which added a practical
-		end for the work to be carried out. Something like this could be made thanks to
-		the special features --such as less power consumption and required investment-- 802.15.4-compliant
-		technologies provide which wider spread ones lack (Bluetooth, for instance). It is also
+		% Besides, if successful, it would be likely it could become a real product
+		% and be useful both in a professional and particular scope, which added a practical
+		% end for the work to be carried out. Something like this could be made thanks to
+		% the special features --such as less power consumption and required investment-- 802.15.4-compliant
+		% technologies provide which wider spread ones lack (Bluetooth, for instance). 
+		It is also
 		expected that technologies based on IEEE 802.15.4 specification like ZigBee will increase their
-		importance in the medium term due to their potential applications in domotics (home automation).\\
+		importance in the medium term due to their potential applications in domotics (home automation) and other areas.\\
 
-		In addition, not only developing applications for portable devices but accessories
-		are mainstream nowadays; thus, getting in touch with these activities could
-		provide us with extra experience at leading edge practices, what would broaden our areas of
-		expertise and, consequently, increment our chances to access the labour market.\\
+		In addition, both the development of applications and accessories for smartphones or other portable devices
+		are mainstream, highly demanded activities nowadays and getting in touch with these
+		provides extra experience at leading edge practices, which broadens our areas of
+		expertise and, consequently, increment our value in the labour market.\\
 
-		However, certain areas of the project would mean working on unprecedent techniques
-		--as it will be detailed later on within this section-- and dealing with tools
-		which were unknown for us at that moment. Hitches like these could lead to the
-		unfulfillment of the project, yet they could also add extra value to it if 
-		they were overcome.\\
+		% However, certain areas of the project would mean working on unprecedent techniques
+		% --as it will be detailed later on within this section-- and dealing with tools
+		% which were unknown for us at that moment. Hitches like these could lead to the
+		% unfulfillment of the project, yet they could also add extra value to it if 
+		% they were overcome.\\
 		
 	\section{State of the art}
+	\label{sec:prj-sota}
 		\begin{itemize}
 
 
@@ -280,46 +299,18 @@
 		\end{itemize}
 	
 	\section{Document overview}
-		Over the following pages, this document will present the details about the project it refers to.
-		Beginning with a thorough explanation about the	employed hardware and the work it required,
-		which can be found at the ``\nameref{ch:hardware}'' chapter; next, a deep description and analysis 
-		of the Android application's design and implementation; and, finally, an exposition of the obtained 
-		results, potential expansions and findings.  
+	\label{sec:prj-oview}
+		% Over the following pages, this document will present the details about the project it refers to.
+		% Beginning with a thorough explanation about the	employed hardware and the work it required,
+		% which can be found at the ``\nameref{ch:hardware}'' chapter; next, a deep description and analysis 
+		% of the Android application's design and implementation; and, finally, an exposition of the obtained 
+		% results, potential expansions and findings.  
+		This document presents the process involved in the realization of the project objectives. Discrimination of the hardware and the software parts of this process is mandatory, as the approach for each one, the applied methodologies and techniques as well as the development processes, differ.\\
 
-		% Ideas Pool
-		% ===========
-		% En esta sección: Motivación y objetivos principales del proyecto
+		The first chapter, this introduction, gives a global view of the project. A description of the project providing a detailed depiction of the objectives pursued, as well as the inspiration for it's development and an exposition of technologies applied is elaborated in \autoref{sec:prj-descr} \emph{\nameref{sec:prj-descr}}. The motivation leading to the undertaking of such project is presented then, explaining the reasons both from the project potential utilization and the academic interest of the project points of view. This explanation is conducted in \autoref{sec:prj-driver} \emph{\nameref{sec:prj-driver}}. The next section, \autoref{sec:prj-sota} presents the state of the art regarding the technological fields and technologies involved in the project. The chapter concludes with this overview of the document in \autoref{sec:prj-oview} \emph{\nameref{sec:prj-oview}}.\\
 		
+		The research and development of the hardware part of the project in order to obtain the 802.15.4 USB receiver is presented in \autoref{ch:hardware} \emph{\nameref{ch:hardware}}. It begins exposing the specific objectives pursued by this part of the project and providing an overview of the chapter in \refer{sec:hw-intro} and \refer{sec:hw-oview}. A detailed description of the technologies employed in the hardware development process is then provided in \refer{sec:hw-techs}. The specific process, methods and techniques applied in the hardware development are presented in \refer{sec:hw-descr}. The remaining part of the chapter is devoted to the description of the actual research and development conducted throughout the whole project time. First, an explanation of the project schedule, as well as the specific circumstances which led to it being as it is, is provided in \refer{sec:hw-mstones}, followed by detailed exposition of the development of each stage of this schedule. The chapter concludes with the analyisis of the final hardware product and an exposition of the conclusions obtained in during the process in \refer{sec:hw-final}.\\
 
-		% Objetivo: desarrollo de un receptor mac 802.15.4 (ZigBee) con conexión 
-		% usb para dispositivos android y de una aplicación android para visualización 
-		% de datos recibidos de ecg
+		\todo{Chapter 3. SORWAR!!}
 
-		% Interesante porque engloba gran parte de lo aprendido en la carrera, habiendo 
-		% que desarrollar el proyecto en casi todos los niveles de abstracción, desde diseño 
-		% y miniaturización de placas hasta desarrollo basado en un framework de muy alto 
-		% nivel como es Android, pasando por prototipado en placa(pasando por arduino) y 
-		% desarrollo a nivel de microarquitecturas, en concreto FreeRTOs para procesadores MSP430.
-
-		% Novedad en la comunicación USB entre Android y el MSP sin hardware intermedio, 
-		% actuando el dispositivo Android de host para eliminar la fuente de alimentación del MSP, 
-		% minimizando al máximo el coste del dispositivo de recepción
-		
-		% Interés en la utilización del stack ZigBee para maximizar la duración de la batería 
-		% del shimmer (nodo delineador). e.g. enviando por bluetooth horas, enviando por shimmer días
-		%		+ Una red zigbee es mucho más barata (y factible) que una bluetooth. Repetidores zigbee baratos.
-
-		% Utilidad para el mundo real, que podría ser adoptada en hospitales dado que es 
-		% algo que ya se ha estado probando en algunos hospitales y esto sería un importante 
-		% impulso para el proyecto
-		
-		% Relacionado con la aplicación real en hospitales (o uso en domicilio particular) 
-		% el reducido tamaño del nodo delineador permite gran portabilidad, incluso llevarlo 
-		% encima con objeto de monitorización constante.
-		
-		% Cubre necesidad profesional, médico o enfermera monitorizando un grupo de pacientes 
-		% de tamaño arbitrario con un único dispositivo android; o incluso a larga distancia 
-		% recibiendo los datos por internet.
-		
-		% Desarrollando el uso particular, posible aplicación a particulares que posean dispositivos 
-		% táctiles android, para automonitorización en enfermedades en que sea necesario.
+		\todo{Chapter 4. CONCLUSIONS!}
