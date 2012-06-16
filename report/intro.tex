@@ -224,7 +224,7 @@
 				\end{itemize}
 				ZigBee, though, is not employed as a whole within this project, but 802.15.4 standard as
 				its basis. Nevertheless, its advantages over Bluetooth remains the same, with the additional one
-				that it does not compromise soft real-time developments as the complete stack does.\\
+				that it does not compromise real-time developments as the complete stack does.\\
 			\item \emph{Android Accessory Development}\\
 				As of May, 2011, there were no easy nor official methods to develop
 				accessories capable of communicating with Android running devices. At that
@@ -257,7 +257,7 @@
 				Moreover, even if they were to be compatible with our target device, the only available dongles
 				fully implemented the ZigBee stack, which also made them unsuitable for this project due to the
 				relatively high latency that fact imposed --as it can be read at \autoref{ssec:802.15.4},
-				\nameref{ssec:802.15.4}, soft-realtime needs required the usage of the 802.15.4 MAC layer on
+				\nameref{ssec:802.15.4}, real-time needs required the usage of the 802.15.4 MAC layer on
 				its own--.
 			\item \emph{Communication with Android using ZigBee}\\
 				One year ago, around mid-2011, there were very few projects which were working on this sort of
@@ -278,11 +278,9 @@
 						employed ZigBee communication for less specific ends, such as controlling other devices
 						like PCs, lamps or obtaining data from certain sensors.
 					\item \textbf{Wireless communication:} in order that the ECG delineation could be done in
-						real-time (namely soft real-time, as it will be explained later), this project does not
-						use the complete ZigBee stack, but its 802.15.4 MAC layer. This restriction requires the
-						radio --in particular, TI CC2420 radio module-- has to be programmed specifically.
-						Meanwhile, Texas Instruments made use of its TI CC2530 system on chip (SoC), which fully 
-						implemented ZigBee stack.
+						real-time, this project does not use the complete ZigBee stack, but its 802.15.4 MAC
+						layer. This restriction requires the radio --in particular, TI CC2420 radio module-- has
+						to be programmed specifically. Meanwhile, Texas Instruments made use of its TI CC2530 system on chip (SoC), which fully implemented ZigBee stack.
 					\item \textbf{USB dongle:} as it was mentioned before, TI directly plugged their ZNP to an
 						OMAP4 Blaze thanks to their driver. However, so that the same result could be obtained,
 						we had to connect the radio, CC2420 module, to the MSP430 board --*nombre de la placa--,
