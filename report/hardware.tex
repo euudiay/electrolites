@@ -272,8 +272,29 @@
 
 		\subsection{FreeRTOS}
 		\label{ssec:FreeRTOS}
-		\todo{hardware subsection: FreeRTOS technology}
-		\todo{Pedir información y referencias a joaquin}
+			\todo{Pedir información y referencias a joaquin}
+			FreeRTOS is a real-time operating system specifically designed for embedded devices, and has been
+			ported to 31 different architectures hitherto. Due to its real-time target, it features small sized
+			binary images and memory footprint, real-time tasks and co-routines and communication and
+			synchornization tools for tasks and interrupts (queues, semaphores, mutexes). So as to achieve this
+			real-time suitable condition, it is predominantly written in C and carefully coded in order to
+			guarantee its portability and compatibility with different compilers.
+
+			This project makes use of FreeRTOS so that it manages the receiver device's resources and handles
+			the data reception and beacon sending of its radio as well as the USB communication with the Android
+			device. However, despite the self-claimed compatibility with MSP430 architecture, the official port
+			of FreeRTOS is not compatible with the microcontrollers employed in this project (specified at
+			\autoref{ssec:msp430}, \nameref{ssec:msp430}) due to/because... \todo{Find out why it had to be ported.}
+
+			Therefore, the operating system had to be accordingly modified and subsequently ported in order to
+			support the target MSP430F5438A microcontroller. This task was carried out by... \todo{Detail what the
+			work consisted of.}
+
+			\todo{Explain the features and relevant points this port adds}
+
+
+
+		
 		\subsection{USB device \& USB host}
 			USB host \cite{usbhost}, as oppose to USB accessory, is an operation mode which determines how a
 			USB-equipped device interacts with another one. The two connected devices are differently named
@@ -771,13 +792,13 @@
 		\todo{Hardware section Final Product}
 
 		% Primer parrafo, finalmente, despues de toda esta investigación podemos afirmar que es lo que tenemos, un dispositivo totalmente diseñado por nosotros, de un tamaño reducido y comodo de usar, y que es capaz de comunicarse tanto con un android(a partir de la 3.1)(moviles y tablets) como con widows y es capaz de recibir paquetes por la radio siguiendo el estandar 802.15.4. 
-		The hardware part of the project has successfuly achieved the objective of the production of an 802.15.4 USB receiver. This device provides all expected functionality, specifically the transfering of data received from the 802.15.4 radio module via USB acting as the slave device in the USB connection drawing it's power from the master device. This master device can be any system with an implementation of the HID protocol, and has been tested as an 802.15.4 receiver both for an Android device and a Windows based computer. Moreover, taking an evaluation board as the starting point, the device has been custom designed and produced, and miniaturization has been conducted so as to be built into a printed circuit board, even if actual production of such PCB has not been conducted\todo{Change this if PCB is done}.\\
+		The hardware part of the project has successfuly achieved the objective of the production of an 802.15.4 USB receiver. This device provides all expected functionality, specifically the transferring of data received from the 802.15.4 radio module via USB acting as the slave device in the USB connection drawing its power from the master device. This master device can be any system with an implementation of the HID protocol, and has been tested as an 802.15.4 receiver both for an Android device and a Windows based computer. Moreover, taking an evaluation board as the starting point, the device has been custom designed and produced, and miniaturization has been conducted so as to be built into a printed circuit board, even if actual production of such PCB has not been conducted\todo{Change this if PCB is done}.\\
 
 		% De hecho el hardware que lleva lo hace potencialmente usable para cualquiera que requiera un modulo USB que reciba señales de radio por 802.15.4 y las mande por USB por lo que su potencial es mucho mayor que el que se le da en el ambito concreto del proyecto y podría tener muchos más usos que el dado.
-		The fact that the 802.15.4 USB receiver is independant to the domain of the project, i.e. it only assumes the task of sending through an USB connection the data received through the radio, it does not analyize or processes the data, makes it a fully functional general purpose 802.15.4 receiver. \todo{Extra, unrequired, but interesting info}Functionality for data sending through 802.15.4 is present in the device, both in the software and hardware layers, but it lacks the code to send data received from USB to the radio. Nevertheless, this functionality can be implemented with ease, thus turning the device in a full fledged 802.15.4 USB emmiter/receiver.\\
+		The fact that the 802.15.4 USB receiver is independent from the domain of the project, i.e. it only assumes the task of sending through an USB connection the data received through the radio, it does not analyize or processes the data, makes it a fully functional general purpose 802.15.4 receiver. \todo{Extra, unrequired, but interesting info}Functionality for data sending through 802.15.4 is present in the device, both in the software and hardware layers, but it lacks the code to send data received from USB to the radio. Nevertheless, this functionality can be implemented with ease, thus turning the device in a full fledged 802.15.4 USB emitter/receiver.\\
 
 		% En el ambito concreto del proyecto, el producto nos sirve como medio para que el android pueda recibir la onda ECG capturada y enviada por el shimmer, es interesante por tanto que el tamaño del dispositivo diseñado es realmente pequeño por lo que será comodo para llevar para las personas que por tener un problema necesiten monitorizarse, además gracias a su bajo consumo la vida util de nuestro dispositivo android no se verá muy reducida con su uso, y más importante aún  gracias a esto el shimmer no necesita el bluetooth y puede enviar las señales por radio de manera que consume mucho menos y ve alargado su tiempo entre recargas de 5 o 6 horas a 5 o 6 dias. Especialmente interesante de este dato es el hecho de que con la radio el shimmer supera el umbral del día de funcionamiento por lo que cargando el dispositivo por la noche(sin necesidad de desconectarlo de los sensores, para no interrumpir la monitorización) el paciente podría estar monitorizado indefinidamente, en nuestro caso nuestro paciente podría incluso irse de fin de semana sin preocuparse de llevar el cargador de la batería.
-		In the specific scope of the project, the application of the device for the receiving of the ECG wave data, due to it's small size and low battery requirements, lead to a more comfortable employment of the monitoring system. Even if the necessity to employ an Android accessory decreases the portability of the system when compared to the utilization of the Bluetooth module, which is embedded in the Android device, the order of magnitude lower battery requirements compensate throughoutly, as the lifetime of the battery of the ECG delineator node when using 802.15.4 is increased from hours to days.\\
+		In the specific scope of the project, the application of the device for the receiving of the ECG wave data, due to its small size and low battery requirements, lead to a more comfortable employment of the monitoring system. Even if the necessity of employing an Android accessory decreases the portability of the system when compared to the utilization of the Bluetooth module, which is embedded in the Android device, the order of magnitude lower battery requirements compensate throughout, as the lifetime of the battery of the ECG delineator node when using 802.15.4 is increased from hours to days.\\
 
 		% R: los siguientes párrafos son poco relevantes en una breve conclusión HW. irían mejor al final.
 
@@ -791,6 +812,6 @@
 
 		% Como dificultades cabría mencionar que la documentación de TI no es todo lo clara que merece su tamaño, por lo que a veces resultaba complicado, o inlcuso podemos decir que una dificultad era soldar piezas diminutas a la hora de hacer el prototipo pero que eso se resolvió gracias a que lo hizo carlos.
 
-		In conclusion, all the objectives of the hardware research and production has been achieved in the deadlines set for the project, even when coping with the uncertainty inherent to any research and sharing resources with the parallel-conducted software development. Moreover, additional objectives has been pursued and also realized, like the development and miniaturization of the custom board, making this hardware project a success\todo{¿Queda mal lo de success?}.
+		In conclusion, all the objectives of the hardware research and production have been achieved in the deadlines set for the project, even when coping with the uncertainty inherent to any research and sharing resources with the parallel-conducted software development. Moreover, additional objectives has been pursued and also realized, like the development and miniaturization of the custom board, making this hardware project a success\todo{¿Queda mal lo de success? I don't think so.}.
 		
 		
