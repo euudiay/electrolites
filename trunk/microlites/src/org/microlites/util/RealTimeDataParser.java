@@ -103,8 +103,8 @@ public class RealTimeDataParser {
 				break;
 			default:
 				currentToken = Token.None;
-				// System.out.println("Token unknown: " + 
-				// System.out.println(((byte) currentByte & 0xff));
+				System.out.print("Token unknown: ");
+				System.out.println(((byte) currentByte & 0xff));
 			}
 			// Reset parsing data
 			progress = 0;
@@ -143,7 +143,7 @@ public class RealTimeDataParser {
 			if (offset != lastSample) {
 				System.err.println("WRONG OFFSET: GOT " + offset + 
 						" EXPECTED " + lastSample);
-				dataHolder.handleOffset(offset);
+				//dataHolder.handleOffset(offset);
 			}
 			
 			lastSample = offset;
