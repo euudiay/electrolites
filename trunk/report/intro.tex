@@ -5,10 +5,14 @@
 	\section{Project description}
 	\label{sec:prj-descr}
 
-		This project exposes the research conducted for the development of an USB 802.15.4 receiver device for Android based systems employed in a fully functional electrocardiogram monitoring system encompassed in the field of in-home healthcare, as well as the development process involved in the realization of this whole system.\\ % in-home healthcare personal healthcare?
+		This project exposes the research conducted for the development of an USB 802.15.4 (explained
+		at \autoref{ssec:802.15.4}) receiver device for Android based systems employed in a fully 
+		functional electrocardiogram monitoring system encompassed in the field of in-home healthcare,
+		as well as the development process involved in the realization of this whole system.\\
+		% in-home healthcare personal healthcare?
 
 		% What is Personal-healthcare, what is ECG Monitoring, importance of a lowcost ecg monitoring system
-		Electrocardiogram (ECG) monitoring consists on the capture and interpretation of the activity of the heart [cit.needed] during a period of time, and continuous, remote ECG monitoring has become one of the main applications of wireless body sensor networks\todo{Explain WBSN, reference somewhere?}. Great interest has arisen recently among industrial and academic research parties in production of low-power, ambulatory ECG monitoring systems.\\
+		Electrocardiogram (ECG) monitoring consists on the capture and interpretation of the activity of the heart during a period of time, and continuous, remote ECG monitoring has become one of the main applications of wireless body sensor networks\todo{Explain WBSN, reference somewhere?}. Great interest has arisen recently among industrial and academic research parties in production of low-power, ambulatory ECG monitoring systems.\\
 
 		In order to maximize portability, such systems have started to employ the widely available smartphone devices as frontends, reducing the amount of extra devices carried by the user to just the ECG capturing node. In 2011 the Complutense University of Madrid (UCM) in collaboration with the École Polytechnique Fédérale de Lausanne (EPFL) presented a real-time personal ECG monitoring system which displayed data in an iPhone via Bluetooth \cite{ESL}.\\
 
@@ -16,8 +20,8 @@
 		Being inspired by the results obtained by the aforementioned project, this certain  endeavour seeks taking the inherently good low cost and low power aspects of that to the next level by the employment of a less energy requiring wireless personal area network protocol, namely IEEE 802.15.4, and the more accessible Android based platforms.\\
 
 		% Tareas asumidas por el sistema para expresar el ambito del proyecto
-		The system provides the user with a visual representation of his/her ECG wave highlighting relevant points of this in order to simplify its comprehension. Information about heart-beat-rate % and arrhitmia?
-		is also displayed. All this data is stored in realtime in a transparent to the user manner for later visualization with emphasis put in easy handling of the generated files.\\
+		The system which is to be developed in this project provides the user with a visual representation of his/her ECG wave in real-time highlighting relevant points of this in order to simplify its comprehension. Information about heart-beat-rate % and arrhitmia?
+		is also displayed. All this data is stored in a transparent to the user manner for later visualization with emphasis put in easy handling of the generated files.\\
 
 		\begin{comment}
 		¿Qué es cada parte?
@@ -53,7 +57,7 @@
 		% USB Receiver
 		The key part of the system and the most important risk involving objective of the project is the real-time 802.15.4 USB receiver device for Android platforms. It is a necessity as generally Android devices have no support for low cost wireless communication protocols such as 802.15.4, while providing other higher-cost protocols such as Bluetooth or WiFi. Development of an Android accesory providing the required functionality is, then, a must, as the most battery and time consuming operation in the delineator node is the utilization of the Bluetooth stack, as previously mentioned researchs \cite{ESL} and \cite{ecg.del.paper} concluded.\\
 
-		Other projects exist with the objective of achieveing 802.15.4 receiving for Android devices, even if they are not targeted at the field of biometrics and personal monitoring. The reason for not following or employing those is twofold: 
+		Other projects exist with the objective of achieveing 802.15.4 receiving for Android devices, even if they are not targeted at the field of biomedics and personal monitoring. The reason for not following or employing those is twofold: 
 		first, at the time of the beginning of the project those initiatives were either unfinished or stalled, furthermore they were isolated, generally single-man projects with no official backend or guarantees of conclusion.
 		Second, following the line of achieving a low energy, low sized device the Android system of this project is to act as the host device in the USB communication, thus removing the size-increasing battery requirements for the receiver as the host role provides the power in such communications. None of these projects employed the host capability of Android devices, so they were of no use for the pursued objectives.\\
 
@@ -129,7 +133,7 @@
 		x .·. Android + 802.15.4 (through a receiver device) + shimmer for continous ECG monitoring.
 		\end{comment}
 
-		Cardiovascular diseases are the number one cause of death globally, according to the World Health Organization\cite{who-cvd}. The level of supervision required by affected people is usually not assumible by traditional health care institutions, and constant, in home monitorization is an objective yet to fulfill which can be of great help for affected inviduals.\\
+		Cardiovascular diseases are the number one cause of death globally, according to the World Health Organization \cite{who-cvd}. The level of supervision required by affected people is usually not assumible by traditional health care institutions, and constant, in home monitorization is an objective yet to fulfill which can be of great help for affected inviduals.\\
 
 		In such an scenario wireless body sensor networks (WBSN) prove to be inexpensive, efficient monitoring tools. Specifically electrocardiogram monitoring applied WBSN are of great utility for constant tracking of cardiovascular diseases, and projects as the aforementioned UCM and EPFL collaboration pursue the realization of a wide employment of these systems.\\
 
@@ -168,7 +172,6 @@
 	\label{sec:prj-sota}
 		\begin{itemize}
 
-
 			%Añadir otro item de monitorizacion, onads P QRS y T etc etc. no solo EPFL si no en general, y luego ya EPFL concret
 			\item \emph{EPFL Project}\\
 				% Proyecto EPFL (pedir referencias a Fran)
@@ -178,13 +181,14 @@
 				% iPhone, en plan prototipo con grandes limitaciones, poco accesible (instalar manualmente 
 				% stack bluetooth, implicando jailbreak), sólo por bluetooth, sin funcionalidad de lectura 
 				% de logs. Dispositivos iOS alto coste.
-				As a precedent of the present project, the École Polytechnique Fédérale de Lausanne (EPFL) --
-				represented by its Embedded Systems Laboratory (ESL)--, along with the Complutense University 
-				of Madrid (UCM), developed a wireless ECG monitoring system \cite{ESL}, similar to the one has been built 
+				As a precedent of the present project, the Complutense University of Madrid (UCM), along with 
+				the École Polytechnique Fédérale de Lausanne (EPFL) --represented by its Embedded Systems Laboratory
+				(ESL)--, developed a wireless ECG monitoring system \cite{ESL}, similar to the one has been built 
 				up during this project.\\
 
-				Just as ours, this system also used Shimmer\texttrademark as monitoring, transmitter platform;
-				and the obtained data could be displayed in portable computing devices.
+				Just as ours, this system also used Shimmer\texttrademark as monitoring, transmitter platform 
+				(details about it can be found at \autoref{ssec:shimmer}); and the obtained data could be 
+				displayed in portable computing devices.
 				Nonetheless, the list of similarities ends there. The application responsible for rendering
 				the ECG waves was meant to be used over iOS devices, particularly iPhone. This fact led to several
 				additional restrictions, such as mandatory usage of Bluetooth as wireless transmission method as
@@ -194,10 +198,12 @@
 				the device nulls its warranty. Therefore, the employment of Android in our project is partially motivated 
 				by this sort of limitations other platforms usually impose.\\
 
-				*Our project collaborates with EPFL, from whom we have received feedback as well as hardware and % No me quedó claro quién colaboraba con quién, y cómo decir que la colaboración está mediada por "Fran".
-				software requirements. In fact, the aforementioned iOS application *settled most of the
-				requirements for the Android one in our project, although there were added some extra ones --such as
+				Whereas the UCM was responsible of the delineation algorithm, the development of the iOS application
+				was carried out by the EPFL, and thus the development of this project depended on the feedback and requirements
+				(hardware and software) both of them provided. In fact, the aforementioned iOS application settled most of the
+				requirements for the Android one in this project, although there were added some extra ones --such as
 				making logs from received data so they can be read again later--.\\
+				
 			\item \emph{IEEE 802.15.4}\\
 				This standard describes the physical and Media Access Control (MAC) layers for low-rate wireless
 				personal area networks. It is intended to be implemented into embedded devices, so as to build up
@@ -253,7 +259,7 @@
 				In spite of the fact that there were available devices which implemented the complete ZigBee
 				stack at the time of the start of this project, they were only designed for being connected to
 				personal computers, some models with OS restrictions as well. A typical model of this sort is
-				presented in \cite{dongle}\\
+				presented in \cite{dongle}.\\
 				Moreover, even if they were to be compatible with our target device, the only available dongles
 				fully implemented the ZigBee stack, which also made them unsuitable for this project due to the
 				relatively high latency that fact imposed --as it can be read at \autoref{ssec:802.15.4},
@@ -261,10 +267,10 @@
 				its own--.
 			\item \emph{Communication with Android using ZigBee}\\
 				One year ago, around mid-2011, there were very few projects which were working on this sort of
-				communication, between Android and 802.15.4 radio-equipped devices. Concretely, the only project
-				of this kind we were aware of was one from Texas Instruments, which was stated to be pioneer in 
-				this field (as it can be seen in \cite{articleTI}).
-				Despite that, several differences stands between this project and ours. For instance:
+				communication, between Android and 802.15.4 radio-equipped devices. Concretely, the only noticeable
+				project of this kind was one from Texas Instruments, which was stated to be pioneer in 
+				this field (as it can be seen in \cite{articleTI}). Despite that, several differences stands between 
+				this project and the present one. For instance:
 				\begin{itemize}
 					\item \textbf{USB communication:} Texas Instruments developed its own Android driver, namely
 						``virtual COM port'', so they could directly connect their ZigBee Network Processor (ZNP)
@@ -272,9 +278,9 @@
 						in order to establish the connection between the receiver and the device. Because of
 						using this method, USB communication between MSP430 microcontroller and the Android
 						device has to be specifically implemented and tuned.
-					\item \textbf{Android platform:} TI's project employed Android 2.2, while we are using
-						version	3.1 in ours, due to the aforementioned need of USB host mode support this API
-						provides. In addition, received data is used by our Android application, while TI
+					\item \textbf{Android platform:} TI's project employed Android 2.2, while version 3.1 is the
+						one employed in this present project, due to the aforementioned need of USB host mode support 
+						this API provides. In addition, received data is used by this Android application, while TI
 						employed ZigBee communication for less specific ends, such as controlling other devices
 						like PCs, lamps or obtaining data from certain sensors.
 					\item \textbf{Wireless communication:} in order that the ECG delineation could be done in
@@ -283,7 +289,7 @@
 						to be programmed specifically. Meanwhile, Texas Instruments made use of its TI CC2530 system on chip (SoC), which fully implemented ZigBee stack.
 					\item \textbf{USB dongle:} as it was mentioned before, TI directly plugged their ZNP to an
 						OMAP4 Blaze thanks to their driver. However, so that the same result could be obtained,
-						we had to connect the radio, CC2420 module, to the MSP430 board --*nombre de la placa--,
+						the radio, CC2420 module, had to be connected to the MSP430 board (MSP-TS430PZ100USB),
 						which was equipped with a USB interface. Furthermore, miniaturisation of this board was
 						designed afterwards to make it an usable dongle.
 				\end{itemize}
