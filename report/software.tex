@@ -18,7 +18,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	% Introduction: app + feedback medical staff (hey, it's an important project!)
 	The development of a software ECG display application targeted at Android Operating System for mobile devices is the counter-part to the hardware research part of the project.
-	This application is to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained for that and including extra features which couldn't be implemented in it. The software must provide functionality to visualize ECG data from Bluetooth or 802.15.4 sources (the latter obtained via the 802.15.4 USB receiver developed in the hardware part of this project) in realtime, as well as to save that data into file logs for afterwards reading.\\
+	This application is to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained for that and including extra features which couldn't be implemented in it. The software must provide functionality to visualize ECG data from Bluetooth or 802.15.4 sources (the latter obtained via the 802.15.4 USB receiver developed in the hardware part of this project) in real-time, as well as to save that data into file logs for afterwards reading.\\
 
 	% Android general
 	Android as a development platform provides a wide set of high abstraction level tools to emphasize robust and reusable design for low resource based, quick development cycles. Such benefits require the adequation of the software design and architecture to the constrains imposed by the Android development framework.\\
@@ -144,7 +144,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\paragraph{MR1.}Mobile device unsuitable for target functionality\\
 		\textbf{Probability:} Low\\
 		\textbf{Impact:} Critical\\
-		\textbf{Description:}Even when mobile devices technical specifications have increased significantly in the previous years, specially regarding CPU power and rendering capabilities, the soft-realtime requirements of the project in terms of data manipulation and visual representation involve a low probability risk of the application being unsuitable for such devices. The risk probability is decreased by the fact that similar featured applications exist both for iOS and Android powered devices. Even so, the 802.15.4 receiver device USB interface doesn't allow for this risk not to be reckoned.
+		\textbf{Description:}Even when mobile devices technical specifications have increased significantly in the previous years, specially regarding CPU power and rendering capabilities, the soft real-time requirements of the project in terms of data manipulation and visual representation involve a low probability risk of the application being unsuitable for such devices. The risk probability is decreased by the fact that similar featured applications exist both for iOS and Android powered devices. Even so, the 802.15.4 receiver device USB interface doesn't allow for this risk not to be reckoned.
 		Preventive measures considered: quick prototyping of critical functionality to discard  unfeasibility, conduction of performance tests, both rendering and data handling related, in the target device and testing of USB-Android communication as soon as possible in the project schedule.\\
 		\textbf{As performance tests are conducted on early builds of the application, the need of further research on this risk arises as the data handling performance in the target device is low, but not as low as the rendering performance. Thus, this risk is unfolded into risks AR2 and AR3, both related to Android performance when handling the aforementioned tasks. This risk follow up is then halted, as it is no longer needed.}
 
@@ -161,7 +161,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\paragraph{AR2.}Android providing subpar performance when handling required data\\
 		\textbf{Probability:} Moderate\\
 		\textbf{Impact:} High\\
-		\textbf{Description:} The benefits of the high-level, single application model provided by Android are such in behalf of the sacrifice of performance. In this project soft-realtime requirements are present, and the system needs to process around 250 ECG wave samples \cite{ecg.del.paper} (among other data) per second. Android code reutilization and class based programming suggested practices, the absence of an explicit memory management API and the employment of the Garbage Collector only complicate the achievement of such requirements.  
+		\textbf{Description:} The benefits of the high-level, single application model provided by Android are such in behalf of the sacrifice of performance. In this project soft real-time requirements are present, and the system needs to process around 250 ECG wave samples \cite{ecg.del.paper} (among other data) per second. Android code reutilization and class based programming suggested practices, the absence of an explicit memory management API and the employment of the Garbage Collector only complicate the achievement of such requirements.  
 		Special care will need to be put on the development and performance checks are to be conducted regularly on generated builds to ensure the avoidance of this risk.
 		If evidence is found of Android inability to provide the required perfomance (and there is no way of attributting the failure to the team's lack of ability), low-level Android development will be considered. As the probability of this last scenario to occur is quite low, no research will be conducted in low-level Android development until mandatory.\\
 		\textbf{The risk is verified to be occuring during Iteration 2 testing phase. Lack of care on memory management is found to be the problem, and is solved in Iteration 3. The risk is marked as surpassed after the review meeting for Iteration 4.}
@@ -195,7 +195,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		\subsection{UC1. View data from Bluetooth}
 
-			\paragraph{Description} The user wish to receive and visualize data from a Bluetooth ECG node in real time. He will start the communication, visualize real-time received data and finish the connection once done.\\
+			\paragraph{Description} The user wish to receive and visualize data from a Bluetooth ECG node in real-time. He will start the communication, visualize real-time received data and finish the connection once done.\\
 			\\This use case captures requisites R01, R04, R05, R06, and R07.
 
 			\paragraph{Preconditions} The application is in the main menu screen.
@@ -221,7 +221,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		\subsection{UC2. View data from USB Receiver}
 
-			\paragraph{Description} The user wish to receive and visualize data from 	an 802.15.4 ECG node in real time. He will start the communication, visualize real-time received data and finish the connection once done. The data from the node will be received via the USB 802.15.4 receiver device.\\
+			\paragraph{Description} The user wish to receive and visualize data from 	an 802.15.4 ECG node in real-time. He will start the communication, visualize real-time received data and finish the connection once done. The data from the node will be received via the USB 802.15.4 receiver device.\\
 			\\This use case captures requisites R02, R04, R05, R06, and R07.
 
 			\paragraph{Preconditions} The application is in the main menu screen.
@@ -247,7 +247,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		\subsection{UC3. View data from log file}
 
-			\paragraph{Description} The user wishes to read a log file created from a real time visualization session. He will specify the log file to load, visualize stored data and finish visualization once done.\\
+			\paragraph{Description} The user wishes to read a log file created from a real-time visualization session. He will specify the log file to load, visualize stored data and finish visualization once done.\\
 			\\This use case captures requisites R03, R04 and R05.
 
 			\paragraph{Preconditions} The application is in the main menu screen.
@@ -341,7 +341,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		\subsection{View Package}
 		\begin{comment}
-		Realtime rendering required a special, non full common functionality (slide, scroll, ...) providing View derivate: SurfaceView. It provides a bitmap surface where you can draw whatever you want. Derived into AnimationView with employment of AnimationThread for obtaning a good old while(!finished) \{update(); render();\} loop.
+		Real-time rendering required a special, non full common functionality (slide, scroll, ...) providing View derivate: SurfaceView. It provides a bitmap surface where you can draw whatever you want. Derived into AnimationView with employment of AnimationThread for obtaning a good old while(!finished) \{update(); render();\} loop.
 		That structure derivates into ECGView which is a domain specific specialization of AnimationVeiw and Dynamic- and StaticViewThread. The later two implement behaviour expected of Dynamic and Static data visualization respectively (more on this on the Data Package)
 		Programming style in this area closer to C than to an OOP language in order to maximize performance. (Talk about intolerable initial performance caused by extreme number of new each step and too much relaying on GarbageCollector?)
 		\end{comment}
@@ -412,7 +412,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		There are two different specifications for the data holders: DataHolder and StaticDataHolder. This is so because of the two modes of operation of the application. One is real-time data visualization and the other is log file visualization. The former is called dynamic visualization and the latter static visualization, and the behaviour of their DataHolders is not the same.\\
 
-		Dynamic visualization represents data received in realtime by the DataSourceThread. The DataSourceThread obtains the data from an external entity, processes it and sends it to the DataHolder. This data usually arrives in groups of variable size, and is provided to the DataHolder in single units once processed. In this scenario the DataHolder is the view thread, and handles data however considers optimal. In the implementations developed in this project a fixed amount of data is held and older information is replaced by the new one as it arrives.\\
+		Dynamic visualization represents data received in real-time by the DataSourceThread. The DataSourceThread obtains the data from an external entity, processes it and sends it to the DataHolder. This data usually arrives in groups of variable size, and is provided to the DataHolder in single units once processed. In this scenario the DataHolder is the view thread, and handles data however considers optimal. In the implementations developed in this project a fixed amount of data is held and older information is replaced by the new one as it arrives.\\
 
 		Static visualization, on the other hand, involves reading a file, usually megabyte sized. The receiving of big quantities of data in single units by the data holder, as would occur if  the original DataSource specification was employed, could lead to severe slow-downs and application performance would be affected. To avoid such issues, the StaticDataHolder specification is developed.\\
 
@@ -420,13 +420,13 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		\subsection{Utilities Package}
 		\begin{comment}
-		Contains application level reusable components as two different DataParsers (one for realtime, on for static data which doesn't store what it reads). Also contains the Viewport entity employed as a container of the view parameters. An unused color picker is there (not mention!)
+		Contains application level reusable components as two different DataParsers (one for real-time, on for static data which doesn't store what it reads). Also contains the Viewport entity employed as a container of the view parameters. An unused color picker is there (not mention!)
 		\end{comment}
 		This package contains reusable components providing very specific functionality so they are considered utilities: RealTimeDataParser, StaticDataParser and Viewport.\\
 
 		A data parser is the entity responsible of the processing of the raw data obtained by a DataSource into the domain specific data that the application manages. There are two implementations, one for real-time data reception, RealTimeDataParser, and the other for static data reading, i.e. a log file. The real-time data parser is also responsible of storing the received raw data to a log file.\\
 
-		A data parser is intended to be contained in a DataSourceThread. It receives the bytes of raw data and, upon successful identification of a valid data element, notifies the corresponding DataHolder entity of the arrival. In a theoric, performance-independant model, this behaviour would be incorrect: the data parser would leave the processed data \emph{in} the DataSourceThread, which would then make the transfer of information to the data holder. This kind of implementation is not valid with the soft realtime requirements of the project, as the data source - data parser - data source - data holder flow would be a severe bottle-neck.\\
+		A data parser is intended to be contained in a DataSourceThread. It receives the bytes of raw data and, upon successful identification of a valid data element, notifies the corresponding DataHolder entity of the arrival. In a theoric, performance-independant model, this behaviour would be incorrect: the data parser would leave the processed data \emph{in} the DataSourceThread, which would then make the transfer of information to the data holder. This kind of implementation is not valid with the soft real-time requirements of the project, as the data source - data parser - data source - data holder flow would be a severe bottle-neck.\\
 
 		The Viewport entity is a container for the visualization area settings. It represents the window in which the data plotting is done, and holds information about size and position of it. It also contains data about the horizontal and vertical scale of the rendering and handles modification of all these parameters. It is employed by the view thread hierarchy.
 		
@@ -662,7 +662,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			~(Scheduling seems strange as an objective)~
 
 			Architecture redesigned targeting easy adaptation and versatility inside the scope of the application. Redesigned visualization initialization flow.
-			Performance increased significantly and memory usage reduced THROUGHOUTLY in realtime view.
+			Performance increased significantly and memory usage reduced THROUGHOUTLY in real-time view.
 			Fixes in modules according to new architecture.
 			Talk about scheduling??
 			\end{comment}
