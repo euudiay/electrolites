@@ -1,4 +1,4 @@
-\newcommand{\refer}[1]{\autoref{#1} \emph{\nameref{#1}}}
+\newcommand{\refer}[1]{\autoref{#1}, \emph{\nameref{#1}}}
 
 \chapter{Introduction}
 \label{cha:intro}
@@ -172,15 +172,8 @@
 	\label{sec:prj-sota}
 		\begin{itemize}
 
-			%Añadir otro item de monitorizacion, onads P QRS y T etc etc. no solo EPFL si no en general, y luego ya EPFL concret
+			% Añadir otro item de monitorizacion, onads P QRS y T etc etc. no solo EPFL si no en general, y luego ya EPFL concret
 			\item \emph{EPFL Project}\\
-				% Proyecto EPFL (pedir referencias a Fran)
-				%\item Hace un año: estado de la comunicación android-usb y android-802.15.4 (conexión de dispositivos portátiles con sensores biométricos y no biométricos, costes, consumo, acho de banda, ...)
-				% Proyecto ya existente (a nivel europeo, Lausanne, ...)
-				% Aplicación ya desarrollada (dentro del mismo proyecto) para dispositivos iOS, en particular 
-				% iPhone, en plan prototipo con grandes limitaciones, poco accesible (instalar manualmente 
-				% stack bluetooth, implicando jailbreak), sólo por bluetooth, sin funcionalidad de lectura 
-				% de logs. Dispositivos iOS alto coste.
 				As a precedent of the present project, the Complutense University of Madrid (UCM), along with 
 				the École Polytechnique Fédérale de Lausanne (EPFL) --represented by its Embedded Systems Laboratory
 				(ESL)--, developed a wireless ECG monitoring system \cite{ESL}, similar to the one has been built 
@@ -222,8 +215,8 @@
 						These statements are properly justified and explained at \autoref{ssec:802.15.4}, 
 						\nameref{ssec:802.15.4}.
 					\item \textbf{Bandwidth:} Bluetooth offers much wider bandwidth, up to 3Mbps, meanwhile ZigBee 
-						only offers up to 250kbps. This, however, is not a relevant disadvantage because our needs 
-						are not so high.
+						only offers up to 250kbps. This, however, is not a relevant disadvantage because the requirements
+						of the system are not so demanding.
 					\item \textbf{Host number:} ZigBee allows to build networks with up to 65535 hosts, subnetworks 
 						with 255 hosts. On the ohter hand, Bluetooth can only support as much as 8 hosts within a 
 						network. 
@@ -232,11 +225,10 @@
 				its basis. Nevertheless, its advantages over Bluetooth remains the same, with the additional one
 				that it does not compromise real-time developments as the complete stack does.\\
 			\item \emph{Android Accessory Development}\\
-				As of May, 2011, there were no easy nor official methods to develop
-				accessories capable of communicating with Android running devices. At that
-				certain time, the release of the Android Open Accessory Development Kit (also known as ``ADK'')
-				\cite{ADK} was announced in San Francisco, within the context of Google I/O, developers
-				conference arranged by Google \cite{GoogleIO}.\\
+				As of May, 2011, there were no easy nor official methods to develop accessories capable of 
+				communicating with Android running devices. At that certain time, the release of the Android 
+				Open Accessory Development Kit (also known as ``ADK'') \cite{ADK} was announced in San Francisco, 
+				within the context of Google I/O, developers conference arranged by Google \cite{GoogleIO}.\\
 
 				ADK consists of an USB microcontroller board based on Arduino (Arduino Mega2560 to be precise) and a
 				series of software libraries which add specific functionalities and support for other hardware add-ons,
@@ -294,7 +286,7 @@
 						designed afterwards to make it an usable dongle.
 				\end{itemize}
 				In other words, Texas Instruments' project was actually able to build up working communications
-				of this kind by the time ours was starting; all the same, special requirements like real time
+				of this kind by the time ours was starting; all the same, special requirements like real-time
 				needs entail additional challenges for this project to overcome.
 		\end{itemize}
 	
@@ -309,9 +301,9 @@
 
 		The first chapter, this introduction, gives a global view of the project. A description of the project providing a detailed depiction of the objectives pursued, as well as the inspiration for it's development and an exposition of technologies applied is elaborated in \autoref{sec:prj-descr} \emph{\nameref{sec:prj-descr}}. The motivation leading to the undertaking of such project is presented then, explaining the reasons both from the project potential utilization and the academic interest of the project points of view. This explanation is conducted in \autoref{sec:prj-driver} \emph{\nameref{sec:prj-driver}}. The next section, \autoref{sec:prj-sota} presents the state of the art regarding the technological fields and technologies involved in the project. The chapter concludes with this overview of the document in \autoref{sec:prj-oview} \emph{\nameref{sec:prj-oview}}.\\
 		
-		The research and development of the hardware part of the project in order to obtain the 802.15.4 USB receiver is presented in \autoref{ch:hardware} \emph{\nameref{ch:hardware}}. It begins exposing the specific objectives pursued by this part of the project and providing an overview of the chapter in \refer{sec:hw-intro} and \refer{sec:hw-oview}. A detailed description of the technologies employed in the hardware development process is then provided in \refer{sec:hw-techs}. The specific process, methods and techniques applied in the hardware development are presented in \refer{sec:hw-descr}. The remaining part of the chapter is devoted to the description of the actual research and development conducted throughout the whole project time. First, an explanation of the project schedule, as well as the specific circumstances which led to it being as it is, is provided in \refer{sec:hw-mstones}, followed by detailed exposition of the development of each stage of this schedule. The chapter concludes with the analyisis of the final hardware product and an exposition of the conclusions obtained in during the process in \refer{sec:hw-final}.\\
+		The research and development of the hardware part of the project in order to obtain the 802.15.4 USB receiver is presented in \autoref{ch:hardware}, \emph{\nameref{ch:hardware}}. It begins exposing the specific objectives pursued by this part of the project and providing an overview of the chapter in \refer{sec:hw-intro} and \refer{sec:hw-oview}. A detailed description of the technologies employed in the hardware development process is then provided in \refer{sec:hw-techs}. The specific process, methods and techniques applied in the hardware development are presented in \refer{sec:hw-descr}. The remaining part of the chapter is devoted to the description of the actual research and development conducted throughout the whole project time. First, an explanation of the project schedule, as well as the specific circumstances which led to it being as it is, is provided in \refer{sec:hw-mstones}, followed by detailed exposition of the development of each stage of this schedule. The chapter concludes with the analyisis of the final hardware product and an exposition of the conclusions obtained during the process in \refer{sec:hw-final}.\\
 
-		The third chapter, \emph{\nameref{ch:swdev}}, explains the process followed for the production of the Android application which acts as the ECG monitoring front-end employing artifacts from structured software development methodologies so as to provide an in-depth view of the software part of the project. In \refer{sec:sw-intro} and \refer{sec:sw-oview} a brief description of the software project and an explanation of the information contained in the scope of the chapter are presented. The identified requirements for the project, both functional and non-functional, are presented in \refer{sec:sw-reqs}. In the next section, \emph{\nameref{sec:sw-risks}}, the importance of the risk management for this particular project is demonstrated and the identified risks exposed, including their evolution throughout the project development. The analyisis process view concludes with the exposition of the use cases for the system in \refer{sec:sw-ucases}. The \emph{\nameref{sec:sw-arch}} section presents the architectural view of the system, explaining design considerations and system modules in a comprehensive \todo{Exaustiva tampoco es, pero queda tan bien :3} manner. The project development process is exposed in \autoref{sec:sw-process}, beginning by an explanation of the software project schedule which is followed by detailed descriptions of each of the project scheduled iterations, including risk evolution and use case realization related information. The chapter concludes with a review of the software project development in \refer{sec:sw-ending}.\\
+		The third chapter, \emph{\nameref{ch:swdev}}, explains the process followed for the production of the Android application which acts as the ECG monitoring front-end employing artifacts from structured software development methodologies so as to provide an in-depth view of the software part of the project. In \refer{sec:sw-intro} and \refer{sec:sw-oview} a brief description of the software project and an explanation of the information contained in the scope of the chapter are presented. The identified requirements for the project, both functional and non-functional, are presented in \refer{sec:sw-reqs}. In the next section, \emph{\nameref{sec:sw-risks}}, the importance of the risk management for this particular project is demonstrated and the identified risks exposed, including their evolution throughout the project development. The analysis process view concludes with the exposition of the use cases for the system in \refer{sec:sw-ucases}. The \emph{\nameref{sec:sw-arch}} section presents the architectural view of the system, explaining design considerations and system modules in a comprehensive manner. The project development process is exposed in \autoref{sec:sw-process}, beginning with an explanation of the software project schedule which is followed by detailed descriptions of each of the project scheduled iterations, including risk evolution and use case realization related information. The chapter concludes with a review of the software project development in \refer{sec:sw-ending}.\\
 
 		In the final chapter of this document a review of the project as a whole is conducted. First, the final state of the system is presented in \refer{sec:end-state}, detailing the accomplishment of each project objective so as to evaluate the project outcome. Taking the final state of the project as the starting point, potential further work lines are proposed in \refer{sec:end-further}. Finally, as a closure to the both the document and the project, \refer{sec:end-findings} explains the conclusions drawn from the development of the project.
 
