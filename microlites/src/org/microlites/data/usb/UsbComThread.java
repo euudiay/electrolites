@@ -1,6 +1,8 @@
 package org.microlites.data.usb;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
+import java.util.Formatter;
 
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataSourceThread;
@@ -47,7 +49,7 @@ public class UsbComThread extends DataSourceThread {
 		stop = false;
 		String str;
 		
-		bufferDataLength = endpointRead.getMaxPacketSize();
+		bufferDataLength = endpointRead.getMaxPacketSize()*2;
 		ByteBuffer buffer = ByteBuffer.allocate(bufferDataLength + 1);
 		UsbRequest request = new UsbRequest();
 		
@@ -66,23 +68,34 @@ public class UsbComThread extends DataSourceThread {
 			break;
 		}
 		
+		byte seqNum = 0x0;
+		int maxSeqNum = 256;
+		
 		// Nos ponemos a la escucha
 		try{
 			byte[] byteBuffer = new byte[bufferDataLength];
 			short actualBytes = -1;
+			char currentChar = 0x40;
 			while (!stop) {
 				//Parte nueva para leer si eres host
 				if (request.queue(buffer, bufferDataLength) && request.equals(connection.requestWait()))  {
 					
-					buffer.get(byteBuffer, 0, bufferDataLength);
+					try {
+						buffer.get(byteBuffer, 0, bufferDataLength);
+					} catch (BufferUnderflowException e) {
+						e.printStackTrace();
+					}//
 			
 					if (bufferDataLength > 2) {
+						
+						actualBytes = byteBuffer[1];
+						
 						// Received data
-						// str = "";
-						// for (int i = 0; i < bufferDataLength; i++)
-						//	str += (buffer.array()[i] & 0xff) + "_";
-						// str.substring(0, str.length()-1);
-						// System.out.println(str);
+						str = "";
+						for (int i = 0; i < actualBytes + 2; i++)
+							str += Integer.toString((buffer.array()[i] & 0xff), 16) + " ";
+						str.substring(0, str.length()-1);
+						System.out.println(str);
 						
 						// Correct package?
 						/*if (byteBuffer[0] != 0x63) {
@@ -91,13 +104,38 @@ public class UsbComThread extends DataSourceThread {
 							continue;
 						}*/
 						// Number of bytes received?
-						actualBytes = byteBuffer[1];
+						
 						// Checks here
 						
 						// To dataparser!
-						for (int i = 2; i < actualBytes + 2; i++)
+						int start = 2;
+						if (byteBuffer[1] == 62) {
+							start = 3;
+							if (seqNum+1 != byteBuffer[2]) {
+								Log.e("SEQ", "Wrong Seq. Num: Got " + Integer.toString(byteBuffer[2], 16) + " expected " + Integer.toString((seqNum+1), 16));
+								seqNum = byteBuffer[2];
+							} else 
+								seqNum = (byte) ((seqNum + 1) % maxSeqNum);
+						}
+						for (int i = start; i < actualBytes + 2; i++)
 						{
-							parser.step(byteBuffer[i]);
+							/*if (actualBytes == 29 && i == 30) {
+								//System.out.println("OHPORELAMORDEDIOSHEMOSRECIBIDOELTOKEN29DELQUEHABLANLASSAGRADASESCRITURAS");
+								System.out.println("SeqNum: " + byteBuffer[i]);
+							//	System.out.println("OHPORELAMORDEDIOSHEMOSRECIBIDOELTOKEN29DELQUEHABLANLASSAGRADASESCRITURAS");
+							} else {*/
+								/*currentChar++;
+								if (currentChar > 0x5A)
+									currentChar = 0x40;
+								
+								System.out.println(currentChar);
+								
+								if (currentChar != byteBuffer[i]) {
+									System.err.println("Got " + (char) byteBuffer[i] + "("+byteBuffer[i]+") expected " + currentChar + "("+(int)currentChar+")");
+									currentChar = (char) byteBuffer[i];
+								}
+							//}*/
+								parser.step(byteBuffer[i]);
 						}
 					}
 					buffer.clear();
