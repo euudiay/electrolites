@@ -5,30 +5,30 @@
 	\label{sec:end-state}
 	
 		% Describes the fulfillment of this project.
-		Interesting: Marian is interested in the project for personal monitorization, David Atienza (EPFL's ESL \& UCM) is highly interested in the lower energy costs this project has achieved. Also, Solar Flight.
 
-		% Podemos usar esto para describir exactamente lo que hemos conseguido con datos de consumos o lo que haga 				falta.
-		\todo{Describe employing battery, size requirements actual data}
-		The production of a fully functional, low cost and low sized ECG monitoring system which employs an Android device as the user interface, and it's USB 802.15.4 receiver is completed.\\
+		\todo{Describe battery usage, size requirements actual data}
+		% The production of a fully functional, low cost and low sized ECG monitoring system which employs an Android device as the user interface, and it's USB 802.15.4 receiver is completed.\\
 
-		% Lo tipico, hemos conseguido un sistema capaz de recibir por radio en un dispositvo externo datos de ECG que despues se pasan a un tablet que los muestra convenientemente y que además de eso tambien puede recibir esos mismos datos por bluetooth y mostrarlos para la posterior visualización de manera estática.
-		HW: The goal of an external 802.15.4 receiver device is fulfilled. Employing it the system is able to render ECG data emitted by a delineator node. Bluetooth is also available, as well as log saving and further reading.\\
+		The production of the fully functional, low energy requiring, low sized ECG monitoring system employing an Android device as the user interface and 802.15.4 as the wireless data transferring protocol has been achieved. The system provides all the required functionality: real-time ECG wave data visualization both from 802.15.4 and Bluetooth nodes and storing of the received data in log files for afterwards visualization of these, as well as visualization parameters configuration. The system is, then, a more energy efficient and accessible version of the one produced by the Complutense University of Madrid and the École Polytechnique Fédérale de Lausanne, which is the primary objective of the project.\\
 
-		% Y aqui resultados concretos, tenemos un aparato de X:Y:Z dimensiones, que supone X1 gasto de batería al tablet mientras que el bluetooth le supone X2, y que al ser USB device no requiere de batería, que es plug-and-play, por no hace falta instalarlo tu lo conectas y eso va.
-		Concrete results: X x Y x Z sized device consuming W1 watts of power (actual data, please) which compared to Bluetooth consumption (W2 watts, ...) is pretty low cost, all of this powered by the Android device, and the receiver being plug and play no installation procedure is required.\\
+		This achievement is made thanks to the successful outcome of both the hardware research and the software development processes in which the project has been divided. Each of them requiring the employment of specific methodologies and techniques, but being, as they were, highly dependant one on the other only complicated the predicition of the outcome of them both. Thanks to the flexible scheduling conducted for each one, which considered the potential eventualities to arise in the other and focused in allowing rescheduling when necessary, this uncertainty has been correctly managed, leading to the current, successfully finalized state of the project.\\
+		
+		% HW: The goal of an external 802.15.4 receiver device is fulfilled. Employing it the system is able to render ECG data emitted by a delineator node. Bluetooth is also available, as well as log saving and further reading.\\
+		% No olvidar hablar de modificaciones al shimmer!
+		Regarding the hardware research part, the main goal pursued was the production of the 802.15.4 USB receiver device for Android systems. This device has successfully evolved from the early stages of development where a prototyping board was employed to a custom developed printed circuit board, which, if has not been produced, is completely designed and validated\todo{Not yet, but soon}.\\
 
-		% Tenemos una aplicación robusta y facilmente expandible que nos permite conectarnos por USB al dispositivo de antes, conectarnos por bluetooth directamente al shimmer, o guardar y cargar los logs de todas las monitorizaciones anteriores de una forma limpia y muy intuitiva.
-		Regarding the Android application: the software development project has produced a an Android application providing all required functionality, (namely visualization of ECG data from Bluetooth and USB nodes, log saving and reading, view controlling) designed and implemented in a robust, expandable manner. Moreover, the application provides a domain-specific framework for the inclusion of new data sources (like WiFi or NFC) or different source data specifications (e.g. 0xDA != sample).
+		% Concrete results: X x Y x Z sized device consuming W1 watts of power (actual data, please) which compared to Bluetooth consumption (W2 watts, ...) is pretty low cost, all of this powered by the Android device, and the receiver being plug and play no installation procedure is required.\\
+		The prototype board's \todo{Substitute these for the PCB ones if available}dimensions are 7.25 x 6.35 x 3.5, and it requires 3.3V for correct operation, being usable with at least 3.0V. It's USB capability allows for it to be connected to any HID compliant system, and has been successfully employed as an 802.15.4 receiver both in Android devices and Windows based personal computers.\\
 
-		% Estas dos partes unidas a un componente externo como es el shimmer forman un sistema completo de monitorizacion en tiempo real comodo,  de muy bajo consumo y ultra portable.
+		In respect of the Android application, the software development project has produced an Android application providing all required functionality, namely visualization of ECG data from Bluetooth and USB nodes, log saving and reading, and view controlling capabilities, designed and implemented in a robust, expandable manner. Moreover, the application provides a domain-specific framework for the inclusion of new data sources (like Wi-Fi or Near Field Connection) or different source data specifications.\\
+
+		The application presents simple, easy to use user interfaces and very specific functionality, which added to the following of Android proposed application design best-practices smooth the learning curve and allow out of the box usage of the software part of the system. Due to the expansion capabilities of the system, new user interfaces or dialogs can also be added with ease.\\
 	
 	\section{Potential additions and expansions}
 	\label{sec:end-further}
 
-		% Las principales expansiones serían a nivel de usabilidad y de la aplicación del software, que es la que más 					posibilidades tiene.
 		Potential additions are to target the software frontend application. The developed Android application is a (domain specific) general purpose monitoring frontend that should provide a solid framework for further developments.\\
 
-		% Como mejora orientada a si quisiesemos expandirnos a hospitales se podría hacer que con el uso de otro MSP conectado a un servidor y con una aplicación muy muy sencilla se fuera loggeando todo en un ordenador a parte de lo que llega al tablet concreto que esté cerca. 
 		Professional multipatient monitoring could come in two flavours:\\
 
 		Visual-less multipatient monitoring in which a computer receives data from a variable number of wireless delineation nodes, e.g. employing the 802.15.4 receiver, storing it and acting as a server, or directly sending the log files to the actual server. The Android device would then download the log from the server and the own frontend application developed in the scope of this project could be used as the visualization device.\\
@@ -37,20 +37,16 @@
 
 		(Both of these expansions could find an employment in acutal medical environment.)
 
-		% Se podría hacer que la aplicación android se pudiese conectar con el servidor para cargar de ahí los logs, teniendolos así centralizados y accesibles para todo el hospital y no solo el tablet concreto que los ha recogido.
 
-		% Se podrían incluir facilidades de navegación por los logs como poner la hora a la que corresponde el segundo de onda que estás viendo actualmente, o incluso moverse por los logs a partir de la hora.
 		More improvements can include the implementation of more detailed log navigation functionality, including information about the actual recording time and searching of specific time moments.
 		Inclusion of event data into the log (like body weakness sensation or feeling of dizziness) could also be useful.
 		(This two are for personal monitorization and inhome healthcare)\\
 
-		% Dado que es un tablet o movil se podría incluir soporte para que en caso de subidas o bajadas de tension(por ejemplo) mandase un mensaje a un numero o un correo a una cierta direccón.
 		Message sending when certain events occur (low or high hbr or arrythmia detection), text message, email, even a phone call could help constant monitorization requiring people. GPS information could be included in the message for quick localization of the affected person by the healthcare personal.
-
-		% Se podría incluir localización por GPS para que en caso de que hubiera algún problema en el aviso que podría mandarse la localización por si el paciente no pudiese facilitarla en caso de que le llamaran para ver si está bien.
 	
 	\section{Findings}
 	\label{sec:end-findings}
 
-	% Hablar sobre la imporancia de los sistemas de monitorización para mucha gente, de que es algo con un uso potencial muy grande, y que nosotros venimos a cubrir esa necsidad con un sistema que ha tenido en cuenta la facilidad de uso por parte del usuario desde el princpio orientandolo por ello a sistemas de bajo consumo para que las personas que tienen algun problema cardiaco no tengan una nueva carga, si no una ayuda.
 		Ideas: importance of monitorization systems for cardiovascular diseases affected people. Great potential of development in this area. Low cost, low sized, user focused designed, an thus, comfortable application system development is a ineherntly good goal, as are of great help for CVD affected people.
+
+		Interesting: Marian is interested in the project for personal monitorization, David Atienza (EPFL's ESL \& UCM) is highly interested in the lower energy costs this project has achieved. Also, Solar Flight.
