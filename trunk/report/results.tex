@@ -11,14 +11,14 @@
 
 		The production of the fully functional, low energy requiring, low sized ECG monitoring system employing an Android device as the user interface and 802.15.4 as the wireless data transferring protocol has been achieved. The system provides all the required functionality: real-time ECG wave data visualization both from 802.15.4 and Bluetooth nodes and storing of the received data in log files for afterwards visualization of these, as well as visualization parameters configuration. The system is, then, a more energy efficient and accessible version of the one produced by the Complutense University of Madrid and the École Polytechnique Fédérale de Lausanne, which is the primary objective of the project.\\
 
-		This achievement is made thanks to the successful outcome of both the hardware research and the software development processes in which the project has been divided. Each of them requiring the employment of specific methodologies and techniques, but being, as they were, highly dependant one on the other only complicated the predicition of the outcome of them both. Thanks to the flexible scheduling conducted for each one, which considered the potential eventualities to arise in the other and focused in allowing rescheduling when necessary, this uncertainty has been correctly managed, leading to the current, successfully finalized state of the project.\\
+		This achievement is made thanks to the successful outcome of both the hardware research and the software development processes in which the project has been divided. Each of them requiring the employment of specific methodologies and techniques, but being, as they were, highly dependent one on the other only complicated the prediction of the outcome of them both. Thanks to the flexible scheduling conducted for each one, which considered the potential eventualities to arise in the other and focused in allowing rescheduling when necessary, this uncertainty has been correctly managed, leading to the current, successfully finalized state of the project.\\
 		
 		% HW: The goal of an external 802.15.4 receiver device is fulfilled. Employing it the system is able to render ECG data emitted by a delineator node. Bluetooth is also available, as well as log saving and further reading.\\
 		% No olvidar hablar de modificaciones al shimmer!
 		Regarding the hardware research part, the main goal pursued was the production of the 802.15.4 USB receiver device for Android systems. This device has successfully evolved from the early stages of development where a prototyping board was employed to a custom developed printed circuit board, which, if has not been produced, is completely designed and validated\todo{Not yet, but soon}.\\
 
 		% Concrete results: X x Y x Z sized device consuming W1 watts of power (actual data, please) which compared to Bluetooth consumption (W2 watts, ...) is pretty low cost, all of this powered by the Android device, and the receiver being plug and play no installation procedure is required.\\
-		The prototype board's \todo{Substitute these for the PCB ones if available}dimensions are 7.25 x 6.35 x 3.5, and it requires 3.3V for correct operation, being usable with at least 3.0V. It's USB capability allows for it to be connected to any HID compliant system, and has been successfully employed as an 802.15.4 receiver both in Android devices and Windows based personal computers.\\
+		The prototype board's \todo{Substitute these for the PCB ones if available}dimensions are 7.25 x 6.35 x 3.5 cm, and it requires 3.3V for correct operation, being usable with at least 3.0V. Its USB capability allows for it to be connected to any HID compliant system, and has been successfully employed as an 802.15.4 receiver both in Android devices and Windows based personal computers.\\
 
 		In respect of the Android application, the software development project has produced an Android application providing all required functionality, namely visualization of ECG data from Bluetooth and USB nodes, log saving and reading, and view controlling capabilities, designed and implemented in a robust, expandable manner. Moreover, the application provides a domain-specific framework for the inclusion of new data sources (like Wi-Fi or Near Field Connection) or different source data specifications.\\
 
@@ -26,7 +26,7 @@
 	
 	\section{Potential additions and expansions}
 	\label{sec:end-further}
-
+		\begin{comment}
 		Potential additions are to target the software frontend application. The developed Android application is a (domain specific) general purpose monitoring frontend that should provide a solid framework for further developments.\\
 
 		Professional multipatient monitoring could come in two flavours:\\
@@ -43,6 +43,89 @@
 		(This two are for personal monitorization and inhome healthcare)\\
 
 		Message sending when certain events occur (low or high hbr or arrythmia detection), text message, email, even a phone call could help constant monitorization requiring people. GPS information could be included in the message for quick localization of the affected person by the healthcare personal.
+
+		% Comentar también como trabajo futuro los requisitos que plantea Marian
+		\end{comment}
+
+		Although every initially planned objective has been fulfilled, in addition to several of them which
+		were added during the development, there is still room for improvements and features which were
+		not considered or left out of scope, since the developed application is not considered as a specific
+		product itself, but a framework for further developments. These improvements can be classified according 
+		to the period planned for their implementation:
+
+		\begin{itemize}
+			\item \textbf{Short-term:} the following features specifically target personal use. Considering
+				the user is to monitor his/her own vital signs, the next additions are thought to be useful:
+
+				\begin{itemize}
+					\item \emph{Event Tagging}\\
+						Assuming the user is feeling funny or pain, it may be quite interesting for him/her
+						to be able to annotate such an event with later revision purposes, either by
+						him/herself or medical staff. Furthermore, the capability of marking down one peculiar
+						result about the ECG delineation can also be useful.\\
+
+						In this way, making use of the tactile interface the Android tablet features, this
+						activity can be done by simply touching the relevant event or result. Next, the moment
+						which that points refers is logged and a comment may be added to the annotation.\\
+
+					\item \emph{Temporal Meta-Data}\\
+						In the same conditions described in the previous item, it is possible that the user
+						had felt a particular sensation in a certain moment, yet he/she was unable to mark it.
+						Moreover, maybe the annotation was done and it is required to directly jump to that
+						certain time.\\
+
+						In order to ease these tasks, time-related data is to be added so that a precise
+						moment of the monitoring can be directly found. In this way, the user can input
+						the desired date so that the application shows what was happening at that moment.
+						In addition, markers from previous annotations would also appear for quickly accessing
+						to relevant events.\\
+
+					\item \emph{Voice Commands}\\
+						Due to the particular health condition of the user, or just because he/she is busy,
+						direct interaction with the monitoring Android device is likely to be impossible. If
+						situations like these are to happen, letting users interact with the system through
+						their own voice may ease the aforementioned tasks.\\
+
+						Fortunately, Android provides speech recognition support throughout its specific API,
+						so this feature could be added without developing the whole voice recognition framework.\\
+
+					\item \emph{Automatic Warnings}\\
+						Regarding the user's health condition or unavailability again, automatic message sending
+						with ECG data in case of relevant happenings were detected would mean a seamless way to
+						warn the user, relatives or qualified staff if needed. In the same direction, multiple
+						alternatives would be presented such as emails with GPS location attachments or direct
+						automatic voice calls to complement this feature.
+
+				\end{itemize}
+
+			\item \textbf{Long-term:} this features are mainly ideas which would grant the system with much 
+				richer capabilities and new potential, though it would require of a greater amount of time
+				along with specific planning and dedication.\\
+
+				On the one hand, the application could be focused to professional multipatient monitoring,
+				which could be interpreted in two alternative ways:
+
+				\begin{itemize}
+					\item Since the developed 802.15.4 USB receiver is also compatible with HID-compliant
+						devices, particularly computers, multipatient monitoring could be uploaded to a
+						devoted server from a variable number of wireless delineaton nodes, omitting the 
+						displaying service the Android application provides. Once the data is uploaded,
+						the Android device could connect with the mentioned server and download the information
+						right from the developed application. Then, the Android tablet would act as usual
+						as frontend of the monitoring process, displaying the downloaded data.
+
+					\item Taking into account the relatively big display a tablet device provides, this
+						multipatient monitoring paradigm could be directly implemented into the Android 
+						device by extending the application's functionality. Among this new functionalities
+						there would be switching between ECG wave visualizations of different patients,
+						simultaneous logging and server uploading as well.
+				\end{itemize}
+
+				On the other hand, regarding self-monitoring but applied to specific domains which would
+				require additional time, work and resources. For instance, adapting the whole system to be used
+				in the cockpit of a solar flight, which represents a special environment with particular
+				requirements, though would benefit from the longer battery life this system provides.
+		\end{itemize}
 	
 	\section{Findings}
 	\label{sec:end-findings}
