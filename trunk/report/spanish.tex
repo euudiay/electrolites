@@ -1,6 +1,7 @@
 \chapter{Resumen en español}
 \label{ch:resumen}
 
+	% Descripción del proyecto
 	En este proyecto se expone la investigación realizada con el objetivo de desarrollar un receptor del estándar de redes de área personal inalámbricas 802.15.4 del IEEE para dispositivos Android a través de USB, aplicado a un sistema completo de monitorización electrocardiográfica (ECG), así como el proceso de desarollo del mismo. Este sistema se enmarca en el ámbito de la atención sanitaria personal: su principal aplicación es la montorización del estado del corazón por parte de un particular, eliminando la dependencia, respecto a esta tarea específica, con los sistemas de atención sanitaria tradicionales.\\
 
 	Recientemente ha surgido un gran interés, tanto en el ámbito académico como en el industrial, en la producción de sistemas de monitorización ECG portátiles y de bajo consumo, llegando a ser una de las principales aplicaciones de las redes de sensores corporales inalámbricas.\\
@@ -25,55 +26,122 @@
 
 	La existencia de otros proyectos con el objetivo de la dotación a dispositivos móviles del estándar 802.15.4 es un hecho conocido desde el inicio del proyecto, aunque éstos no tengan como objetivo el campo de la biomedicina o la monitorización personal. El motivo para no apoyar o emplear alguno de ellos es doble: por un lado, al comienzo del proyecto éstas iniciativas se encuentran o bien inconclusas o bien paralizadas; más aún, todas son proyectos aislados, generalmente desarrollados por una única persona y sin ningún tipo de soporte oficial ni garantías de finalización. Por otra parte, y siguiendo la idea de obtención de un sistema de tamaño reducido, el objetivo de este proyecto es emplear el dispositivo Android como maestro en la comunicación USB, de forma que el receptor 802.15.4 obtenga la alimentación a través de él, eliminando así la necesidad de emplear una batería que incrementaría el tamaño del receptor. Ninguno de los proyectos existentes emplea la capacidad de los dispositivos Android para asumir el rol de maestro en la comunicación, así que no son de utilidad real para el proyecto.\\
 
-	Por todo lo anterior, el desarrollo del proyecto viene motivado por dos razones principales: la 
-	potencial utilidad que demuestra ser un sistema como este y el interés que suscita a nivel
-	académico.\\
+	% Motivación
+	El desarrollo del proyecto viene motivado por dos razones principales: la 
+	potencial utilidad que demuestra tener un sistema de estas características 
+	y el interés que suscita a nivel académico.\\
 
 	Según la Organización Mundial de la Salud (OMS), las enfermedades cardiovasculares representan la
 	principal causa de mortalidad a nivel mundial. Sin embargo, la vigilancia que requieren las
 	personas afectadas no es asumible, por lo general, por los sistemas de sanidad tradicionales. La
 	monitorización doméstica continua supondría una gran ayuda para estas personas, pero todavía
-	supone un objetivo a cumplir.\\
+	se trata un objetivo a cumplir.\\
 
 	En un escenario como este, las redes inalámbricas de sensores corporales (wireless body sensor
-	networks, WBSN) demuestran ser herramientas de monitorización eficientes y asumibles
+	networks, WBSN) se presentan como herramientas de monitorización eficientes y asumibles
 	económicamente. Particularmente, las WBSN aplicadas a la monitorización electrocardiográfica son
 	de gran utilidad en el seguimiento de enfermedades cardiovasculares. De hecho, proyectos como el
 	de la UCM y la EPFL mecionado anteriormente promueven la expansión de sistemas como estos.\\
 
 	Además, con el uso de dispositivos portátiles, en particular smartphones, para mostrar los
 	resultados de la monitorización se persigue la expansión de estos sistemas en todos los ámbitos
-	de la sociedad, ya que permiten integrar el sistema en dispositivos habituales, evitando así la
-	necesidad de cargar con aparatos adicionales. La elección de Android como plataforma reponde a
-	los factores que se mencionaron anteriormente, con el objetivo principal de favorecer la posible
-	expansión del sistema.\\
+	de la sociedad, ya que permiten integrar el sistema en dispositivos ampliamente utilizados, 
+	evitando así la necesidad de cargar con aparatos adicionales. La elección de Android como 
+	plataforma reponde a	los factores de difusión y menor coste de los terminales que se mencionaron 
+	anteriormente, con el objetivo principal 	de maximizar la expansión del sistema.\\
 
-	Asimismo, se busca también el uso más amplio de este sistema con el aumento de la duración de la
+	Asimismo se busca el uso más extendido del sistema con el aumento de la duración de la
 	batería y la reducción del tamaño de los nodos de monitorización: un consumo de batería menos
-	exigente permite un número menor de interrupciones en la monitorización debidas a la necesidad de
-	recargarla menos frecuentemente, mientras que el menor tamaño del dispositivo facilita la tarea
-	de utilizarlo constantemente. La utilización del estándar 802.15.4 responde a la búsqueda de la
+	exigente permite un número menor de interrupciones en la monitorización producidas durante el
+	proceso de carga de la misma, mientras que el menor tamaño del dispositivo facilita el emleo
+	contínuo del mismo. La utilización del estándar 802.15.4 responde a la búsqueda de la
 	realización de estos objetivos.\\
 
-	En conjunto, el uso de un dispositivo Android con capacidad de recepción según el 802.15.4 en un
+	En conjunto, el uso de un dispositivo Android con capacidad de recepción 802.15.4 en un
 	sistema de monitorización electrocardiográfica continua rebaja los requisitos de consumo de batería
 	y tamaño del sistema completo, y de esta forma mejora la posibilidad de ser transportado y relaja
 	las restricciones en su aplicación.\\
 
 	Desde un punto de vista académico, la principal motivación que plantea el desarrollo de este
 	proyecto es el hecho de que reune prácticamente todas las áreas de la carrera de Ingeniería
-	Informática. Desde el mismo comienzo el proyecto requiere de desarrollo tanto software como
-	hardware, e implica la investigación en ámbitos externos al de la propia carrera, además de diseño
-	y programación en varios niveles de abstracción distintos.\\
+	Informática. Desde el mismo comienzo el proyecto implica desarrollo tanto software como
+	hardware además de investigación en ámbitos externos al alcance de la propia carrera,
+	como tecnologías inalámbricas de bajo consumo	o desarrollo para dispositivos móviles, así como 
+	tareas de diseño y desarrollo en un amplio rango de niveles de abstracción.\\
 
 	Se espera también que las tecnologías basadas en la especificación del estándar 802.15.4 del IEEE
 	como ZigBee verán incrementada su relevancia a medio plazo debido a sus potenciales aplicaciones en
-	el campo de la domótica y otras áreas.\\
+	campos como la domótica y la biomedicina, entre otros.\\
 
 	Además, tanto el desarrollo de aplicaciones como de accesorios para smartphones u otro tipo de
 	dispositivos portátiles son unas de las prácticas más habituales hoy en día en el ámbito del
-	desarrollo de sistemas informáticos, y representan unas de las actividades más demandadas. Por
-	tanto, entrar en contacto con ellas proporciona una experiencia adicional en un campo puntero como
-	este, lo que amplía nuestro rango de habilidades y, por consiguiente, incrementa nuestro valor en 
+	desarrollo de sistemas informáticos, y representan algunas de las actividades más demandadas. Por
+	tanto, entrar en contacto con ellas proporciona una experiencia adicional en un campo puntero que
+	no hace sino amplíar nuestro rango de habilidades y, por consiguiente, incrementa nuestro valor en 
 	el mercado laboral.\\
 
+	% Desarrollo
+	Al comienzo del proyecto, evaluando los objetivos, se decide hacer una distinción muy clara entre dos partes del proyecto: por un lado, el desarrollo de la aplicación para Android y por otro, la investigación orientada al posterior desarrollo del receptor 802.15.4 así como la correcta utilización del nodo delineador seleccionado incluyendo las modificaciones que hubiera que hacerle al mismo.\\
+
+	El desarrollo la aplicación Android se trata de un proyecto de desarrollo software de tamaño manejable cuyo mayor riesgo consiste en la falta de formación del equipo en el ámbito del desarrollo de aplicaciones para dispositivos móviles.\\
+
+	Por su parte, el desarrollo del receptor 802.15.4 implica un esfuerzo de investigación hardware importante, ya que la mayoría de lo objetivos planteados ni siquiera se sabe sin son alcanzables. Es más, el desarrollo de dispositivos electrónicos al nivel requerido por el proyecto queda fuera del alcance de la formación recibida. Todo esto provee a la parte de desarrollo e investigación sobre hardware de un nivel de incertidumbre, tanto en la posibilidad real de alcanzar los objetivos propuestos, como en la capcidad del equipo para llevarlos a cabo, muy superior al existente en el desarrollo software.\\
+
+	Esta situación propicia la división del proyecto en dos subproyectos a desarrollar de forma independiente pero teniendo en cuenta en todo momento la estrecha dependencia entre uno y otro. De esta forma en cada desarrollo se pueden aplicar las metodologías, técnicas y planificaciones más apropiadas para el tipo de trabajo concreto a realizar. Atendiendo a la estrecha dependencia entre los dos proyectos, y buscando evitar grandes descompensaciones entre ambos, se fija una planificación común a todo el proyecto de forma que ciertos hitos deben alcanzarse a la par en ambos desarrollos.\\
+
+	De esta forma se asegura que la funcionalidad producida por un proyecto se completa en el otro mientras se deja libertad para aplicar el enfoque que se considere más efectivo en cada proyecto durante los ciclos de desarrollo. Además, dada la incertidumbre asociada a la investigación hardware, los plazos temporales para los hitos se asumen como variables y se manejan planes de actuación en la planificación del proyecto de desarrollo software para que el trabajo no se vea detenido por los potenciales retrasos. Se considera, entonces, que el camino crítico del proyecto está definido por el proyecto de investigación y desarrollo hardware y el proyecto de desarrollo software debe adaptarse a sus necesidades. Aún y así en la planificación del primero no se dejan de tener en cuenta las posibles contingencias del desarrollo software.\\
+
+	La tecnología seleccionada para el desarrollo del proyecto es la siguiente:
+		\begin{itemize}
+			\item \emph{El dispositivo móvil tipo tableta basado en Android} Motorola Xoom
+			
+			Escogido entre otros modelos de terminales que soportan Android por su capacidad para asumir el rol de maestro en la comunicación USB. Además, la capacidad del procesador que incorpora y el hecho de integrar una GPU lo hacen especialmente aplicable para la consecución del objetivo de mostrar los datos de la electrocardiografía en tiempo real.
+		
+			\item \emph{Nodo delineador de ECG producido por la UCM y la EPFL}
+
+			Este nodo se basa en la plataforma inalámbrica de sensores corporales \emph{Shimmer} para la captura de la onda electrocardiográfica y realiza un análisis de la misma (denominado delineación), enviando los datos a través de Bluetooth o, potencialmente, 802.15.4. El nodo se encuentra completamente desarrollado y validado al comienzo del presente proyecto, salvo la funcionalidad de envío a través de 802.15.4, que si bien está implementada en el dispositivo, no se ha probado de forma exhaustiva.
+
+			\item \emph{La familia de microprocesadores de 16 bits} MSP430 \emph{de la firma} Texas Instruments
+
+			Su elección se realiza teniendo en cuenta tanto su reducido consumo de energía como la sencillez en su programación, que permite utilizar C y depurar a través del estándar JTAG; pero principalmente por el hecho de que el nodo delineador ECG a emplear en el sistema utiliza esta misma familia de microprocesadores, y existe la posibilidad de reutilizar parte del código, especialmente el sistema operativo y la funcionalidad relacionada con envío inalámbrico a través de 802.15.4.\\
+
+			\item \emph{Sistema operativo de tiempo real} FreeRTOS \emph{para dispositivos empotrados}
+
+			El empleo de este sistema operativo viene determinado por la elección del nodo delineador, ya que éste emplea \emph{FreeRTOS} y la implementación de la capa MAC 802.15.4 para dicho sistema operativo se encuentra disponible y puede ser aplicada en el proyecto. Es más, dado que el microprocesador que llevará el receptor a desarrollar es el mismo que el del nodo delineador, el sistema operativo puede ser utilizado directamente en el receptor sin esperar la necesidad de muchas modificaciones. Como se menciona antes, la implementación de la capa MAC 802.15.4 para \emph{FreeRTOS} implementación no está totalmente completa, pero es un buen punto de partida.
+
+		\end{itemize}
+
+	Cada tecnología se aplica en uno de los subsistemas que forman el sistema completo. Aunque se ha trabajado también con otras tecnologías, éstas se irán mencionando a lo largo de la exposición del desarrollo del proyecto que se realiza a continuación, y por tanto se omite su enumeración en este punto. Se analiza primero el desarrollo relacionado con la parte de hardware del proyecto.\\
+
+	El subproyecto de hardware contempla dos fases: por un lado la investigación sobre la factibilidad y la forma de alcanzar los objetivos propuestos, y por otro el desarrollo necesario para alcancar dichos objetivos. Los objetivos concretos de este subproyecto son:
+
+		\begin{enumerate}
+			% \item La realización de un prototipo de comunicación USB con Android empleando una placa de prototipado Arduino
+			\item Lograr la comunicación de un microprocesador MSP430 mediante USB con el dispositivo Android
+			\item Inclusión de capacidad de comunicación a través USB en FreeRTOS
+			\item Empleo de 802.15.4 en FreeRTOS en el procesador MSP430 seleccionado
+			\item Asegurar la correcta operación de los módulos USB y 802.15.4 sobre FreeRTOS
+			\item Diseñar el circuito impreso específico para dispositivo receptor USB 802.15.4
+			\item Validación y producción del dispositivo receptor a partir del diseño
+		\end{enumerate}
+
+	Debido a las restricciones de tiempo y de disponibilidad del equipo al tener que hacer frente a este subproyecto en paralelo con el desarrollo software, se toma la decisión de establecer estos objetivos como los hitos para la planificación, añadiendo uno extra que contempla una fase de  prototipado inicial sobre una placa Arduino, que es bastante más sencillo que trabajar directamente con un MSP430 y sirve como toma de contacto inicial. Como se menciona anteriormente, los plazos para estos hitos se establecen tentativamente debido a la incertidumbre de cada objetivo.\\
+
+	Cabe mencionar que en lugar de separar las fases de investigación y desarrollo asociadas a cada objetivo se opta por no establecer límites fijos entre ellas, de forma que cada objetivo comienza con el planteamiento de las potenciales líneas de investigación del mismo. Seguidamente comienza el desarrollo de una de las líneas de investigación propuestas, y si se llega a un resultado negativo, se descarta el trabajo y se selecciona otra línea de investigación. Este sistema, cercano a las metodologías de desarrollo extremas basadas en prototipos, junto con la flexibilidad de la planificación propuesta ha resultado ser clave para la correcta consecución de los objetivos del subproyecto de hardware.\\
+
+	Detallamos ahora el proceso de desarrollo del subproyecto de software. Siendo este más cercano a un desarrollo tradicional, con menos incertidumbre en cuanto al resultado, se opta por aplicar una metodología de desarrollo ordenada con la que se asegure el cumplimiento de los plazos establecidos por el subproyecto de hardware. Debido a que se aplican las mismas restricciones temporales y de compartición de recursos que las expuestas anteriormente para el subproyecto de hardware, precisamente por la conducción de ambos en paralelo, se descarta la aplicación de metodologías de desarrollo con gran dependencia de la producción de artefactos, así como de metodologías que requieran planificaciones fijas.\\
+
+	Se opta, entonces, por la aplicación de una metodología híbrida entre una metodología iterativa y una metodología de desarrollo rápido. Esto se traduce en el establecimiento de una planificación inicial en base a los objetivos del subproyecto de hardware. Esta planificación empareja los hitos del desarrollo hardware con la funcionalidad correspondiente de la aplicación Android, y, centrándose en construir la mayor cantidad de funcionalidad posible cuanto antes, distribuye el resto de objetivos del subproyecto software. Además es necesario asumir en todo momento la posibilidad de una modificación en las fechas. \\
+
+	Para hacer frente a ese tipo de contingencias se decide aplicar técnicas propias de metodologías iterativas como el análisis de riesgos y el desarrollo basado en casos de uso. De esta forma se mantiene el foco en el desarrollo de la funcionalidad clave aún cuando sea necesario un reajuste de los plazos o una mayor dedicación de recursos al subproyecto de hardware.\\
+
+	Los casos de uso identificados para el sistema son los siguientes:
+
+	\begin{itemize}
+		\item UC1. Visualizar datos obtenidos por Bluetooth
+		\item UC2. Visualizar datos obtenidos por receptor USB
+		\item UC3. Visualizar datos de un archivo de log
+		\item UC4. Ajustar parámetros de visualización
+	\end{itemize}
+
+	Como el receptor USB 802.15.4 es la culminación de la investigación hardware, la planificación de los esfuerzos de desarrollo se plantea de forma que todo el resto de la funcionalidad se construya y valide mientras el subproyecto de hardware desarrolla un prototipo del recept
