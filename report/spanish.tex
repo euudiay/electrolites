@@ -1,6 +1,6 @@
 \chapter{Resumen en español}
 \label{ch:resumen}
-
+	\selectlanguage{spanish}
 	% Descripción del proyecto
 	En este proyecto se expone la investigación realizada con el objetivo de desarrollar un receptor del estándar de redes de área personal inalámbricas 802.15.4 del IEEE para dispositivos Android a través de USB, aplicado a un sistema completo de monitorización electrocardiográfica (ECG), así como el proceso de desarollo del mismo. Este sistema se enmarca en el ámbito de la atención sanitaria personal: su principal aplicación es la montorización del estado del corazón por parte de un particular, eliminando la dependencia, respecto a esta tarea específica, con los sistemas de atención sanitaria tradicionales.\\
 
@@ -20,7 +20,7 @@
 
 	En cuanto al nodo delineador de la onda ECG, el objetivo es emplear uno ya desarrollado para el proyecto. Esto es así porque tanto el nodo delineador como la red de sensores corporales que capturan la onda ECG son sistemas especialmente complejos cuyos desarrollos ocuparían, cada uno, un proyecto de la envergadura del actual.\\
 
-	El nodo delineador que se emplea en el proyecto es obtenido en el proyecto de la UCM y la EPFL antes mencionado. Este nodo se desarrolló inicialmente como un delineador de electrocardiografía en tiempo real de bajo consumo con capacidad para envíar los datos de forma inalámbrica a través de Bluetooth. En otro esfuerzo conjunto entre la EPFL y la UCM se dotó al nodo de funcionalidad para el envío empleando 802.15.4, pero tan sólo al nivel necesario para realizar algunas estimaciones de consumo. Incluso con la utlización real del estándar 802.15.4 estando aún por llegar, el nodo presenta las características necesarias para convertirse en un excelente punto de partida para el alcance de los objetivos del proyecto.\\
+	El nodo delineador que se emplea en el proyecto es obtenido en el proyecto de la UCM y la EPFL antes mencionado. Este nodo se desarrolló inicialmente como un delineador de electrocardiografía en tiempo real de bajo consumo con capacidad para envíar los datos de forma inalámbrica a través de Bluetooth. En otro esfuerzo conjunto entre la EPFL y la UCM se dotó al nodo de funcionalidad para el envío empleando 802.15.4, pero tan sólo al nivel necesario para realizar algunas estimaciones de consumo. Incluso con la utilización real del estándar 802.15.4 estando aún por llegar, el nodo presenta las características necesarias para convertirse en un excelente punto de partida para el alcance de los objetivos del proyecto.\\
 
 	El componente más importante del sistema en cuanto a este proyecto se refiere es el receptor USB de 802.15.4 en tiempo real para dispositivos Android. Su desarrollo es una necesidad puesto que los dispositivos Android actualmente no proporcionan soporte para el protocolo 802.15.4, aunque sí para otros como Bluetooth o Wi-Fi. Considerando que en el nodo delineador que se toma como punto de partida para el sistema la operación que supone mayor consumo de batería es la utilización de la infraestructura Bluetooth, como confirman los estudios realizados por la UCM y la EPFL, la producción del receptor 802.15.4 es, pues, imperativa.\\
 
@@ -165,4 +165,6 @@
 		\item Etiquetado de eventos durante la delineación, de forma que el usuario pueda indicar al sistema en qué momentos se encuentra mal y la información quede almacenada junto a la onda ECG. De esta forma podría estudiarse posteriormente la información guardada de forma más detallada para mejorar la compresión del estado del paciente.
 		\item ES!
 	\end{itemize}
+
+	\selectlanguage{english}
 	
