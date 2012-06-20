@@ -1,6 +1,6 @@
 \documentclass[12pt,a4paper,openright]{book}
 \usepackage{graphicx}
-\usepackage[english]{babel}
+\usepackage[spanish, english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[nottoc]{tocbibind}
 \usepackage{appendix}
@@ -10,6 +10,7 @@
 \usepackage{url}
 \usepackage{todonotes}
 \usepackage{wrapfig}
+% \usepackage{layout}
 
 \graphicspath{{figs/}}
 
@@ -27,6 +28,8 @@
 	urlcolor=black, citecolor=black}
 
 \begin{document}
+
+	% \layout
 
 	%\maketitle
 	\frontmatter % Para prólogos y abstracts y cosas así (numeración romana)
@@ -52,7 +55,6 @@
 	% Documentos anteriores al índice
 	\input{cover}
 	\input{abstract}
-	\input{spanish}
 	\input{acknowledgements}
 
 	\tableofcontents % Índice
@@ -65,6 +67,8 @@
 	\renewcommand{\footrulewidth}{0.0pt}
 	\listoffigures
 	\listoftables
+
+	\input{spanish}
 
 	% formato para encabezado/pie de pagina para el resto del documento
 	\mainmatter % Para el resto del documento (numeración arábiga)
