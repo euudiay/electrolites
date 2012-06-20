@@ -98,12 +98,14 @@
 
 				\end{itemize}
 
+				All these features come from a potential project proposed by a specific individual, which, being affected of a certain cardiovascular disease and considering the goals and results of this specific project, has shown interest in further specialization of the developed system for it's particular needs. This private enterprise is yet to be started, but the inception phase has already begun, and is seeking funding. The team of the current project is offering consulting on the viability of the requirements of the project, and testing has been conducted of the already available system with the interested individual.\\
+
 			\item \textbf{Long-term:} this features are mainly ideas which would grant the system with much 
 				richer capabilities and new potential, though it would require of a greater amount of time
 				along with specific planning and dedication.\\
 
-				On the one hand, the application could be focused to professional multipatient monitoring,
-				which could be interpreted in two alternative ways:
+				On the one hand, the application can be focused towards professional multipatient monitoring,
+				which could be developed in at least two alternative ways:
 
 				\begin{itemize}
 					\item Since the developed 802.15.4 USB receiver is also compatible with HID-compliant
@@ -121,15 +123,49 @@
 						simultaneous logging and server uploading as well.
 				\end{itemize}
 
-				On the other hand, regarding self-monitoring but applied to specific domains which would
-				require additional time, work and resources. For instance, adapting the whole system to be used
-				in the cockpit of a solar flight, which represents a special environment with particular
-				requirements, though would benefit from the longer battery life this system provides.
+				On the other hand, regarding self-monitoring, the system can be adapted to be applied to 
+				specific domains which impose additional time or resource restrictions.
+				Specifically the director of the Embedded Systems Laboratory at the EPFL, where the delineator 
+				node employed in this project was produced in the aforementioned collaboration with the UCM, 
+				has shown interest in the application of the system low power requirements in a specific project
+				the EPFL is collaborating with: Solar Impulse\cite{solarflight}.\\
+
+				This particular project tries to achieve a flight around the world employing no fuel, just the
+				energy collected from the sun. The airplane used in the project allows only for the pilot to be
+				in the cockpit throughout the flight, and, thus, he/she is required to be constantly monitorized.
+				Among others, ECG monitorization is required, at is, at the time, being provided by the EPFL and
+				UCM monitoring project with the already exposed battery implications of the employment of 
+				Bluetooth as the wireless	technology.\\
+
+				Considering that the space in the cockpit is very reduced, and the amount of wires, sensors and
+				other instruments that are present, any operation is to be done with special care and only when
+				absolutely needed. Concretely, the swapping of a battery-exhausted delineator node for another,
+				fully-charged one, to allow the recharging of the first, is a complex procedure as the body
+				sensor network wires have to be unplugged from one node and plugged into the other. Moreover,
+				while this procedure is being performed ECG monitorization is interrupted.\\
+
+				Reducing the battery consumption of the delineator node is then, a must, and can be achieved by
+				the employment of 802.15.4 as the wireless communication protocol. Because of that, the results
+				obtained in this project can of great use to the Solar Impulse project.\\
+				
+				% For instance, adapting the whole system to be used
+				% in the cockpit of a solar flight, which represents a special environment with particular
+				% requirements, though would benefit from the longer battery life this system provides.
 		\end{itemize}
 	
 	\section{Findings}
 	\label{sec:end-findings}
 
+		Development:
+		
+		Employment of Android for this real-time thingamagigs is not the best thing ever as, even if the devices have high computational power, the restrictions imposed by the operating system hardens the task quite a lot. In that scenario a custom display device would allow finer, prettier visualization of the data, BUT of course the benefits of employing Android like 1. it's already developed duh 2. simplicity of development of visually rich apps and, specially, 3. high availability of the devices which reduces the amount of devices carried, compensate for every drawback it may have. So, asuming some limitations in the display applications (which already can eventually or will be able to be overcome) the selection of Android as a platform has been awesomely great.
+
+		Regarding the process of a project such as this that spawn various subprojects with different characteristics and highly related one on the other, the employment of a flexible schedule, a detailed risk management procedure and focusing a lot on the current objective and it's deadline is critical for a successful outcome.
+
+		Results:
+
 		Ideas: importance of monitorization systems for cardiovascular diseases affected people. Great potential of development in this area. Low cost, low sized, user focused designed, an thus, comfortable application system development is a ineherntly good goal, as are of great help for CVD affected people.
+
+		In this line, 802.15.4 as a low energy requiring wireless protocol significantly reduce the need of monitorization interruption due to battery recharging procedures, which seems like a small thing but is extra nice for minimizing the impact in the life style of the affected people. Also, employment of Android instead of iOS allows things like letting the application work in background while doing other things, shall not be interrupted by an incoming call and such. Also seem like small things but hell if you have to cope with them in day after day.
 
 		Interesting: Marian is interested in the project for personal monitorization, David Atienza (EPFL's ESL \& UCM) is highly interested in the lower energy costs this project has achieved. Also, Solar Flight.
