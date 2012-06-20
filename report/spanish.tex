@@ -148,7 +148,7 @@
 
 	Se ha logrado, entonces, la producción de un sistema de monitorización electrocardiográfica en tiempo real de bajo consumo y tamaño reducido empleando un dispositivo Android como interfaz con el usuario y el estándar 802.15.4 como protocolo de transmisión de datos inalámbrico. Este sistema provee toda la funcionalidad requerida: visualización de la onda ECG en tiempo real proveniente de nodos tanto 802.15.4 como Bluetooth, almacenamiento de ésta de forma permanente en archivos y su posterior visualización, así como capacidad para configurar los parámetros de la visualización tanto en tiempo real como de archivos. El sistema es, pues, una versión más accesible gracias al empleo de dispositivos Android y con un consumo energético dos órdenes de magnitud menor del sistema producido en 2011 por la Universidad Complutense de Madrid y la École Polytechnique Fédérale de Lausanne, lo cual es el principal objetivo del proyecto.\\
 
-	Este hito se alcanza gracias a la correcta finalización tanto del subproyecto de investigación hardware como del de desarrollo software en que se dividide el proyecto. Las diferencias en el enfoque requeridas por cada subproyecto sumadas a la estricta dependencia entre ambos resultaban una complicación añadida en la previsión del resultado de los dos desarrollos, pero gracias a la aplicación de planificaciones flexibles pero de objetivos firmes en cada uno que no dejaban de tener en cuenta posibles complicaciones en el otro y contaban con planes tanto de contingencia como de actuación ante ellas se manejaron correctamente ambos proyectos, dando lugar al actual estado de finalización satisfactoria del proyecto.\\
+	Este hito se alcanza gracias a la correcta finalización tanto del subproyecto de investigación hardware como del de desarrollo software en que se dividide el proyecto. Las diferencias en el enfoque requeridas por cada subproyecto sumadas a la estricta dependencia entre ambos resultaban una complicación añadida en la previsión del resultado de los dos desarrollos; pero, gracias a la aplicación de planificaciones flexibles pero de objetivos firmes en cada uno que no dejaban de tener en cuenta posibles complicaciones en el otro, y que contaban con planes tanto de contingencia como de actuación ante ellas, se manejaron correctamente ambos proyectos, dando lugar al actual estado de finalización satisfactoria del proyecto.\\
 
 	En cuanto al subproyecto de hardware, la producción del receptor USB de 802.15.4 para dispositivos Android se ha llevado a cabo con éxito. El dispositivo ha evolucionado desde las primeras etapas donde se empleaba una placa de prototipado hasta llegar a ser un circuito integrado diseñado expresamente para el proyecto. Este circuito integrado está completamente diseñado y validado, si bien no ha sido aún producido debido a los costes que ello supondría\todo{Eliminar esto si se hace o whatever}. En su lugar se ha utilizado un prototipo, de tamaño algo más reducido pero construido a partir del diseño final de la placa, para la validación del sistema.\\
 
@@ -156,15 +156,68 @@
 
 	Con respecto a la aplicación para terminales Android producida en el subproyecto de software, proporciona toda la funcionalidad que entra dentro de los objetivos del proyecto de forma robusta y con un diseño similar al de las aplicaciones canónicas de Android. Es una aplicación, dentro del dominio específico de la monitorización electrocardigráfica, con funcionalidad de propósito general, que requeriría cierta especialización para ser realmente útil. Esta especialización deberá añadir funcionalidad para el escenario de aplicación particular, y el análisis de esos escenarios o la posible implementación de alguno de ellos queda fuera de los objetivos del proyecto.\\
 
-	En cualquier caso, siendo conscientes de la necesidad de especialización futura de la aplicación, durante el diseño y desarrollo de la se puso un gran énfasis en que la aplicación, además de ofrecer la funcionalidad requerida, proporcionase un conjunto de herramientas tal que pueda actuar como un framework sobre el cual se pueda realizar el desarrollo de aplicaciones de monitorización ECG más específicas. Como detalle, mencionar que además de que el sistema está preparado para la inclusión sencilla de nuevas fuentes de datos además de Bluetooth, 802.15.4 y archivos, la fuente de datos de 802.15.4 en realidad es un dispositivo USB, en concreto el receptor, por lo que podría emplearse cualquier otro periférico que enviase datos con la codificación esperada en su lugar.\\
+	En cualquier caso, siendo conscientes de la necesidad de especialización futura de la aplicación, durante el diseño y desarrollo de la misma se puso un gran énfasis en que, además de ofrecer la funcionalidad requerida, proporcionase un conjunto de herramientas tal que pudiera actuar como un framework sobre el cual se pueda realizar el desarrollo de aplicaciones de monitorización ECG más específicas. Como detalle, mencionar que además de que el sistema está preparado para la inclusión sencilla de nuevas fuentes de datos además de Bluetooth, 802.15.4 y archivos, la fuente de datos de 802.15.4 en realidad es un dispositivo USB, en concreto el receptor, por lo que podría emplearse cualquier otro periférico que enviase datos con la codificación esperada en su lugar.\\
 
 	Esto da una idea de la flexibilidad buscada, y alcanzada, del sistema de monitorización desarrollado. Apoyándose en ella, se plantean potenciales líneas de trabajo futuro, distinguiendo entre las que se podrían realizar a corto plazo y las que serían ya para un medio o largo plazo.\\
 
 	Por un lado, un particular afectado de una enfermedad cardiovascular que requiere de monitorización electrocardiográfica constante, observando los objetivos y los resultados del proyecto actual, presentó al departamento un proyecto de especialización del sistema desarrollado para sus necesidades particulares, que son comunes al colectivo de afectados por dicha enfermedad. Este nuevo sistema ha de incorporar, además de la funcionalidad presente en el actual, algunas características nuevas:
+
 	\begin{itemize}
 		\item Etiquetado de eventos durante la delineación, de forma que el usuario pueda indicar al sistema en qué momentos se encuentra mal y la información quede almacenada junto a la onda ECG. De esta forma podría estudiarse posteriormente la información guardada de forma más detallada para mejorar la compresión del estado del paciente.
-		\item ES!
+		\item Adición de información temporal a los logs, de manera que el usuario pueda consultar
+			directamente la onda ECG relativa a un momento concreto en el que se encontró mal, o que
+			pueda saltar al momento indicado por un marcador de eventos. Esto facilitaría la consulta
+			y navegación por los datos almacenados.
+		\item Comandos de voz que permitan interactuar con el sistema sin necesidad de emplear las
+			manos, ya que, ya sea por su estado de salud o porque las tenga ocupadas, es posible que
+			el usuario no pueda manejar la aplicación.
+		\item Avisos automáticos en caso de que se produzca algún evento relevante relacionado con la
+			salud del usuario, de manera que se pueda alertar al mismo, algún pariente o personal
+			cualificado en caso de ser necesario. Además, estos avisos podrían hacerse de varias
+			formas, ya sea a través de mensaje, correos electrónicos con localización GPS adjunta o
+			incluso llamadas de voz automáticas directamente.
 	\end{itemize}
 
+	Por otra parte, se contemplan una serie de expansiones del sistema más a largo plazo, debido sobre
+	todo a que requieren de más tiempo y recursos, aparte de una planificación específica. En primer
+	lugar se proponen mejoras enfocadas a la monitorización de varios pacientes, para un entorno más
+	profesional, en dos posibles versiones:
+
+	\begin{itemize}
+		\item Dado que el receptor desarrollado también es compatible con dispositivos que soporten el
+			protocolo HID, se propone utilizarlo conectado a un PC que actúe como servidor, recibiendo
+			los datos ECG procedentes de los nodos de varios pacientes. Una vez estos datos están en
+			el servidor, la propia aplicación Android permitiría conectarse a este para descargarlos
+			y visualizarlos en el dispositivo.
+		\item Teniendo en cuenta que la pantalla de un tablet es relativamente grande, se puede
+			aprovechar para mostrar los resultados de la monitorización de varios pacientes a la vez.
+			Como parte de esta nueva funcionalidad también se encontraría la de cambiar entre la onda
+			ECG de otros pacientes, guardado de logs simultáneo y subida a un servidor dedicado.
+	\end{itemize}
+
+	También a largo plazo, aunque en el campo de la automonitorización, se plantea la adaptación del
+	sistema a dominios particulares que imponen requisitos adicionales debido, sobre todo, al entorno
+	en el que se utilizaría. En este sentido, el director del Laboratorio de Sistemas Empotrados (ESL)
+	de la EPFL (equipo responsable junto a la UCM del desarrollo del nodo delineador que se usa en
+	este proyecto) ha mostrado interés en la aplicación de los bajos requisitos de consumo del sistema
+	en otro proyecto de la EPFL con el que está colaborando, el Solar Impulse.\\
+
+	Este proyecto en concreto trata de conseguir un vuelo alrededor del mundo evitando el uso de
+	carburantes de cualquier tipo, utilizando únicamente energía solar. El avión utilizado es de una
+	única plaza, por lo que las constantes vitales del piloto deben estar monitorizadas en todo
+	momento. Por el momento, la monitorización electrocardiográfica se lleva a cabo utilizando el
+	sistema desarrollado por la UCM y la EPFL, con la escasa duración de batería que ello implica.\\
+
+	Teniendo en cuenta que el espacio dentro de la cabina es muy reducido, cualquier tarea debe ser
+	llevada a cabo con especial cuidado y únicamente cuando sea absolutamente necesario. Es por ello
+	que el intercambio de la batería del nodo delineador debe ser una tarea lo menos frecuente posible,
+	entre otras razones porque interrumpe la monitorización en el proceso.\\
+
+	Por tanto, la reducción del consumo de energía y el consiguiente aumento de la duración de la
+	batería plantean un avance muy significativo para un proyecto como el del Solar Impulse, tarea
+	que se puede conseguir mediante el empleo del estándar 802.15.4 como protocolo de comunicación
+	inalámbrico.\\
+
+	% Y ahora conclusiones finales
+
 	\selectlanguage{english}
-	
