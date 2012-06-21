@@ -4,6 +4,10 @@ PDF=$(PRY).pdf
 
 .PHONY: show
 
+plain:
+	pdflatex plain-style.tex
+	evince plain-style.pdf
+
 all:
 	pdflatex $(SRC)
 	pdflatex $(SRC)
