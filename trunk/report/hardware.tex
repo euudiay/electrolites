@@ -277,7 +277,6 @@
 
 		\subsection{FreeRTOS}
 		\label{ssec:FreeRTOS}
-			\todo{Pedir información y referencias a joaquin}
 			FreeRTOS is a real-time operating system specifically designed for embedded devices, and has been
 			ported to 31 different architectures hitherto. Due to its real-time target, it features small sized
 			binary images and memory footprint, real-time tasks and co-routines and communication and
@@ -734,48 +733,62 @@
 		\end{comment}
 
 		\subsection{MSP430 based device design}
-		\label{ssec:device.design}	
-		The objectives for this milestone are:
-		\begin{itemize}
-		\item exhaustive analysis of the reference board,
-		\item capture of the board schematic, and
-		\item design and routing of the actual PCB.
-		\end{itemize}
-		%Algo en plan, finalizada la investigación y gracias a que pusimos mucho empeño en acabar con tiempo suficiente fuimos capaces(como de tener la capacidad, no de conseguir(be able to)) de diseñar un dispositivo a partir de los componentes presentes en la placa de prototipado.
+			\label{ssec:device.design}	
+			The objectives for this milestone are:
+			\begin{itemize}
+			\item exhaustive analysis of the reference board,
+			\item capture of the board schematic, and
+			\item design and routing of the actual PCB.
+			\end{itemize}
+			%Algo en plan, finalizada la investigación y gracias a que pusimos mucho empeño en acabar con tiempo suficiente fuimos capaces(como de tener la capacidad, no de conseguir(be able to)) de diseñar un dispositivo a partir de los componentes presentes en la placa de prototipado.
 
-		At this point the objective of the hardware research part of the project has already been achieved. An MSP430 based 802.15.4 USB receiver has been developed and tested. It is able to connect to an Android device and draw power from it, and little power \todo{confirm this} is required. Low power requirements achieved, the next step is the miniaturization of the board so as to minimize the size of the system. Production of a small device which can be attached to the Android system is the objective of this milestone.\\
+			At this point the objective of the hardware research part of the project has already been achieved. An MSP430 based 802.15.4 USB receiver has been developed and tested. It is able to connect to an Android device and draw power from it, and little power \todo{confirm this} is required. Low power requirements achieved, the next step is the miniaturization of the board so as to minimize the size of the system. Production of a small device which can be attached to the Android system is the objective of this milestone.\\
 
-		\begin{enumerate}
-		\item \emph{Exhaustive analysis of the reference board}\\
-		%Identificación de componentes de placa 
-			%(pines de expansión)
-			%(cambio de componentes por otros)
-			%(eliminacion JTAG y reutilizacion Radio)
+			\begin{enumerate}
+			\item \emph{Exhaustive analysis of the reference board}\\
+			%Identificación de componentes de placa 
+				%(pines de expansión)
+				%(cambio de componentes por otros)
+				%(eliminacion JTAG y reutilizacion Radio)
 
-			The device board design is to be made taking the MSP-TS430PZ100USB board as a base, as it provides all the components required by the target device and the schematics are available as part of the official Texas Intruments provided documentation. The first step towards the achievement of the low sized device is the correct identification of the minimum set of components required by the target functionality, as not every component present in the base board is actually used. This is so because the TS430PZ100USB is an evaluation board providing a lot of features targeting the simplicity of the prototyping process.\\
+				The device board design is to be made taking the MSP-TS430PZ100USB board as a base, as it provides all the components required by the target device and the schematics are available as part of the official Texas Intruments provided documentation. The first step towards the achievement of the low sized device is the correct identification of the minimum set of components required by the target functionality, as not every component present in the base board is actually used. This is so because the TS430PZ100USB is an evaluation board providing a lot of features targeting the simplicity of the prototyping process.\\
 
-			 In order to minimize the size of the board, three main modifications are conducted. First, power source selection related circuitry is removed and the board is left with just the ability to get power from the USB connection. This eliminates a number of power source selection jumpers and voltage regulation components. Second, a meticulous selection of the processor pins which will be available for external usage is performed. This selection tries to balance between minimizing the number of pins exposed and as featuring as much expansion capabilities as possible. The final set includes, apart from the pins required by the radio and USB modules as well as power related ones, the eight pins required for one of the IO ports, one pin intended for the connection of a led and one for the inclusion of a reset switch.\\
+				In order to minimize the size of the board, three main modifications are conducted. First, power source selection related circuitry is removed and the board is left with just the ability to get power from the USB connection. This eliminates a number of power source selection jumpers and voltage regulation components. Second, a meticulous selection of the processor pins which will be available for external usage is performed. This selection tries to balance between minimizing the number of pins exposed and as featuring as much expansion capabilities as possible. The final set includes, apart from the pins required by the radio and USB modules as well as power related ones, the eight pins required for one of the IO ports, one pin intended for the connection of a led and one for the inclusion of a reset switch.\\
 
-			The other main change to the original board is the inclusion of the connection sockets for the CC2420 and the substitution of the debugging JTAG port for a smaller one, which will require the production of a standard JTAG cable adaptor but will also reduce the size of the board significantly.\\
+				The other main change to the original board is the inclusion of the connection sockets for the CC2420 and the substitution of the debugging JTAG port for a smaller one, which will require the production of a standard JTAG cable adaptor but will also reduce the size of the board significantly.\\
 
-			Once the selection of components is validated, the production of the schematic of the new board begins.\\
+				Once the selection of components is validated, the production of the schematic of the new board begins.\\
 
-		\item \emph{Capture of the board schematic}\\
-		%Captura de esquemático
-	
-			The design of the board schematic is the next step towards the obtention of the actual PCB for the device. The schematic capture process is done from scratch, even if the board is based on the TS430PZ100USB, because no usable schematic file for the evaluation board is found. The device circuitry being simple, the main problem source for this task is the selection of as small as possible footprints for the board components, and further implementation into the design software. Some of these footprints are obtained from trusted sources \todo{dixon \& altium}, and other, more obscure ones, are to be made by hand. This footprint selection process is very important, as will be the foundation of the PCB design stage.\\
+			\item \emph{Capture of the board schematic}\\
+			%Captura de esquemático
+		
+				The design of the board schematic is the next step towards the obtention of the actual PCB for the device. The schematic capture process is done from scratch, even if the board is based on the TS430PZ100USB, because no usable schematic file for the evaluation board is found. The device circuitry being simple, the main problem source for this task is the selection of as small as possible footprints for the board components, and further implementation into the design software. Some of these footprints are obtained from trusted sources, and other, more obscure ones, are to be made by hand. This footprint selection process is very important, as will be the foundation of the PCB design stage.\\
 
-			Once the schematic is finished and validated, a first prototype is to be built for actual testing. Prior to this, the development of the device's bill of materials is performed, focusing in minimizing the total cost while acquiring the as small as possible, specifically choosen footprint featuring componets.\todo{costes y tal?}
+				Once the schematic is finished and validated, a first prototype is to be built for actual testing. Prior to this, the development of the bill of materials of the device is performed, focusing in minimizing the total cost while acquiring the as small as possible, specifically choosen footprint featuring componets.
 
-			Aaaand here we are. The board is being built and, as of June, 13, still doesn't work :(\todo{Rafa left here}\\
+			\item \emph{Design and routing of the actual PCB}\\
+				In order to start the design of the miniaturized receiver, validation of the proper operation of the
+				developed prototype is mandatory. As it can be expected, minor mistakes may be made in both the schematic
+				capture and the prototype building which may make the final product does not work once built. In fact,
+				avoiding such kind of failures is the purpose of the prototype.\\
 
-		\item \emph{Design and routing of the actual PCB}
-		%Diseño PCB
-		%Rutado PCB
-		\end{enumerate}
+				Once the test of the prototype is completed, the designing process just consists of finding a proper
+				location for each one of the previously identified components. This task entails several risks since
+				the design is subject to changes, changes which, however small they are, may lead to a complete
+				redesign of the device. Hence, special care has to be devoted to this job so as to avoid significant
+				waste of time.\\
 
-		% Conclusión: por ahora no va nada :(
-		This is the future for now D|:
+				As for the PCB routing, special attention has to be paid so that the actual routing is as similar
+				as possible to the planned one, and hence less time is to be dedicated to the correction of the circuit 
+				tracks. In addition, assuring each component has enough space, tracks are not overlapped and power
+				lines are wide enough to guarantee the correct voltage are also critical tasks.\\
+
+				Assuming this guidelines are followed, PCB routing becomes feasible and gets done with no
+				additional problems, so the building of the device is ordered.\\
+
+			\end{enumerate}
+
+			
 
 		\subsection{Final Validation and Release Candidate Version Development}
 		\label{ssec:Final.Validation}	
