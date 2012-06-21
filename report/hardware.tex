@@ -260,14 +260,19 @@
 				\label{fig:bcn-gts-recp}
 			\end{figure}
 
-			\todo{Calculate average consumption and compare with Bluetooth one}
 			These low-power periods grant a much better battery life when compared to the one Bluetooh, as the
 			wireless alternative Shimmer provides, allows because of the constant user and protocol data flow
 			that it causes, fact that is aggravated by its much broader bandwitdth. Thus, it provokes that the
-			average Shimmer battery life employing 802.15.4 is up to two orders of magnitude higher than employing
-			Bluetooth. For instance, a fully loaded battery would increase its life from
-			about 6 hours to several days, which would be particularly interesting as it would let its
-			replacement not to be a constant nuisance. \todo{Substitute with accurate values.}
+			average Shimmer battery life employing 802.15.4 is more than one order of magnitude higher than employing
+			Bluetooth. For instance, a fully loaded battery would increase its life from about 4 hours and a half
+			to almost four days, which would be particularly interesting as it would let its replacement not to be
+			a constant nuisance. These calculations come from a 280mAh Li-ion battery @ 3.7V powering the same
+			Shimmer device sending the same data through Bluetooth (4.41h, 235mW) or 802.15.4 (89.17h, 11.63mW).\\
+
+			Particularly, using 802.15.4, in a period of almost 1 second (980ms), the reception of one beacon
+			along with the sending of 7 packages take place, which only last for 53.44ms. Thus, the device stays in
+			low-power mode for all the time left, 926.56ms. In other words, power consumption is at its minimum
+			for the 94.95\% of the time, as opposed to Bluetooth, which always keeps it at its highest value.
 
 
 		\subsection{FreeRTOS}
@@ -278,19 +283,19 @@
 			binary images and memory footprint, real-time tasks and co-routines and communication and
 			synchornization tools for tasks and interrupts (queues, semaphores, mutexes). So as to achieve this
 			real-time suitable condition, it is predominantly written in C and carefully coded in order to
-			guarantee its portability and compatibility with different compilers.
+			guarantee its portability and compatibility with different compilers.\\
 
 			This project makes use of FreeRTOS so that it manages the receiver device's resources and handles
 			the data reception and beacon sending of its radio as well as the USB communication with the Android
 			device. However, despite the self-claimed compatibility with MSP430 architecture, the official port
-			of FreeRTOS is not compatible with the microcontrollers employed in this project (specified at
-			\autoref{ssec:msp430}, \nameref{ssec:msp430}) due to/because... \todo{Find out why it had to be ported.}
+			of FreeRTOS was not compatible with the microcontrollers employed in this project (specified at
+			\autoref{ssec:msp430}, \nameref{ssec:msp430}) at the beginning because it did not support the
+			newer members of the MSP430 microcontroller family (although it currently does).\\
 
 			Therefore, the operating system had to be accordingly modified and subsequently ported in order to
-			support the target MSP430F5438A microcontroller. This task was carried out by... \todo{Detail what the
-			work consisted of.}
-
-			\todo{Explain the features and relevant points this port adds}
+			support the target MSP430F5438A microcontroller. This task was carried out by one member of the department,
+			and consisted of adding support for extra peripheral devices, such as radio, serial port, USB
+			and clocks, and adapting the intern management of interrupts and routines of the system.\\
 
 		
 		\subsection{USB device \& USB host}
