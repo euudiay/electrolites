@@ -17,7 +17,7 @@
 	%In that scenario devices that disturb regular working conditions are not valid at all;
 	In that scenario unobtrusive operation is a main need, and usual life style activity modification is to be minimized. And it has to be low-powered, because were the power cost of application higher than that of the Bluetooth technology, a main advantage of 802.15.4 is lost.\\ 
 
-	The ability to communicate through USB is required because, at the time, it is the most low battery consuming method to interact with Android powered platforms for any external device[quote here wlan and bt costs].\\
+	The ability to communicate through USB is required because, at the time, it is the most low battery consuming method to interact with Android powered platforms for any external device.\\
 
 	And finally it should be able to act as the slave in the USB connection to avoid the need of an extra power source for the device that would increase the cost and size of the product.\\
 
@@ -319,8 +319,8 @@
 
 			Regarding this project, this matter applies in the way both the Android and the receiver devices are
 			connected and which one assumes the USB host role. It would result particularly desirable that the
-			Android device acted as host so that the receiver could be fed from its battery --which would make the
-			collection really portable, non-dependent on the accessory power source--. However, it depends on
+			Android device acted as host so that the receiver could be fed from its battery (which would make the
+			collection really portable, non-dependent on the accessory power source). However, it depends on
 			the platform that this arrangement can be possible.\\
 
 			Although certain Android devices running version 2.3 were capable of offering USB host support, this
@@ -337,7 +337,7 @@
 
 	The hardware related investigation is the main section of the research part of the project. Not that there wasn't any research involved in other areas, but some critical elements of this part had never been researched before. 
 	At the beginning of the project specific objectives were established and main milestones elected, but absolutely no clue or direction for most of those milestones was available.
-	Moreover, in some cases the feasibility of the proposed goals was unknown. Specifically the achievement of the very important objective of USB communication between an [TI's] MSP430 %(ponemos algo más de info o ya se sabe el modelo y todo?) 
+	Moreover, in some cases the feasibility of the proposed goals was unknown. Specifically the achievement of the very important objective of USB communication between an MSP430 %(ponemos algo más de info o ya se sabe el modelo y todo?) 
 	and an Android powered device assuming the latter the role of master and acting the former as a slave was something not done before and therefore no information was available  even in the Texas Instrument support site.\\
 
 	%Plantea un reto porque toca todos los niveles, desde diseño de PCB a nivel componente hasta desarrollo a nivel de SO (kernel? <= investigar si kernel o SO)
@@ -569,7 +569,7 @@
 		% REALIZACION: port testing application to FreeRTOS task system.
 		\end{itemize}
 
-		Despite having already achieved communication between Android and MSP430 device through USB, there is
+		Despite having already achieved communication between Android and an MSP430 device through USB, there is
 		still work about this since it is only a test version which does not take FreeRTOS into account. In fact,
 		FreeRTOS, as it is explained at \autoref{ssec:FreeRTOS}, will be responsible of managing the operation of
 		the microcontroller in addition to the radio. So, adapting the USB functionality and equipping FreeRTOS
