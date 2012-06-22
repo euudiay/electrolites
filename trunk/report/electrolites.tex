@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,openright]{book}
+\documentclass[11pt,a4paper,openright]{book}
 \usepackage{graphicx}
 \usepackage[spanish, english]{babel}
 \usepackage[utf8]{inputenc}
@@ -33,6 +33,8 @@
 \hypersetup{backref=true, colorlinks=true, linkcolor=black, menucolor=black,
 	urlcolor=black, citecolor=black}
 
+\linespread{1.125}
+
 \begin{document}
 
 	% \layout
@@ -41,7 +43,7 @@
 	\frontmatter % Para prólogos y abstracts y cosas así (numeración romana)
 	\pagestyle{fancy}
 
-	\listoftodos
+	% \listoftodos
 	
 	% Redefinición del estilo plain para cambiar los inicios de capítulos
 	\fancypagestyle{plain} {
@@ -72,7 +74,7 @@
 	\renewcommand{\headrulewidth}{0.0pt}
 	\renewcommand{\footrulewidth}{0.0pt}
 	\listoffigures
-	\listoftables
+	% \listoftables
 
 	\input{spanish}
 
