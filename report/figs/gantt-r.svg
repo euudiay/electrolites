@@ -2249,11 +2249,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="135.03896"
-     inkscape:cy="475.18713"
+     inkscape:zoom="3.959798"
+     inkscape:cx="497.19016"
+     inkscape:cy="450.80352"
      inkscape:document-units="px"
-     inkscape:current-layer="g15650"
+     inkscape:current-layer="g13310"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -4505,9 +4505,10 @@
             <tspan
                style="font-size:8.80000019px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
                x="0 3.3664801 8.4161997 11.17512 16.22484 18.754681"
-               y="0"
                sodipodi:role="line"
-               id="tspan13318">t1.5.1</tspan>
+               id="tspan13318"
+               y="0"
+               dx="0 1.6162441 0.6060915 0.40406102 0 -0.40406102">T1.5.1</tspan>
           </text>
         </g>
       </g>
