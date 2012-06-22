@@ -1,6 +1,11 @@
 \chapter{Budget Analysis}
 \label{ch:budget}
 
+\newcommand*\cleartoleftpage{%
+  \clearpage
+  \ifodd\value{page}\hbox{}\newpage\fi
+}
+
 	Throughout this appendix the project budget analysis is conducted, by detailed specification of both time and resource cost.\\
 
 	The project division in atomic tasks and the scheduling of these is exposed in the first section, in order to justify the cost in engineer hours. The tasks have been given sufficiently explicit names, and have been divided regarding the development iteration they belong to. The Gantt chart ilustrating the project schedule is presented next. Both the hardware and the software subprojects are presented together in it in order to achieve a finer understanding of the project progression.\\
@@ -71,6 +76,7 @@ H7 & Final Validation and Release Candidate Version Development & 15/06/2012 & 1
 		\hline
 		\end{tabular}\\\\
 
+		\newpage
 		\subsection{Software project tasks}
 
 		\begin{tabular}{| c | p{6cm} | l | l |} % | l | para el hw
@@ -116,29 +122,39 @@ IT5 & Final Validation & 15/05/2012 & 22/06/2012\\ \hline
 		\hline
 		\end{tabular}\\\\
 
-	\newpage
+	\cleartoleftpage
 	\subsection{Project scheduling chart}
-	\begin{figure}[h]
-		\centering
+	% \begin{figure}[h]
+		% \centering
 	    	\includegraphics[width=\textwidth]{gantt-l}
-		\label{fig:gantL}
-	\end{figure}
-	\newpage
-	\begin{figure}[h]
-		\centering
+		% \label{fig:gantL}
+	% \end{figure}
+	% \begin{figure}[h]
+	 	% \centering
 	    	\includegraphics[width=\textwidth]{gantt-r}
-		\label{fig:gantR}
-	\end{figure}
+		% \label{fig:gantR}
+	% \end{figure}
 
 \section{Asset cost}
 
-	A partir de la planificación anterior, que es la real del proyecto, y considerando que hubo en total cerca de dos meses de vacaciones, podemos considerar que este proyecto tiene una duración de 7 meses con 3 personas trabajando a media jornada. Tipicamente el salario de un ingeniero trabajando en este campo sería de unos 35 euros la hora. Por lo que el coste de un ingeniero durante 7 meses a media jornada sería 35euros/hora * 4 horas/dia * 22 dias/mes * 7 meses = 21560\\
+	% A partir de la planificación anterior, que es la real del proyecto, y considerando que hubo en total cerca de dos meses de vacaciones, podemos considerar que este proyecto tiene una duración de 7 meses con 3 personas trabajando a media jornada. Tipicamente el salario de un ingeniero trabajando en este campo sería de unos 35 euros la hora. Por lo que el coste de un ingeniero durante 7 meses a media jornada sería 35euros/hora * 4 horas/dia * 22 dias/mes * 7 meses = 21560\\
+	The total asset cost of the project is presented next, considering the following assumptions:
+	\begin{itemize}
+		\item The project has been developed through seven months after deducting two months of recess.
+		\item Three engineers have been employed halftime through the whole project.
+		\item A halftime workday is considered to be of four hours.
+		\item The engineer per hour cost considered is 35{\small \euro} per hour.
+		\item The ECG delineator node technology is donated and thus does not compute to the price.
+	\end{itemize}
 
-	Este coste, unido al de los productos que habría habido que adquirir si no hubiera habido nada en el lugar donde se realizase el proyecto nos dan el coste total del proyecto:\\
+	The cost of a single engineer emplyed halftime throughout the seven months is of 35{\small \euro}/hour $\times$ 4 hours/day $\times$ 22 days/month $\times$ 7 months = 21560{\small \euro}.\\
+
+	% Este coste, unido al de los productos que habría habido que adquirir si no hubiera habido nada en el lugar donde se realizase el proyecto nos dan el coste total del proyecto:\\
+	The breakdown of the cost of the assets of the project is now exposed.\\
 
 \begin{tabular}{| p{5cm} |l | l | l |} 
 \hline
-   Name & Number& Price per unit & Total price\\ \hline
+   Name & Number& Price per unit & Total ({\small \euro})\\ \hline
    Motorola Xoom - Wifi & 1 & 399 & 399\\ \hline
    Google ADK & 1 & 70,8 & 70,8\\ \hline
    Exp430F5438 + MSP430F5438A & 1 & 117,89 & 117,89\\ \hline
@@ -146,16 +162,19 @@ IT5 & Final Validation & 15/05/2012 & 22/06/2012\\ \hline
    CC2420 & 1 & 4,00 & 4,00\\ \hline
    Prototype & 1 & 38,60 & 38,60\\ \hline
    Final product & 1 & 42,229 & 42,229\\ \hline
-   Enginer & 3 & 21560 & 64680\\ \hline
+   Engineer & 3 & 21560 & 64680\\ \hline
    Total & & & 65392,13\\ \hline
-\hline
 \end{tabular}\\\\
 
+	The total cost of the development of the project rises to 65392,13{\small \euro}. 
 
 \chapter{Product Cost}
 \label{ch:cost}
 
-	El coste de fabricar un dispositivo de manera individual, que es lo que se ha hecho durante el proyecto es el siguiente:\\
+	% El coste de fabricar un dispositivo de manera individual, que es lo que se ha hecho durante el proyecto es el siguiente:\\
+	The cost of the production of both a single unit of the final board and an estimated mass production in batches of 10000 (ten thousand) units is as follows.\\
+
+	In this project a single unit of the board has been produced, with the following, exact, cost.\\
 
 \begin{tabular}{| c |l | l | l | l |} 
 	\hline
@@ -173,6 +192,10 @@ IT5 & Final Validation & 15/05/2012 & 22/06/2012\\ \hline
  		Capacitor & 1327699 & 1 & 0,36 & 0,36 \\ \hline
   		Resistor & 1500615 & 4 & 0,028 & 0,112\\ \hline
 	 	Capacitor & 644183 & 1 & 0,27 & 0,27 \\ \hline
+\end{tabular}\\
+\begin{tabular}{| c |l | l | l | l |} 
+		\hline
+		Name & Reference & Number & Price per unit & Total price\\ \hline
 	 	Capacitor & 1740632 & 1 & 0,062 & 0,062\\ \hline
 	 	MSP430F6638 & 2070274 & 1 & 18,49 & 18,49\\ \hline
 	 	Capacitor & 1833888 & 1 & 0,163 & 0,163\\ \hline
@@ -186,11 +209,13 @@ IT5 & Final Validation & 15/05/2012 & 22/06/2012\\ \hline
 	 	Radio & From TI & 1 & 4,00 & 4,00\\ \hline
 		Production & & 1 & 6,00 & 6,00\\ \hline
 	 	Total &  &  &  & 42,229\\ \hline
-	\hline
-\end{tabular}\\\\
+\end{tabular}\\
 
-	Como todo producto hardware, el precio por unidad suele ser muy elevado pero a partir de cantidades de producción algo más levadas se reduce sustancialmente, para 
-	ilustrarlo este sería el coste de 10000 unidades:\\
+	The resulting cost of the device is of 42,229{\small \euro}.\\
+
+	%Como todo producto hardware, el precio por unidad suele ser muy elevado pero a partir de cantidades de producción algo más levadas se reduce sustancialmente, para 
+	%ilustrarlo este sería el coste de 10000 unidades:\\
+	In a mass production scenario the cost of the individual unit is reduced, and an estimation of this is now presented.\\
 
 \begin{tabular}{| c |l | l | l | l |} 
 	\hline
@@ -208,6 +233,10 @@ IT5 & Final Validation & 15/05/2012 & 22/06/2012\\ \hline
  		Capacitor & 1327699 & 10000 & 0,063 & 630 \\ \hline
   		Resistor & 1500615 & 40000 & 0,021 & 840\\ \hline
 	 	Capacitor & 644183 & 10000 & 0,159 & 1590 \\ \hline
+\end{tabular}\\\\
+\begin{tabular}{| c |l | l | l | l |} 
+		\hline
+		Name & Reference & Number & Price per unit & Total price\\ \hline
 	 	Capacitor & 1740632 & 10000 & 0,012  & 120\\ \hline
 	 	MSP430F6638 & 2070274 & 10000 & 13,07 & 130700\\ \hline
 	 	Capacitor & 1833888 & 10000 & 0,026  & 260\\ \hline
@@ -222,17 +251,8 @@ IT5 & Final Validation & 15/05/2012 & 22/06/2012\\ \hline
 		Base board &  & 1 & 100 & 100\\ \hline
 		Production &  & 10000 & 0.05 & 500\\ \hline
 	 	Total &  &  &  & 252860\\ \hline
-	 	Total per unit &  &  &  & 25,286\\ \hline
+	 	Total per unit &  &  &  & 25,286\\
 	\hline
 \end{tabular}\\\\
 
-
-
-
-
-
-
-
-
-
-
+	The cost of the device produced in batches of 10000 (ten thousand) units is reduced to 25,286{\small \euro}.
