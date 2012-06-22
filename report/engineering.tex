@@ -246,11 +246,58 @@ IT5 & Final Validation & 15/05/2012 & 22/06/2012\\ \hline
 	 	%Header & 7472285 & 10000 & 1.34 & 1.34\\ \hline NO VAN EN EL PRODUCTO
 	 	%Milligrid & 511031 & 10000 & 0.163 & 0.163\\ \hline NO VAN EN EL PRODUCTO
 	 	Radio & From TI & 10000 & 4.00 & 40000\\ \hline
-		Base board &  & 1 & 100 & 100\\ \hline
-		Production &  & 10000 & 0.05 & 500\\ \hline
-	 	Total &  &  &  & 252860\\ \hline
-	 	Total per unit &  &  &  & 25.286\\
-	\hline
+		Base mask &  & 1 & 150 & 150\\ \hline
+		Production &  & 10000 & 0.30 & 3000\\ \hline
+	 	Total &  &  &  & 255360\\ \hline
+	 	Total per unit &  &  &  & 25,536\\	\hline
 \end{tabular}\\\\
 
-	Hence, the cost of the device produced in batches of 10000 (ten thousand) units is reduced to 25.286{\small \euro}.
+	The cost of the device produced in batches of 10000 (ten thousand) units is reduced to  25,536{\small \euro}.
+
+
+\chapter{Receiver Specification Documents}
+\label{ch:specs}
+
+\section{Bill Of Materials}
+{\footnotesize
+\begin{tabular}{| c |l | p{1.5cm} | l | l | l |} 
+	\hline
+		Comment & Description & Designator & Footprint & LibRef & Qty.\\ \hline
+		12pF & Capacitor & C1, C2 & CC2012-0805 & Cap & 2\\ \hline
+		47pF & Capacitor & C3, C4 & CC2012-0805 & Cap & 2\\ \hline
+		100nF & Capacitor & C5, C11, C13, C14, C17, C19 & CC2012-0805 & Cap & 6\\ \hline
+		10uF & Capacitor & C6, C7 & 3.5x2.8x1.9 & Cap & 2\\ \hline
+		2,2nF & Capacitor & C8 & CC2012-0805 & Cap & 1\\ \hline
+		470nF & Capacitor & C9 & CC2012-0805 & Cap & 1\\ \hline
+		4.7nF & Capacitor & C16 & 0603 & Cap & 1\\ \hline
+		220nF & Capacitor & C33, C38 & 0603 & Cap & 2\\ \hline
+		10pF & Capacitor & C35, C36 & 0603 & Cap & 2\\ \hline
+		4,7uF & Capacitor & C39 & 0603 & Cap & 1\\ \hline
+		0.1uF & Capacitor & C40 & 0603 & Cap & 1\\ \hline
+		- & Green LED & D1 & CC2012-0805 & LED2 & 1\\ \hline
+		- & Default Diode & D2, D3, D4 & MELF-D3516-1406 &  LL103A & 3\\ \hline
+		2x10 pin & Header, 20-pin & J2, J3 & MHDR2X10 & SMD2x10 & 2\\ \hline
+		F6638 & Microcontroller & MSP430 & PZ100\_L & MSP430F6638 & 1\\ \hline
+		0 & Resistor & R1, R2, R4 & CC2012-0805 & Res2 & 3\\ \hline
+		47K$\Omega$ & Resistor & R5 & CC2012-0805 & Res2 & 1\\ \hline
+		1M$\Omega$ & Resistor & R11 & 0603 & Res1 & 4\\ \hline
+		27$\Omega$ & Resistor & R34, R35 & 0603 & Res1 & 4\\ \hline
+		1.4K$\Omega$ & Resistor & R34, R35 & 0603 & Res1 & 4\\ \hline
+		- & ESD protection & U2 & SOT23-6\_L & USBLC6-2SC6 & 1\\ \hline
+		4 pin & Header & USB & HDR1X4 & Header 4 & 1\\ \hline
+		32,768KHz & Crystal & XTAL1 & XTAL MS1V-T1K & XTAL MS1V-T1K & 1\\ \hline
+		4,000Mhz & Crystal	& XTAL2 & HC49/4H & XTAL MS1V-T1K & 1\\ \hline
+\end{tabular}\\\\
+}
+
+	Hence, the cost of the device produced in batches of 10000 (ten thousand) units is reduced to 25,286{\small \euro}.
+\section{Schematic}
+
+
+
+
+
+
+
+
+
