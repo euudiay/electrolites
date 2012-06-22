@@ -379,7 +379,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		%\end{wrapfigure}
 
 
-		DataManager is the interface to be implemented by the model controller. It is responsible for the configuring, starting and halting the data flow provided by its controlled entities. It also participates in the process of initialization of the visualization \todo{Link to this process} of a data flow by communicating a DataHolder with the respective DataSourceThread.\\
+		DataManager is the interface to be implemented by the model controller. It is responsible for the configuring, starting and halting the data flow provided by its controlled entities. It also participates in the process of initialization of the visualization of a data flow by communicating a DataHolder with the respective DataSourceThread.\\
 
 		A DataSourceThread is a thread which provides data to other entities in the system, generally to a DataHolder. It is a specialization of Thread with functionality to start and stop the flow of data. This data is usually received from an external entity, such as a USB device or a file, and concrete implementations  might require an actual communication between the two, forcing the DataSourceThread to send data to the other end of the connection. Because of that, any specialization of this class must also listen to petitions of writing to its data provider when available.\\
 
@@ -485,8 +485,6 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			DeviceManager is the realization of the model's Manager. This entity handles connected USB devices enumeration and selection by the user. If only one device is available, connection is directly stablished with it. Differing from the Bluetooth realization implementation, the actual connection to the device is handled by the DeviceManager in a blocking manner. It is so because USB connection resolution takes very little time and the delay is virtually imperceptible for the user.\\
 
 			Once the connection is stablished, the DeviceManager launches a UsbComThread. This thread is the specialization of DataSourceThread and obtains the raw data from the USB device, processes it employing an instance of DynamicDataParser and sends the results to the view thread. This is a DynamicViewThread entity.
-
-		\todo{USER INTERFACES! New subsection with diagrams and all? as an Appendix?}
 
 		\begin{comment}
 		\subsection{More things (which I don't know where to include}
@@ -684,7 +682,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			This design is done targeting easy inclusion of new data flow modules allowing them to employ their own user interfaces, while providing core level software entities for building those modules. This process produces the architecture as exposed in \autoref{sec:sw-arch}.\\
 
-			A detailed analysis is conducted on the data management related operations in the application, identifying the ubiquitous application of the object oriented model proposed by Java added to the subpar efficiency of the Garbage Collector \todo{Reference something? Could be added a screenshot from that Eclipse performance analysis tool?} as the main cause of performance loss. The alteration of the programming paradigm and the employment of as basic software entities as possible, avoiding continuous object instantiation, e.g. substitute an object containing the four parameters of a wave delineation point, by a more basic structure, like the same four numbers stored independently, prove to be the most effective methods of avoiding low performance.\\
+			A detailed analysis is conducted on the data management related operations in the application, identifying the ubiquitous application of the object oriented model proposed by Java added to the subpar efficiency of the Garbage Collector as the main cause of performance loss. The alteration of the programming paradigm and the employment of as basic software entities as possible, avoiding continuous object instantiation, e.g. substitute an object containing the four parameters of a wave delineation point, by a more basic structure, like the same four numbers stored independently, prove to be the most effective methods of avoiding low performance.\\
 
 			Following such lines of operation, performance regarding data management is utterly improved on spite of a less developer-friendly programming environment. During this process the data flow modules (Bluetooth, USB and Log Viewer) are also tweaked.\\
 
@@ -768,6 +766,6 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		The software development part of the project has been able to produce the required Android application, with all planned functionality implemented and including user friendly interfaces. It is a rather general purpose application inside of the domain to which it is restricted, and at it's final state it would need some specialization in order to be actually useful. This is so because the requisite analysis process wasn't developed focusing an immediate professional employment of the application, but a replacement for that of the UCM and EPFL project which inspired this one. \\
 
-		Anyhow, during the architecture design and subsequent implementation phases great emphasis is put for the application to provide the tools to act as a framework over which more specific ECG montoring application development can be realized.\todo{Something from Marian feature list here?} An interesting example of this is that, at the current state, the application implements visualization of data received from an USB device. In this project, the USB device has been the 802.15.4 USB receiver, but any other device capable of encoding the data in the expected way is valid as well.\\
+		Anyhow, during the architecture design and subsequent implementation phases great emphasis is put for the application to provide the tools to act as a framework over which more specific ECG montoring application development can be realized. An interesting example of this is that, at the current state, the application implements visualization of data received from an USB device. In this project, the USB device has been the 802.15.4 USB receiver, but any other device capable of encoding the data in the expected way is valid as well.\\
 
 		Long story short, the software development finished providing successful results in form of a general purpose ECG monitoring application for Android devices which can serve as the base for more specific developments, which was exactly the target objective for the software project.

@@ -421,7 +421,6 @@
 	considers the design of a miniaturized version of the receiver device so as to dispense with the
 	TS430PZ100USB board, which is rather big and little portable. The second one is essential as it
 	is reserved for possible needed fixings and refinements.\\
-	\todo{¿Tabla con las fechas de inicio y fin de las milestones?}
 	
 	All these stages are now detailed over the following subsections.\\
 
@@ -626,7 +625,7 @@
 
 		%Estado de la capa MAC
 		% At the beginining of this milestone there are a port of the needed part of the MAC layer of the 802.15.4, that have been tested in just certain conditions, like send of medium lenght packets.\\
-		The next step is the achievement of wireless 802.15.4 receiving in the MSP430 board through the CC2420 radio module. An existing port of the MAC layer \todo{developed by jrecas, indicate?} for the FreeRTOS running in the MSP430 is taken as the starting point. The main advantage of employing it is that it's the same code running in the 802.15.4 emitter utilized in the project. In any case, before actual usage a correct validation of the software is mandatory. Once validation is completed, the MAC layer is to be implemented into the target MSP430 device and tweaked for actual usage. That is the ultimate goal of this milestone.\\
+		The next step is the achievement of wireless 802.15.4 receiving in the MSP430 board through the CC2420 radio module. An existing port of the MAC layer for the FreeRTOS running in the MSP430 is taken as the starting point. The main advantage of employing it is that it's the same code running in the 802.15.4 emitter utilized in the project. In any case, before actual usage a correct validation of the software is mandatory. Once validation is completed, the MAC layer is to be implemented into the target MSP430 device and tweaked for actual usage. That is the ultimate goal of this milestone.\\
 
 		\begin{enumerate}
 		\item \emph{Validate current implementation of 802.15.4 in FreeRTOS in MSP430 testing board}\\
@@ -638,7 +637,7 @@
 
 		The testing of the MAC layer provides negative results, as although 802.15.4 receiving functionality is present in the port, the OS is not actually notified about it and the received data is lost. Moreover, problems in the receiving of packages of maximum size, which are the ones sent by the 802.15.4 emissor, are also detected.\\
 
-		The amendment of the aforementioned problems takes no longer that expected, and the porting of the 802.14.4 support to the target MSP430 device begins. The original developer of both the FreeRTOS port and the MAC layer is notified about the detected problems, and the fixes are also implemented on the 802.15.4 emissor.\todo{this would be jrecas}\\
+		The amendment of the aforementioned problems takes no longer that expected, and the porting of the 802.14.4 support to the target MSP430 device begins. The original developer of both the FreeRTOS port and the MAC layer is notified about the detected problems, and the fixes are also implemented on the 802.15.4 emissor.\\
 
 		%se llevó luego a otra con USB pero sin soporte ni software ni hardware para la radio, obligando a mapeo manual de pines,
 		\item\emph{Manage connection to the CC2420 radio module to target MSP430 device}\\
@@ -647,7 +646,7 @@
 
 		The target MSP430PZ100USB board provides no CC2420 radio module connection socket, so the port of the validated 802.15.4 module to this board requires manual connection handling of the radio device. The MSP430 features a 100-pin footprint, and a complete study of all the 100 pins target usage and on-board availability becomes mandatory for the identification of the pins that the CC2420 will be connected to. Special care is put to avoid collisions between the USB and the radio modules regarding hardware resources.\\
 
-		Successful identification of the required pins done, a manual soldering of the CC2420 radio module is executed \todo{by dixon} and subsequent testing can continue.\\
+		Successful identification of the required pins done, a manual soldering of the CC2420 radio module is executed and subsequent testing can continue.\\
 
 		\item\emph{Port implementation of 802.15.4 to target MSP430 device}\\
 
@@ -672,8 +671,6 @@
 		%Pequeños cambios para adaptarse a nuestras actuales necesidades y conclusión
 		% Finally some small changes was done in order to adapt it to our project needs. With this a fully funcitonal MAC layer working on the MSP430F6638 was achived and just the potential coexistence with the USB was on the air.\\
 		The rest of the milestone allotted time is then employed in final test conducting resulting in small changes to the code to fully adapt it for the project needs but no critical changes are required. By the end of the milestone time a fully functional 802.15.4 module is achieved in the target MSP430 device, although actual validation of the correct coexistence of the radio and USB modules is to be conducted in the next project phase.\\
-
-		\todo{Comentar que este trabajo se hizo en colaboración con joaquin?}
 
 		\subsection{802.15.4 \& USB coexistence under FreeRTOS}
 		\label{ssec:802.15.4.USB.FreeRTOS}	
@@ -741,7 +738,7 @@
 			\end{itemize}
 			%Algo en plan, finalizada la investigación y gracias a que pusimos mucho empeño en acabar con tiempo suficiente fuimos capaces(como de tener la capacidad, no de conseguir(be able to)) de diseñar un dispositivo a partir de los componentes presentes en la placa de prototipado.
 
-			At this point the objective of the hardware research part of the project has already been achieved. An MSP430 based 802.15.4 USB receiver has been developed and tested. It is able to connect to an Android device and draw power from it, and little power \todo{confirm this} is required. Low power requirements achieved, the next step is the miniaturization of the board so as to minimize the size of the system. Production of a small device which can be attached to the Android system is the objective of this milestone.\\
+			At this point the objective of the hardware research part of the project has already been achieved. An MSP430 based 802.15.4 USB receiver has been developed and tested. It is able to connect to an Android device and draw power from it, and little power is required. Low power requirements achieved, the next step is the miniaturization of the board so as to minimize the size of the system. Production of a small device which can be attached to the Android system is the objective of this milestone.\\
 
 			\begin{enumerate}
 			\item \emph{Exhaustive analysis of the reference board}\\
@@ -791,8 +788,8 @@
 			to be done during the next stage of the project, the miniaturization process is successful and a significantly
 			smaller version is obtained. In particular, its dimensions are 61 x 32 x 6 mm without antenna, 61 x 32 x 35 mm
 			with antenna, as opposed to the measures of the prototype 72.5 x 63.5 x 35 mm and the training board, considerably
-			larger. These smaller dimensions play a determinant role both in the adoption and usefulness of the device which,
-			enclosed in its case, enlarges to affordable \todo{medidas de la caja} mm.\\
+			larger. These smaller dimensions play a determinant role both in the adoption and usefulness of the device.\\% which,
+			% enclosed in its case, enlarges to affordable \todo{medidas de la caja} mm.\\
 
 		\subsection{Final Validation and Release Candidate Version Development}
 			The following tasks are to be completed within this last stage of the development:
@@ -817,13 +814,11 @@
 		\label{sec:hw-final}
 		%Descripción de que es lo que hemos conseguido(es posible que con la evolución alguien que se lea las iteraciones no consiga una clara visión de cual es el estado final del dispositivo, por lo que esta parte me parece muy importante)
 
-		\todo{Hardware section Final Product}
-
 		% Primer parrafo, finalmente, despues de toda esta investigación podemos afirmar que es lo que tenemos, un dispositivo totalmente diseñado por nosotros, de un tamaño reducido y comodo de usar, y que es capaz de comunicarse tanto con un android(a partir de la 3.1)(moviles y tablets) como con widows y es capaz de recibir paquetes por la radio siguiendo el estandar 802.15.4. 
-		The hardware part of the project has successfuly achieved the objective of the production of an 802.15.4 USB receiver. This device provides all expected functionality, specifically the transferring of data received from the 802.15.4 radio module via USB acting as the slave device in the USB connection drawing its power from the master device. This master device can be any system with an implementation of the HID protocol, and has been tested as an 802.15.4 receiver both for an Android device and a Windows based computer. Moreover, taking an evaluation board as the starting point, the device has been custom designed and produced, and miniaturization has been conducted so as to be built into a printed circuit board, even if actual production of such PCB has not been conducted\todo{Change this if PCB is done}.\\
+		The hardware part of the project has successfuly achieved the objective of the production of an 802.15.4 USB receiver. This device provides all expected functionality, specifically the transferring of data received from the 802.15.4 radio module via USB acting as the slave device in the USB connection drawing its power from the master device. This master device can be any system with an implementation of the HID protocol, and has been tested as an 802.15.4 receiver both for an Android device and a Windows based computer. Moreover, taking an evaluation board as the starting point, the device has been custom designed and produced, and miniaturization has been conducted so as to be built into a printed circuit board, even if actual production of such PCB has been initialized but not yet finished.\\
 
 		% De hecho el hardware que lleva lo hace potencialmente usable para cualquiera que requiera un modulo USB que reciba señales de radio por 802.15.4 y las mande por USB por lo que su potencial es mucho mayor que el que se le da en el ambito concreto del proyecto y podría tener muchos más usos que el dado.
-		The fact that the 802.15.4 USB receiver is independent from the domain of the project, i.e. it only assumes the task of sending through an USB connection the data received through the radio, it does not analyize or processes the data, makes it a fully functional general purpose 802.15.4 receiver. \todo{Extra, unrequired, but interesting info}Functionality for data sending through 802.15.4 is present in the device, both in the software and hardware layers, but it lacks the code to send data received from USB to the radio. Nevertheless, this functionality can be implemented with ease, thus turning the device in a full fledged 802.15.4 USB emitter/receiver.\\
+		The fact that the 802.15.4 USB receiver is independent from the domain of the project, i.e. it only assumes the task of sending through an USB connection the data received through the radio, it does not analyize or processes the data, makes it a fully functional general purpose 802.15.4 receiver. Functionality for data sending through 802.15.4 is present in the device, both in the software and hardware layers, but it lacks the code to send data received from USB to the radio. Nevertheless, this functionality can be implemented with ease, thus turning the device in a full fledged 802.15.4 USB emitter/receiver.\\
 
 		% En el ambito concreto del proyecto, el producto nos sirve como medio para que el android pueda recibir la onda ECG capturada y enviada por el shimmer, es interesante por tanto que el tamaño del dispositivo diseñado es realmente pequeño por lo que será comodo para llevar para las personas que por tener un problema necesiten monitorizarse, además gracias a su bajo consumo la vida util de nuestro dispositivo android no se verá muy reducida con su uso, y más importante aún  gracias a esto el shimmer no necesita el bluetooth y puede enviar las señales por radio de manera que consume mucho menos y ve alargado su tiempo entre recargas de 5 o 6 horas a 5 o 6 dias. Especialmente interesante de este dato es el hecho de que con la radio el shimmer supera el umbral del día de funcionamiento por lo que cargando el dispositivo por la noche(sin necesidad de desconectarlo de los sensores, para no interrumpir la monitorización) el paciente podría estar monitorizado indefinidamente, en nuestro caso nuestro paciente podría incluso irse de fin de semana sin preocuparse de llevar el cargador de la batería.
 		In the specific scope of the project, the application of the device for the receiving of the ECG wave data, due to its small size and low battery requirements, lead to a more comfortable employment of the monitoring system. Even if the necessity of employing an Android accessory decreases the portability of the system when compared to the utilization of the Bluetooth module, which is embedded in the Android device, the order of magnitude lower battery requirements compensate throughout, as the lifetime of the battery of the ECG delineator node when using 802.15.4 is increased from hours to days.\\
@@ -840,6 +835,6 @@
 
 		% Como dificultades cabría mencionar que la documentación de TI no es todo lo clara que merece su tamaño, por lo que a veces resultaba complicado, o inlcuso podemos decir que una dificultad era soldar piezas diminutas a la hora de hacer el prototipo pero que eso se resolvió gracias a que lo hizo carlos.
 
-		In conclusion, all the objectives of the hardware research and production have been achieved in the deadlines set for the project, even when coping with the uncertainty inherent to any research and sharing resources with the parallel-conducted software development. Moreover, additional objectives has been pursued and also realized, like the development and miniaturization of the custom board, making this hardware project a success\todo{¿Queda mal lo de success? I don't think so.}.
+		In conclusion, all the objectives of the hardware research and production have been achieved in the deadlines set for the project, even when coping with the uncertainty inherent to any research and sharing resources with the parallel-conducted software development. Moreover, additional objectives has been pursued and also realized, like the development and miniaturization of the custom board, making this hardware project a success.
 		
 		
