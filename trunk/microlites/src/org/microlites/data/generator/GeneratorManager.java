@@ -35,6 +35,10 @@ public class GeneratorManager implements DataManager {
 	public void configure(DataHolder dataHolder) {
 		this.dataHolder = dataHolder;
 	}
+
+	public void back() {
+		this.stop();
+	}
 	
 	
 }

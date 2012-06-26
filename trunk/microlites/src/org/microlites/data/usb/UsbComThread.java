@@ -2,7 +2,6 @@ package org.microlites.data.usb;
 
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
-import java.util.Formatter;
 
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataSourceThread;
@@ -12,12 +11,13 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbRequest;
+import android.os.Handler;
 import android.util.Log;
 
 public class UsbComThread extends DataSourceThread {
 	public final static String TAG = "UsbComThread";
 	
-	private boolean stop;
+	public boolean stop;
 	
 	// Test land of awesomeness
 	private RealTimeDataParser parser;
@@ -27,6 +27,8 @@ public class UsbComThread extends DataSourceThread {
 	private UsbDeviceConnection connection = null;
 	
 	private int bufferDataLength;
+	
+	public Handler handler;
 	
 	public UsbComThread(UsbInterface interf, UsbEndpoint endpointIn, UsbEndpoint endpointOut, UsbDeviceConnection connection, DataHolder holder) {
 
@@ -58,7 +60,7 @@ public class UsbComThread extends DataSourceThread {
 		request.initialize(connection, endpointRead);
 
 		// Mandamos el token para empezar a recibir
-		while (true) {
+		/*while (true) {
 			//Tal y como est?? si falla se queda ciclando por lo que esto es un poco inutil
 			//pero si cambiamos el writte esto es necesario as?? que lo mantengo
 			if (!write(startToken)){
@@ -66,7 +68,7 @@ public class UsbComThread extends DataSourceThread {
 				return;
 			}
 			break;
-		}
+		}*/
 		
 		byte seqNum = 0x0;
 		int maxSeqNum = 256;
@@ -75,11 +77,10 @@ public class UsbComThread extends DataSourceThread {
 		try{
 			byte[] byteBuffer = new byte[bufferDataLength];
 			short actualBytes = -1;
-			char currentChar = 0x40;
+			//char currentChar = 0x40;
 			while (!stop) {
 				//Parte nueva para leer si eres host
-				if (request.queue(buffer, bufferDataLength) && request.equals(connection.requestWait()))  {
-					
+				if (request.queue(buffer, bufferDataLength) && request.equals(connection.requestWait())) {
 					try {
 						buffer.get(byteBuffer, 0, bufferDataLength);
 					} catch (BufferUnderflowException e) {
@@ -137,20 +138,27 @@ public class UsbComThread extends DataSourceThread {
 							//}*/
 								parser.step(byteBuffer[i]);
 						}
+					} else {
+						System.out.println("Recepción de paquete USB no finalizada, pero continuamos");
 					}
 					buffer.clear();
 				}
 			}
-		}catch (Exception ex){
-			Log.w(TAG, "Algo a pasado durante la transmisi???n");
-		}
-		try	{
-			 request.cancel();
-			 request.close();
-		}catch (Exception ex){
-			Log.w(TAG, "Algo a pasado al cerrar la transmisi???n");
-		}
 			
+		}catch (Exception ex){
+			Log.w(TAG, "Algo ha pasado durante la transmisión");
+			ex.printStackTrace();
+		} finally {
+			System.out.println("Cerrando conexión USB...");
+			try	{
+				request.cancel();
+				request.close();
+				System.out.println("Cerrada!");
+			} catch (Exception ex){
+				Log.w(TAG, "Algo ha pasado al cerrar la transmisión");
+				ex.printStackTrace();
+			}
+		}
 	}
 	
 	private boolean write(byte data){
@@ -175,6 +183,9 @@ public class UsbComThread extends DataSourceThread {
 		catch (Exception ex){
 		 // An exception has occured
 			return false;
+		} finally {
+			request.cancel();
+			request.close();
 		}
 	}
 	
