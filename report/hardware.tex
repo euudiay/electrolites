@@ -1,4 +1,4 @@
-\chapter{Hardware and communications}
+\chapter{Hardware and Communications}
 \label{ch:hardware}
 	\section{Introduction}	
 	\label{sec:hw-intro}
@@ -51,9 +51,8 @@
 			hardware add-ons (``shields''). There are other compatible kits with different boards, like
 			NXP-based mbed \cite{mbed}, yet Arduino MegaADK is the one used here.\\
 			
-			The Google ADK functioning is actually very simple. Regarding the software, it needs of 
-			the developing of both an Android application with accessory communication and the board's
-			firmware, which models the behaviour of the accessory. Once the board is flashed with its
+			The Google ADK functioning is actually very simple. Regarding the software, it requires
+			the development of both an Android application with accessory communication capabilities and the proper firmware of the board, which models the behaviour of the accessory. Once the board is flashed with its
 			firmware, it has to be connected to a power source (through a dedicated wire or Type-B USB)
 			and the Android device. If everything is correct, the latter detects the former and, therefore, 
 			the accessory starts its operation.\\
@@ -79,10 +78,10 @@
 					makes the debugging process less difficult along with the possibility of swapping
 					assembly for C.
 				\item \textbf{Wide support and resources:} Texas Instruments provides code examples, software 
-					IDEs and thorough documentation as well as it offers extra developing tools like training 
+					IDEs and thorough documentation as well as it offers extra development tools like training 
 					boards.
 			\end{itemize}
-			However, it also suffers from some lacks. For instance, MSP430 devices are not equipped with
+			However, it also suffers from some lacks. For instance, MSP430 devices are not equipped with an
 			external memory bus, what makes flash memory and RAM extensions impossible. In particular, the
 			MSP430F66xx family, which the device used within this project belongs to, is provided with only 
 			128-256KB of flash storage and 16KB	of RAM --with an extra of 2KB whenever it is not using USB 
@@ -190,9 +189,9 @@
 			is bounded between two beacons sent by the FFD coordinator, which also defines the format of the
 			superframe. The lapse between two consecutive beacons is equally divided into 16 slots, and may or may
 			not be divide into an active and an inactive period, in which the coordinator may enter a low-power
-			mode. Particularly, in this project, part of the superframe is divide into portions called guaranteed
-			time slots (GTSs), which form the contention-free period (CFP) at the end of the superframe, after
-			the contention access period (CAP), as it is represented in \autoref{fig:superframe}. One GTS can use
+			mode. Particularly, in this project, part of the superframe is divide into portions called \emph{guaranteed
+			time slots} (GTSs), which form the \emph{contention-free period} (CFP) at the end of the superframe, after
+			the \emph{contention access period} (CAP), as it is represented in \autoref{fig:superframe}. One GTS can use
 			more than one slot, but the emitter device has to ensure that its transfer is completed before the
 			end of its GTS or the CFP.
 
@@ -224,7 +223,7 @@
 			Due to the possibility of entering low-power mode this standard provides during the
 			lapse of CAP, it allows significant power saving. In \autoref{fig:bcn-recp} and 
 			\autoref{fig:bcn-gts-recp} it can be seen that the Shimmer's power consumption significantly drops
-			after the reception of the beacon. Two and three clearly different phases, respectively, can be
+			after the receiving of the beacon. Two and three clearly different phases, respectively, can be
 			observed in both figures:
 
 			\begin{enumerate}
@@ -244,7 +243,7 @@
 			Oscillations, or peaks, can be observed during the entire process and are due to the continuous
 			tick counter update (every 0.32ms) the operating system carries out. These results were obtained 
 			by measuring the voltage at a resistor which was specifically placed in the emitter node's power
-			path, as it is detailed in \cite[p. 860]{ecg.del.paper}.
+			path, as it is detailed in \cite[p. 860]{ecg.del.paper}.\\
 
 			\begin{figure}[h]
 				\includegraphics[scale=.4]{bcn-recp}
@@ -270,7 +269,7 @@
 			Shimmer device sending the same data through Bluetooth (4.41h, 235mW) or 802.15.4 (89.17h, 11.63mW).\\
 
 			Particularly, using 802.15.4, in a period of almost 1 second (980ms), the reception of one beacon
-			along with the sending of 7 packages take place, which only last for 53.44ms. Thus, the device stays in
+			along with the sending of 7 packages takes place, which only lasts for 53.44ms. Thus, the device stays in
 			low-power mode for all the time left, 926.56ms. In other words, power consumption is at its minimum
 			for the 94.95\% of the time, as opposed to Bluetooth, which always keeps it at its highest value.
 
@@ -278,7 +277,7 @@
 		\subsection{FreeRTOS}
 		\label{ssec:FreeRTOS}
 			FreeRTOS is a real-time operating system specifically designed for embedded devices, and has been
-			ported to 31 different architectures hitherto. Due to its real-time target, it features small sized
+			ported to 31 different architectures hitherto. Due to its real-time nature, it features small sized
 			binary images and memory footprint, real-time tasks and co-routines, as well as communication and synchronization tools for tasks and interrupts (queues, semaphores, mutexes). So as to achieve this
 			real-time suitable condition, it is predominantly written in C and carefully coded in order to
 			guarantee its portability and compatibility with different compilers.\\
@@ -293,35 +292,34 @@
 			Therefore, the operating system had to be accordingly modified and subsequently ported in order to
 			support the target MSP430F5438A microcontroller. This task was carried out by one member of the department,
 			and consisted of adding support for extra peripheral devices, such as radio, serial port, USB
-			and clocks, and adapting the intern management of interrupts and routines of the system.\\
+			and clocks, and adapting the intern management of interrupts and routines of the system. This process has been conducted outside of the project scope.\\
 
 		
 		\subsection{USB device \& USB host}
-			USB host \cite{usbhost}, as oppose to USB accessory, is an operation mode which determines how a
+			USB host \cite{usbhost}, as opposed to USB accessory, is an operation mode which determines how a
 			USB-equipped device interacts with another one. The two connected devices are differently named
 			according to the role they assume in a host or accessory mode connection, namely USB host and USB
 			device. This designation is based on the role each device is playing rather than the sort it belongs
 			to. In particular, one end is named USB host if its apparatus is responsible of supplying power to
 			the one at the other end.\\
 
-			The main difference between both modes lies within the direction the power supply follows or, more
+			In relation to this project, the main difference between both modes lies within the direction the power supply follows or, more
 			specifically, the role the Android running device adopts: Android device acts as host in USB host
 			mode, whereas it acts as device in accessory mode. However, there is no difference in data transfer
-			between them, as it remains bidirectional in both modes. It is typical that the device with larger
-			power consumption (usually the Android device) is the USB host since it probably has a power source
-			of any kind, although this is no always this way.\\
+			between them, as it remains bidirectional in both modes. It is typical for the device with larger
+			power consumption (usually the Android device) to act as the USB host since it probably has a power source
+			of any kind, although this is not always this way.\\
 
-			In addition, when in USB host mode, creating the connection, that is, instatiating and initializing
-			the proper sockets, between both ends is responsibility of the host, along with notifying the other
-			end about the establishment of the communication. On the other hand, the process the end acting as
-			device has to carry out is quite simpler, as it just consists of checking the availability of the
+			In addition, when a device acts in USB host mode, creating the connection, that is, instantiating and initializing
+			the proper sockets, between both ends is its responsibility, along with notifying the other
+			end about the establishment of the communication. On the other hand, the process that the device role assuming system has to carry out is quite simpler, as it just consists of checking the availability of the
 			previously created communication.\\
 
 			Regarding this project, this matter applies in the way both the Android and the receiver devices are
 			connected and which one assumes the USB host role. It would result particularly desirable that the
 			Android device acted as host so that the receiver could be fed from its battery (which would make the
 			collection really portable, non-dependent on the accessory power source). However, it depends on
-			the platform that this arrangement can be possible.\\
+			the specific platform that this arrangement can be possible.\\
 
 			Although certain Android devices running version 2.3 were capable of offering USB host support, this
 			version only officially supports USB accessory mode; whereas USB host mode is only available by
@@ -358,7 +356,7 @@
 			board --namely TS430PZ100USB-- is equipped. Thus, it is necessary to add the essential code in order to 
 			incorporate this functionality to the OS. This issue, in the same way as the previous one, is a critical 
 			part for the system to work properly since it may likely be a source of errors unless it is perfectly 
-			made --for instance, it could add transmission lags, packet corruption or loss--. 
+			made --for instance, it could add transmission lags, packet corruption or even full package losses--. 
 		\item \textbf{MSP430-Android communication:}
 			this issue is particularly relevant as no project has ever claimed to feature this kind of
 			connection before. Hence, it means an additional challenge to be overcome since it will involve
@@ -379,11 +377,11 @@
 	
 	\section{Milestones}
 	\label{sec:hw-mstones}
-	Due to the fair amount of time a essentially researching work like this hardware development will
-	require, the foreseen schedule is subject to changes which may completely alter it regardless of 
+	Due to the fair amount of time a essentially researching work like this hardware development requires, 
+	the foreseen schedule is subject to changes which may completely alter it regardless of 
 	how irrelevant they may seem, and thus avoid the success of the project.\\
 	
-	Keeping this risk in mind, the hardware development was planned as a sequence of milestones,
+	Keeping this risk in mind, the hardware development is planned as a sequence of milestones,
 	ordered by increasing complexity. Every milestone introduces a new technology, each one of them
 	capable of covering the needs of the project in a more complete way. In other words, the previously
 	presented issues are to be resolved as these stages are overcome.\\
@@ -405,12 +403,12 @@
 	with the new target device, MSP430F6638, which is member of the MSP430F66xx family with highest performance,
 	along with USB support.\\
 	
-	Next, the planning set the development of the communication between the emitter nodes and the device.
+	Next, the planning sets the development of the communication between the emitter nodes and the device.
 	The previously existing FreeRTOS port already supports the IEEE 802.15.4 standard MAC layer, so the
-	work in this milestone involves needed modifications in order to get the port work properly with
-	the new platform MSP430F6638. Although the first versions of the schedule considered this next step 
+	work in this milestone involves modifications in order to get the port to work properly with
+	the new MSP430F6638 platform. Although the first versions of the schedule considered this next step 
 	at the same time of the previous one, in later revisions it was decided to keep them separated for 
-	the sake of stability, derived from isolating both developments.\\
+	the sake of the stability derived from isolating both developments.\\
 	
 	Due to the division between the two previous stages, both developments, USB and radio stacks, are
 	to be done separately. In order to resolve the likely communication problems this decision can cause,
@@ -447,7 +445,7 @@
 				The first step in order to develop this USB device consists of looking for a platform which
 				is able to provide the needed components and libraries so as to make the connection with
 				Android feasible. Although several devices are available to serve as Android accessories (as
-				it is explained at \autoref{ssec:Arduino}),	Google ADK is the chose one since it is based on
+				it is explained at \autoref{ssec:Arduino}), Google ADK is the chosen one since it is based on
 				Arduino: a considerable amount of libraries and documentation is to be expected. Particularly,
 				USB host mode library is the main reason for choosing it.
 
@@ -531,7 +529,7 @@
 				does not exist. The most similar resource found consists of a driver for MAC OS X, which would
 				have to be consistently modified in order to make it work. However, this idea is dropped due to
 				the advice obtained from a qualified source that suggests exploring other methods to make the
-				communication feasible apart from developing a driver, which may be too harsh and spend too much
+				communication feasible apart from developing a driver, which may be too harsh and require too much
 				time. A quite considerable risk is assumed by doing so as there are no warranties of finding a
 				proper solution.\\
 				
@@ -556,7 +554,7 @@
 		of risk to the hardware development due to several critical points it involves which further required
 		tasks are to be based on. In other words, part of this project's probabilities of success greatly depends
 		on the feasibily of the present objectives, so this milestone completely conditions the planning. Once 
-		it is finished, it will certainly allow to tune the schedule with better accuracy.\\
+		it is finished, it certainly allows to tune the schedule with better accuracy.\\
 
 	\subsection{USB in FreeRTOS}
 	\label{ssec:USB.FreeRTOS}	
@@ -617,9 +615,9 @@
 	\label{ssec:802.15.4.FreeRTOS}	
 		This milestone's objectives are:
 		\begin{itemize}
-		\item validate current implementation of 802.15.4 in FreeRTOS in MSP430 testing board,
-		\item manage connection to the CC2420 radio module to target MSP430 device,
-		\item port implementation of 802.15.4 to target MSP430 device, and
+		\item validate current implementation of 802.15.4 in FreeRTOS on the MSP430 testing board,
+		\item manage connection to the CC2420 radio module to the target MSP430 device,
+		\item port implementation of 802.15.4 to the target MSP430 device, and
 		\item prepare such implementation for actual usage.
 		\end{itemize}
 
@@ -628,7 +626,7 @@
 		The next step is the achievement of wireless 802.15.4 receiving in the MSP430 board through the CC2420 radio module. An existing port of the MAC layer for the FreeRTOS running in the MSP430 is taken as the starting point. The main advantage of employing it is that it's the same code running in the 802.15.4 emitter utilized in the project. In any case, before actual usage a correct validation of the software is mandatory. Once validation is completed, the MAC layer is to be implemented into the target MSP430 device and tweaked for actual usage. That is the ultimate goal of this milestone.\\
 
 		\begin{enumerate}
-		\item \emph{Validate current implementation of 802.15.4 in FreeRTOS in MSP430 testing board}\\
+		\item \emph{Validate current implementation of 802.15.4 in FreeRTOS on the MSP430 testing board}\\
 		%Radio probada en una placa que no proveía USB pero sí salida por puerto serie para simplificar trabajo y facilitar la depuración,		
 
 		% As we are not sure of the right working of MAC layer in our system we decide to test it with the old board and microchip that provides serial port output that is extreamly usefull in the debug of a real-time system like this. This result to not works for a certain problems as although it's able to recibe 802.15.4 packets it's not programmed to it, and the max size packets wasn't recived correctly.\\
@@ -637,10 +635,10 @@
 
 		The testing of the MAC layer provides negative results, as although 802.15.4 receiving functionality is present in the port, the OS is not actually notified about it and the received data is lost. Moreover, problems in the receiving of packages of maximum size, which are the ones sent by the 802.15.4 emissor, are also detected.\\
 
-		The amendment of the aforementioned problems takes no longer that expected, and the porting of the 802.14.4 support to the target MSP430 device begins. The original developer of both the FreeRTOS port and the MAC layer is notified about the detected problems, and the fixes are also implemented on the 802.15.4 emissor.\\
+		The amendment of the aforementioned problems takes no longer that expected, and the porting of the 802.15.4 support to the target MSP430 device begins. The original developer of both the FreeRTOS port and the MAC layer is notified about the detected problems, and the fixes are also implemented on the 802.15.4 emissor.\\
 
 		%se llevó luego a otra con USB pero sin soporte ni software ni hardware para la radio, obligando a mapeo manual de pines,
-		\item\emph{Manage connection to the CC2420 radio module to target MSP430 device}\\
+		\item\emph{Manage connection to the CC2420 radio module to the target MSP430 device}\\
 
 		% Once the right working of the MAC layer is tested, it's time to port it to the new board and microchip, that implies a lot of troubles because the TS430PZ100USB have no conection to a CC2420 radio module. This mean that a full study of the 100 aviable pins to discover which ones are actually unused by both the SO and USB comunication. The radio modlule alse need a particular kind of pins in some cases that there are no very abundant. With this study and the mapping of pins made\todo{(mencionamos a carlos aqui?)} board and radio module is sent to be weld.\\
 
@@ -763,6 +761,7 @@
 				Once the schematic is finished and validated, a first prototype is to be built for actual testing. Prior to this, the development of the bill of materials of the device is performed, focusing in minimizing the total cost while acquiring the as small as possible, specifically choosen footprint featuring componets.
 
 			\item \emph{Design and routing of the actual PCB}\\
+
 				In order to start the design of the miniaturized receiver, validation of the proper operation of the
 				developed prototype is mandatory. As it can be expected, minor mistakes may be made in both the schematic
 				capture and the prototype building which may make the final product does not work once built. In fact,
@@ -802,7 +801,7 @@
 			Tests are to be driven with the recently built receiver device in order to assure its
 			proper operation, capability of being programmed as well as its correct behaviour when
 			carrying out its tasks within the whole system. Due to the thorough previous tests and
-			revisions its design and its predecessors (both the training board and the mockup) has
+			revisions its design and its predecessors (both the training board and the mockup) have
 			passed, little or no bugs are expected to be found. Even though, this task is focused 
 			on checking so as to avoid unexpected behaviours or malfunction with the last version
 			of the receiver.\\
@@ -815,13 +814,13 @@
 		%Descripción de que es lo que hemos conseguido(es posible que con la evolución alguien que se lea las iteraciones no consiga una clara visión de cual es el estado final del dispositivo, por lo que esta parte me parece muy importante)
 
 		% Primer parrafo, finalmente, despues de toda esta investigación podemos afirmar que es lo que tenemos, un dispositivo totalmente diseñado por nosotros, de un tamaño reducido y comodo de usar, y que es capaz de comunicarse tanto con un android(a partir de la 3.1)(moviles y tablets) como con widows y es capaz de recibir paquetes por la radio siguiendo el estandar 802.15.4. 
-		The hardware part of the project has successfuly achieved the objective of the production of an 802.15.4 USB receiver. This device provides all expected functionality, specifically the transferring of data received from the 802.15.4 radio module via USB acting as the slave device in the USB connection drawing its power from the master device. This master device can be any system with an implementation of the HID protocol, and has been tested as an 802.15.4 receiver both for an Android device and a Windows based computer. Moreover, taking an evaluation board as the starting point, the device has been custom designed and produced, and miniaturization has been conducted so as to be built into a printed circuit board, even if actual production of such PCB has been initialized but not yet finished.\\
+		The hardware part of the project has successfuly achieved the objective of the production of an 802.15.4 USB receiver. This device provides all expected functionality, specifically the transferring of data received from the 802.15.4 radio module via USB acting as the slave device in the USB connection, drawing its power from the master device. This master device can be any system with an implementation of the HID protocol, and the produced device has been tested as an 802.15.4 receiver both for an Android device and a Windows based computer. Moreover, taking an evaluation board as the starting point, the device has been custom designed and produced, and miniaturization has been conducted so as to be built into a printed circuit board, even if actual production of such PCB has been initialized but not yet finished.\\
 
 		% De hecho el hardware que lleva lo hace potencialmente usable para cualquiera que requiera un modulo USB que reciba señales de radio por 802.15.4 y las mande por USB por lo que su potencial es mucho mayor que el que se le da en el ambito concreto del proyecto y podría tener muchos más usos que el dado.
 		The fact that the 802.15.4 USB receiver is independent from the domain of the project, i.e. it only assumes the task of sending through an USB connection the data received through the radio, it does not analyize or processes the data, makes it a fully functional general purpose 802.15.4 receiver. Functionality for data sending through 802.15.4 is present in the device, both in the software and hardware layers, but it lacks the code to send data received from USB to the radio. Nevertheless, this functionality can be implemented with ease, thus turning the device in a full fledged 802.15.4 USB emitter/receiver.\\
 
 		% En el ambito concreto del proyecto, el producto nos sirve como medio para que el android pueda recibir la onda ECG capturada y enviada por el shimmer, es interesante por tanto que el tamaño del dispositivo diseñado es realmente pequeño por lo que será comodo para llevar para las personas que por tener un problema necesiten monitorizarse, además gracias a su bajo consumo la vida util de nuestro dispositivo android no se verá muy reducida con su uso, y más importante aún  gracias a esto el shimmer no necesita el bluetooth y puede enviar las señales por radio de manera que consume mucho menos y ve alargado su tiempo entre recargas de 5 o 6 horas a 5 o 6 dias. Especialmente interesante de este dato es el hecho de que con la radio el shimmer supera el umbral del día de funcionamiento por lo que cargando el dispositivo por la noche(sin necesidad de desconectarlo de los sensores, para no interrumpir la monitorización) el paciente podría estar monitorizado indefinidamente, en nuestro caso nuestro paciente podría incluso irse de fin de semana sin preocuparse de llevar el cargador de la batería.
-		In the specific scope of the project, the application of the device for the receiving of the ECG wave data, due to its small size and low battery requirements, lead to a more comfortable employment of the monitoring system. Even if the necessity of employing an Android accessory decreases the portability of the system when compared to the utilization of the Bluetooth module, which is embedded in the Android device, the order of magnitude lower battery requirements compensate throughout, as the lifetime of the battery of the ECG delineator node when using 802.15.4 is increased from hours to days.\\
+		In the specific scope of the project, the application of the device for the receiving of the ECG wave data, due to its small size and low battery requirements, leads to a more comfortable employment of the monitoring system. Even if the necessity of employing an Android accessory decreases the portability of the system when compared to the utilization of the Bluetooth module, which is embedded in the Android device, the order of magnitude lower battery requirements compensate throughout, as the lifetime of the battery of the ECG delineator node when using 802.15.4 is increased from hours to days.\\
 
 		% R: los siguientes párrafos son poco relevantes en una breve conclusión HW. irían mejor al final.
 
