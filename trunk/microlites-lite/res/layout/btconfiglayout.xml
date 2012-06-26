@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation = "vertical"
+    android:gravity="center_horizontal"
+    android:padding="10dp"
+    >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:id="@+id/btDeviceNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/bluetoothSettingsDeviceNameLabel"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/btDeviceNameTextfield"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/btDeviceNameLabel"
+                    android:ems="12"
+                    android:hint="@string/bluetoothSettingsDeviceNameHint"
+                    android:singleLine="true"
+                    android:text="@string/bluetoothSettingsDeviceNameDefaultText" >
+
+                    <!-- <requestFocus /> -->
+                </EditText>
+            </RelativeLayout>
+            
+            <Button
+                android:id="@+id/btSettingsStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bluetoothSettingsStartButton" />
+		
+</LinearLayout>
