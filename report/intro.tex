@@ -203,7 +203,7 @@
 				short-range networks --10 meters, typically-- with narrow bandwith, up to 250kbps, among other
 				possibilites with lower transfer rates. It is a relatively new standard since its first version
 				was approved in 2003, although the following revision was employed during this development, which
-				was approved in 2006 \cite{802.15.4}\\
+				was approved in 2006 \cite{802.15.4}.\\
 
 				802.15.4 is specially suitable for this kind of project due to its low power consumption. In
 				fact, ZigBee, which uses this standard as its low-level layer, presents a series of advantages
@@ -213,16 +213,16 @@
 						requires more power than ZigBee does. For example, Bluetooth is constantly emitting information,
 						consequently consuming power, while 802.15.4 allows to enable the radio only when it is needed.
 						These statements are properly justified and explained at \autoref{ssec:802.15.4}, 
-						\nameref{ssec:802.15.4}.
+						\emph{\nameref{ssec:802.15.4}}.
 					\item \textbf{Bandwidth:} Bluetooth offers much wider bandwidth, up to 3Mbps, meanwhile ZigBee 
 						only offers up to 250kbps. This, however, is not a relevant disadvantage because the requirements
 						of the system are not so demanding.
 					\item \textbf{Host number:} ZigBee allows to build networks with up to 65535 hosts, subnetworks 
-						with 255 hosts. On the ohter hand, Bluetooth can only support as much as 8 hosts within a 
+						with 255 hosts. On the other hand, Bluetooth can only support as much as 8 hosts within a 
 						network. 
 				\end{itemize}
 				ZigBee, though, is not employed as a whole within this project, but 802.15.4 standard as
-				its basis. Nevertheless, its advantages over Bluetooth remains the same, with the additional one
+				its basis (its MAC layer, more precisely). Nevertheless, its advantages over Bluetooth remains the same, with the additional one
 				that it does not compromise real-time developments as the complete stack does.\\
 			\item \emph{Android Accessory Development}\\
 				As of May, 2011, there were no easy nor official methods to develop accessories capable of 
@@ -255,7 +255,7 @@
 				Moreover, even if they were to be compatible with our target device, the only available dongles
 				fully implemented the ZigBee stack, which also made them unsuitable for this project due to the
 				relatively high latency that fact imposed --as it can be read at \autoref{ssec:802.15.4},
-				\nameref{ssec:802.15.4}, real-time needs required the usage of the 802.15.4 MAC layer on
+				\emph{\nameref{ssec:802.15.4}}, real-time needs required the usage of the 802.15.4 MAC layer on
 				its own--.
 			\item \emph{Communication with Android using ZigBee}\\
 				One year ago, around mid-2011, there were very few projects which were working on this sort of
@@ -305,10 +305,10 @@
 
 		The third chapter, \emph{\nameref{ch:swdev}}, explains the process followed for the production of the Android application which acts as the ECG monitoring front-end employing artifacts from structured software development methodologies so as to provide an in-depth view of the software part of the project. In \refer{sec:sw-intro} and \refer{sec:sw-oview} a brief description of the software project and an explanation of the information contained in the scope of the chapter are presented. The identified requirements for the project, both functional and non-functional, are presented in \refer{sec:sw-reqs}. In the next section, \emph{\nameref{sec:sw-risks}}, the importance of the risk management for this particular project is demonstrated and the identified risks exposed, including their evolution throughout the project development. The analysis process view concludes with the exposition of the use cases for the system in \refer{sec:sw-ucases}. The \emph{\nameref{sec:sw-arch}} section presents the architectural view of the system, explaining design considerations and system modules in a comprehensive manner. The project development process is exposed in \autoref{sec:sw-process}, beginning with an explanation of the software project schedule which is followed by detailed descriptions of each of the project scheduled iterations, including risk evolution and use case realization related information. The chapter concludes with a review of the software project development in \refer{sec:sw-ending}.\\
 
-		In the final chapter of this document a review of the project as a whole is conducted. First, the final state of the system is presented in \refer{sec:end-state}, detailing the accomplishment of each project objective so as to evaluate the project outcome. Taking the final state of the project as the starting point, potential further work lines are proposed in \refer{sec:end-further}. Finally, as a closure to the both the document and the project, \refer{sec:end-findings} explains the conclusions drawn from the development of the project.\\
+		In the final chapter of this document a review of the project as a whole is conducted. First, the final state of the system is presented in \refer{sec:end-state}, detailing the accomplishment of each project objective so as to evaluate the project outcome. Taking the final state of the project as the starting point, potential further work lines are proposed in \refer{sec:end-further}. Finally, as a closure to both the document and the project, \refer{sec:end-findings} explains the conclusions drawn from the development of the project.\\
 
 		Three appendices are attached to this document. The first of these, \refer{ch:budget} presents an estimation of the cost of the project including performed tasks and scheduling in \autoref{sec:sched}, as well as a Gantt chart for this scheduling in \refer{sec:gantt}. The total cost of the development is exposed in \refer{sec:cost}.\\
 
 		\refer{ch:cost} refers the cost of the production of both a single unit and a batch of ten thousand units of the receiver device, the latter as an estimation of the costs in a mass production scenario.\\
 
-		The documents produced in the process of design and development of the receiver device are presented in \refer{ch:specs} with enough detail to allow custom production of the device. The bill of materials, the device schematic and the printed circuit board design are included.\\
+		The documents produced in the process of design and development of the receiver device are presented in \refer{ch:specs} with enough detail to allow custom production of the device. The bill of materials, the device schematic and the printed circuit board design are also included.\\
