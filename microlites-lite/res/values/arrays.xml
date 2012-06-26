@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="colorThemes">
+        <item>ECG Clásico</item>
+        <item>Art Deco</item>
+        <item>Chocolate Amargo</item>
+        <item>Rojo sobre Blanco</item>
+    </string-array>
+    
+</resources>
