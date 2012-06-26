@@ -18,14 +18,14 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 	% Introduction: app + feedback medical staff (hey, it's an important project!)
 	The development of a software ECG display application targeted at Android Operating System for mobile devices is the counter-part to the hardware research part of the project.
-	This application is to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained for that and including extra features which couldn't be implemented in it. The software must provide functionality to visualize ECG data from Bluetooth or 802.15.4 sources (the latter obtained via the 802.15.4 USB receiver developed in the hardware part of this project) in real-time, as well as to save that data into file logs for afterwards reading.\\
+	This application is to substitute the already developed one for iOS devices, adding funcionality extracted from feedback obtained for that and including extra features which could not be implemented in it. The software must provide functionality to visualize ECG data from Bluetooth or 802.15.4 sources (the latter obtained via the 802.15.4 USB receiver developed in the hardware part of this project) in real-time, as well as to save that data into file logs for afterwards reading.\\
 
 	% Android general
 	Android as a development platform provides a wide set of high abstraction level tools to emphasize robust and reusable design for low resource based, quick development cycles. Such benefits require the adequation of the software design and architecture to the constrains imposed by the Android development framework.\\
 
 	% None android formation + android peculiarities
 	Given that none of the project team members had received any instruction on this framework, engaging the development of an Android application implies an important risk. Moreover, after the research and training steps concluded, follow up of such risk can not be halted, as the quick, robust software development is only assured when building an standard Android application; dynamic, soft real-time functionality implementation is not discouraged, but also not guaranteed to work.
-	Mobile devices development restrictions and common practices are also unkown to the team at the beginning of the project.\\
+	Mobile devices development restrictions and common practices are also unknown to the team at the beginning of the project.\\
 
 	% Android limitations
 	Even when the aforementioned eased development features are applicable, mobile devices are harsh software environments due to, amongst others, memory and battery constrains, where processes have to handle being suspended by an incoming call or similar external events. This factors are specially critical for an application as the one developed in this project, which needs to continually parse and log data.\\
@@ -49,7 +49,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\label{sec:sw-reqs}
 		% Requirement capture process explanation (also introduction to this section)
 		The requirement capture process for the project considers three main stake-holders: the project directors, the EPFL and the UCM as the base project developer parties and the project team members; and is done in two sessions. The first one produces the basic requirement list which describes the system and is used to schedule the earlier development iterations. This is so because of the strong time restrictions this software development project had to cope with. 
-		When the critical functionality is achieved and the hardware research reaches a suitable state, the second requirements capture session is conducted. By then, the EPFL and UCM representative had shown the state of the development to the stakeholder party of him, and collected feedback. Thus, the requirements produced by this second session are of a more user-oriented nature.\\
+		When the critical functionality is achieved and the hardware research reaches a suitable state, the second requirement capture session is conducted. By then, the EPFL and UCM representative had shown the state of the development to the stakeholder party of him, and collected feedback. Thus, the requirements produced by this second session are of a more user-oriented nature.\\
 
 		% ¿Explicar qué intereses tiene cada uno?
 		
@@ -79,7 +79,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		The following non-functional requirements are identified:
 		\begin{itemize}
 			\item The application must display ECG data at 30fps.
-			\item The application must run on a Motorla Xoom device.
+			\item The application must run on a Motorola Xoom device.
 		\end{itemize}
 
 	\section{Risk Analysis}
@@ -89,7 +89,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		The risk list at the end of the project is as follows:
 		\begin{itemize}
-		\item \textbf{PR1.} Application funcionality inferior to that featured by existing iOS application
+		\item \textbf{PR1.} Functionality of the application is inferior to that featured by existing iOS application
 
 		\item \textbf{HR1.} 802.15.4 receiver device delayed
 		\item \textbf{HR2.} 802.15.4 receiver device unfeasible
@@ -102,9 +102,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\end{itemize}
 
 		% Risk anaylisis process explanation (decisions, ...)
-		This risk anaylisis focuses on two main risk sources: the parallel-conducted hardware research, and Android as a development platform. Project definition and team related risks are also considered.\\
+		This risk analysis focuses on two main risk sources: the parallel-conducted hardware research, and Android as a development platform. Project definition and team related risks are also considered.\\
 
-		The hardware research part of the project delivers the highest probability and impact rated risks. It is so because those risks are external to the software development project scope and thus can not be handled by any of the tools provided by any development methodology. At the same time, should such risks come to be, the impact on the software product would be, in most of cases, as cathastrophic as turning the whole development useless thus causing its cancellation.\\
+		The hardware research part of the project delivers the highest probability and impact rated risks. It is so because those risks are external to the software development project scope and thus can not be handled by any of the tools provided by any development methodology. At the same time, should such risks come to be, the impact on the software product would be, in most of cases, as catastrophic as turning the whole development useless thus causing its cancellation.\\
 		
 		Regarding Android development only a subset of the final set of risks is assessed at first. Every risk in this subset dealt with the team lack of knowledge about the Android platform and was scheduled to be addressed foremost. A last risk is added to this group after the first research on mobile devices limitations regarding potential unfitness of such devices for near real-time display and handling of not-so-small data packages. That risk handling plan proves to be key to the successful outcome of the project as the remaining subset of Android-related risks are linked to Android applications display performance.\\ % Further explanation on this last set?
 
@@ -114,19 +114,19 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		A detailed view of each assessed risk is provided next, including risk evolution throughout the project lifetime.\\
 
 		% PR1
-		\paragraph{PR1.}Application functionality inferior to that featured by existing iOS application\\
+		\paragraph{PR1.}Functionality of the application is inferior to that featured by existing iOS application\\
 		\textbf{Probability:} Moderate\\
 		\textbf{Impact:} Very High\\
-		\textbf{Description:} Failure to provide an expanded set of features in the Android application when compared with the iOS application renders the software part of the project invalid on its own. It could, then, only be valid as demo software for USB receiver device showcasing. If the device is nor finished, then the whole software development project will have been futile.
+		\textbf{Description:} Failure to provide an expanded set of features in the Android application when compared with the iOS application renders the software part of the project invalid on its own. It could, then, only be valid as demo software for USB receiver device showcasing. If the device is not finished, then the whole software development project will have been futile.
 		The key marker for this risk is unability to generate valid software modules throughout the development that provide required functionality. Failure to reach milestones and use case realizations on time is other important marker.
 		Preventive measures are taken to avoid the occurence of this risk since the beginning of the development by a functionality building focused project scheduling for the first development phases.\\
-		\textbf{This risk is marked as surpassed at the reviewing metting of Iteration 2 as all key functionality has been implemented, as planned.}
+		\textbf{This risk is marked as surpassed at the reviewing meeting of Iteration 2 as all key functionality has been implemented, as planned.}
 
 		% HR1
 		\paragraph{HR1.}802.15.4 receiver device delayed\\
 		\textbf{Probability:} High\\
 		\textbf{Impact:} High\\
-		\textbf{Description:} Being the production of the 802.15.4 receiver device dependant on the hardware research part of the project a delay on the estimated milestones for that part of the project is likely to occur. Should that happen, hardware research and development will need to be prioritized over this software project. That could lead to big delays in software production.
+		\textbf{Description:} Being the production of the 802.15.4 receiver device dependent on the hardware research part of the project a delay on the estimated milestones for that part of the project is likely to occur. Should that happen, hardware research and development will need to be prioritized over this software project. That could lead to big delays in software production.
 		To prevent the rising of further problems derived from those potential delays, the software development process must always work with non-solid, ready-to-change deadlines and milestones. Application functionality is to be ranked in order of importance of implementation to be prepared, in case of an unexpectedly big delay, to leave less important functionality out of the scope of the project.
 		Markers to be followed up are: unsuccessful output from hardware research (a new branch of the potential technologies tree has to be explored), failure to reach hardware development or research milestones and delays in the acquisition of tools or devices needed for the hardware project.
 		Preventive measures considered are: detailed follow up of the hardware research development, reducing the software development team if manpower is needed in the hardware area, and planning asuming delays on component acquisition.\\
@@ -144,7 +144,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\paragraph{MR1.}Mobile device unsuitable for target functionality\\
 		\textbf{Probability:} Low\\
 		\textbf{Impact:} Critical\\
-		\textbf{Description:}Even when mobile devices technical specifications have increased significantly in the previous years, specially regarding CPU power and rendering capabilities, the soft real-time requirements of the project in terms of data manipulation and visual representation involve a low probability risk of the application being unsuitable for such devices. The risk probability is decreased by the fact that similar featured applications exist both for iOS and Android powered devices. Even so, the 802.15.4 receiver device USB interface does not allow for this risk not to be reckoned.
+		\textbf{Description:} Even when mobile devices technical specifications have increased significantly in the previous years, specially regarding CPU power and rendering capabilities, the soft real-time requirements of the project in terms of data manipulation and visual representation involve a low probability risk of the application being unsuitable for such devices. The risk probability is decreased by the fact that similar featured applications exist both for iOS and Android powered devices. Even so, the 802.15.4 receiver device USB interface does not allow for this risk not to be reckoned.
 		Preventive measures considered: quick prototyping of critical functionality to discard  unfeasibility, conduction of performance tests, both rendering and data handling related, in the target device and testing of USB-Android communication as soon as possible in the project schedule.\\
 		\textbf{As performance tests are conducted on early builds of the application, the need of further research on this risk arises as the data handling performance in the target device is low, but not as low as the rendering performance. Thus, this risk is unfolded into risks AR2 and AR3, both related to Android performance when handling the aforementioned tasks. This risk follow up is then halted, as it is no longer needed.}
 
@@ -163,14 +163,14 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\textbf{Impact:} High\\
 		\textbf{Description:} The benefits of the high-level, single application model provided by Android are such in behalf of the sacrifice of performance. In this project soft real-time requirements are present, and the system needs to process around 250 ECG wave samples \cite{ecg.del.paper} (among other data) per second. Android code reutilization and class based programming suggested practices, the absence of an explicit memory management API and the employment of the Garbage Collector only complicate the achievement of such requirements.  
 		Special care will need to be put on the development and performance checks are to be conducted regularly on generated builds to ensure the avoidance of this risk.
-		If evidence is found of Android inability to provide the required perfomance (and there is no way of attributting the failure to the team's lack of ability), low-level Android development will be considered. As the probability of this last scenario to occur is quite low, no research will be conducted in low-level Android development until mandatory.\\
-		\textbf{The risk is verified to be occuring during Iteration 2 testing phase. Lack of care on memory management is found to be the problem, and is solved in Iteration 3. The risk is marked as surpassed after the review meeting for Iteration 4.}
+		If evidence is found of Android inability to provide the required perfomance (and there is no way of attributing the failure to the team's lack of ability), low-level Android development will be considered. As the probability of this last scenario to occur is quite low, no research will be conducted in low-level Android development until mandatory.\\
+		\textbf{The risk is verified to be happening during Iteration 2 testing phase. Lack of care on memory management is found to be the problem, and is solved in Iteration 3. The risk is marked as surpassed after the review meeting for Iteration 4.}
 
 		% AR3
 		\paragraph{AR3.}Android rendering capabilities unable to handle required data\\
 		\textbf{Probability:} Low\\
 		\textbf{Impact:} High\\
-		\textbf{Description:} The Android Operating System runs on quite a wide range of devices, each with its own technical specifications. Providing the single application development model that Android features requires many software layers, many of them of high abstaction level. The risk exists, thus, that the rendering required by the project couldn't be achieved within the involved time restrictions. The target device for the project is fixed (see \autoref{sec:sw-reqs} Non-functional Requirements Subsection) as a Motorola Xoom. This device employs a dedicated Tegra2 GPU \cite{xoomspecs} which should suffice, so risk probability is chosen as \emph{low}. Performance tests in the display module are to be conducted, though, so as to make sure that a correct usage of the available resources is being done. 
+		\textbf{Description:} The Android Operating System runs on quite a wide range of devices, each with its own technical specifications. Providing the single application development model that Android features requires many software layers, many of them of high abstaction level. The risk exists, thus, that the rendering required by the project could not be achieved within the involved time restrictions. The target device for the project is fixed (see \autoref{sec:sw-reqs} Non-functional Requirements Subsection) as a Motorola Xoom. This device employs a dedicated Tegra2 GPU \cite{xoomspecs} which should suffice, so risk probability is chosen as \emph{low}. Performance tests in the display module are to be conducted, though, so as to make sure that a correct usage of the available resources is being done. 
 		If low rendering performance is detected, Android native level rendering API, Renderscript, is to be looked into as a remedy, once the code is assured to be optimized.
 		\\
 		\textbf{Risk probability is increased to \emph{Moderate} during Iteration 3 as low performance is detected but is considered not critical enough to apply the Renderscript solution. The risk is marked as surpassed in the reviewing meeting of Iteration 4.}\\
@@ -189,7 +189,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		Actor listing is omitted in all the descriptions, because of the following implicits:
 		\begin{itemize}
 			\item The main actor for the use case is the user
-			\item The only other actor is the data emitter node, when applicable. It can refer to the Bluetooth emmitter device or the USB 802.15.4 receiver device.
+			\item The only other actor is the data emitter node, when applicable. It can refer to the Bluetooth emitter device or the USB 802.15.4 receiver device.
 		\end{itemize}
 		Please note that the 802.15.4 emitter node is not considered an actor as the communication with such device is handled by the USB 802.15.4 receiver, which actually is the considered actor.
 
@@ -346,11 +346,11 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		Programming style in this area closer to C than to an OOP language in order to maximize performance. (Talk about intolerable initial performance caused by extreme number of new each step and too much relaying on GarbageCollector?)
 		\end{comment}
 
-		The set of classes encompassed in the View package (see \autoref{fig:arch-global}) provides both a base rendering architecture in an update-render loop style not initally present in the Android framework and the specialization of such architecture for the specific project domain, i.e. plotting of the electrocardiogram wave and its relevant points.\\
+		The set of classes encompassed in the View package (see \autoref{fig:arch-global}) provides both a base rendering architecture in an update-render loop style not initially present in the Android framework and the specialization of such architecture for the specific project domain, i.e. plotting of the electrocardiogram wave and its relevant points.\\
 
-		Regarding rendering Android provides a set of common employed visual elements. These implementations try to simplify the developer's work by giving customizable solutions to common scenarios, such as rendering a list of elements or a drop-down selection object, in a visually pleasing way. All this elements are part of the hierarchy of Android's View class, and implement a composite pattern for rich menu-building.
+		Regarding rendering Android provides a set of common employed visual elements. These implementations try to simplify the developer's work by giving customizable solutions to common scenarios, such as rendering a list of elements or a drop-down selection object, in a visually pleasing way. All these elements are part of the hierarchy of Android's View class, and implement a composite pattern for rich menu-building.
 
-		The soft real-time rendering imposed by the project restrictions requires a specific View \cite{andev-view} class derivate: the SurfaceView. This kind of View provides a bitmap surface where pixel-level rendering is allowed. A set of rendering tools is also provided by Android. The architecture developed on top of that view extends the SurfaceView to an AnimationView and delegates the rendering to an AnimationThread. This last entity is the one providing the update-render loop employed for the real-time rendering. The drawback of employing a SurfaceView as the base is that such element does not provide common employed functionality as scrolling or zooming.\\
+		The soft real-time rendering imposed by the project restrictions requires an specific View \cite{andev-view} class derivate: the SurfaceView. This kind of View provides a bitmap surface where pixel-level rendering is allowed. A set of rendering tools is also provided by Android. The architecture developed on top of that view extends the SurfaceView to an AnimationView and delegates the rendering to an AnimationThread. This last entity is the one providing the update-render loop employed for the real-time rendering. The drawback of employing a SurfaceView as the base is that such element does not provide common employed functionality as scrolling or zooming.\\
 
 		The actual, domain specific rendering functionality providing threads are implemented employing the aforementioned layer as a base. The precise entities are DynamicViewThread and StaticViewThread, and are referred in this document as implementations of the view thread, even if such class does not exist in the project. This two classes implement the required behaviour for dynamic and static data visualization respectively, and obtain the data to be shown from a data source entity. Such entity is dealt with in the following section. The reason for different entities to exist for static and dynamic rendering is also detailed there.\\
 
@@ -365,9 +365,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		
 		This package contains data storage and handling related entities. Differentiation between two types of data managed by the application depending on their purpose is mandatory. On one hand is the application level data, which is specific or non-specific information shared by the whole application. On the other hand is the data received from a source that must be visually presented to the user or stored for later visualization. Providing software tools allowing the modelling that data flow is the key task of this package.\\
 
-		The class Data acts as a centralized application level data storage. It is a singleton and is accesible by every entity in the system. It also provides syncronization methods for correct inter-thread communication.\\
+		The class Data acts as a centralized application level data storage. It is a singleton and is accesible by every entity in the system. It also provides synchronization methods for correct inter-thread communication.\\
 
-		The rest of the entities of the Data package are employed in the aforementioned model scheme, and specify the expected behaviour of each element involved in a data flow. As indicated before, specialization of this entities is required for the realization of the model.\\
+		The rest of the entities of the Data package are employed in the aforementioned model scheme, and specify the expected behaviour of each element involved in a data flow. As indicated before, specialization of these entities is required for the realization of the model.\\
 
 		%\begin{wrapfigure}{l}{0.35\textwidth}
 		\begin{figure}[h]
@@ -392,7 +392,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 		\end{figure}
 		%\end{wrapfigure}
 
-		The processing of raw data sent by the data providers to the DataSourceThreads is expected to be done in the latter, so the data transfered throughout the application is of a processed nature. To this end the DataParser entity is available from the Utilities package is available.\\
+		The processing of raw data sent by the data providers to the DataSourceThreads is expected to be done in the latter, so the data transferred throughout the application is of a processed nature. To this end the DataParser entity from the Utilities package is available.\\
 
 		The expected receiver of the data sent by a DataSourceThread is a DataHolder. This interface provides domain-specific data handling abstract methods and definitions. An implementation of a DataHolder must handle the reception of ECG wave samples, delineation points, synchronization points and heart-beat-rate values.\\
 
@@ -414,9 +414,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 		Dynamic visualization represents data received in real-time by the DataSourceThread. The DataSourceThread obtains the data from an external entity, processes it and sends it to the DataHolder. This data usually arrives in groups of variable size, and is provided to the DataHolder in single units once processed. In this scenario the DataHolder is the view thread, and handles data however considers optimal. In the implementations developed in this project a fixed amount of data is held and older information is replaced by the new one as it arrives.\\
 
-		Static visualization, on the other hand, involves reading a file, usually mega-byte sized. The receiving of big quantities of data in single units by the data holder, as would occur if  the original DataSource specification was employed, could lead to severe slow-downs and application performance would be affected. To avoid such issues, the StaticDataHolder specification is developed.\\
+		Static visualization, on the other hand, involves reading a file, usually mega-byte sized. The reception of big quantities of data in single units by the data holder, as would occur if  the original DataSource specification was employed, could lead to severe slow-downs and application performance would be affected. To avoid such issues, the StaticDataHolder specification is developed.\\
 
-		A StaticDataHolder does not actually hold the data: it delegates that task to its DataSourceThread. The data source will provide the StaticDataHolder with a reference to the actual data. This way big amounts of data transferring is avoided. The inheritance relation between DataHolder and StaticDataHolder is imposed by the architecture, which require a DataHolder to be passed to a DataSourceThread.\\
+		A StaticDataHolder does not actually hold the data: it delegates that task to its DataSourceThread. The data source will provide the StaticDataHolder with a reference to the actual data. This way big amounts of data transferring is avoided. The inheritance relation between DataHolder and StaticDataHolder is imposed by the architecture, which requires a DataHolder to be passed to a DataSourceThread.\\
 
 		\subsection{Utilities Package}
 		\begin{comment}
@@ -460,17 +460,17 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\label{fig:arch-log}
 			\end{figure}
 		
-			The manager in the file reader model is the FileManager class. It presents available log files to the user, handles the seleccion of one, instantiates the file reading thread and connects this with the view thread. When the user finalizes the visualization of the selected log, the FileManager returns to the log selection menu instead of going directly to the main menu. This is an example of the versatility of the aforementioned view stack scheme, which lets specific managers present as many menus to the user as necessary.\\
+			The manager in the file reader model is the FileManager class. It presents available log files to the user, handles the selection of one, instantiates the file reading thread and connects this with the view thread. When the user finalizes the visualization of the selected log, the FileManager returns to the log selection menu instead of going directly to the main menu. This is an example of the versatility of the aforementioned view stack scheme, which lets specific managers present as many menus to the user as necessary.\\
 
 			FileDataSourceThread is the thread that reads the chosen file and processes its data. It implements both the DataSource and the DataHolder interfaces, so it acts as the emitter and the receiver of the processed data. The view thread obtains a reference to this same data, thus avoiding big amounts of data transferring in the static view model as explained before. This is an example of the flexibility sought by the architecture design.\\
 
-			The FileDataSourceThread, thus, manages data reading, storage and manipulation. The data is read from files with the aid of this package's FileConverter entity. This files can be of big size, so they should not be fully loaded onto memory. A partial load is mandatory in such cases, and the next chunk of data is to be read when the ``visualization window'' approaches. All this management is done by the FileDataSourceThread.\\
+			The FileDataSourceThread, thus, manages data reading, storage and manipulation. The data is read from files with the aid of the FileConverter entity from this package. This files can be of big size, so they should not be fully loaded onto memory. A partial load is mandatory in such cases, and the next chunk of data is to be read when the ``visualization window'' approaches. All this management is done by the FileDataSourceThread.\\
 
 			When the view is controlled by the user, i.e. horizontal scroll, the event is passed directly into this thread from the StaticViewThread. FileDataSourceThread then updates the portion of the data to be shown. The updated information is consulted by the view thread in the next rendering step. That way, were further file reading required, it could be done in a transparent-to-view manner.\\
 
 			Data processing is done employing an instance of StaticDataParser in the FileDataSourceThread.\\
 
-			The FileConverter entity provides functionality to transform a given file to a Stream, ArrayList or array of bytes, the latter being the expected input format for the available data parsers.
+			The FileConverter entity provides functionality to transform a given file to an Stream, ArrayList or array of bytes, the latter being the expected input format for the available data parsers.
 
 		\subsubsection{USB Model}
 			The USB model manages data reception from an USB device and eventual visual representation for the user. It is a real-time data flow, and thus employs a dynamic view thread. An overview of the model is shown in \autoref{fig:arch-usb}.\\
@@ -482,7 +482,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			\label{fig:arch-usb}
 			\end{figure}
 
-			DeviceManager is the realization of the model's Manager. This entity handles connected USB devices enumeration and selection by the user. If only one device is available, connection is directly stablished with it. Differing from the Bluetooth realization implementation, the actual connection to the device is handled by the DeviceManager in a blocking manner. It is so because USB connection resolution takes very little time and the delay is virtually imperceptible for the user.\\
+			DeviceManager is the realization of the Manager of the model. This entity handles connected USB devices enumeration and selection by the user. If only one device is available, connection is directly stablished with it. Differing from the Bluetooth realization implementation, the actual connection to the device is handled by the DeviceManager in a blocking manner. It is so because USB connection resolution takes very little time and the delay is virtually imperceptible for the user.\\
 
 			Once the connection is stablished, the DeviceManager launches an instance of UsbComThread. This thread is the specialization of DataSourceThread and obtains the raw data from the USB device, processes it employing an instance of DynamicDataParser and sends the results to the view thread. This is a DynamicViewThread entity.
 
@@ -527,19 +527,19 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			Before diving into the description of the development process an overview of the project schedule % and the reasons for it to be as open as it is
 			is mandatory.\\
 
-			As was mentioned in the previous sections, an agile software development methodology has been applied to the project, even if artifacts from more ordered and structured methodologies have been employed to avoid losing focus on the critical aspects of the development.\\
+			As it was mentioned in the previous sections, an agile software development methodology has been applied to the project, even if artifacts from more ordered and structured methodologies have been employed to avoid losing focus on the critical aspects of the development.\\
 	
-			Software development project being dependant on parallel-conducted hardware research, project assets, both personal and development resources, being shared with the hardware research having the former higher priority, and team's lack of formation regarding Android development are some of the factors which lead to the adoption of such a mixed methodology. As they have been already exposed in previous sections, they won't be detailed here.\\ %Consult [X][Y][Z]... for details
+			Software development project being dependent on parallel-conducted hardware research, project assets, both personal and development resources, being shared with the hardware research having the former higher priority, and the team's lack of formation regarding Android development are some of the factors which lead to the adoption of such a mixed methodology. As they have been already exposed in previous sections, they will not be detailed here.\\ %Consult [X][Y][Z]... for details
 
-			In such an scenario, a fully developed, eight month covering schedule is unfeasible, at least with the imposed time restrictions which does npot allow much time to be spent on planning. The decision is then made to plan only the earlier project iterations, assuring critical functionality identified from use case development to be implemented as soon as possible as well as higher threat involving risk suppression to be realized.\\
+			In such an scenario, a fully developed, eight month covering schedule is unfeasible, at least with the imposed time restrictions which does not allow much time to be spent on planning. The decision is then made to plan only the earlier project iterations, assuring critical functionality identified from use case development to be implemented as soon as possible as well as higher threat involving risk suppression to be realized.\\
 
 			Actual software project development begins October 15, 2011, being the final deadline set on June 15, 2012. That deadline can not be pushed any further, so an estimated deadline is set on May 31, 2012, leaving half a month for further work or recovering from delays, and seven and a half months of development time.\\
 		
-			Time is needed for the hardware research to start providing results, and no work can be done in the meantime on related application parts. Considering also that even in the most optimistic scenarios no actual work with the 802.15.4 USB receiver couldn't be done until mid February, the schedule has to assume that the first four months of software development will need to cover the implementation of most of the features, leaving the rest of the development time for implementing hardware-related requirements, which couldn't actually be scheduled until hardware research was evaluated.\\
+			Time is needed for the hardware research to start providing results, and no work can be done in the meantime on related application parts. Considering also that even in the most optimistic scenarios no actual work with the 802.15.4 USB receiver could be done until mid February, the schedule has to assume that the first four months of software development will need to cover the implementation of most of the features, leaving the rest of the development time for implementing hardware-related requirements, which could not actually be scheduled until hardware research was evaluated.\\
 
 			The adopted schedule deals with the aforementioned facts by proposing five iterations, from October 15 to May 30, complying with the fifteen days reserved for contingencies. The first three iterations have a duration of two months, the third one, of a single month, and the remaining one is fifteen days long.\\
 
-			Having the previously developed iOS application as starting point, and being achieving at least the same feature list of that a critical target of the project, the first two iterations are planned so as to realize \textbf{UC1} and \textbf{UC3} which capture requisites expressing such feature list.\\
+			Having the previously developed iOS application as starting point, and being achieved at least the same feature list of that a critical target of the project, the first two iterations are planned so as to realize \textbf{UC1} and \textbf{UC3} which capture requisites expressing such feature list.\\
 
 			The next iterations are just scrapped as no accurate estimation can be done on the state of the project by those dates. Thus, the third iteration is planned to cover the implementation of the remaining features, namely, communication with the 802.15.4 receiver device, the fourth one reserved for polishing the application and the fifth one left for testing and validation. The fourth iteration is to shrink if objectives are achieved quickly to leave more time for validation.\\
 
@@ -584,7 +584,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			The alloted time for the iteration is of two monts, from October 15 to December 15. During this period the hardware research does not require much resources, so in practical terms the full team is employed in the software project.\\
 
-			In order to minimize risk AR1, the instruction of the team on Android development becomes the key objective for the iteration. Development starts with the implementation of the designed base architecture for the application, so it serves as a powerful learning resource. The notion of that implementation as disposable is not abandoned throughout iteration time and it is always considered as a prototype to evolve or be substituted by a more refined version once team's knowledge of Android increases.\\
+			In order to minimize risk AR1, the instruction of the team on Android development becomes the key objective for the iteration. Development starts with the implementation of the designed base architecture for the application, so it serves as a powerful learning resource. The notion of that implementation as disposable is not abandoned throughout iteration time and it is always considered as a prototype to evolve or be substituted by a more refined version once the team's knowledge of Android increases.\\
 
 			Having the basic architectural framework developed, implementation of the Bluetooth receiver module begins. Special care is put both on design and implementation, as this functionality has to be ready as soon as posible, and little time will be available for reimplementation further in the development.\\
 
@@ -616,7 +616,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 			The hardware reserarch having provided successful results regarding the initial prototypes of the USB accessory, the scheduled USB module implementation for this iteration is mantained, but delayed until further testing can be done in the hardware area.
 			In that scenario this iteration begins with the implementation of the log visualization module.\\
 
-			Module design and implementation are to change little in following iterations to allow the scheduled architecture rewriting to be realized and trying to minimize the possibility of risk PR1. This situation and the fact that a lot of resources are required in the hardware area makes the consecution of this objective fill most part of the iteration time.\\
+			Module design and implementation are to change little in following iterations to allow the scheduled architecture rewriting to be realized and trying to minimize the possibility of risk PR1. This situation and the fact that a lot of resources are required in the hardware area makes the achievement of this objective fill most part of the iteration time.\\
 
 			Full expected functionality is implemented, including the remaining features from UC4-Adjust view parameters, but validation testing indicates low performance in log visualization caused by big memory requirements. Effort needs to be put into the other iteration objective, so log visualization is halted at this point, scheduling the development of required optimizations for the next iteration.\\
 
@@ -633,7 +633,7 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				
 				\item Realization of UC4-\emph{Adjust view parameters} is now finished. All required view controls are implemented.
 
-				\item Risk PR1-\emph{Application functionality inferior to that featured by existing iOS application} is marked as surpassed, as key functionality is implemented.
+				\item Risk PR1-\emph{Functionality of the application is inferior to that featured by existing iOS application} is marked as surpassed, as key functionality is implemented.
 				\item Risk MR1-\emph{Mobile device unsuitable for target functionality} is identified to require further monitorization and is unfolded into risks AR2 and AR3.
 				\item Risk AR2-\emph{Android providing subpar performance when handling required data} is confirmed to occur and is to be solved in the next iteration.
 			\end{itemize}
@@ -684,9 +684,9 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 
 			A detailed analysis is conducted on the data management related operations in the application, identifying the ubiquitous application of the object oriented model proposed by Java added to the subpar efficiency of the Garbage Collector as the main cause of performance loss. The alteration of the programming paradigm and the employment of as basic software entities as possible, avoiding continuous object instantiation, e.g. substitute an object containing the four parameters of a wave delineation point, by a more basic structure, like the same four numbers stored independently, prove to be the most effective methods of avoiding low performance.\\
 
-			Following such lines of operation, performance regarding data management is utterly improved on spite of a less developer-friendly programming environment. During this process the data flow modules (Bluetooth, USB and Log Viewer) are also tweaked.\\
+			Following such lines of operation, performance regarding data management is utterly improved in spite of a less developer-friendly programming environment. During this process the data flow modules (Bluetooth, USB and Log Viewer) are also tweaked.\\
 
-			The positive results obtained both in the software and hardware areas allow a solid review of the project schedule. The decision is made to keep the division of the remaining project time in two iterations, leaving the last, fifteen days period for unforseen difficulties. Of the two iterations, the first is to be devoted to implementation of the USB host communication as hardware project estimates completion of a first prototype halfway the iteration; and the second, and last, iteration is planned to be employed in final testing and validation of the application against hardware prototype.\\
+			The positive results obtained both in the software and hardware areas allow a solid review of the project schedule. The decision is made to keep the division of the remaining project time in two iterations, leaving the last, fifteen days period for unforeseen difficulties. Of the two iterations, the first is to be devoted to implementation of the USB host communication as hardware project estimates completion of a first prototype halfway the iteration; and the second, and last, iteration is planned to be employed in final testing and validation of the application against hardware prototype.\\
 
 			The following conclusions are obtained from this iteration's reviewing meeting:
 			\begin{itemize}
@@ -723,20 +723,20 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 				\item the implementation of actual user interfaces.
 			\end{itemize}
 
-			The USB slave accessory prototype is produced on time by the hardware project, and implementation of the actual USB communication assuming the Android device the host role is done in very short time, leaving room for consecution of the rest of the iteration objectives and following validation.\\
+			The USB slave accessory prototype is produced on time by the hardware project, and implementation of the actual USB communication assuming the Android device the host role is done in very short time, leaving room for achievement of the rest of the iteration objectives and following validation.\\
 
-			Employment of the identified working solutions for performance issues in the rendering area does not provide the expected results, and further research is required. The bottle-neck in the rendering process is indentified to be the context change required by the rendering tools provided by Android. Meticulous research on Android developer resources provides no other solution than minimizing the number of calls to the rendering methods each step. Emphasis is put to the realization of this task, but to no avail.\\
+			Employment of the identified working solutions for performance issues in the rendering area does not provide the expected results, and further research is required. The bottle-neck in the rendering process is identified to be the context change required by the rendering tools provided by Android. Meticulous research on Android developer resources provides no other solution than minimizing the number of calls to the rendering methods each step. Emphasis is put to the realization of this task, but to no avail.\\
 
 			The problem is the big amount of data required to be drawn each rendering step. A mechanism is developed to minimize the number of lines drawn by joining similar valued wave points, and the performance is improved, but not at the desired level. Nevertheless further work in this area is postponed as the achieved performance lies in the range required by the non-functional requirements of the project.\\
 
 			Implementation of the actual user interfaces to be employed in the application is addressed next. The design of these has been done throughout the last two iterations. The implementation process takes more time than expected as	Android user interface framework is quite specific, and requires adequation to certain rules that have to be studied beforehand.\\
 
-			The remaining time of the iteration is devoted to testing and validation of the application, which has reached a near final state. Conclussions from the review meeting follow:
+			The remaining time of the iteration is devoted to testing and validation of the application, which has reached a near final state. Conclusions from the review meeting follow:
 			\begin{itemize}
 				\item The Android application is finished and pending validation with the actual USB receiver device.
 				\item The realization of UC2-\emph{View data from USB Receiver} is done.
 				\item The user interface of the application is in a final state, but were changes required they could be easily implemented as the UI is isolated from the data flow part.
-				\item Performance regarding rendering is not optimal, but it is in the range defined by the requisites.
+				\item Performance regarding rendering is not optimal, but it is in the range defined by the requirements.
 				\item Until validation can begin, the full team can be employed in the hardware project.
 				\item Risk HR2-\emph{802.15.4 receiver device unfeasible} is marked as surpassed as the viability of the receiver has been proved by the hardware research.
 			\end{itemize}
@@ -764,8 +764,8 @@ arquitecturas muy particulares, en el momento de comenzar el desarrollo document
 	\section{Closure}
 	\label{sec:sw-ending}
 
-		The software development part of the project has been able to produce the required Android application, with all planned functionality implemented and including user friendly interfaces. It is a rather general purpose application inside of the domain to which it is restricted, and at its final state it would need some specialization in order to be actually useful. This is so because the requisite analysis process wasn't developed focusing an immediate professional employment of the application, but a replacement for that of the UCM and EPFL project which inspired this one. \\
+		The software development part of the project has been able to produce the required Android application, with all planned functionality implemented and including user friendly interfaces. It is a rather general purpose application inside of the domain to which it is restricted, and at its final state it would need some specialization in order to be actually useful. This is so because the requirement analysis process was not developed focusing on an immediate professional employment of the application, but a replacement for that of the UCM and EPFL project which inspired this one. \\
 
-		Anyhow, during the architecture design and subsequent implementation phases great emphasis is put for the application to provide the tools to act as a framework over which more specific ECG montoring application development can be realized. An interesting example of this is that, at the current state, the application implements visualization of data received from an USB device. In this project, the USB device has been the 802.15.4 USB receiver, but any other device capable of encoding the data in the expected way is valid as well.\\
+		Anyhow, during the architecture design and subsequent implementation phases great emphasis is put for the application to provide the tools to act as a framework over which more specific ECG monitoring application development can be realized. An interesting example of this is that, at the current state, the application implements visualization of data received from an USB device. In this project, the USB device has been the 802.15.4 USB receiver, but any other device capable of encoding the data in the expected way is valid as well.\\
 
 		In short, the software development finished providing successful results in form of a general purpose ECG monitoring application for Android devices which can serve as the base for more specific developments, which was exactly the target objective for the software project.
