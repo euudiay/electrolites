@@ -376,6 +376,11 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	public void onBackPressed() {
 		if (viewStack.isEmpty())
 			finish();
-		else popView();
+		else {
+			if (currentManager !=  null)
+				currentManager.back();
+			else
+				popView();
+		}
 	}
 }

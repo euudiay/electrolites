@@ -11,4 +11,6 @@ public interface DataManager {
 	void start();
 	// The manager halts the execution of DataSource 
 	void stop();
+	// The manager handles a back button press
+	void back();
 }

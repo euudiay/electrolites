@@ -51,6 +51,8 @@ public class DeviceManager implements DataManager {
 		usbManager = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
 		
 		MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_USB, 1, null);
+		
+		System.out.println("USB Device Manager created");
 	}
 	
 	public void start() {
@@ -85,28 +87,47 @@ public class DeviceManager implements DataManager {
 		       }
 		    }
 		};
+		
+		System.out.println("USB Permission Intent Created");
 		PendingIntent permissionIntent = PendingIntent.getBroadcast(activity, 0, new Intent(ACTION_USB_PERMISSION), 0);
 		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
         activity.registerReceiver(usbReceiver, filter);
         
         UsbDevice device = null;
         HashMap<String, UsbDevice> deviceList = usbManager.getDeviceList();
+        System.out.println("Obtaining USB Devices List... Size: " +  deviceList.size());
         Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
         while(deviceIterator.hasNext()){
             device = deviceIterator.next();
         }
         
-        if (device != null)
+        if (device != null) {
         	usbManager.requestPermission(device, permissionIntent);
-        else 
+        	System.out.println("USB Device Permisson Requested");
+        } else { 
         	Toast.makeText(context, "No devices attached.", Toast.LENGTH_SHORT).show();
+        	System.out.println("Usable USB Device Not Found");
+        }
 	}
 	
 	//@Override
 	public void stop() {
 		// Terminamos la actividad del thread de comunicaci??n
-		if (thread != null)
-			thread.halt();
+		System.out.println("USB Device Manager Stopping it's operation");
+		if (thread != null) {
+			thread.stop = true;
+			thread.interrupt();
+			// thread.halt();
+			try {
+				thread.join();
+				System.out.println("Thread Joined!");
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+				System.out.println("Thread Join Failed!");
+			}
+		}
+		
+		System.out.println("USB Device Comm Thread stopped");
 		
 		// Cerramos el descriptor de archivo del accesorio
 		if (connection != null){
@@ -114,10 +135,16 @@ public class DeviceManager implements DataManager {
 			connection.releaseInterface(interf);
 		}
 		
+		System.out.println("USB Device Connection Closed & Released");
+		
 		// TODO: Bug if receiver not registered
 		activity.unregisterReceiver(usbReceiver);
 		
+		System.out.println("USB Device Receiver Unregistered");
+		
 		MicrolitesActivity.instance.popView();
+		
+		System.out.println("USB Manager Is Off!");
 	}
 	
 	public void openDevice(UsbDevice device) {
@@ -172,6 +199,10 @@ public class DeviceManager implements DataManager {
 	//@Override
 	public void configure(DataHolder dataHolder) {
 		this.dataHolder = dataHolder;
+	}
+
+	public void back() {
+		this.stop();
 	}
 	
 	

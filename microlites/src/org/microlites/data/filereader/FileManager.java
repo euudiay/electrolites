@@ -48,6 +48,7 @@ public class FileManager implements DataManager {
 				try {
 					dataSource.finish();
 					dataSource.join();
+					dataSource = null;
 					retry = false;
 				} catch (InterruptedException e) {
 					
@@ -97,5 +98,12 @@ public class FileManager implements DataManager {
 		});
 		
 		act.pushView(view);
+	}
+
+	public void back() {
+		if (this.dataSource == null)
+			MicrolitesActivity.instance.popView();
+		else
+			this.stop();
 	}
 }

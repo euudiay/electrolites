@@ -344,4 +344,8 @@ public class BluetoothManager implements DataManager {
 			}
 		});
 	}
+
+	public void back() {
+		this.stop();
+	}
 }
