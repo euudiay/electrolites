@@ -108,36 +108,42 @@ public class UsbComThread extends DataSourceThread {
 						
 						// Checks here
 						
-						// To dataparser!
-						int start = 2;
-						if (byteBuffer[1] == 62) {
-							start = 3;
-							if (seqNum+1 != byteBuffer[2]) {
-								Log.e("SEQ", "Wrong Seq. Num: Got " + Integer.toString(byteBuffer[2], 16) + " expected " + Integer.toString((seqNum+1), 16));
-								seqNum = byteBuffer[2];
-							} else 
-								seqNum = (byte) ((seqNum + 1) % maxSeqNum);
-						}
-						for (int i = start; i < actualBytes + 2; i++)
-						{
-							/*if (actualBytes == 29 && i == 30) {
-								//System.out.println("OHPORELAMORDEDIOSHEMOSRECIBIDOELTOKEN29DELQUEHABLANLASSAGRADASESCRITURAS");
-								System.out.println("SeqNum: " + byteBuffer[i]);
-							//	System.out.println("OHPORELAMORDEDIOSHEMOSRECIBIDOELTOKEN29DELQUEHABLANLASSAGRADASESCRITURAS");
-							} else {*/
-								/*currentChar++;
-								if (currentChar > 0x5A)
-									currentChar = 0x40;
-								
-								System.out.println(currentChar);
-								
-								if (currentChar != byteBuffer[i]) {
-									System.err.println("Got " + (char) byteBuffer[i] + "("+byteBuffer[i]+") expected " + currentChar + "("+(int)currentChar+")");
-									currentChar = (char) byteBuffer[i];
-								}
-							//}*/
-								parser.step(byteBuffer[i]);
-						}
+ 						if (byteBuffer[1] == 1 && byteBuffer[2] == 0) {
+							// Closing token
+							System.out.println("Closing token received.");
+ 						} else {
+						
+ 							// To dataparser!
+							int start = 2;
+							if (byteBuffer[1] == 62) {
+								start = 3;
+								if (seqNum+1 != byteBuffer[2]) {
+									Log.e("SEQ", "Wrong Seq. Num: Got " + Integer.toString(byteBuffer[2], 16) + " expected " + Integer.toString((seqNum+1), 16));
+									seqNum = byteBuffer[2];
+								} else 
+									seqNum = (byte) ((seqNum + 1) % maxSeqNum);
+							}
+							for (int i = start; i < actualBytes + 2; i++)
+							{
+								/*if (actualBytes == 29 && i == 30) {
+									//System.out.println("OHPORELAMORDEDIOSHEMOSRECIBIDOELTOKEN29DELQUEHABLANLASSAGRADASESCRITURAS");
+									System.out.println("SeqNum: " + byteBuffer[i]);
+								//	System.out.println("OHPORELAMORDEDIOSHEMOSRECIBIDOELTOKEN29DELQUEHABLANLASSAGRADASESCRITURAS");
+								} else {*/
+									/*currentChar++;
+									if (currentChar > 0x5A)
+										currentChar = 0x40;
+									
+									System.out.println(currentChar);
+									
+									if (currentChar != byteBuffer[i]) {
+										System.err.println("Got " + (char) byteBuffer[i] + "("+byteBuffer[i]+") expected " + currentChar + "("+(int)currentChar+")");
+										currentChar = (char) byteBuffer[i];
+									}
+								//}*/
+									parser.step(byteBuffer[i]);
+							}
+ 						}
 					} else {
 						System.out.println("Recepción de paquete USB no finalizada, pero continuamos");
 					}

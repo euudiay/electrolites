@@ -203,15 +203,15 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
         
     public void destroyECGView() {
     	if (currentManager != null) {
-    		currentManager.stop();
-    		//currentManager = null;
+    		//currentManager.stop();
+    		currentManager = null;
     		/*popView();
     		currentView = null;
     		currentMode = MODE_NONE;*/
-    	} else {
+    	}// else {
     		currentView = null;
     		currentMode = MODE_NONE;
-    	}
+    	//}
     }
     
     @Override
