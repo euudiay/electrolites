@@ -91,7 +91,8 @@ public class StaticViewThread extends AnimationThread
 		if (y < dvport.vpPxY + dvport.vpPxHeight) {
 			// Upper area
 			Data.getInstance().drawBaseHeight -= distY*0.002;
-			dataSource.handleScroll(distX);
+			if (dataSource != null)
+				dataSource.handleScroll(distX);
 		}/* else {
 			// Lower area (Minimap)
 			int left = dvport.vpPxX;

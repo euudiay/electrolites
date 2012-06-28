@@ -36,7 +36,10 @@ public class GeneratorManager implements DataManager {
 		this.dataHolder = dataHolder;
 	}
 	
-	
+	@Override
+	public void back() {
+		this.stop();
+	}
 }
 
 

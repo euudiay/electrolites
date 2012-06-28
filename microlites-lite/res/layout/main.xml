@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,18 +38,16 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:gravity="center_horizontal|center_vertical" >
-
+
 					<Button
-						android:id="@+id/startBluetoothButton"
-						android:text="@string/bluetoothButtonLabel" />
-
+					    android:id="@+id/startBluetoothButton"
+					    android:text="@string/bluetoothButtonLabel"
+					    />
+
 					<Button
-						android:id="@+id/startUsbButton"
-						android:text="@string/usbButtonLabel" />
-
-					<Button
-						android:id="@+id/startLogButton"
-						android:text="@string/fileLogButtonLabel" />
+					    android:id="@+id/startLogButton"
+					    android:text="@string/fileLogButtonLabel" 
+					    android:width="20dp"/>
 						
 				</TableRow>
 
@@ -57,14 +55,14 @@
 					android:id="@+id/tableRow2"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:gravity="center_horizontal" >
+					android:gravity="center_vertical|center_horizontal" android:baselineAligned="true">
 
 					<TextView
 						android:id="@+id/textView1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/viewWidthFullLabel"
-						android:textAppearance="?android:attr/textAppearanceMedium" />
+						/>
 
 					<SeekBar
 						android:id="@+id/seekBar1"
