@@ -46,7 +46,7 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	
 	public boolean running;					// Running flag 
 	
-	boolean[] stop = new boolean[1];		// Stop Parsing flag
+	public boolean[] stop = new boolean[1];		// Stop Parsing flag
 	
 	public FileDataSourceThread(DataHolder d, String pathToFile) {
 		loading = false;
