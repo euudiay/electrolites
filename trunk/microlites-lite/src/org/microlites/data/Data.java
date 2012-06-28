@@ -3,6 +3,7 @@ package org.microlites.data;
 import org.microlites.view.AnimationThread;
 
 import android.graphics.Color;
+import android.view.Menu;
 import android.view.SurfaceHolder;
 
 /**
@@ -68,6 +69,11 @@ public class Data {
 	 * will have this value.
 	 */
 	public short generateHeight = 2000;
+	
+	/**
+	 * Main App menu reference
+	 */
+	public Menu appMenu = null;
 	
 	/** Initializes required data */
 	protected Data() {

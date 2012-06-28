@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -36,6 +37,10 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	public static final byte MODE_USB		= 0x3;		// USB Constant
 	public static final byte MODE_GEN		= 0x4;		// Generator Constant
 	
+	public static final byte ST_MENU		= 0x1;		// Main Menu
+	public static final byte ST_INMANAGER	= 0x2;		// Manager Operating
+	public static final byte ST_RUNNING		= 0x3;		// Visualiz. Running
+	
 	GestureDetector gestureScanner;				// Gesture Detector
 	
 	public static MicrolitesActivity instance;	// Reference to this Activity
@@ -45,6 +50,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	AnimationThread currentViewThread;			// Reference to View Thread
 	DataManager currentManager;					// Reference to Data Manager
 	View menuView;								// Refernece to initial Menu
+	byte currentState; 
 	
     /** Called when the activity is first created,
      * 	when the screen is rotated or when the
@@ -54,6 +60,8 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    	
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         // Set main layout
     	setContentView(R.layout.main);
@@ -64,6 +72,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
         gestureScanner = new GestureDetector(this);
         // Initialize references
         currentMode = MODE_NONE;
+        currentState = ST_MENU;
         currentView = null;
         currentViewThread = null;
         currentManager = null;
@@ -121,12 +130,12 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 				}
 			});
 	        
-	        Button usb = (Button) findViewById(R.id.startUsbButton);
+	        /*Button usb = (Button) findViewById(R.id.startUsbButton);
 	        usb.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					MicrolitesActivity.instance.initVisualization(MODE_USB, 0, null);
 				}
-			});
+			});*/
 	        
 	        Button logButton = (Button) findViewById(R.id.startLogButton);
 	        logButton.setOnClickListener(new OnClickListener() {
@@ -142,6 +151,8 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     	switch (phase) {
     	case 0: 
 			// Phase 0 - Init
+    		currentState = ST_INMANAGER;
+    		System.out.println("AppStatus: The manager takes control");
 
 			// 1. Create Manager
     		switch (mode) {
@@ -166,6 +177,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 			break;
     	case 1:
     		// Phase 1 - Dynamic Surface
+    		System.out.println("AppStatus: Dynamic Surface Creation");
     		
 			// 2. Add new Dynamic Surface Holder
 			currentView = new ECGView(getApplicationContext(), null, this);
@@ -177,7 +189,13 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	        break;
     	case 2: 
 			// Phase 2 - Surface available, start the magic!
+    		currentState = ST_RUNNING;
+    		System.out.println("AppStatus: Visualization Running");
+    		
     		Data d = Data.getInstance();
+    		
+    		// Show zoom, shrink buttons
+    		setViewControlButtons(true);
     		
     		// 1. Instantiate viewthread
 			switch (mode) {
@@ -201,17 +219,15 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     	}
     }
         
-    public void destroyECGView() {
+    public void endCurrentManagerOperation() {
     	if (currentManager != null) {
-    		currentManager.stop();
-    		//currentManager = null;
-    		/*popView();
-    		currentView = null;
-    		currentMode = MODE_NONE;*/
-    	} else {
-    		currentView = null;
-    		currentMode = MODE_NONE;
+    		currentManager = null;
     	}
+    	setViewControlButtons(false);
+		currentView = null;
+    	currentMode = MODE_NONE;
+    	currentState = ST_MENU;
+		System.out.println("AppStatus: Returned to Main Menu");
     }
     
     @Override
@@ -238,12 +254,15 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     @Override
     public boolean onTouchEvent(MotionEvent me)
     {
-        return gestureScanner.onTouchEvent(me);
+		return gestureScanner.onTouchEvent(me);
     }
     
     //@Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
     {
+    	if (e1 == null || e2 == null)
+    		return false;
+    	
     	float x = e1.getX(0);
     	float y = e1.getY(0);
     	if (currentView != null)
@@ -278,23 +297,29 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	//@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
-		Data.getInstance().pause = !Data.getInstance().pause;
+		// Data.getInstance().pause = !Data.getInstance().pause;
 		return true;
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// menu.add("Zero/NotZero");
-		menu.add("Zoom");
-		menu.add("Shrink");
-		// menu.add("Detener");
+		Data.getInstance().appMenu = menu;
+		
+		menu.add("Acercar vista");
+		menu.add("Alejar vista");
 		menu.add("Más Cosas");
 		menu.add("Salir");
-		//menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		//menu.getItem(1).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		// menu.getItem(2).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		// menu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		// menu.getItem(0).setEnabled(false);
+
+		switch (currentState) {
+		case ST_MENU:
+		case ST_INMANAGER:
+			menu.getItem(0).setVisible(false);
+			menu.getItem(1).setVisible(false);
+			break;
+		case ST_RUNNING:
+			break;
+		}
+		
 		return true;
 	}
 	
@@ -303,11 +328,11 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	    // Handle item selection
 		Data d = Data.getInstance();
 	    if (item.getTitle().equals("Detener")) {
-            destroyECGView();
-	    } else if (item.getTitle().equals("Shrink")) {
-	    	d.yScaleTopValue *= 1.5f; 
-	    } else if (item.getTitle().equals("Zoom")) {
-	    	d.yScaleTopValue /= 1.5f;
+            endCurrentManagerOperation();
+	    } else if (item.getTitle().equals("Acercar vista")) {
+	    	d.yScaleTopValue /= 1.5f; 
+	    } else if (item.getTitle().equals("Alejar vista")) {
+	    	d.yScaleTopValue *= 1.5f;
 	    } else if (item.getTitle().equals("Salir")){
 	    	finish();
 	    } else if (item.getTitle().equals("Zero/NotZero")) {
@@ -374,8 +399,25 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	
 	@Override
 	public void onBackPressed() {
-		if (viewStack.isEmpty())
+		if (viewStack.isEmpty()) {
+    		System.out.println("AppStatus: Goodbye!");
 			finish();
-		else popView();
+		} else {
+			if (currentManager !=  null)
+				currentManager.back();
+			else
+				popView();
+		}
+	}
+	
+	public void setViewControlButtons(boolean on) {
+		if (Data.getInstance().appMenu == null)
+			return;
+		MenuItem a = Data.getInstance().appMenu.getItem(0), b = Data.getInstance().appMenu.getItem(1);
+		if (a == null || b == null)
+			return;
+		
+		a.setVisible(on);
+		b.setVisible(on);
 	}
 }

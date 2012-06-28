@@ -32,7 +32,7 @@ public class LogArrayAdapter extends ArrayAdapter<String> {
 		textView.setText(values[position]);
 		textView = (TextView) rowView.findViewById(R.id.sizeLabel);
 		textView.setText(sizes[position]);
-		imageView.setImageResource(R.drawable.ecg_icon);
+		imageView.setImageResource(R.drawable.ecg_icon_micro);
 
 		return rowView;
 	}

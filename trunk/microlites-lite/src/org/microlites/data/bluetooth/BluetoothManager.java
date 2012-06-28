@@ -301,6 +301,7 @@ public class BluetoothManager implements DataManager {
 	public void stop() {
 		stopRunning();
 		MicrolitesActivity.instance.popView();
+		MicrolitesActivity.instance.endCurrentManagerOperation();
 	}
 	
 	/** Builds Bluetooth Configuration Menu and pushes it into the View Stack
@@ -316,8 +317,17 @@ public class BluetoothManager implements DataManager {
 		dialog.setOwnerActivity(act);
 		dialog.show();
 		
-		// Set button listener
-		Button b = (Button) dialog.findViewById(R.id.btSettingsStart);
+		// Set Cancel button listener
+		Button b = (Button) dialog.findViewById(R.id.btSettingsCancel);
+		b.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.cancel();
+			}
+		});
+		
+		// Set Start button listener
+		b = (Button) dialog.findViewById(R.id.btSettingsStart);
 		b.setOnClickListener(new OnClickListener() {
 			// @Override
 			public void onClick(View v) {
@@ -343,5 +353,9 @@ public class BluetoothManager implements DataManager {
 				MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_BLUETOOTH, 1, null);
 			}
 		});
+	}
+	
+	public void back() {
+		this.stop();
 	}
 }

@@ -46,16 +46,23 @@ public class FileManager implements DataManager {
 			boolean retry = true;
 			while (retry) {
 				try {
+					dataSource.running = false;
+					dataSource.stop[0] = true;
 					dataSource.finish();
 					dataSource.join();
 					retry = false;
 				} catch (InterruptedException e) {
 					
 				}
+				
+				dataSource = null;
 			}
+		} else {
+			MicrolitesActivity.instance.endCurrentManagerOperation();
 		}
 		
 		MicrolitesActivity.instance.popView();
+		//
 	}
 	
 	public void buildView() {
@@ -65,7 +72,7 @@ public class FileManager implements DataManager {
 		ListView lv = (ListView) view.findViewById(R.id.listView);
 		
 		File root = Environment.getExternalStorageDirectory();
-		File path = new File(root, "/Download/");
+		File path = new File(root, "/download/");
 		
 		File[] files = path.listFiles(new FilenameFilter() {
 			// @Override
@@ -97,5 +104,12 @@ public class FileManager implements DataManager {
 		});
 		
 		act.pushView(view);
+	}
+	
+	public void back() {
+		if (this.dataSource == null)
+			MicrolitesActivity.instance.popView();
+		else
+			this.stop();
 	}
 }
