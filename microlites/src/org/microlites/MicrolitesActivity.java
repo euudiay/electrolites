@@ -178,6 +178,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     	case 2: 
 			// Phase 2 - Surface available, start the magic!
     		Data d = Data.getInstance();
+    		d.resetView();
     		
     		// 1. Instantiate viewthread
 			switch (mode) {
