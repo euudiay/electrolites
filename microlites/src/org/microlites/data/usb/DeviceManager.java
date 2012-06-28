@@ -130,19 +130,24 @@ public class DeviceManager implements DataManager {
 		System.out.println("USB Device Comm Thread stopped");
 		
 		// Cerramos el descriptor de archivo del accesorio
-		if (connection != null){
-			connection.close();
+		if (connection != null) {
 			connection.releaseInterface(interf);
+			connection.close();
 		}
 		
 		System.out.println("USB Device Connection Closed & Released");
 		
-		// TODO: Bug if receiver not registered
-		activity.unregisterReceiver(usbReceiver);
+		try {
+			activity.unregisterReceiver(usbReceiver);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
 		
 		System.out.println("USB Device Receiver Unregistered");
 		
 		MicrolitesActivity.instance.popView();
+		MicrolitesActivity.instance.destroyECGView();
 		
 		System.out.println("USB Manager Is Off!");
 	}
