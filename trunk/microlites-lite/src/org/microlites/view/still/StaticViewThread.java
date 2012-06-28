@@ -132,6 +132,14 @@ public class StaticViewThread extends AnimationThread
 			textPaint.setTextAlign(Align.CENTER);
 			canvas.drawText("Cargando...", (left+right)/2, (top+bottom)/2, textPaint);
 			return;
+		} else if (dataSource instanceof FileDataSourceThread) {
+			if (((FileDataSourceThread) dataSource).stop[0]) {
+				textPaint.setColor(Color.RED);
+				textPaint.setStrokeWidth(2.f);
+				textPaint.setTextAlign(Align.CENTER);
+				canvas.drawText("Carga cancelada...", (left+right)/2, (top+bottom)/2, textPaint);
+				return;
+			}
 		}
 			
 		/*** Fetch data from DataSource ***/
