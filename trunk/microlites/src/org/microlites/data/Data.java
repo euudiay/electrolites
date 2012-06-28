@@ -74,4 +74,10 @@ public class Data {
 		// TODO: Data initialization
 		mutex = new Object();
 	}
+	
+	/** (Re)Set default view values */
+	public void resetView() {
+		drawBaseHeight = 0.5f;
+		yScaleTopValue = 12000.0f;
+	}
 }
