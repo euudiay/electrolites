@@ -44,7 +44,8 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 	public float hacc;						// Horizontal scrolling deceleration
 	public boolean forcedMovement;			// Should not apply deceleration
 	
-	public boolean running;					// Running flag 
+	public boolean running;					// Running flag
+	public boolean[] stop = new boolean[1];		// Stop Parsing flag
 	
 	public FileDataSourceThread(DataHolder d, String pathToFile) {
 		loading = false;
@@ -87,16 +88,22 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 			started = true;
 			loading = true;
 			
+			stop[0] = false;
+			
 			fileConverter = new FileConverter();
 			int[] size = new int[1];
-			stream = fileConverter.readBinaryFriendly(filename, size);
+			stream = fileConverter.readBinaryFriendly(filename, size, stop);
+			if (stop[0]) {
+				running = false;
+				return;
+			}
 			int length = size[0];
 			
 			// The stream will be parsed and stored in the arrays
 			initData();
 			
 			// Init Parser
-			parser = new StaticDataParser(this);
+			parser = new StaticDataParser(this, filename);
 			// Parse full stream
 			for (int i = 0; i < length; i++) {
 				parser.step(stream[i]);
@@ -118,6 +125,8 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 			
 			Log.d("FileDataSource", "File parsing finished");
 			Log.d("FileDataSource", "Samples: " + s_size + "; DPoints: " + dp_size);
+			
+			parser.finish();
 			
 			running = true;
 		}

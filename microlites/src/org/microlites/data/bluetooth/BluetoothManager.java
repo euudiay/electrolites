@@ -301,6 +301,7 @@ public class BluetoothManager implements DataManager {
 	public void stop() {
 		stopRunning();
 		MicrolitesActivity.instance.popView();
+		MicrolitesActivity.instance.endCurrentManagerOperation();
 	}
 	
 	/** Builds Bluetooth Configuration Menu and pushes it into the View Stack

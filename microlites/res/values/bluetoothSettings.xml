@@ -2,7 +2,7 @@
 <resources>
     <string name="bluetoothSettingsTitle">Configuración de Conexión Bluetooth</string>
     <string name="bluetoothSettingsDeviceNameLabel">Nombre de Dispositivo</string>
-    <string name="bluetoothSettingsDeviceNameDefaultText">Firefly-3881</string>
+    <string name="bluetoothSettingsDeviceNameDefaultText">FireFly-3790</string>
     <string name="bluetoothSettingsDeviceNameHint">Nombre del dispositivo bluetooth a conectar</string>
     <string name="bluetoothSettingsStartButton">Comenzar</string>
 </resources>

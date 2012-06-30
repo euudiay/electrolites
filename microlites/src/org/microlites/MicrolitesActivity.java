@@ -36,6 +36,10 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	public static final byte MODE_USB		= 0x3;		// USB Constant
 	public static final byte MODE_GEN		= 0x4;		// Generator Constant
 	
+	public static final byte ST_MENU		= 0x1;		// Main Menu
+	public static final byte ST_INMANAGER	= 0x2;		// Manager Operating
+	public static final byte ST_RUNNING		= 0x3;		// Visualiz. Running
+	
 	GestureDetector gestureScanner;				// Gesture Detector
 	
 	public static MicrolitesActivity instance;	// Reference to this Activity
@@ -45,6 +49,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	AnimationThread currentViewThread;			// Reference to View Thread
 	DataManager currentManager;					// Reference to Data Manager
 	View menuView;								// Refernece to initial Menu
+	byte currentState; 							// Application current state
 	
     /** Called when the activity is first created,
      * 	when the screen is rotated or when the
@@ -68,6 +73,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
         currentViewThread = null;
         currentManager = null;
         menuView = null;
+        currentState = ST_MENU;
         
         // Testing Area
         viewStack = new Stack<View>();
@@ -142,7 +148,9 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     	switch (phase) {
     	case 0: 
 			// Phase 0 - Init
-
+    		currentState = ST_INMANAGER;
+    		System.out.println("AppStatus: The manager takes control");
+    		
 			// 1. Create Manager
     		switch (mode) {
 				case MODE_BLUETOOTH:
@@ -166,6 +174,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 			break;
     	case 1:
     		// Phase 1 - Dynamic Surface
+    		System.out.println("AppStatus: Dynamic Surface Creation");
     		
 			// 2. Add new Dynamic Surface Holder
 			currentView = new ECGView(getApplicationContext(), null, this);
@@ -177,6 +186,12 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	        break;
     	case 2: 
 			// Phase 2 - Surface available, start the magic!
+    		currentState = ST_RUNNING;
+    		System.out.println("AppStatus: Visualization Running");
+    		
+    		// Show zoom, shrink buttons
+    		setViewControlButtons(true);
+    		
     		Data d = Data.getInstance();
     		d.resetView();
     		
@@ -202,19 +217,17 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
     	}
     }
         
-    public void destroyECGView() {
+    public void endCurrentManagerOperation() {
     	if (currentManager != null) {
-    		//currentManager.stop();
     		currentManager = null;
-    		/*popView();
-    		currentView = null;
-    		currentMode = MODE_NONE;*/
-    	}// else {
-    		currentView = null;
-    		currentMode = MODE_NONE;
-    	//}
+    	}
+    	setViewControlButtons(false);
+		currentView = null;
+    	currentMode = MODE_NONE;
+    	currentState = ST_MENU;
+		System.out.println("AppStatus: Returned to Main Menu");
     }
-    
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
     	/*if (currentView instanceof ECGView) {
@@ -285,17 +298,23 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// menu.add("Zero/NotZero");
-		menu.add("Zoom");
-		menu.add("Shrink");
-		// menu.add("Detener");
+		Data.getInstance().appMenu = menu;
+		
+		menu.add("Acercar vista");
+		menu.add("Alejar vista");
 		menu.add("Más Cosas");
 		menu.add("Salir");
-		menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		menu.getItem(1).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		// menu.getItem(2).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		// menu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		// menu.getItem(0).setEnabled(false);
+
+		switch (currentState) {
+		case ST_MENU:
+		case ST_INMANAGER:
+			menu.getItem(0).setVisible(false);
+			menu.getItem(1).setVisible(false);
+			break;
+		case ST_RUNNING:
+			break;
+		}
+		
 		return true;
 	}
 	
@@ -303,15 +322,13 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 		Data d = Data.getInstance();
-	    if (item.getTitle().equals("Detener")) {
-            destroyECGView();
-	    } else if (item.getTitle().equals("Shrink")) {
-	    	d.yScaleTopValue *= 1.5f; 
-	    } else if (item.getTitle().equals("Zoom")) {
+	    if (item.getTitle().equals("Acercar vista")) {
 	    	d.yScaleTopValue /= 1.5f;
+	    } else if (item.getTitle().equals("Alejar vista")) {
+	    	d.yScaleTopValue *= 1.5f; 
 	    } else if (item.getTitle().equals("Salir")){
 	    	finish();
-	    } else if (item.getTitle().equals("Zero/NotZero")) {
+	    /*} else if (item.getTitle().equals("Zero/NotZero")) {
 	    	d.generateZeros = !d.generateZeros;
 	    	
 	    	if (d.generateZeros) {
@@ -319,7 +336,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	    			d.generateHeight -= 500;
 	    		else
 	    			d.generateHeight += 500;
-	    	}
+	    	}*/
 	    } else {
 	    	return super.onOptionsItemSelected(item);
 	    }
@@ -375,13 +392,27 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	
 	@Override
 	public void onBackPressed() {
-		if (viewStack.isEmpty())
+		if (viewStack.isEmpty()) {
+    		System.out.println("AppStatus: Goodbye!");
 			finish();
-		else {
+		} else {
 			if (currentManager !=  null)
 				currentManager.back();
 			else
 				popView();
 		}
+	}
+	
+	public void setViewControlButtons(boolean on) {
+		if (Data.getInstance().appMenu == null)
+			return;
+		MenuItem a = Data.getInstance().appMenu.getItem(0), b = Data.getInstance().appMenu.getItem(1);
+		if (a == null || b == null)
+			return;
+		
+		a.setVisible(on);
+		a.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		b.setVisible(on);
+		b.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 	}
 }

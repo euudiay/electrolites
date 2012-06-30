@@ -46,17 +46,25 @@ public class FileManager implements DataManager {
 			boolean retry = true;
 			while (retry) {
 				try {
+					dataSource.running = false;
+					dataSource.stop[0] = true;
 					dataSource.finish();
 					dataSource.join();
-					dataSource = null;
 					retry = false;
 				} catch (InterruptedException e) {
 					
 				}
+				
+				dataSource = null;
+				
+				MicrolitesActivity.instance.setViewControlButtons(false);
 			}
+		} else {
+			MicrolitesActivity.instance.endCurrentManagerOperation();
 		}
 		
 		MicrolitesActivity.instance.popView();
+		//
 	}
 	
 	public void buildView() {
@@ -101,8 +109,9 @@ public class FileManager implements DataManager {
 	}
 
 	public void back() {
-		if (this.dataSource == null)
+		if (this.dataSource == null) {
 			MicrolitesActivity.instance.popView();
+		}
 		else
 			this.stop();
 	}

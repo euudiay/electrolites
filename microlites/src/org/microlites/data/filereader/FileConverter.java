@@ -49,7 +49,7 @@ public class FileConverter {
 	
 	// Lee un archivo binario y devuelve sus datos en un ArrayList de bytes
 	// @param resultSize One element array to output size of returned array
-	public byte[] readBinaryFriendly(String fname, int[] resultSize) {
+	public byte[] readBinaryFriendly(String fname, int[] resultSize, boolean[] stop) {
 		byte[] bytes = new byte[256];
 		int size = 256;
 		int curr = 0;
@@ -58,7 +58,7 @@ public class FileConverter {
 			FileInputStream s = new FileInputStream(new File(fname));
 			
 			int aux = 0;
-			while ((aux = s.read()) >= 0) {
+			while (!stop[0] && (aux = s.read()) >= 0) {
 				// Add the new byte
 				bytes[curr++] = (byte) aux;
 				// Duplicate the array if filled
@@ -70,6 +70,9 @@ public class FileConverter {
 					size *= 2;
 				}
 			}
+			
+			if (stop[0])
+				System.out.println("Stopped");
 			
 			s.close();
 		}

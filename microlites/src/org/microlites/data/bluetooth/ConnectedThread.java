@@ -65,6 +65,7 @@ public class ConnectedThread extends DataSourceThread {
 			} catch (IOException e) {
 				e.printStackTrace();
 				startReceiving = false;
+				this.cancel();
 				return;
 			}
 		
