@@ -17,7 +17,7 @@ public class StaticDataParser {
 	/* Data receiver */
 	private DataHolder dataHolder;
 	
-	public StaticDataParser(DataHolder holder) {
+	public StaticDataParser(DataHolder holder, String filename) {
 		// Prepare parsing
 		// Store reference to data holder
 		dataHolder = holder;
@@ -79,7 +79,7 @@ public class StaticDataParser {
 	public void parseOffset() {
 		storedBytes[progress] = currentByte;
 		progress++;
-		if (progress >= 5) {
+		if (progress >= 4) {
 			
 			int first =  storedBytes[0]	<< 24 & 0xFF000000;
 			int second = storedBytes[1]	<< 16 & 0x00FF0000;

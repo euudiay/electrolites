@@ -1,7 +1,7 @@
 package org.microlites.data;
 
 /** DataSourceThread abstract class.
- * A DataSourceThread provices data to other entities in the system.
+ * A DataSourceThread provides data to other entities in the system.
  * Being a thread, it should start and continue running, as well as
  * handling to calls to cancel and stopSending methods.
  * Successfuly handling a stopSending call should make the DataSource

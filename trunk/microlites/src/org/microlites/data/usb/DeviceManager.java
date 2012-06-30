@@ -147,7 +147,7 @@ public class DeviceManager implements DataManager {
 		System.out.println("USB Device Receiver Unregistered");
 		
 		MicrolitesActivity.instance.popView();
-		MicrolitesActivity.instance.destroyECGView();
+		MicrolitesActivity.instance.endCurrentManagerOperation();
 		
 		System.out.println("USB Manager Is Off!");
 	}
