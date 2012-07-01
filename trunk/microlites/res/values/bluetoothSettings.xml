@@ -5,4 +5,5 @@
     <string name="bluetoothSettingsDeviceNameDefaultText">FireFly-3790</string>
     <string name="bluetoothSettingsDeviceNameHint">Nombre del dispositivo bluetooth a conectar</string>
     <string name="bluetoothSettingsStartButton">Comenzar</string>
+    <string name="bluetoothSettingsCancelButton">Cancelar</string>
 </resources>

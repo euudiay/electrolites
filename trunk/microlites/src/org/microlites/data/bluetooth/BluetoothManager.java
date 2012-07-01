@@ -318,7 +318,14 @@ public class BluetoothManager implements DataManager {
 		dialog.show();
 		
 		// Set button listener
-		Button b = (Button) dialog.findViewById(R.id.btSettingsStart);
+		Button b = (Button) dialog.findViewById(R.id.btSettingsCancel);
+		b.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.cancel();
+			}
+		});
+				
+		b = (Button) dialog.findViewById(R.id.btSettingsStart);
 		b.setOnClickListener(new OnClickListener() {
 			// @Override
 			public void onClick(View v) {
