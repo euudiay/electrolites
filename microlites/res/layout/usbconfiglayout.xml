@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation = "vertical"
+    android:gravity="center_horizontal"
+    android:padding="10dp"
+    >
+
+                <TextView
+                    android:id="@+id/usbSettingsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/usbSettingsConnectDeviceText"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		<LinearLayout
+		   android:layout_width="fill_parent"
+		   android:layout_height="match_parent"
+		   android:orientation = "horizontal"
+		   android:gravity="center_horizontal"
+		   android:padding="10dp"
+		   >
+            <Button
+                android:id="@+id/usbSettingsStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/usbSettingsStartButton" />
+            
+            <Button
+                android:id="@+id/usbSettingsCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/usbSettingsCancelButton" />
+            
+       	</LinearLayout>
+		
+</LinearLayout>
