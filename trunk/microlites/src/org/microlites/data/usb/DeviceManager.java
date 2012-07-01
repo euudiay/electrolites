@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.microlites.MicrolitesActivity;
+import org.microlites.R;
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +22,12 @@ import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -49,10 +57,9 @@ public class DeviceManager implements DataManager {
 		this.activity = activity;
 		context = activity.getApplicationContext();
 		usbManager = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
-		
-		MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_USB, 1, null);
-		
 		System.out.println("USB Device Manager created");
+		
+		buildMenu();
 	}
 	
 	public void start() {
@@ -210,7 +217,66 @@ public class DeviceManager implements DataManager {
 		this.stop();
 	}
 	
+	/** Builds Bluetooth Configuration Menu and pushes it into the View Stack
+	*/ 
+	private void buildMenu() {
+		// Store a reference to the activity instance
+		MicrolitesActivity act = MicrolitesActivity.instance;
+		
+		// Display Bluetooth Settings dialog
+		final Dialog dialog = new Dialog(act);
+		dialog.setTitle(R.string.usbSettingsTitle);
+		dialog.setContentView(R.layout.usbconfiglayout);
+		dialog.setOwnerActivity(act);
+		dialog.show();
+		
+		// Set button listener
+		Button b = (Button) dialog.findViewById(R.id.usbSettingsStart);
+		b.setOnClickListener(new OnClickListener() {
+			// @Override
+			public void onClick(View v) {
+				
+				
+				if (preConnect()) {
+					// Close dialog
+					dialog.cancel();
+					
+					// Begin visualization
+					MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_USB, 1, null);
+				} else {
+					Animation shake = AnimationUtils.loadAnimation(MicrolitesActivity.instance.getApplicationContext(), R.anim.shake);
+	                
+					TextView tv = (TextView) dialog.findViewById(R.id.usbSettingsText);
+					tv.setText("El accesorio US.");
+					tv.startAnimation(shake);
+				}
+			}
+		});
+		
+		b = (Button) dialog.findViewById(R.id.usbSettingsCancel);
+		b.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.cancel();
+			}
+		});
+	}
 	
+	protected boolean preConnect() {
+		UsbDevice device = null;
+        HashMap<String, UsbDevice> deviceList = usbManager.getDeviceList();
+        System.out.println("Obtaining USB Devices List... Size: " +  deviceList.size());
+        Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
+        boolean found = false;
+        while(deviceIterator.hasNext() && device == null) {
+            device = deviceIterator.next();
+            if (device != null) {
+            	found = true;
+            	break;
+            }
+        }
+        
+        return found;
+    }
 }
 
 

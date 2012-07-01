@@ -3,7 +3,7 @@
     <string name="app_name">microlites</string>
     <string name="usbButtonLabel">USB</string>
     <string name="bluetoothButtonLabel">Bluetooth</string>
-    <string name="fileLogButtonLabel">Read Log</string>
+    <string name="fileLogButtonLabel">Cargar log</string>
     <string name="viewWidthFullLabel">Ancho en segundos: 1.5</string>
     <string name="viewWidthLabel">Ancho en segundos:</string>
 </resources>

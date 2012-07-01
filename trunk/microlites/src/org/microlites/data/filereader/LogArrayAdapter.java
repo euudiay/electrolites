@@ -3,6 +3,7 @@ package org.microlites.data.filereader;
 import org.microlites.R;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +31,10 @@ public class LogArrayAdapter extends ArrayAdapter<String> {
 		TextView textView = (TextView) rowView.findViewById(R.id.label);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 		textView.setText(values[position]);
+		textView.setGravity(Gravity.CENTER_VERTICAL);
 		textView = (TextView) rowView.findViewById(R.id.sizeLabel);
 		textView.setText(sizes[position]);
-		imageView.setImageResource(R.drawable.ecg_icon);
+		imageView.setImageResource(R.drawable.ecg_icon_micro);
 
 		return rowView;
 	}
