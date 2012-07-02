@@ -1,8 +1,12 @@
 package org.microlites.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.microlites.data.DataHolder;
 
@@ -22,8 +26,12 @@ public class RealTimeDataParser {
 	private int lastSample;							// Last parsed sample
 	
 	/* Log saving */
-	private FileOutputStream output;				// Parsed log output 
-	private FileOutputStream rawput;				// Raw log output
+	// private FileOutputStream output;				// Parsed log output 
+	// private FileOutputStream rawput;				// Raw log output
+	
+	protected InputStream in;
+	protected OutputStream out;
+	File trazadotlog;
 	
 	/* Data receiver */
 	private DataHolder dataHolder;
@@ -41,8 +49,8 @@ public class RealTimeDataParser {
 		progress = 0;
 	
 		// Prepare log saving
-		output = null;
-		rawput = null;
+		// output = null;
+		// rawput = null;
 		
 		// Get External Storage State
 		String state = Environment.getExternalStorageState();
@@ -56,29 +64,59 @@ public class RealTimeDataParser {
 			// Compute paths
 			File root = Environment.getExternalStorageDirectory();
 			File path = new File(root, "/Download/");
-			File dir = new File(path, "log-" + now.format("%d%m-%Y_%H-%M") + ".txt");
-			File rawDir = new File(path, "raw-" + now.format("%d%m-%Y_%H-%M") + ".txt");
-
-			// Actual file creation
+			File dir = new File(path, "ecg-" + now.format("%Y.%m.%d-%H.%M") + ".log");
+			System.out.println(dir.getPath());
+			// File rawDir = new File(path, "raw-" + now.format("%d%m-%Y_%H-%M") + ".txt");
+			
+			// trazadotlog = new File(path, "traza.txt");
+			trazadotlog = new File(path, "ecg-2012.02.07-12.16.log");
+			
+			in = null;
+			out = null;
 			try {
-				output = new FileOutputStream(dir.getPath());
-				rawput = new FileOutputStream(rawDir.getPath());
+				in = new FileInputStream(trazadotlog);
+				out = new FileOutputStream(dir);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+	        
+			/*try {
+				copyFile(in, out);
+		        in.close();
+		        in = null;
+		        out.flush();
+		        out.close();
+		        out = null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}*/
+			
+			// Actual file creation
+			/*try {
+			 	output = new FileOutputStream(dir.getPath());
+			// 	rawput = new FileOutputStream(rawDir.getPath());
 			} catch (IOException e) {
 				System.err.println("Couldn't create log files");
 				e.printStackTrace();
-				output = null;
-				rawput = null;
-			}
+			 	output = null;
+				// rawput = null;
+			}*/
 		}
 	}
 	
 	public void step(byte currentByte) {
-		if (rawput != null) {
+		/*if (rawput != null) {
 			try {
 				rawput.write(currentByte);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}*/
+		
+		try {
+			copyMore();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		this.currentByte = currentByte;
@@ -152,7 +190,7 @@ public class RealTimeDataParser {
 			dataHolder.addDPoint(lastSample, DataHolder.DP_TYPE_START, 
 					DataHolder.WAVE_OFFSET);
 			
-			if (output != null) {
+			/*if (output != null) {
 				try {
 					// output.write(0xcc);
                     // output.write(storedBytes, 0, 4);
@@ -161,6 +199,12 @@ public class RealTimeDataParser {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}*/
+			
+			try {
+				copyMore();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			
 			currentToken = Token.None;
@@ -176,16 +220,17 @@ public class RealTimeDataParser {
 			
 			dataHolder.addSample(lastSample, sample);
 			
-			if (output != null) {
+			/*if (output != null) {
 				try {
 					/*output.write(0xda);
-                    output.write(storedBytes, 0, 2);*/
+                    output.write(storedBytes, 0, 2);* /
 					output.write("sample[".getBytes());
 					output.write((lastSample+","+sample+"]\n").getBytes());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
+			}*/
+			
 			lastSample++;
 			currentToken = Token.None;
 			progress = 0;			
@@ -203,16 +248,16 @@ public class RealTimeDataParser {
 			
 			int index = first | second | third | fourth;
 			
-			if (output != null) {
+			/*if (output != null) {
 				try {
 					/*output.write(0xed);
-                    output.write(storedBytes, 0, 4);*/
+                    output.write(storedBytes, 0, 4);* /
 					output.write("dpoint[".getBytes());
 					output.write((index+"]\n").getBytes());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
+			}*/
 			
 			if (checkPointType(storedBytes[0]) != DataHolder.DP_TYPE_SPEAK)
 				dataHolder.addDPoint(index, checkPointType(storedBytes[0]), checkWaveType(storedBytes[0]));
@@ -235,16 +280,16 @@ public class RealTimeDataParser {
 			float hbr = 60*250/(float) beatSamples;
 			System.out.println("HBR: " + hbr + "(" + beatSamples + ")");
 			
-			if (output != null) {
+			/*if (output != null) {
 				try {
 					/*output.write(0xfb);
-                    output.write(storedBytes, 0, 2);*/
+                    output.write(storedBytes, 0, 2);* /
 					output.write("hbr[".getBytes());
 					output.write((hbr+"]\n").getBytes());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
+			}*/
 			
 			dataHolder.handleHBR(hbr);
 			/*synchronized(data.dynamicData.mutex) {
@@ -276,14 +321,26 @@ public class RealTimeDataParser {
 	}
 
 	public void finish() {
-		if (output != null)
+		/*if (output != null)
 			try {
 				output.close();
-				rawput.close();
+				// rawput.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+		}*/
+		if (in != null && out != null) {
+			try {
+				in.close();
+				in = null;
+				out.flush();
+				out.close();
+				out = null;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("-----------------------DPARSER OUT-------------------");
+		}
+		
+		System.out.println("-----------------------DPARSER OUT-------------------");
 	}
 	
 	public short checkPointType(byte b) {
@@ -305,5 +362,30 @@ public class RealTimeDataParser {
 		}
 		
 		return 0;
+	}
+	
+	/*private void copyFile(InputStream in, OutputStream out) throws IOException {
+	    byte[] buffer = new byte[1024];
+	    int read;
+	    while((read = in.read(buffer)) != -1){
+	      out.write(buffer, 0, read);
+	    }
+	}*/
+	
+	private void copyMore() throws IOException {
+	    byte[] buffer = new byte[1];
+	    int read;
+	    
+	    if (in == null || out == null)
+	    	return;
+	    
+	    if ((read = in.read(buffer)) != -1){
+	      out.write(buffer, 0, read);
+	    } else /*if (read < 256)*/ {
+	    	System.out.println("Finished traza.txt, restart");
+	    	in.close();
+	        in = null;
+	        in = new FileInputStream(trazadotlog);
+	    }
 	}
 }

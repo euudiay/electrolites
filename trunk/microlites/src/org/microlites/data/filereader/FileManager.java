@@ -84,7 +84,7 @@ public class FileManager implements DataManager {
 		File[] files = path.listFiles(new FilenameFilter() {
 			// @Override
 			public boolean accept(File dir, String filename) {
-				return (!filename.contains("log-") &&
+				return (filename.contains("ecg-") &&
 						(filename.endsWith(".log") || filename.endsWith(".txt")));
 			}
 		});
