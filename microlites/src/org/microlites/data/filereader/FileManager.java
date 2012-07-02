@@ -10,17 +10,22 @@ import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.view.still.StaticViewThread;
 
+import android.app.Dialog;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class FileManager implements DataManager {
 	
 	FileDataSourceThread dataSource;			// File Data Source
 	public File path;							// Path to log file
+	
+	public final float BIG_FILE_SIZE = 1000f;	// File size to be considered large  
 	
 	public FileManager() {
 		path = null;
@@ -98,14 +103,50 @@ public class FileManager implements DataManager {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			// @Override
 			public void onItemClick(AdapterView<?> parent, View view,
-				int position, long id) {
+				int position, long id) {			
 				File root = Environment.getExternalStorageDirectory();
-				((FileManager) MicrolitesActivity.instance.getCurrentManager()).path = new File(root, "/Download/"+parent.getItemAtPosition(position));
-				MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_FILELOG, 1, null);
+				File file = new File(root, "/Download/"+parent.getItemAtPosition(position));
+				((FileManager) MicrolitesActivity.instance.getCurrentManager()).path = file;
+				
+				if (file.length() / 1024 > BIG_FILE_SIZE)
+					showConfirmDialog();
+				else
+					MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_FILELOG, 1, null);
 			}
 		});
 		
 		act.pushView(view);
+	}
+	
+	private void showConfirmDialog() {
+		// Store a reference to the activity instance
+		MicrolitesActivity act = MicrolitesActivity.instance;
+		
+		// Display Bluetooth Settings dialog
+		final Dialog dialog = new Dialog(act);
+		
+		dialog.setTitle(R.string.logLoadTitle);
+		dialog.setContentView(R.layout.confirmlogloadinglayout);
+		dialog.setOwnerActivity(act);
+		dialog.show();
+		
+		// Set button listener
+		Button b = (Button) dialog.findViewById(R.id.logLoadStart);
+		b.setOnClickListener(new OnClickListener() {
+			// @Override
+			public void onClick(View v) {
+				dialog.cancel();
+				MicrolitesActivity.instance.initVisualization(MicrolitesActivity.MODE_FILELOG, 1, null);
+			}
+		});
+		
+		b = (Button) dialog.findViewById(R.id.logLoadCancel);
+		b.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				((FileManager) MicrolitesActivity.instance.getCurrentManager()).path = null;
+				dialog.cancel();
+			}
+		});
 	}
 
 	public void back() {

@@ -6,16 +6,24 @@
     android:orientation = "vertical"
     android:gravity="center_horizontal"
     android:padding="10dp"
-    android:id="@+id/usbSettingsLayout"
     >
 
                 <TextView
-                    android:id="@+id/usbSettingsText"
+                    android:id="@+id/logLoadText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/usbSettingsConnectDeviceText"
+                    android:text="@string/logLoadText"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+                
+                <TextView
+                    android:id="@+id/logLoadReminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:text="@string/logLoadReminder"
+                     />
 		
 		<LinearLayout
 		   android:layout_width="fill_parent"
@@ -25,16 +33,16 @@
 		   android:padding="10dp"
 		   >
             <Button
-                android:id="@+id/usbSettingsStart"
+                android:id="@+id/logLoadStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/usbSettingsStartButton" />
+                android:text="@string/logLoadStartButton" />
             
             <Button
-                android:id="@+id/usbSettingsCancel"
+                android:id="@+id/logLoadCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/usbSettingsCancelButton" />
+                android:text="@string/logLoadCancelButton" />
             
        	</LinearLayout>
 		

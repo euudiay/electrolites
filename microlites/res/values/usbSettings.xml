@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="usbSettingsConnectDeviceText">Conecte su receptor 802.15.4 y pulse Comenzar cuando la luz se encienda.</string>
+    <string name="usbSettingsConnectDeviceText">Conecte su receptor 802.15.4.\nPulse Comenzar cuando la luz se encienda.</string>
     <string name="usbSettingsStartButton">Comenzar</string>
     <string name="usbSettingsCancelButton">Cancelar</string>
     <string name="usbSettingsTitle">Conecte el accesorio receptor</string>

@@ -55,7 +55,7 @@ public class UsbComThread extends DataSourceThread {
 		ByteBuffer buffer = ByteBuffer.allocate(bufferDataLength + 1);
 		UsbRequest request = new UsbRequest();
 		
-		byte startToken = (byte) 0xC0;
+		// byte startToken = (byte) 0xC0;
 		
 		request.initialize(connection, endpointRead);
 
@@ -145,28 +145,29 @@ public class UsbComThread extends DataSourceThread {
 							}
  						}
 					} else {
-						System.out.println("Recepción de paquete USB no finalizada, pero continuamos");
+						System.out.println("Recepciï¿½n de paquete USB no finalizada, pero continuamos");
 					}
 					buffer.clear();
 				}
 			}
 			
 		}catch (Exception ex){
-			Log.w(TAG, "Algo ha pasado durante la transmisión");
+			Log.w(TAG, "Algo ha pasado durante la transmisiï¿½n");
 			ex.printStackTrace();
 		} finally {
-			System.out.println("Cerrando conexión USB...");
+			System.out.println("Cerrando conexiï¿½n USB...");
 			try	{
 				request.cancel();
 				request.close();
 				System.out.println("Cerrada!");
 			} catch (Exception ex){
-				Log.w(TAG, "Algo ha pasado al cerrar la transmisión");
+				Log.w(TAG, "Algo ha pasado al cerrar la transmisiï¿½n");
 				ex.printStackTrace();
 			}
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean write(byte data){
 		//Esta es la manera estandar de mandar datos asincronamente, aunque por supuesto hay otras
 		bufferDataLength = endpointWrite.getMaxPacketSize();

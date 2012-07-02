@@ -146,6 +146,12 @@ public class StaticViewThread extends AnimationThread
 			dp_start = dataSource.dp_viewstart;
 			dp_end = dataSource.dp_viewend;
 			
+			if (s_index == null || s_amplitude == null || dp_sample == null ||
+				dp_type == null || dp_wave == null) {
+				System.err.println("NULL DATA WHICH SHOULDN'T!");
+				return;
+			}
+				
 		/*** Render axis and scales ***/
 			
 			// y axis
