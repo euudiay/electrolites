@@ -4,5 +4,10 @@
     <string name="logLoadingSettingsChooseFile">Seleccione un archivo para comenzar</string>
     <string name="logLoadingSettingsOptions">Opciones</string>
     <string name="logLoadingListItemIconContentLabel">Icono</string>
+    <string name="logLoadText">El archivo seleccionado tardará algo en cargar.\n¿Desea continuar?</string>
+    <string name="logLoadStartButton">Cargar</string>
+    <string name="logLoadCancelButton">Cancelar</string>
+    <string name="logLoadTitle">¡Archivo grande seleccionado!</string>
+    <string name="logLoadReminder">(Recuerde que puede cancelar la carga en cualquier momento pulsando atrás)</string>
     
 </resources>

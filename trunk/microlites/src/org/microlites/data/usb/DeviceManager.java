@@ -27,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -225,6 +226,7 @@ public class DeviceManager implements DataManager {
 		
 		// Display Bluetooth Settings dialog
 		final Dialog dialog = new Dialog(act);
+		
 		dialog.setTitle(R.string.usbSettingsTitle);
 		dialog.setContentView(R.layout.usbconfiglayout);
 		dialog.setOwnerActivity(act);
@@ -247,8 +249,9 @@ public class DeviceManager implements DataManager {
 					Animation shake = AnimationUtils.loadAnimation(MicrolitesActivity.instance.getApplicationContext(), R.anim.shake);
 	                
 					TextView tv = (TextView) dialog.findViewById(R.id.usbSettingsText);
-					tv.setText("El accesorio US.");
-					tv.startAnimation(shake);
+					tv.setText("El receptor USB no está disponible.\nPor favor, conéctelo antes de continuar.");
+					LinearLayout l = (LinearLayout) dialog.findViewById(R.id.usbSettingsLayout);
+					l.startAnimation(shake);
 				}
 			}
 		});
@@ -264,7 +267,7 @@ public class DeviceManager implements DataManager {
 	protected boolean preConnect() {
 		UsbDevice device = null;
         HashMap<String, UsbDevice> deviceList = usbManager.getDeviceList();
-        System.out.println("Obtaining USB Devices List... Size: " +  deviceList.size());
+        System.out.println("Comprobando disponibilidad de accesorios USB...");
         Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
         boolean found = false;
         while(deviceIterator.hasNext() && device == null) {
@@ -274,6 +277,11 @@ public class DeviceManager implements DataManager {
             	break;
             }
         }
+        
+        if (found)
+        	System.out.println("Accesorios USB encontrados.");
+        else
+        	System.err.println("No hay ningún accesorios USB disponible.");
         
         return found;
     }

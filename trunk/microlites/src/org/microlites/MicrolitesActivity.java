@@ -15,19 +15,22 @@ import org.microlites.view.dynamic.DynamicViewThread;
 import org.microlites.view.still.StaticViewThread;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 public class MicrolitesActivity extends Activity implements OnGestureListener {
 	public static final byte MODE_NONE		= 0xF;		// No mode (Start Menu) 
@@ -302,7 +305,7 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 		
 		menu.add("Acercar vista");
 		menu.add("Alejar vista");
-		menu.add("Más Cosas");
+		menu.add("Acerca de");
 		menu.add("Salir");
 
 		switch (currentState) {
@@ -337,6 +340,8 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 	    		else
 	    			d.generateHeight += 500;
 	    	}*/
+	    } else if (item.getTitle().equals("Acerca de")) {
+	    	showAboutMenu();
 	    } else {
 	    	return super.onOptionsItemSelected(item);
 	    }
@@ -414,5 +419,40 @@ public class MicrolitesActivity extends Activity implements OnGestureListener {
 		a.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		b.setVisible(on);
 		b.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+	}
+	
+	protected void showAboutMenu() {
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.about_dialog);
+		dialog.setTitle("Acerca de");
+
+		LinearLayout labout = (LinearLayout) dialog
+				.findViewById(R.id.layout_about);
+		labout.setGravity(Gravity.CENTER);
+		labout.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.cancel();
+			}
+		});
+
+		TextView text = (TextView) dialog.findViewById(R.id.textA);
+		text.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+		text.setPadding(30, 0, 0, 0);
+		text.setText("microlites 1.2");
+		
+		text = (TextView) dialog.findViewById(R.id.textB);
+		text.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
+		text.setPadding(20, 0, 0, 0);
+		text.setText("Pablo Fernández\nRafa de la Hoz\nMiguel Márquez");
+		
+		text = (TextView) dialog.findViewById(R.id.textC);
+		text.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+		text.setPadding(35, 2, 0, 0);
+		text.setText("2011/2012");
+		
+		ImageView image = (ImageView) dialog.findViewById(R.id.im_android);
+		image.setImageResource(R.drawable.ecg_icon);
+		
+		dialog.show();
 	}
 }
