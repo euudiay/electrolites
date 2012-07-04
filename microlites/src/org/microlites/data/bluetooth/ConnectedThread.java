@@ -60,13 +60,15 @@ public class ConnectedThread extends DataSourceThread {
 			}
 			
 			// Read from input into readBuffer
-			try {
-				readCount = stream.read(readBuffer);
-			} catch (IOException e) {
-				e.printStackTrace();
-				startReceiving = false;
-				this.cancel();
-				return;
+			if (stream != null) {
+				try {
+					readCount = stream.read(readBuffer);
+				} catch (IOException e) {
+					e.printStackTrace();
+					startReceiving = false;
+					this.cancel();
+					return;
+				}
 			}
 		
 			// Parse data read

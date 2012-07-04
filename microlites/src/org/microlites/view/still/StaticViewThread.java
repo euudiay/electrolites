@@ -140,6 +140,8 @@ public class StaticViewThread extends AnimationThread
 			s_end = dataSource.s_viewend;
 			int s_ssize = dataSource.s_size;
 			
+			// System.out.println(s_start + " ~ " + s_end + " | " + s_ssize);
+			
 			int[] dp_sample = dataSource.dp_sample;
 			short[] dp_type = dataSource.dp_type;
 			short[] dp_wave = dataSource.dp_wave;
@@ -225,8 +227,8 @@ public class StaticViewThread extends AnimationThread
 					
 					// System.err.println(i + ", " + ai);
 					
-					ii = (s_start + i) % s_size;
-					iipa = s_amplitude[(ii+1)%s_size];
+					ii = (s_start + i);// % s_size;
+					iipa = s_amplitude[(ii+1)];//%s_size];
 					if (i == 0) {
 						samplePoints[ai] = dvport.vpPxX;
 						samplePoints[ai+1] = (dvport.baselinePxY - s_amplitude[ii]*dvport.vFactor);
@@ -321,12 +323,16 @@ public class StaticViewThread extends AnimationThread
 				ii = (dp_start + i);
 				if (dp_sample[ii] < 0 || dp_sample[ii] < s_index[s_start] || dp_sample[ii] > s_index[s_end])
 					continue; 
-				/*else if (dp_sample[ii] > s_index[s_end]) {
+				else if (dp_sample[ii] > s_index[s_end]) {
 					break;
-				}*/
+				}
 				
 				indexDistance = dp_sample[ii] - s_index[s_start];
-				sampleIndex = (s_start + indexDistance) % s_size;
+				sampleIndex = (s_start + indexDistance);// % s_size;
+				
+				if (sampleIndex < 0 || sampleIndex >= s_end)
+					continue;
+				
 				sampleX = dvport.vpPxX + dpoints*(sampleIndex - s_start);
 				
 				if (dp_type[ii] == DP_TYPE_START || dp_type[ii] == DP_TYPE_END) {
@@ -385,7 +391,7 @@ public class StaticViewThread extends AnimationThread
 			
 		// Debug thingies
 			textPaint.setTextAlign(Align.RIGHT);
-			canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
+			// canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
 			
 			/*textPaint.setTextAlign(Align.LEFT);
 			canvas.drawText("hsp: " + dataSource.hspeed, left+right/2, bottom+16, textPaint);

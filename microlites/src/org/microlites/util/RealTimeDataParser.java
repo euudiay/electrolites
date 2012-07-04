@@ -2,7 +2,6 @@ package org.microlites.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,11 +26,17 @@ public class RealTimeDataParser {
 	
 	/* Log saving */
 	// private FileOutputStream output;				// Parsed log output 
-	// private FileOutputStream rawput;				// Raw log output
+	private FileOutputStream rawput;				// Raw log output
+	private boolean rawlog = true;
 	
 	protected InputStream in;
 	protected OutputStream out;
 	File trazadotlog;
+	String outputString;
+	
+	byte[] writeBuffer = null;
+	int writeBufferSize = 12;
+	int writeBufferCnt = 0;
 	
 	/* Data receiver */
 	private DataHolder dataHolder;
@@ -50,7 +55,7 @@ public class RealTimeDataParser {
 	
 		// Prepare log saving
 		// output = null;
-		// rawput = null;
+		rawput = null;
 		
 		// Get External Storage State
 		String state = Environment.getExternalStorageState();
@@ -64,21 +69,24 @@ public class RealTimeDataParser {
 			// Compute paths
 			File root = Environment.getExternalStorageDirectory();
 			File path = new File(root, "/Download/");
-			File dir = new File(path, "ecg-" + now.format("%Y.%m.%d-%H.%M") + ".log");
-			System.out.println(dir.getPath());
-			// File rawDir = new File(path, "raw-" + now.format("%d%m-%Y_%H-%M") + ".txt");
+			// File dir = new File(path, "ecg-" + now.format("%Y.%m.%d-%H.%M") + ".log");
+			// System.out.println(dir.getPath());
+			
+			File rawDir = null;
+			if (rawlog)
+				rawDir = new File(path, "ecg-" + now.format("%Y.%m.%d-%H.%M") + ".log");
 			
 			// trazadotlog = new File(path, "traza.txt");
-			trazadotlog = new File(path, "ecg-2012.02.07-12.16.log");
+			// trazadotlog = new File(path, "ecg-2012.02.07-12.16.log");
 			
-			in = null;
+			/*in = null;
 			out = null;
 			try {
 				in = new FileInputStream(trazadotlog);
 				out = new FileOutputStream(dir);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-			}
+			}*/
 	        
 			/*try {
 				copyFile(in, out);
@@ -92,32 +100,44 @@ public class RealTimeDataParser {
 			}*/
 			
 			// Actual file creation
-			/*try {
-			 	output = new FileOutputStream(dir.getPath());
-			// 	rawput = new FileOutputStream(rawDir.getPath());
-			} catch (IOException e) {
-				System.err.println("Couldn't create log files");
-				e.printStackTrace();
-			 	output = null;
-				// rawput = null;
-			}*/
+			if (rawlog)
+				try {
+				 	//output = new FileOutputStream(dir.getPath());
+					rawput = new FileOutputStream(rawDir.getPath());
+					writeBuffer = new byte[writeBufferSize];
+					writeBufferCnt = 0;
+				} catch (IOException e) {
+					System.err.println("Couldn't create log files");
+					e.printStackTrace();
+				 	//output = null;
+					rawput = null;
+				}
 		}
 	}
 	
 	public void step(byte currentByte) {
-		/*if (rawput != null) {
+		if (rawlog && rawput != null) {
 			try {
-				rawput.write(currentByte);
+				if (writeBufferCnt < writeBufferSize) {
+					writeBuffer[writeBufferCnt] = currentByte;
+					writeBufferCnt += 1;
+				}
+				if (writeBufferCnt >= writeBufferSize) {
+					rawput.write(writeBuffer, 0, writeBufferCnt);
+					writeBufferCnt = 0;
+					// System.out.println("Flushed log write buffer.");
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
+				return;
 			}
-		}*/
+		}
 		
-		try {
+		/*try {
 			copyMore();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		this.currentByte = currentByte;
 		
@@ -321,14 +341,16 @@ public class RealTimeDataParser {
 	}
 
 	public void finish() {
-		/*if (output != null)
+		if (rawlog && rawput != null)
 			try {
-				output.close();
-				// rawput.close();
+				// output.close();
+				rawput.flush();
+				rawput.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-		}*/
-		if (in != null && out != null) {
+		}
+		
+		/*if (in != null && out != null) {
 			try {
 				in.close();
 				in = null;
@@ -338,7 +360,7 @@ public class RealTimeDataParser {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
 		System.out.println("-----------------------DPARSER OUT-------------------");
 	}

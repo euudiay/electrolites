@@ -323,14 +323,17 @@ public class DynamicViewThread extends AnimationThread
 		// Render HBR Label
 			textPaint.setTextAlign(Align.RIGHT);
 			textPaint.setColor(Color.RED);
-			canvas.drawText("HBR: " + hbr_current, right, bottom + 16, textPaint);
+			//canvas.drawText("HBR: " + hbr_current, right, bottom + 16, textPaint);
+			textPaint.setTextSize(16);
 			textPaint.setTextAlign(Align.CENTER);
-			canvas.drawText("No se ha detectado arritmia", left+right/2, bottom+16, textPaint);
+			// canvas.drawText("No se ha detectado arritmia", left+right/2, bottom+16, textPaint);
+			canvas.drawText("HBR: " + hbr_current, left+right/2, bottom+16, textPaint);
+			textPaint.setTextSize(12);
 			textPaint.setColor(dpGray);
 		
 		// Debug thingies
 			textPaint.setTextAlign(Align.RIGHT);
-			canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
+		//	canvas.drawText("FPS: " + fps, (left+right)/2, (top+bottom)/2, textPaint);
 			
 		// Aaaaand done!
 			canvas.restore();

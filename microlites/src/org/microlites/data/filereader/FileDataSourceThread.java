@@ -120,6 +120,8 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 			else
 				s_viewend = 0;
 			
+			// System.out.println("Viewend: " + s_viewend + " samples");
+			
 			dp_viewstart = 0;
 			dp_viewend = dp_size-1;
 			
@@ -136,6 +138,8 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 			s_viewstart += (int) Math.round(hspeed);
 			s_viewstart = Math.max(0, Math.min(s_viewstart, s_size-s_viewsize-1));
 			s_viewend = s_viewstart + s_viewsize;
+			
+			// System.out.println("Viewend: " + s_viewend + " samples");
 			
 			if (s_viewstart == 0 || s_viewend >= s_size-1)
 				hspeed = 0;
@@ -186,11 +190,17 @@ public class FileDataSourceThread extends Thread implements DataHolder {
 			int[] new_index = new int[s_size*2];
 			for (int i = 0; i < s_size; i++)
 				new_index[i] = s_index[i];
+			for (int i = s_size; i < s_size*2; i++)
+				new_index[i] = 0;
+			s_index = null;
 			s_index = new_index;
 			
 			short[] new_amplitude = new short[s_size*2];
 			for (int i = 0; i < s_size; i++)
 				new_amplitude[i] = s_amplitude[i];
+			for (int i = s_size; i < s_size*2; i++)
+				new_amplitude[i] = 0;
+			s_amplitude = null;
 			s_amplitude = new_amplitude;
 			
 			s_size *= 2;

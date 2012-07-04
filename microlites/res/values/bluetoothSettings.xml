@@ -2,8 +2,11 @@
 <resources>
     <string name="bluetoothSettingsTitle">Configuración de conexión Bluetooth</string>
     <string name="bluetoothSettingsDeviceNameLabel">Nombre de dispositivo</string>
-    <string name="bluetoothSettingsDeviceNameDefaultText">FireFly-3790</string>
+    <string name="bluetoothSettingsDeviceNameDefaultText">RN42-9EEC</string>
     <string name="bluetoothSettingsDeviceNameHint">Nombre del dispositivo bluetooth a conectar</string>
     <string name="bluetoothSettingsStartButton">Comenzar</string>
     <string name="bluetoothSettingsCancelButton">Cancelar</string>
+    <string name="btConnectionFailText">No se pudo establecer la comunicación Bluetooth con el dispositivo seleccionado.\n Revise el nombre introducido e inténtelo de nuevo.</string>
+    <string name="btConnectionFailConfirmButton">Aceptar</string>
+    <string name="btConnectionFailTitle">Error al establecer la conexión</string>
 </resources>

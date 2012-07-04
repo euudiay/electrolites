@@ -17,6 +17,8 @@ public class StaticDataParser {
 	/* Data receiver */
 	private DataHolder dataHolder;
 	
+	// String output = "";
+	
 	public StaticDataParser(DataHolder holder, String filename) {
 		// Prepare parsing
 		// Store reference to data holder
@@ -32,6 +34,8 @@ public class StaticDataParser {
 	
 	public void step(byte currentByte) {
 		this.currentByte = currentByte;
+		
+		// output += currentByte + " ";
 		
 		switch (currentToken) {
 		case None:
@@ -181,6 +185,7 @@ public class StaticDataParser {
 	}
 
 	public void finish() {
+		// System.out.println("OUTPUT" + output);
 		System.out.println("-----------------------DPARSER OUT-------------------");
 	}
 	
