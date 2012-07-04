@@ -71,6 +71,8 @@ public class Data {
 	public short generateHeight = 2000;
 	
 	public Menu appMenu = null;
+
+	public String lastBluetoothDevice = null;
 	
 	/** Initializes required data */
 	protected Data() {

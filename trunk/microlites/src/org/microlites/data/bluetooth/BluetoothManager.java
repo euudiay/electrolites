@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.microlites.MicrolitesActivity;
 import org.microlites.R;
+import org.microlites.data.Data;
 import org.microlites.data.DataHolder;
 import org.microlites.data.DataManager;
 import org.microlites.data.DataSourceThread;
@@ -115,10 +116,33 @@ public class BluetoothManager implements DataManager {
 		
 		if (bD != null) {
 			connect(bD);	// Conectamos con el dispositivo
-		} else
+		} else {
 			System.err.println("No se ha encontrado o no se ha podido establecer conexi�n con el dispositivo:" + deviceName);
+			showConnectionFailedMessage();
+		}
 	}
 	
+	private void showConnectionFailedMessage() {
+		// Store a reference to the activity instance
+		MicrolitesActivity act = MicrolitesActivity.instance;
+		
+		// Display Bluetooth Settings dialog
+		final Dialog dialog = new Dialog(act);
+		dialog.setTitle(R.string.btConnectionFailTitle);
+		dialog.setContentView(R.layout.btconnectionfaillayout);
+		dialog.setOwnerActivity(act);
+		dialog.show();
+		
+		// Set button listener
+		Button b = (Button) dialog.findViewById(R.id.btConnectionFailConfirmButton);
+		b.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.cancel();
+				MicrolitesActivity.instance.onBackPressed();
+			}
+		});
+	}
+
 	public void stopRunning() {
 		if (connectT != null) {
 			connectT.cancel();
@@ -164,7 +188,8 @@ public class BluetoothManager implements DataManager {
 	
 	// Indica que el intento de conexión ha fallado
 	public void connectionFailed() {
-		Log.e(TAG, "El intento de conexión ha fallado.");
+		// Log.e(TAG, "El intento de conexión ha fallado.");
+		showConnectionFailedMessage();
         setState(STATE_NONE);
 	}
 	
@@ -317,6 +342,12 @@ public class BluetoothManager implements DataManager {
 		dialog.setOwnerActivity(act);
 		dialog.show();
 		
+		if (Data.getInstance().lastBluetoothDevice != null && Data.getInstance().lastBluetoothDevice.length() > 0) {
+			EditText deviceNameHolder = (EditText) dialog.findViewById(R.id.btDeviceNameTextfield);
+			if (deviceNameHolder != null)
+				deviceNameHolder.setText(Data.getInstance().lastBluetoothDevice);
+		}
+		
 		// Set button listener
 		Button b = (Button) dialog.findViewById(R.id.btSettingsCancel);
 		b.setOnClickListener(new OnClickListener() {
@@ -340,6 +371,8 @@ public class BluetoothManager implements DataManager {
 				CharSequence charSequence = deviceNameHolder.getText(); 
 				deviceName = charSequence.toString();
 				// TODO: Check name here and act according
+				
+				Data.getInstance().lastBluetoothDevice = deviceName;
 				
 				// DEBUG: Print name
 				System.out.println(deviceName);
