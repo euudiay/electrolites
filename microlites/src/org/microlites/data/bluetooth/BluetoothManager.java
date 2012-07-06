@@ -189,7 +189,7 @@ public class BluetoothManager implements DataManager {
 	// Indica que el intento de conexión ha fallado
 	public void connectionFailed() {
 		// Log.e(TAG, "El intento de conexión ha fallado.");
-		showConnectionFailedMessage();
+		// showConnectionFailedMessage();
         setState(STATE_NONE);
 	}
 	
